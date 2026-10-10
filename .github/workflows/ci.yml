@@ -36,18 +36,21 @@ jobs:
           go-version: '1.26.6'
 
       - name: Install XcodeGen and PyYAML
+        # runner 的 Homebrew Python 是 externally-managed，pip 直装会被拒；
+        # 按项目 README 的约定用 .build/python-env 虚拟环境。
         run: |
           brew install xcodegen
-          python3 -m pip install --user --upgrade PyYAML
+          python3 -m venv .build/python-env
+          .build/python-env/bin/pip install --upgrade PyYAML
           xcodegen --version
           df -h .
 
       - name: Bootstrap pinned SDK and Adapter
         # 克隆钉住的内核/适配器源码，装钉住的 gomobile，编五切片 xcframework
-        run: python3 scripts/bootstrap.py
+        run: .build/python-env/bin/python3 scripts/bootstrap.py
 
       - name: Generate Xcode project
-        run: python3 scripts/configure.py
+        run: .build/python-env/bin/python3 scripts/configure.py
 
       - name: Build HakoClient (unsigned, iOS Simulator)
         run: |
