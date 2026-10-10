@@ -1,0 +1,60 @@
+name: CI
+on:
+  push:
+    branches: [ main ]
+  pull_request: {}
+  workflow_dispatch: {}
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # 编译验证：模拟器免签名构建，证明这份源码树能完整编过。
+  # 安装到真机需要自己的证书与描述文件，不在 CI 内做。
+  build:
+    name: build
+    runs-on: macos-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        # README 要求 Xcode 27；runner 默认版本随时间漂移，这里显式选最高版本。
+        run: |
+          set -euo pipefail
+          ls -d /Applications/Xcode*.app 2>/dev/null || true
+          CANDIDATE=$(ls -d /Applications/Xcode*.app 2>/dev/null | sort -V | tail -1)
+          if [ -z "$CANDIDATE" ]; then echo "no Xcode on this runner"; exit 1; fi
+          echo "Using $CANDIDATE"
+          sudo xcode-select -s "$CANDIDATE"
+          xcodebuild -version
+
+      - uses: actions/setup-go@v5
+        with:
+          # 与 Dependencies.lock.json 所钉内核的 go.mod 工具链指令一致
+          go-version: '1.26.6'
+
+      - name: Install XcodeGen and PyYAML
+        run: |
+          brew install xcodegen
+          python3 -m pip install --user --upgrade PyYAML
+          xcodegen --version
+          df -h .
+
+      - name: Bootstrap pinned SDK and Adapter
+        # 克隆钉住的内核/适配器源码，装钉住的 gomobile，编五切片 xcframework
+        run: python3 scripts/bootstrap.py
+
+      - name: Generate Xcode project
+        run: python3 scripts/configure.py
+
+      - name: Build HakoClient (unsigned, iOS Simulator)
+        run: |
+          xcodebuild -project apple/HakoClient/HakoClient.xcodeproj \
+            -scheme HakoClient -configuration Release \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            build | tee /tmp/xcodebuild.log
+          # 只在失败时回显尾部日志，避免成功时几千行刷屏
+          tail -60 /tmp/xcodebuild.log
