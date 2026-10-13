@@ -80,7 +80,7 @@ final class NoiseVectorTests: XCTestCase {
         try agent.readMsg1(m1)
 
         let m2 = try agent.writeMsg2()
-        XCTAssertEqual(m2.count, 32 + 48, "m2 = re(32) || ct(rs)(48)（空载荷）")
+        XCTAssertEqual(m2.count, 96, "m2 = re(32) || ct(rs)(48) || ct(空载荷)(16)")
         let (rs, m2Payload) = try dev.readMsg2(m2)
         XCTAssertEqual(rs, agentKey.pub, "发起方必须验证出 agent 静态公钥")
         XCTAssertEqual(m2Payload.count, 0)

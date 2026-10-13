@@ -102,7 +102,7 @@ final class EnvelopeVectorTests: XCTestCase {
         let degraded = p["helloResDegradedA"] as! [String: Any]
         let dg = degraded["degraded"] as? [String: Any]
         XCTAssertEqual(dg?["level"] as? String, "A")
-        let rejected = p["pairResRejected"] as? [String: Any]
+        let rejected = p["helloResRevoked"] as? [String: Any]
         XCTAssertEqual(rejected?["status"] as? String, "rejected")
     }
 

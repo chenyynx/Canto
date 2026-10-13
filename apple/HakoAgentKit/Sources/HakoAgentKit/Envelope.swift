@@ -58,6 +58,7 @@ public struct Envelope: Codable, Equatable {
             if ref == nil { return .resNeedsRef }
             if ok == nil { return .resNeedsOk }
             if status == nil { return .resNeedsStatus }
+            if let st = status, !["applied", "deferred", "rejected"].contains(st) { return .badStatus }
         case "ack":
             if ref == nil { return .ackNeedsRef }
         case "cmd":
@@ -67,7 +68,11 @@ public struct Envelope: Codable, Equatable {
             guard let ns, ["app", "core", "device", "evt"].contains(ns) else { return .badOpNamespace }
             if let ttl = ttlMs, !(1000...600000).contains(ttl) { return .badTtl }
         default:
-            break
+            if !["ack", "evt", "ping", "pong", "bye"].contains(t) { return .badType }
+        }
+        if let err {
+            let known = ["DEVICE_REQUIRED", "DEVICE_OFFLINE", "APP_SUSPENDED", "TUNNEL_DOWN", "TUNNEL_STARTING", "TUNNEL_STOPPED", "NEED_USER_ACTION", "SCOPE_DENIED", "NOT_CONTROLLER", "STALE_REV", "STALE_EPOCH", "USER_RECENT_CHANGE", "INVALID_ARGUMENT", "NOT_FOUND", "UNSUPPORTED", "CONFLICT_BUSY", "TIMEOUT_UNKNOWN", "CORE_ERROR", "RATE_LIMITED", "EXPIRED", "PAIR_KEY_MISMATCH", "UNKNOWN_DEVICE", "REVOKED", "KEY_MISMATCH"]
+            if !known.contains(err.code) { return .badErrorCode }
         }
         return nil
     }
@@ -78,6 +83,7 @@ public enum EnvelopeValidationError: Error, Equatable {
     case resNeedsRef, resNeedsOk, resNeedsStatus
     case ackNeedsRef
     case cmdNeedsOp, cmdNeedsChannel, badOpNamespace, badTtl
+    case badStatus, badType, badErrorCode
 }
 
 /// op 命名空间 → 通道（对齐 TS routeOf）
