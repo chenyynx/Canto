@@ -141,9 +141,11 @@ public final class NoiseXX {
     // MARK: 传输阶段
 
     public func send(_ plaintext: Data) throws -> Data {
-        guard handshakeComplete, let cs = sendCS else { throw NoiseError.handshakeNotComplete }
+        guard handshakeComplete else { throw NoiseError.handshakeNotComplete }
+        guard var cs = sendCS else { throw NoiseError.handshakeNotComplete }
         guard plaintext.count <= AnchorProtocol.maxPlaintext else { throw NoiseError.frameLengthMismatch }
         let ct = try cs.encryptWithAd(ad: Data(), plaintext: plaintext)
+        sendCS = cs
         var len = Data(count: 2)
         len[0] = UInt8((ct.count >> 8) & 0xff)
         len[1] = UInt8(ct.count & 0xff)
@@ -151,11 +153,14 @@ public final class NoiseXX {
     }
 
     public func recv(_ frame: Data) throws -> Data {
-        guard handshakeComplete, let cs = recvCS else { throw NoiseError.handshakeNotComplete }
+        guard handshakeComplete else { throw NoiseError.handshakeNotComplete }
+        guard var cs = recvCS else { throw NoiseError.handshakeNotComplete }
         guard frame.count >= 2 else { throw NoiseError.frameTooShort }
         let len = (Int(frame[0]) << 8) | Int(frame[1])
         guard frame.count - 2 == len else { throw NoiseError.frameLengthMismatch }
-        return try cs.decryptWithAd(ad: Data(), ciphertext: frame.suffix(from: 2))
+        let pt = try cs.decryptWithAd(ad: Data(), ciphertext: frame.suffix(from: 2))
+        recvCS = cs
+        return pt
     }
 
     private func assertInitiator() throws { if !initiator { throw NoiseError.wrongRole } }
