@@ -45,6 +45,16 @@ jobs:
           xcodegen --version
           df -h .
 
+      - name: Cache build artifacts (kernel xcframework / gomobile / venv)
+        uses: actions/cache@v4
+        with:
+          path: |
+            .build
+            ~/go/pkg/mod
+          key: hako-build-${{ runner.os }}-${{ hashFiles('Dependencies.lock.json') }}
+          restore-keys: |
+            hako-build-${{ runner.os }}-
+
       - name: Bootstrap pinned SDK and Adapter
         # 克隆钉住的内核/适配器源码，装钉住的 gomobile，编五切片 xcframework
         run: .build/python-env/bin/python3 scripts/bootstrap.py

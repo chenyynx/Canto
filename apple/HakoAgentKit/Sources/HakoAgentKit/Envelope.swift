@@ -108,6 +108,11 @@ public enum JSONValue: Codable, Equatable {
     case array([JSONValue])
     case object([String: JSONValue])
 
+    public init(t: String, id: String) {
+        self.t = t
+        self.id = id
+    }
+
     public init(from decoder: Decoder) throws {
         let c = try decoder.singleValueContainer()
         if c.decodeNil() { self = .null }

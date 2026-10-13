@@ -36,6 +36,16 @@ jobs:
           python3 -m venv .build/python-env
           .build/python-env/bin/pip install --upgrade PyYAML
 
+      - name: Cache build artifacts (kernel xcframework / gomobile / venv)
+        uses: actions/cache@v4
+        with:
+          path: |
+            .build
+            ~/go/pkg/mod
+          key: hako-build-${{ runner.os }}-${{ hashFiles('Dependencies.lock.json') }}
+          restore-keys: |
+            hako-build-${{ runner.os }}-
+
       - name: Bootstrap pinned SDK and Adapter
         run: .build/python-env/bin/python3 scripts/bootstrap.py
 
