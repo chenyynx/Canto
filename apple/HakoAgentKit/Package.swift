@@ -1,3 +1,4 @@
+// swift-tools-version:5.9
 // HakoAgentKit — Anchor 协议的 Swift 实现（纯逻辑，不依赖 iOS 运行环境）。
 // 与 agent 端（TS, chenyynx/anchor）共享测试向量互验：
 //   - vectors.json（信封/配对/路由，JSON Schema 契约）
