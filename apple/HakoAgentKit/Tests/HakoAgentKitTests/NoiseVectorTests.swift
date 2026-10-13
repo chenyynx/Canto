@@ -46,7 +46,7 @@ final class NoiseVectorTests: XCTestCase {
         let nonce = try AES.GCM.Nonce(data: Data(hex: a["nonce"] as! String))
         let ad = Data(hex: a["ad"] as! String)
         let pt = Data(hex: a["plaintext"] as! String)
-        let sealed = try AES.GCM.seal(pt, using: key, authenticating: ad, nonce: nonce)
+        let sealed = try AES.GCM.seal(pt, using: key, nonce: nonce, authenticating: ad)
         XCTAssertEqual(sealed.ciphertext + sealed.tag, Data(hex: a["ciphertext"] as! String))
         let box = try AES.GCM.SealedBox(nonce: nonce, ciphertext: sealed.ciphertext, tag: sealed.tag)
         XCTAssertEqual(try AES.GCM.open(box, using: key, authenticating: ad), pt)
