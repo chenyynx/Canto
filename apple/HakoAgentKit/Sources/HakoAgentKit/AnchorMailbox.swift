@@ -157,8 +157,8 @@ public enum AnchorMailboxCodec {
 
 /// Top-level wire object: { "msg": <message>, "tag": <base64> }.
 struct AnchorTaggedEnvelope: Codable {
-    let msg: AnchorTaggedMessage?
-    let tag: Data?
+    var msg: AnchorTaggedMessage?
+    var tag: Data?
 }
 
 /// Helper codable wrapper (message + raw tag in one JSON object).
