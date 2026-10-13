@@ -1,5 +1,5 @@
 import XCTest
-@testable import hako_agent_kit
+@testable import HakoAgentKit
 
 // P3 unit tests: config stage/apply/confirm/rollback lifecycle.
 // AnchorConfigManager lives in the app target (uses Foundation + app-group
