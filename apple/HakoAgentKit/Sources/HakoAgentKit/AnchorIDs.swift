@@ -39,13 +39,42 @@ public enum AnchorIDs {
     private static let monotonic = ULIDMonotonic()
 
     public static func ulid(now: Int64 = Int64(Date().timeIntervalSince1970 * 1000)) -> String {
+        // 130-bit ULID：高 48 bit = 毫秒时间戳，低 80 bit = 随机。
+        // 位流 = 值 << 6 的 136-bit 大端（前 6 bit 零），随后 26×5bit 逐组取字符。
         let rand = monotonic.randomFor(now: now)
-        var value: UInt128 = (UInt128(UInt64(bitPattern: now)) & ((UInt128(1) << 48) - 1)) << 80
-        value |= UInt128(rand & ((UInt64(1) << 80) - 1))
+        let ts = UInt64(bitPattern: now) & 0xFFFF_FFFF_FFFF
+
+        var buf = [UInt8](repeating: 0, count: 17)
+        buf[0] = UInt8((ts >> 42) & 0x3f)                       // ts 高 6 位
+        buf[1] = UInt8((ts >> 34) & 0xff)
+        buf[2] = UInt8((ts >> 26) & 0xff)
+        buf[3] = UInt8((ts >> 18) & 0xff)
+        buf[4] = UInt8((ts >> 10) & 0xff)
+        buf[5] = UInt8((ts >> 2) & 0xff)
+        buf[6] = UInt8((ts << 6) & 0xff) | UInt8((rand >> 74) & 0x3f)
+        buf[7] = UInt8((rand >> 66) & 0xff)
+        buf[8] = UInt8((rand >> 58) & 0xff)
+        buf[9] = UInt8((rand >> 50) & 0xff)
+        buf[10] = UInt8((rand >> 42) & 0xff)
+        buf[11] = UInt8((rand >> 34) & 0xff)
+        buf[12] = UInt8((rand >> 26) & 0xff)
+        buf[13] = UInt8((rand >> 18) & 0xff)
+        buf[14] = UInt8((rand >> 10) & 0xff)
+        buf[15] = UInt8((rand >> 2) & 0xff)
+        buf[16] = UInt8((rand << 6) & 0xff)
+
+        var acc: UInt64 = 0
+        var accBits = 0
         var chars = [Character](repeating: "0", count: 26)
-        for i in stride(from: 25, through: 0, by: -1) {
-            chars[i] = alphabet[Int(value & 31)]
-            value >>= 5
+        var idx = 0
+        for b in buf {
+            acc = (acc << 8) | UInt64(b)
+            accBits += 8
+            while accBits >= 5, idx < 26 {
+                accBits -= 5
+                chars[idx] = alphabet[Int((acc >> UInt64(accBits)) & 31)]
+                idx += 1
+            }
         }
         return String(chars)
     }
