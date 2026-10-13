@@ -3,7 +3,7 @@ import XCTest
 
 /// 信封 + 路由 + 配对 URI：对 vectors.json（与 TS 契约测试同一套）。
 final class EnvelopeVectorTests: XCTestCase {
-    static let vectors: [String: Any] = {
+    nonisolated(unsafe) static let vectors: [String: Any] = {
         let url = Bundle.module.url(forResource: "vectors", withExtension: "json")!
         let data = try! Data(contentsOf: url)
         return try! JSONSerialization.jsonObject(with: data) as! [String: Any]

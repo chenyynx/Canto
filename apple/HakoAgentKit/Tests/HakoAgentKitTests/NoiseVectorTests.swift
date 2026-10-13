@@ -3,7 +3,7 @@ import XCTest
 
 /// Noise 黄金向量互验（vectors-noise.json，TS 侧 gen-noise-vectors.ts 生成）。
 final class NoiseVectorTests: XCTestCase {
-    static let vectors: [String: Any] = {
+    nonisolated(unsafe) static let vectors: [String: Any] = {
         let url = Bundle.module.url(forResource: "vectors-noise", withExtension: "json")!
         let data = try! Data(contentsOf: url)
         return try! JSONSerialization.jsonObject(with: data) as! [String: Any]
