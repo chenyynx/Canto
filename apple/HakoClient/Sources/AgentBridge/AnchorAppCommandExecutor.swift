@@ -140,6 +140,10 @@ final class AnchorAppCommandExecutor: AnchorCommandHandling {
     private let vpn: any AnchorVPNServicing
     private let profiles: any AnchorProfileServicing
     private let core: (any AnchorCoreStatusProviding)?
+    /// P3: config manager built lazily (needs app-group storage); `store` is
+    /// kept for configGet's pending preview.
+    private var manager: AnchorConfigManager?
+    var store: AnchorConfigStore? { AnchorConfigStore.defaultStore() }
 
     init(vpn: any AnchorVPNServicing,
          profiles: any AnchorProfileServicing,
@@ -158,6 +162,11 @@ final class AnchorAppCommandExecutor: AnchorCommandHandling {
         "app.profile.list",
         "app.profile.add",
         "app.profile.select",
+        "app.config.get",
+        "app.config.patch",
+        "app.config.apply",
+        "app.config.confirm",
+        "app.config.rollback",
         "app.profile.update",
         "app.profile.remove",
         "app.config.apply",
@@ -181,11 +190,11 @@ final class AnchorAppCommandExecutor: AnchorCommandHandling {
             return try await profileUpdate(args)
         case "app.profile.remove": return try await profileRemove(args)
         case "app.config.apply":
-            // P2 明确不做配置覆写（P3 范围）：拒绝但给出下一步。
-            throw AnchorCommandError(
-                code: "UNSUPPORTED",
-                message: "app.config.apply 不执行：配置覆写属 P3 范围",
-                hint: "P2 只提供只读状态与 VPN/订阅管理；如需改配置请在 App 内操作，或先 app.profile.select 切换订阅再 app.vpn.start")
+            return try await configApply(args)
+        case "app.config.get":      return try await configGet(args)
+        case "app.config.patch":    return try await configPatch(args)
+        case "app.config.confirm":  return try await configConfirm(args)
+        case "app.config.rollback": return try await configRollback(args)
         default:
             throw AnchorCommandError(
                 code: "UNSUPPORTED",
@@ -556,6 +565,148 @@ final class AnchorAppCommandExecutor: AnchorCommandHandling {
             "upload_total_bytes": .int(state.uploadTotalBytes),
             "download_total_bytes": .int(state.downloadTotalBytes),
         ])
+    }
+
+    // MARK: - app.config.*（P3：配置覆写 + 确认/回滚）
+
+    /// Config manager built lazily: app-group file store + liveness = tunnel
+    /// up. Reload is a no-op here — the overlay lands in the same store the
+    /// activation pipeline reads, so it takes effect on next profile
+    /// activation (documented; core untouched).
+    private func configManager() throws -> AnchorConfigManager {
+        if let manager { return manager }
+        guard let store = AnchorConfigStore.defaultStore() else {
+            throw AnchorCommandError(
+                code: "STORE_UNAVAILABLE",
+                message: "app group 配置存储不可用",
+                hint: "检查 App Group entitlements")
+        }
+        let built = AnchorConfigManager(store: store, defaults: GlobalConfig.appGroupDefaults, liveness: { [weak self] in
+            guard let self else { return false }
+            let state = await self.vpn.state
+            return state.on
+        })
+        manager = built
+        return built
+    }
+
+    private func configGet(_ args: [String: JSONValue]) async throws -> [String: JSONValue] {
+        let manager = try configManager()
+        let snap = manager.currentSnapshot()
+        var data: [String: JSONValue] = [
+            "rev": .int(Int64(snap.rev)),
+            "patch": Self.jsonFromString(snap.patchJSON),
+            "saved_at": .string(Self.iso8601(snap.savedAt)),
+        ]
+        if let pending = store?.loadPending() {
+            data["pending"] = .object([
+                "rev": .int(Int64(pending.rev)),
+                "applied_at": .string(Self.iso8601(pending.appliedAt)),
+                "confirm_within_s": .int(Int64(pending.confirmWithinS)),
+            ])
+        }
+        return ["ok": .bool(true), "data": .object(data)]
+    }
+
+    private func configPatch(_ args: [String: JSONValue]) async throws -> [String: JSONValue] {
+        guard case .int(let baseRev)? = args["base_rev"],
+              case .object(let patchObj)? = args["patch"] else {
+            throw AnchorCommandError(
+                code: "BAD_ARGS",
+                message: "app.config.patch 需要 base_rev(int) + patch(object)",
+                hint: "先 app.config.get 拿当前 rev 与 patch")
+        }
+        let manager = try configManager()
+        let staged = try manager.stage(baseRev: Int(baseRev), patch: Self.plainObject(patchObj))
+        return ["ok": .bool(true), "data": .object([
+            "rev": .int(Int64(staged.rev)),
+            "merged": Self.jsonFromString(staged.mergedJSON),
+        ])]
+    }
+
+    private func configApply(_ args: [String: JSONValue]) async throws -> [String: JSONValue] {
+        guard case .int(let baseRev)? = args["base_rev"],
+              case .object(let patchObj)? = args["patch"] else {
+            throw AnchorCommandError(
+                code: "BAD_ARGS",
+                message: "app.config.apply 需要 base_rev(int) + patch(object)",
+                hint: "标准流程：app.config.patch 预览 → app.config.apply 落地 → confirm_within_s 内 app.config.confirm")
+        }
+        let confirmWithinS: Int
+        if case .int(let s)? = args["confirm_within_s"], s >= 10, s <= 600 { confirmWithinS = Int(s) }
+        else { confirmWithinS = 60 }
+        let manager = try configManager()
+        let staged = try manager.stage(baseRev: Int(baseRev), patch: Self.plainObject(patchObj))
+        let snap = try await manager.apply(rev: staged.rev, mergedJSON: staged.mergedJSON, confirmWithinS: confirmWithinS, reload: {})
+        return ["ok": .bool(true), "data": .object([
+            "rev": .int(Int64(snap.rev)),
+            "status": .string("applied_pending_confirm"),
+            "confirm_within_s": .int(Int64(confirmWithinS)),
+            "note": .string("confirm_within_s 秒内请 app.config.confirm(rev)；超时或连接断开将自动回滚"),
+        ])]
+    }
+
+    private func configConfirm(_ args: [String: JSONValue]) async throws -> [String: JSONValue] {
+        guard case .int(let rev)? = args["rev"] else {
+            throw AnchorCommandError(code: "BAD_ARGS", message: "app.config.confirm 需要 rev(int)", hint: "apply 返回的 rev")
+        }
+        let manager = try configManager()
+        try await manager.confirm(rev: Int(rev), reload: {})
+        return ["ok": .bool(true), "data": .object(["rev": .int(rev), "status": .string("confirmed")])]
+    }
+
+    private func configRollback(_ args: [String: JSONValue]) async throws -> [String: JSONValue] {
+        let rev: Int? = { if case .int(let r)? = args["rev"] { return Int(r) }; return nil }()
+        let manager = try configManager()
+        let snap = try await manager.rollback(rev: rev, reload: {})
+        return ["ok": .bool(true), "data": .object([
+            "rev": .int(Int64(snap.rev)), "status": .string("rolled_back"),
+        ])]
+    }
+
+    // MARK: JSONValue helpers
+
+    private static func iso8601(_ date: Date) -> String {
+        ISO8601DateFormatter().string(from: date)
+    }
+
+    /// JSONValue object → [String: Any] for the config manager.
+    private static func plainObject(_ value: JSONValue) -> [String: Any] {
+        guard case .object(let obj) = value else { return [:] }
+        return obj.mapValues { plainAny($0) }
+    }
+
+    private static func plainAny(_ value: JSONValue) -> Any {
+        switch value {
+        case .null: return NSNull()
+        case .bool(let b): return b
+        case .int(let i): return i
+        case .double(let d): return d
+        case .string(let s): return s
+        case .array(let arr): return arr.map(plainAny)
+        case .object(let obj): return obj.mapValues(plainAny)
+        }
+    }
+
+    /// Patch JSON string → JSONValue (parsed, so agents get real JSON back).
+    private static func jsonFromString(_ json: String) -> JSONValue {
+        guard !json.isEmpty,
+              let obj = try? JSONSerialization.jsonObject(with: Data(json.utf8)) else { return .object([:]) }
+        return jsonValue(obj)
+    }
+
+    private static func jsonValue(_ any: Any) -> JSONValue {
+        switch any {
+        case is NSNull: return .null
+        case let n as NSNumber:
+            if CFGetTypeID(n) == CFBooleanGetTypeID() { return .bool(n.boolValue) }
+            let isIntegral = n.doubleValue == floor(n.doubleValue) && abs(n.doubleValue) < 1e15
+            return isIntegral ? .int(n.int64Value) : .double(n.doubleValue)
+        case let s as String: return .string(s)
+        case let arr as [Any]: return .array(arr.map(jsonValue))
+        case let obj as [String: Any]: return .object(obj.mapValues(jsonValue))
+        default: return .null
+        }
     }
 }
 
