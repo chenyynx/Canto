@@ -36,25 +36,10 @@ public enum AnchorIDs {
     public static func deviceIdFromPub(_ pubRaw: Data) -> String { "dev_" + idFromPub(pubRaw) }
 
     /// ULID：48 位毫秒时间戳 + 80 位随机 = 26 字符（同毫秒单调递增，与 TS 一致）
-    private static let lock = NSLock()
-    private static var lastMs: Int64 = -1
-    private static var lastRand: UInt64 = 0
+    private static let monotonic = ULIDMonotonic()
 
     public static func ulid(now: Int64 = Int64(Date().timeIntervalSince1970 * 1000)) -> String {
-        lock.lock()
-        defer { lock.unlock() }
-        var rand: UInt64
-        if now == lastMs {
-            rand = lastRand &+ 1
-        } else {
-            // SystemRandomNumberGenerator：Apple 平台走 arc4random、Linux 走 getrandom，均 CSPRNG
-            var gen = SystemRandomNumberGenerator()
-            var bytes = [UInt8](repeating: 0, count: 10)
-            for i in 0..<10 { bytes[i] = UInt8.random(in: 0...255, using: &gen) }
-            rand = bytes.reduce(0) { ($0 << 8) | UInt64($1) }
-        }
-        lastMs = now
-        lastRand = rand
+        let rand = monotonic.randomFor(now: now)
         var value: UInt128 = (UInt128(UInt64(bitPattern: now)) & ((UInt128(1) << 48) - 1)) << 80
         value |= UInt128(rand & ((UInt64(1) << 80) - 1))
         var chars = [Character](repeating: "0", count: 26)
@@ -74,5 +59,27 @@ public enum AnchorIDs {
     }
     public static func isDeviceId(_ s: String) -> Bool {
         s.hasPrefix("dev_") && isAgentId(String(s.dropFirst(4)))
+    }
+}
+
+/// ULID 单调状态（Swift 6 严格并发：可变全局状态收进锁保护的类）。
+private final class ULIDMonotonic: @unchecked Sendable {
+    private let lock = NSLock()
+    private var lastMs: Int64 = -1
+    private var lastRand: UInt64 = 0
+
+    func randomFor(now: Int64) -> UInt64 {
+        lock.lock()
+        defer { lock.unlock() }
+        if now == lastMs {
+            lastRand &+= 1
+            return lastRand
+        }
+        var gen = SystemRandomNumberGenerator()
+        var bytes = [UInt8](repeating: 0, count: 10)
+        for i in 0..<10 { bytes[i] = UInt8.random(in: 0...255, using: &gen) }
+        lastMs = now
+        lastRand = bytes.reduce(0) { ($0 << 8) | UInt64($1) }
+        return lastRand
     }
 }
