@@ -102,8 +102,9 @@ final class EnvelopeVectorTests: XCTestCase {
         let degraded = p["helloResDegradedA"] as! [String: Any]
         let dg = degraded["degraded"] as? [String: Any]
         XCTAssertEqual(dg?["level"] as? String, "A")
-        let rejected = p["helloResRevoked"] as? [String: Any]
-        XCTAssertEqual(rejected?["status"] as? String, "rejected")
+        let revoked = p["helloResRevoked"] as? [String: Any]
+        XCTAssertEqual(revoked?["ok"] as? Bool, false)
+        XCTAssertEqual(revoked?["reason"] as? String, "REVOKED")
     }
 
     // MARK: ops 向量（Swift 侧轻校验，Schema 全量校验以 TS/Ajv 为准）
