@@ -25,7 +25,7 @@ final class AnchorMailboxTests: XCTestCase {
         let encoder = JSONEncoder(); encoder.dataEncodingStrategy = .base64
         var obj = try decoder.decode(AnchorTaggedEnvelope.self, from: wire)
         msg.body = Data("evil".utf8)
-        obj.msg = AnchorTaggedMessage(message: msg, tag: obj.msg?.tag)
+        obj.message = msg
         let tampered = try encoder.encode(obj)
         XCTAssertThrowsError(try AnchorMailboxCodec.open(tampered, key: key, expect: "app2ec", verifier: &verifier)) {
             XCTAssertEqual($0 as? AnchorMailboxError, .badTag)

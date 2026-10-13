@@ -136,9 +136,7 @@ public enum AnchorMailboxCodec {
         let tag = AnchorMailboxVerifier.tag(key: key, for: message)
         let encoder = JSONEncoder()
         encoder.dataEncodingStrategy = .base64
-        let payload = try encoder.encode(AnchorTaggedEnvelope(
-            msg: AnchorTaggedMessage(message: message), tag: tag))
-        return payload
+        return try encoder.encode(AnchorTaggedEnvelope(message: message, tag: tag))
     }
 
     public static func open(_ wire: Data, key: Data, expect direction: String,
@@ -146,37 +144,23 @@ public enum AnchorMailboxCodec {
         let decoder = JSONDecoder()
         decoder.dataDecodingStrategy = .base64
         guard let obj = try? decoder.decode(AnchorTaggedEnvelope.self, from: wire),
-              let tagged = obj.msg, let tag = obj.tag else {
+              let message = obj.message, let tag = obj.tag else {
             throw AnchorMailboxError.badTag
         }
-        try verifier.verify(tagged.message, tag: tagged.tagData, expect: direction)
-        _ = tag
-        return tagged.message
+        try verifier.verify(message, tag: tag, expect: direction)
+        return message
     }
 }
 
-/// Top-level wire object: { "msg": <message>, "tag": <base64> }.
+/// Top-level wire object: { "message": <message JSON>, "tag": <base64> }.
 struct AnchorTaggedEnvelope: Codable {
-    var msg: AnchorTaggedMessage?
-    var tag: Data?
-}
-
-/// Helper codable wrapper (message + raw tag in one JSON object).
-struct AnchorTaggedMessage: Codable {
-    let message: AnchorMailboxMessage
+    var message: AnchorMailboxMessage?
     var tag: Data?
 
     enum CodingKeys: String, CodingKey {
-        case message = "msg"
+        case message = "message"
         case tag
     }
-
-    init(message: AnchorMailboxMessage, tag: Data? = nil) {
-        self.message = message
-        self.tag = tag
-    }
-
-    var tagData: Data { tag ?? Data() }
 }
 
 /// Shared channel key storage. Key minted once per pairing into the app group
