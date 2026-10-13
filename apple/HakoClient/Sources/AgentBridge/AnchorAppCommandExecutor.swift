@@ -231,6 +231,14 @@ final class AnchorAppCommandExecutor: AnchorCommandHandling {
         if let core {
             data["core"] = Self.jsonCore(await core.coreState())
         }
+        // P4：on-demand（系统级兜底）状态——上游 OnDemandSettings 是唯一事实源，
+        // Anchor 只读暴露，不新增/不覆写规则。
+        let onDemand = OnDemandSettings.configuration()
+        data["on_demand"] = .object([
+            "enabled": .bool(onDemand.enabled),
+            "rule_count": .int(Int64(onDemand.rules.count)),
+            "note": .string("由 App 内「按需连接」设置管理；agent 可通过本字段判断系统级兜底是否开启"),
+        ])
         return data
     }
 
