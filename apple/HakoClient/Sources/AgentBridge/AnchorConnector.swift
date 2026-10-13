@@ -1,4 +1,6 @@
 import Foundation
+import HakoAgentKit
+import HakoClientUI
 
 /// AnchorConnector — AC（App 连接器）：已配对设备的日常会话层。
 ///

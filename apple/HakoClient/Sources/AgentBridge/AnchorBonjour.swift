@@ -1,6 +1,7 @@
 #if os(iOS) || os(macOS)
 import Foundation
 import HakoAgentKit
+import HakoClientUI
 import Network
 
 /// Bonjour/mDNS 发现（Network.framework，iOS 15 / macOS 13 可用面）。
