@@ -61,9 +61,19 @@ jobs:
             -scheme HakoClient -configuration Release \
             -destination 'generic/platform=iOS' \
             -derivedDataPath .build/dd \
+            -keepGoing \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" CODE_SIGN_ENTITLEMENTS="" \
-            build | tee /tmp/xcodebuild.log || { tail -80 /tmp/xcodebuild.log; exit 1; }
+            build 2>&1 | tee /tmp/xcodebuild.log || true
+          # -keepGoing：单个 target 失败也继续编其余 target → 一个 run 拿到全部错误
+          ERRORS=$(grep -E ' error:' /tmp/xcodebuild.log | sed 's/^[0-9T:.Z-]* *//' | sort -u)
+          if [ -n "$ERRORS" ]; then
+            echo "=== 全部编译错误（$(echo "$ERRORS" | wc -l) 条）==="
+            echo "$ERRORS"
+            exit 1
+          fi
+          if ! grep -q 'BUILD SUCCEEDED' /tmp/xcodebuild.log; then echo '未见到 BUILD SUCCEEDED'; tail -40 /tmp/xcodebuild.log; exit 1; fi
+          tail -5 /tmp/xcodebuild.log
           tail -20 /tmp/xcodebuild.log
           find .build/dd/Build/Products -maxdepth 2 -name "*.app" | head
 
