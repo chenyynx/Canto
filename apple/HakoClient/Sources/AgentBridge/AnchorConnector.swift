@@ -180,7 +180,7 @@ final class AnchorConnector: AnchorConnecting, @unchecked Sendable {
         var e = Envelope(t: "hello", id: AnchorIDs.ulid())
         e.ch = "app"
         e.op = "hello"
-        e.args = [
+        var helloArgs: [String: JSONValue] = [
             "role": .string("app"),
             "dev_id": .string(identity.deviceId ?? ""),
             "proto": .array([.int(1)]),
@@ -188,6 +188,15 @@ final class AnchorConnector: AnchorConnecting, @unchecked Sendable {
                 "app": .array((commandHandler?.supportedOps ?? []).map { JSONValue.string($0) }),
             ]),
         ]
+        // P4：上报 APNs token（daemon 存 devices.apns_token，离线唤醒用）
+        if let apns = AnchorPushTokenStore.report() {
+            var apnsObj: [String: JSONValue] = [:]
+            if let token = apns["token"] as? String { apnsObj["token"] = .string(token) }
+            if let env = apns["env"] as? String { apnsObj["env"] = .string(env) }
+            if let topic = apns["topic"] as? String { apnsObj["topic"] = .string(topic) }
+            helloArgs["apns"] = .object(apnsObj)
+        }
+        e.args = helloArgs
         e.seq = lock.withLock { seq.next() }
         return e
     }

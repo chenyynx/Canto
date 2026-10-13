@@ -6,6 +6,8 @@ import WidgetKit
 
 @main
 struct HakoClientApp: App {
+    // P4：APNs 注册与静默推送唤醒（AppDelegate 挂钩）
+    @UIApplicationDelegateAdaptor(AnchorPushService.self) private var anchorPushService
     init() {
          
          
@@ -467,9 +469,14 @@ struct AppShellView: View {
         .onChange(of: scenePhase) { phase in
             scenePhaseWitness.phase = phase
             command.syncConnectionObservationScene(isActive: phase == .active, isBackground: phase == .background)
-             
-             
+
+
             ICloudAutoBackup.shared.setForeground(phase == .active)
+            // P4：配对状态下注册 APNs（含被静默推送拉起的冷启动场景——
+            // scenePhase 转变时重试注册，幂等）
+            if phase != .background, anchorBridgeController?.isPaired == true {
+                anchorPushService.registerIfNeeded()
+            }
             if phase == .active {
                 Task {
                     await restoreTunnelControlSession()

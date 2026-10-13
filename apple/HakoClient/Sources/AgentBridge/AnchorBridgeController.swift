@@ -153,11 +153,27 @@ extension AnchorBridgeController {
         let connector = AnchorConnector(identity: identity)
         connector.setCommandHandler(executor)
         let pairing = AnchorPairingService(identity: identity)
-        return AnchorBridgeController(
+        let controller = AnchorBridgeController(
             connecting: connector,
             pairing: pairing,
             identity: identity,
             commandHandler: executor
         )
+        // P4：APNs 静默推送唤醒 → 重连 daemon → hello 后自动补发队列命令
+        AnchorPushService.shared.onWake = { [weak controller] in
+            Task { @MainActor in
+                controller?.wakeAndResync()
+            }
+        }
+        return controller
+    }
+
+    /// P4 唤醒路径：APNs 静默推送把 App 拉起数十秒——立即补连（配对状态
+    /// 且未连接时），连上后 hello 触发 daemon 补发队列命令；期间保持在
+    /// 后台运行许可内完成，不做任何额外 UI。
+    @MainActor
+    public func wakeAndResync() {
+        guard isPaired, phase != .connected else { return }
+        refreshPairedState() // connecting.start() 幂等；在线则无操作
     }
 }
