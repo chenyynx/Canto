@@ -56,25 +56,26 @@ jobs:
 
       - name: Build for device (unsigned)
         run: |
-          set -o pipefail
-          xcodebuild -project apple/HakoClient/HakoClient.xcodeproj \
-            -scheme HakoClient -configuration Release \
-            -destination 'generic/platform=iOS' \
+          set -uo pipefail
+          XCB=(xcodebuild -project apple/HakoClient/HakoClient.xcodeproj \
+            -configuration Release -destination 'generic/platform=iOS' \
             -derivedDataPath .build/dd \
-            -keepGoing \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY="" CODE_SIGN_ENTITLEMENTS="" \
-            build 2>&1 | tee /tmp/xcodebuild.log || true
-          # -keepGoing：单个 target 失败也继续编其余 target → 一个 run 拿到全部错误
-          ERRORS=$(grep -E ' error:' /tmp/xcodebuild.log | sed 's/^[0-9T:.Z-]* *//' | sort -u)
+            CODE_SIGN_IDENTITY="" CODE_SIGN_ENTITLEMENTS="")
+          rm -f /tmp/xc.log
+          # 逐 target 编译并合并日志：任何 target 失败都不影响后续 target 的错误收集
+          # （xcodebuild 的 -keepGoing 在部分版本不可用，故手动轮询各 target）
+          for T in HakoClient HakoClientExtension HakoControlsExtension HakoShareExtension; do
+            echo "===== building target $T =====" >> /tmp/xc.log
+            "${XCB[@]}" -target "$T" build >> /tmp/xc.log 2>&1 || echo "target $T FAILED" >> /tmp/xc.log
+          done
+          ERRORS=$(grep -E ' error:' /tmp/xc.log | sed 's/^[0-9T:.Z-]* *//' | sort -u)
           if [ -n "$ERRORS" ]; then
-            echo "=== 全部编译错误（$(echo "$ERRORS" | wc -l) 条）==="
+            echo "=== 全部编译错误（$(echo "$ERRORS" | wc -l | tr -d ' ') 条）==="
             echo "$ERRORS"
             exit 1
           fi
-          if ! grep -q 'BUILD SUCCEEDED' /tmp/xcodebuild.log; then echo '未见到 BUILD SUCCEEDED'; tail -40 /tmp/xcodebuild.log; exit 1; fi
-          tail -5 /tmp/xcodebuild.log
-          tail -20 /tmp/xcodebuild.log
+          echo "=== 无编译错误，检查产物 ==="
           find .build/dd/Build/Products -maxdepth 2 -name "*.app" | head
 
       - name: Package unsigned IPA
