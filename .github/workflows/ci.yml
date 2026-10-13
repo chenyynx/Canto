@@ -63,17 +63,21 @@ jobs:
         run: .build/python-env/bin/python3 scripts/configure.py
 
       - name: Build HakoClient (unsigned, iOS Simulator)
-        # ⚠️ pipefail + 逐 target：之前 xcodebuild|tee 吞掉失败退出码，
-        # 编译错误被静默标 success（2026-10-13 踩坑，掩盖了 EC 层 27 条错误）。
+        # ⚠️ pipefail + 逐 target：xcodebuild|tee 曾吞掉失败退出码导致假绿（2026-10-13）
         run: |
           set -uo pipefail
-          XCB=(xcodebuild -project apple/HakoClient/HakoClient.xcodeproj \
-            -configuration Release -destination 'generic/platform=iOS Simulator' \
-            CODE_SIGNING_ALLOWED=NO)
+          DEST='generic/platform=iOS Simulator'
+          SCHEME_ARGS=(xcodebuild -project apple/HakoClient/HakoClient.xcodeproj \
+            -scheme HakoClient -configuration Release -destination "$DEST" \
+            -derivedDataPath .build/dd-sim CODE_SIGNING_ALLOWED=NO)
+          TARGET_ARGS=(xcodebuild -project apple/HakoClient/HakoClient.xcodeproj \
+            -configuration Release -destination "$DEST" CODE_SIGNING_ALLOWED=NO)
           rm -f /tmp/xc.log
+          echo "===== scheme build =====" >> /tmp/xc.log
+          "${SCHEME_ARGS[@]}" build >> /tmp/xc.log 2>&1 || echo "scheme build FAILED" >> /tmp/xc.log
           for T in HakoClient HakoClientExtension HakoControlsExtension HakoShareExtension; do
-            echo "===== building target $T =====" >> /tmp/xc.log
-            "${XCB[@]}" -target "$T" build >> /tmp/xc.log 2>&1 || echo "target $T FAILED" >> /tmp/xc.log
+            echo "===== target $T =====" >> /tmp/xc.log
+            "${TARGET_ARGS[@]}" -target "$T" build >> /tmp/xc.log 2>&1 || echo "target $T FAILED" >> /tmp/xc.log
           done
           ERRORS=$(grep -E ' error:' /tmp/xc.log | sed 's/^[0-9T:.Z-]* *//' | sort -u)
           if [ -n "$ERRORS" ]; then
@@ -82,7 +86,6 @@ jobs:
             exit 1
           fi
           echo "构建通过"
-          tail -5 /tmp/xc.log
 
   # HakoAgentKit：纯逻辑协议包的 swift test（Linux runner 即可，swift-crypto 跨平台）
   swift-test:
