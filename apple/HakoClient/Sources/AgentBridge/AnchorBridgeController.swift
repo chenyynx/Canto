@@ -79,6 +79,25 @@ public final class AnchorBridgeController: ObservableObject, AnchorBridgeObserva
         recentActivity.removeAll()
     }
 
+    // MARK: - P3 配置一键撤销
+
+    public var hasPendingConfigApply: Bool {
+        AnchorConfigStore.defaultStore()?.loadPending() != nil
+    }
+
+    public func undoLastConfigApply() async throws {
+        guard let store = AnchorConfigStore.defaultStore() else {
+            throw AnchorConfigError.nothingToRollback
+        }
+        let manager = AnchorConfigManager(
+            store: store,
+            defaults: GlobalConfig.appGroupDefaults,
+            liveness: { true })
+        _ = try await manager.undoLast()
+        recentActivity.insert(.init(
+            id: AnchorIDs.ulid(), op: "config.rollback", at: Date(), status: "applied"), at: 0)
+    }
+
     // MARK: - 私有
 
     private func refreshPairedState() {

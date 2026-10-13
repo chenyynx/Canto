@@ -38,6 +38,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         #if os(iOS) || os(macOS)
          
         provider.widgetMailbox.start()
+        provider.anchorMailbox.start()
         #endif
     }
 
@@ -46,6 +47,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
          
          
         provider.widgetMailbox.stop()
+        provider.anchorMailbox.stop()
         #endif
         await provider.stop(reason: reason)
     }

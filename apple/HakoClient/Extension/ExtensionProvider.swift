@@ -68,6 +68,16 @@ final class ExtensionProvider: NSObject {
             root: HakoAppIdentifiers.appGroupContainer ?? FileManager.default.temporaryDirectory
         )
     )
+
+     
+     
+    /// Anchor App↔EC 指令通道（P3 mailbox v2）：独立文件域 anchor/mailbox/，
+    /// HMAC+nonce+时间戳鉴权；不触碰 widget mailbox 任何路径。
+    lazy var anchorMailbox = AnchorMailboxService(
+        root: HakoAppIdentifiers.appGroupContainer ?? FileManager.default.temporaryDirectory,
+        defaults: GlobalConfig.appGroupDefaults,
+        control: AnchorAgentControlService(provider: self)
+    )
 #endif
     private var service: HakoBoxService?
     private var startupSamplingToken: StartupMemorySampler.Token?

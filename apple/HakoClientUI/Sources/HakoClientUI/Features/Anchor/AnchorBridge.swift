@@ -112,6 +112,10 @@ public protocol AnchorBridgeObservable: ObservableObject {
     var agentID: String? { get }
     /// 最近的操作记录（操作记录页数据源）
     var recentActivity: [AnchorActivityEntry] { get }
+    /// P3：true = 有待确认的配置 apply（显示一键撤销按钮）
+    var hasPendingConfigApply: Bool { get }
+    /// P3：撤销最近一次未确认的配置 apply（回滚到改动前）
+    func undoLastConfigApply() async throws
     func startPairing(withURI uri: String) async
     func forgetPairing() async
 }

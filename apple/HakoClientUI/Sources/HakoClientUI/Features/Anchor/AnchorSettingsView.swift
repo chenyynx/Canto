@@ -42,6 +42,7 @@ public struct AnchorSettingsView<Bridge: AnchorBridgeObservable>: View {
             accessibilityIdentifier: "anchor.settings.root"
         ) {
             agentSection
+            undoSection
             forgetSection
             activitySection
         }
@@ -157,6 +158,50 @@ public struct AnchorSettingsView<Bridge: AnchorBridgeObservable>: View {
     }
 
     // MARK: 最近操作
+
+    /// P3：有待确认的配置 apply 时显示一键撤销（回滚到 apply 前的快照）。
+    @State private var isUndoing = false
+    @State private var undoError: String?
+
+    private var undoSection: some View {
+        Group {
+            if bridge.hasPendingConfigApply {
+                HakoClientUI.HakoProductGroup(
+                    footer: .copy("Agent 刚下发的配置还在确认窗口内；撤销立即回滚到改动前的状态。"),
+                    palette: palette
+                ) {
+                    Button {
+                        isUndoing = true
+                        Task {
+                            defer { isUndoing = false }
+                            do {
+                                try await bridge.undoLastConfigApply()
+                                undoError = nil
+                            } catch {
+                                undoError = error.localizedDescription
+                            }
+                        }
+                    } label: {
+                        Label {
+                            Text(hako: .copy("撤销最近一次配置改动"))
+                                .frame(maxWidth: .infinity)
+                        } icon: {
+                            AnchorSymbolImage(symbol: .arrowUTurnLeft)
+                        }
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.large)
+                    .disabled(isUndoing)
+                    .accessibilityIdentifier("anchor.settings.undo")
+                    if let undoError {
+                        Text(hako: .copy(undoError))
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+        }
+    }
 
     private var activitySection: some View {
         HakoClientUI.HakoProductGroup(

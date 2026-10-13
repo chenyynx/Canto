@@ -25,6 +25,14 @@ final class AnchorAgentControlService {
 
     // MARK: - 入口：信封 → res 信封
 
+    /// Mailbox v2 入口：body 是一条已通过 HMAC 校验的 Envelope JSON。
+    func handle(rawJSON: Data) async -> Envelope? {
+        guard let envelope = try? JSONDecoder().decode(Envelope.self, from: rawJSON) else {
+            return nil
+        }
+        return await handle(envelope: envelope)
+    }
+
     /// 处理一条已解密、已解码的信封（由 AgentBridge 的会话层调用）。
     /// 返回要回发的 res 信封（调用方负责加密回传）。
     func handle(envelope: Envelope) async -> Envelope? {

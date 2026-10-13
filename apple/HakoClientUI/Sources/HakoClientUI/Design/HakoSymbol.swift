@@ -146,6 +146,7 @@ public enum HakoSymbol: String, CaseIterable, Sendable {
     case githubMark = "github.mark"
     case xmark = "xmark"
     case xmarkCircle = "xmark.circle"
+    case arrowUTurnLeft = "arrow.uturn.left"
     case xmarkOctagonFill = "xmark.octagon.fill"
 
     public var isCustom: Bool {
