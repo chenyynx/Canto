@@ -75,7 +75,7 @@ final class ExtensionProvider: NSObject {
     /// HMAC+nonce+时间戳鉴权；不触碰 widget mailbox 任何路径。
     lazy var anchorMailbox = AnchorMailboxService(
         root: HakoAppIdentifiers.appGroupContainer ?? FileManager.default.temporaryDirectory,
-        defaults: GlobalConfig.appGroupDefaults,
+        defaults: UserDefaults(suiteName: HakoAppIdentifiers.appGroup) ?? .standard,
         control: AnchorAgentControlService(provider: self)
     )
 #endif

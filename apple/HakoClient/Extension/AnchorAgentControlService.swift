@@ -70,25 +70,25 @@ final class AnchorAgentControlService {
             return .json(await providerMessageAsync(["cmd": "proxies"]))
         case "core.proxy.select":
             guard let group = args["group"]?.stringValue, let name = args["node"]?.stringValue ?? args["proxy"]?.stringValue else {
-                throw CoreError(.INVALID_ARGUMENT, "missing group/node", hint: "先 core.proxy.list 拿组名与节点名")
+                throw CoreError("INVALID_ARGUMENT", "missing group/node", hint: "先 core.proxy.list 拿组名与节点名")
             }
-            return .json(Self.providerMessage(["cmd": "select", "group": group, "name": name]))
+            return .json(await providerMessageAsync(["cmd": "select", "group": group, "name": name]))
         case "core.proxy.delay":
             guard let targets = args["targets"], case .array(let list) = targets, let first = list.first?.stringValue else {
-                throw CoreError(.INVALID_ARGUMENT, "missing targets[1+]", hint: "targets: [\"节点名\"]")
+                throw CoreError("INVALID_ARGUMENT", "missing targets[1+]", hint: "targets: [\"节点名\"]")
             }
             let url = args["url"]?.stringValue ?? ""
             let delay = goBind { HakoURLTest(first, url) }
             return ["delays": .object([first: .int(Int64(delay))])]
         case "core.mode.set":
             guard let mode = args["mode"]?.stringValue else {
-                throw CoreError(.INVALID_ARGUMENT, "missing mode")
+                throw CoreError("INVALID_ARGUMENT", "missing mode")
             }
-            return .json(Self.providerMessage(["cmd": "setMode", "mode": mode]))
+            return .json(await providerMessageAsync(["cmd": "setMode", "mode": mode]))
         case "core.conn.list":
             return .json(await providerMessageAsync(["cmd": "connections"]))
         case "core.conn.close":
-            guard let id = args["id"]?.stringValue else { throw CoreError(.INVALID_ARGUMENT, "missing id") }
+            guard let id = args["id"]?.stringValue else { throw CoreError("INVALID_ARGUMENT", "missing id") }
             if args["all"]?.boolValue == true {
                 goBindVoid(HakoCloseAllConnections)
                 return ["closed": .bool(true)]
@@ -101,7 +101,7 @@ final class AnchorAgentControlService {
             // provider 拉取是 App 侧 client 能力；EC 内走 reload 兜底
             return .json(await providerMessageAsync(["cmd": "reload"]))
         case "core.dns.query":
-            guard let name = args["name"]?.stringValue else { throw CoreError(.INVALID_ARGUMENT, "missing name") }
+            guard let name = args["name"]?.stringValue else { throw CoreError("INVALID_ARGUMENT", "missing name") }
             let type = args["type"]?.stringValue ?? "A"
             return .json(goBind { HakoDNSQueryJSON(name, type) })
         case "core.probe":
@@ -112,14 +112,14 @@ final class AnchorAgentControlService {
         case "core.config.reload":
             return .json(await providerMessageAsync(["cmd": "reload"]))
         default:
-            throw CoreError(.UNSUPPORTED, "EC 不支持 \(op)", hint: "core.* 清单见 ops.schema.json")
+            throw CoreError("UNSUPPORTED", "EC 不支持 \(op)", hint: "core.* 清单见 ops.schema.json")
         }
     }
 
     // MARK: - 复用通道
 
     private func providerMessageAsync(_ req: [String: Any]) async -> String {
-        let (reply, after) = await provider.handleMessage(Data_tryJSON(req))
+        let (reply, after) = await provider.handleMessage(jsonData(req))
         after?()
         return String(decoding: reply, as: UTF8.self)
     }
@@ -171,7 +171,7 @@ extension [String: JSONValue] {
     }
 }
 
-private func Data_tryJSON(_ obj: [String: Any]) -> Data {
+private func jsonData(_ obj: [String: Any]) -> Data {
     (try? JSONSerialization.data(withJSONObject: obj)) ?? Data("{}".utf8)
 }
 #endif
