@@ -331,6 +331,21 @@ public struct HakoHomeView<Icon: View>: View, Equatable {
         } else {
             commonContent
             runtimeConfigurationContent
+            anchorContent
+        }
+    }
+
+    /// Anchor（远程 Agent 控制面）卡片区块。
+    /// Bridge 经自定义环境注入（App 侧 .anchorBridge(controller)）；
+    /// 未装配时整段隐藏（feature-off 无痕）。
+    @Environment(\.anchorBridge)
+    private var anchorBridge
+
+    @ViewBuilder
+    private var anchorContent: some View {
+        if let anchorBridge {
+            AnchorHomeCard(bridge: anchorBridge, icon: icon)
+                .padding(.top, HakoTheme.Spacing.cardGap)
         }
     }
 

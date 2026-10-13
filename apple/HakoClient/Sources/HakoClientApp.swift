@@ -129,15 +129,18 @@ struct AppShellView: View {
     @StateObject private var proxyShare = ProxyShareModel()
     @StateObject private var profileImports = ProfileImportRouter()
     @State private var navigationState = HakoClientUI.AppleClientNavigationState()
-     
-     
-     
-    @State private var activityLens: HakoActivityLens = .connections
+
+    // MARK: Anchor（远程 Agent 控制面）装配
+    // P2 全组件装配：身份库 → 配对/连接器/执行器 → 总桥（UI 经环境取用）。
+    // init 是 MainActor（View struct），可直接 assemble。
+    @State private var anchorBridgeController: AnchorBridgeController?
 
     init() {
         let vpn = VPNController()
         _vpn = StateObject(wrappedValue: vpn)
-        _profiles = StateObject(wrappedValue: ProfilesViewModel(vpn: vpn))
+        let profiles = ProfilesViewModel(vpn: vpn)
+        _profiles = StateObject(wrappedValue: profiles)
+        _anchorBridgeController = State(initialValue: AnchorBridgeController.assemble(vpn: vpn, profiles: profiles))
     }
 
      
@@ -846,6 +849,7 @@ struct AppShellView: View {
             command: command,
             nodes: nodes,
             stats: stats,
+            anchorBridge: anchorBridgeController,
             profiles: profiles,
             profileRefreshToken: profileRefreshToken,
             pendingSessionPage: $pendingSessionPage,

@@ -105,6 +105,8 @@ struct GoldenFlowHomeAdapter: View {
     @ObservedObject var command: ClashCommandClient
     @ObservedObject var nodes: NodesModel
     @ObservedObject var stats: StatsModel
+    /// Anchor 控制面桥（未启用/未装配时为 nil → 首页 Anchor 卡隐藏）
+    var anchorBridge: (any HakoClientUI.AnchorBridgeObservable)?
     let profileRefreshToken: Int
      
      
@@ -238,6 +240,7 @@ struct GoldenFlowHomeAdapter: View {
         ) { symbol in
             HakoSymbolImage(symbol: symbol)
         }
+        .anchorBridge(anchorBridge)
         .equatable()
 
 
