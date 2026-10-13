@@ -39,6 +39,11 @@ public struct Envelope: Codable, Equatable {
         }
     }
 
+    public init(t: String, id: String) {
+        self.t = t
+        self.id = id
+    }
+
     enum CodingKeys: String, CodingKey {
         case v, t, id, ref, seq, ch, op, args, data
         case ttlMs = "ttl_ms"
