@@ -1,5 +1,6 @@
 import XCTest
 @testable import HakoAgentKit
+import Crypto
 
 /// Noise 黄金向量互验（vectors-noise.json，TS 侧 gen-noise-vectors.ts 生成）。
 final class NoiseVectorTests: XCTestCase {
