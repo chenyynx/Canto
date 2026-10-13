@@ -61,3 +61,17 @@ jobs:
             build | tee /tmp/xcodebuild.log
           # 只在失败时回显尾部日志，避免成功时几千行刷屏
           tail -60 /tmp/xcodebuild.log
+
+  # HakoAgentKit：纯逻辑协议包的 swift test（Linux runner 即可，swift-crypto 跨平台）
+  swift-test:
+    name: swift-test (HakoAgentKit)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: '6.0'
+      - name: swift test (HakoAgentKit)
+        working-directory: apple/HakoAgentKit
+        run: swift test
