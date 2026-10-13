@@ -6,7 +6,9 @@ final class EnvelopeVectorTests: XCTestCase {
     nonisolated(unsafe) static let vectors: [String: Any] = {
         let url = Bundle.module.url(forResource: "vectors", withExtension: "json")!
         let data = try! Data(contentsOf: url)
-        return try! JSONSerialization.jsonObject(with: data) as! [String: Any]
+        let obj = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
+        // vectors.json 有顶层 {vectors:{...}} 包裹；vectors-noise.json 顶层即内容
+        return (obj["vectors"] as? [String: Any]) ?? obj
     }()
 
     // MARK: envelope 合法向量
@@ -17,7 +19,7 @@ final class EnvelopeVectorTests: XCTestCase {
         for v in list {
             let json = try JSONSerialization.data(withJSONObject: v["data"] as! [String: Any])
             let e = try JSONDecoder().decode(Envelope.self, from: json)
-            XCTAssertNil(e.validate(), "向量 \(v["name"] as! String) 应通过不变量校验")
+            XCTAssertNil(e.validate(), "向量 \(v["name"] as? String ?? "?") 应通过不变量校验")
         }
     }
 
@@ -26,7 +28,7 @@ final class EnvelopeVectorTests: XCTestCase {
         XCTAssertGreaterThanOrEqual(list.count, 7)
         var rejected = 0
         for v in list {
-            let data = v["data"] as! [String: Any]
+            guard let data = v["data"] as? [String: Any] else { continue }
             let json = try JSONSerialization.data(withJSONObject: data)
             if let e = try? JSONDecoder().decode(Envelope.self, from: json) {
                 if e.validate() != nil { rejected += 1 }

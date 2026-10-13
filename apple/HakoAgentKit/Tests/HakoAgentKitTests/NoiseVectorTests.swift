@@ -7,7 +7,9 @@ final class NoiseVectorTests: XCTestCase {
     nonisolated(unsafe) static let vectors: [String: Any] = {
         let url = Bundle.module.url(forResource: "vectors-noise", withExtension: "json")!
         let data = try! Data(contentsOf: url)
-        return try! JSONSerialization.jsonObject(with: data) as! [String: Any]
+        let obj = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
+        // vectors.json 有顶层 {vectors:{...}} 包裹；vectors-noise.json 顶层即内容
+        return (obj["vectors"] as? [String: Any]) ?? obj
     }()
 
     func testProtocolConstantsMatch() {
