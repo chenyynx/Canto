@@ -62,7 +62,7 @@ struct CipherState {
     mutating func encryptWithAd(ad: Data, plaintext: Data) throws -> Data {
         guard let key else { return plaintext }
         if n >= UInt64.max - 1 { throw NoiseError.nonceExhausted }
-        let sealed = try AES.GCM.seal(plaintext, using: key, authenticating: ad, nonce: AES.GCM.Nonce(data: NoisePrimitives.nonce12(n)))
+        let sealed = try AES.GCM.seal(plaintext, using: key, nonce: AES.GCM.Nonce(data: NoisePrimitives.nonce12(n)), authenticating: ad)
         n &+= 1
         // TS 布局：ciphertext || tag（16B）
         return sealed.ciphertext + sealed.tag
