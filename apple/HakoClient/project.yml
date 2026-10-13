@@ -19,6 +19,8 @@ settings:
     OTHER_LDFLAGS:
     - -lresolv
 packages:
+  HakoAgentKit:
+    path: ../HakoAgentKit
   HakoClientKit:
     path: ../HakoClientKit
   HakoClientUI:
@@ -222,6 +224,7 @@ targets:
     dependencies:
     - target: Hako
       embed: false
+    - package: HakoAgentKit
     - sdk: NetworkExtension.framework
   HakoControlsExtension:
     type: app-extension
