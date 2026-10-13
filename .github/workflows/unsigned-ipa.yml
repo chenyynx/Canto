@@ -1,0 +1,79 @@
+name: Unsigned IPA
+
+# 未签名真机 IPA 打包：供 全能签 / SideStore 等侧载工具在设备上重签安装。
+# 手动触发（workflow_dispatch）；产物为 artifact，保留 7 天。
+on:
+  workflow_dispatch:
+    inputs:
+      bundle_base:
+        description: 'Bundle id 前缀（默认 org.example.hako）'
+        required: false
+        default: 'org.example.hako'
+
+jobs:
+  ipa:
+    name: package (unsigned)
+    runs-on: macos-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: |
+          set -euo pipefail
+          CANDIDATE=$(ls -d /Applications/Xcode*.app 2>/dev/null | sort -V | tail -1)
+          if [ -z "$CANDIDATE" ]; then echo "no Xcode on this runner"; exit 1; fi
+          sudo xcode-select -s "$CANDIDATE"
+          xcodebuild -version
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.6'
+
+      - name: Install XcodeGen and PyYAML
+        run: |
+          brew install xcodegen
+          python3 -m venv .build/python-env
+          .build/python-env/bin/pip install --upgrade PyYAML
+
+      - name: Bootstrap pinned SDK and Adapter
+        run: .build/python-env/bin/python3 scripts/bootstrap.py
+
+      - name: Generate Xcode project
+        run: |
+          .build/python-env/bin/python3 scripts/configure.py \
+            --bundle-base "${{ github.event.inputs.bundle_base }}"
+
+      - name: Build for device (unsigned)
+        run: |
+          set -o pipefail
+          xcodebuild -project apple/HakoClient/HakoClient.xcodeproj \
+            -scheme HakoClient -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath .build/dd \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" CODE_SIGN_ENTITLEMENTS="" \
+            build | tee /tmp/xcodebuild.log || { tail -80 /tmp/xcodebuild.log; exit 1; }
+          tail -20 /tmp/xcodebuild.log
+          find .build/dd/Build/Products -maxdepth 2 -name "*.app" | head
+
+      - name: Package unsigned IPA
+        run: |
+          set -euo pipefail
+          APP=$(find .build/dd/Build/Products/Release-iphoneos -maxdepth 1 -name "*.app" | head -1)
+          echo "app: $APP"
+          rm -rf /tmp/ipa && mkdir -p /tmp/ipa/Payload
+          cp -R "$APP" /tmp/ipa/Payload/
+          # 未签名包：清掉可能残留的签名目录（侧载工具会重签）
+          rm -rf /tmp/ipa/Payload/*.app/_CodeSignature || true
+          cd /tmp/ipa && zip -qry "$GITHUB_WORKSPACE/Hako-unsigned.ipa" Payload
+          ls -la "$GITHUB_WORKSPACE/Hako-unsigned.ipa"
+          unzip -l "$GITHUB_WORKSPACE/Hako-unsigned.ipa" | head -20
+          echo "--- 嵌套扩展 ---"
+          unzip -l "$GITHUB_WORKSPACE/Hako-unsigned.ipa" | grep -E '\.appex' | head
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Hako-unsigned-ipa
+          path: Hako-unsigned.ipa
+          retention-days: 7
