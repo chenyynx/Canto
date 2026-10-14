@@ -170,8 +170,12 @@ private struct AnchorBridgeEnvironmentKey: EnvironmentKey {
 
 /// 类型擦除的可观察包装：把 `any AnchorBridgeObservable` 变成 SwiftUI 能订阅的
 /// 具体类型（@ObservedObject / @EnvironmentObject 都不支持 existential）。
-public final class AnchorBridgeProxy: ObservableObject {
+public final class AnchorBridgeProxy: ObservableObject, Equatable {
     public let bridge: any AnchorBridgeObservable
+
+    public static func == (lhs: AnchorBridgeProxy, rhs: AnchorBridgeProxy) -> Bool {
+        lhs === rhs
+    }
     private var cancellable: AnyCancellable?
     @MainActor
     public init(_ bridge: any AnchorBridgeObservable) {

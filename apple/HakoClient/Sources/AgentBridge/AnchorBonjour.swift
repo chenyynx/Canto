@@ -122,7 +122,7 @@ public final class AnchorBonjourDiscovery: @unchecked Sendable {
             if record.endpoint.isEmpty, let endpoint = resolved[service] {
                 record.endpoint = endpoint
             }
-            return record
+            return agent
         }
         return records.sorted { $0.name.localizedCompare($1.name) == .orderedAscending }
     }

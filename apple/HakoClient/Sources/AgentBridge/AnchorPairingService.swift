@@ -2,6 +2,9 @@
 import Foundation
 import CryptoKit
 import HakoAgentKit
+#if os(iOS)
+import UIKit
+#endif
 import HakoClientUI
 #if canImport(UIKit)
 import UIKit
@@ -254,3 +257,14 @@ extension Data {
 }
 
 #endif
+
+extension Data {
+    /// base64url（RFC 4648 §5，无填充）解码；口令 URI 的 k/s 用它。
+    init?(base64urlEncoded: String) {
+        var s = base64urlEncoded
+            .replacingOccurrences(of: "-", with: "+")
+            .replacingOccurrences(of: "_", with: "/")
+        while s.count % 4 != 0 { s += "=" }
+        self.init(base64Encoded: s)
+    }
+}

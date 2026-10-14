@@ -22,6 +22,9 @@ struct AnchorConfigSnapshot: Codable, Equatable {
     var patchJSON: String
     var savedAt: Date
 
+    /// 手写编解码（自定义 computed `data` 会遮蔽 Codable 合成成员）。
+    enum CodingKeys: String, CodingKey { case rev, patchJSON, savedAt }
+
     var data: Data? {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
@@ -59,6 +62,7 @@ enum AnchorConfigError: Error, LocalizedError {
 /// Persists confirm-window state across relaunches (unconfirmed apply must
 /// roll back even if the app is killed mid-window).
 struct AnchorPendingApply: Codable, Equatable {
+    // 全部存储属性 Codable 可合成；此前不合成是因 AnchorConfigSnapshot 未 Codable
     var rev: Int
     var previous: AnchorConfigSnapshot
     var appliedAt: Date

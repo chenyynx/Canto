@@ -7,7 +7,8 @@ import WidgetKit
 @main
 struct HakoClientApp: App {
     // P4：APNs 注册与静默推送唤醒（AppDelegate 挂钩）
-    @UIApplicationDelegateAdaptor(AnchorPushService.self) private var anchorPushService
+    @UIApplicationDelegateAdaptor(AnchorPushService.self) private var anchorPushDelegate
+    private var anchorPushService: AnchorPushService { anchorPushDelegate }
     init() {
          
          
@@ -170,6 +171,7 @@ struct AppShellView: View {
     @State private var railProxiesGroup: String?
     @State private var profileRefreshToken = 0
      
+    @State private var activityLens: HakoActivityLens = .connections
     @State private var isPickingProfile = false
     @State private var pendingOutboundMode: String?
      
@@ -824,7 +826,6 @@ struct AppShellView: View {
                 stun: stun,
                 proxyShare: proxyShare,
                 destination: item,
-                activityLens: $activityLens,
                 usesRegularDetailLayout: true
             )
         case .more(let item):

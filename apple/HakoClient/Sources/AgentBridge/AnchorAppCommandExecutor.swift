@@ -684,6 +684,10 @@ final class AnchorAppCommandExecutor: AnchorCommandHandling {
         return obj.mapValues { plainAny($0) }
     }
 
+    private static func plainObject(_ obj: [String: JSONValue]) -> [String: Any] {
+        obj.mapValues { plainAny($0) }
+    }
+
     private static func plainAny(_ value: JSONValue) -> Any {
         switch value {
         case .null: return NSNull()
