@@ -228,6 +228,7 @@ targets:
     - target: Hako
       embed: false
     - package: HakoAgentKit
+      product: HakoAgentKit
     - sdk: NetworkExtension.framework
   HakoControlsExtension:
     type: app-extension
