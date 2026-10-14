@@ -69,7 +69,10 @@ jobs:
           xcodebuild -project apple/HakoClient/HakoClient.xcodeproj -resolvePackageDependencies
 
       - name: Build HakoClient (unsigned, iOS Simulator)
-        # ⚠️ pipefail + 逐 target：xcodebuild|tee 曾吞掉失败退出码导致假绿（2026-10-13）
+        # ⚠️ 判成败只看退出码。历史两次踩坑：①xcodebuild|tee 吞掉退出码致假绿（2026-10-13）；
+        # ②grep 匹配错误文本判失败，零错误（=构建成功）时 grep 无匹配 + pipefail + set -e
+        #   令脚本静默 exit 1 致假失败（2026-10-14 实踩）。失败时打印错误摘要 + 日志尾部，
+        #   完整 xc.log 由下一步上传 artifact 供取证。
         run: |
           set -uo pipefail
           DEST='generic/platform=iOS Simulator'
@@ -79,19 +82,38 @@ jobs:
           TARGET_ARGS=(xcodebuild -project apple/HakoClient/HakoClient.xcodeproj \
             -configuration Release -destination "$DEST" CODE_SIGNING_ALLOWED=NO)
           rm -f /tmp/xc.log
-          echo "===== scheme build =====" >> /tmp/xc.log
-          "${SCHEME_ARGS[@]}" build >> /tmp/xc.log 2>&1 || echo "scheme build FAILED" >> /tmp/xc.log
+          FAILED=0
+          run_build () {
+            LABEL="$1"; shift
+            echo "===== $LABEL =====" >> /tmp/xc.log
+            if "$@" >> /tmp/xc.log 2>&1; then
+              echo "PASS: $LABEL"
+            else
+              echo "FAIL: $LABEL"
+              FAILED=$((FAILED + 1))
+            fi
+          }
+          run_build "scheme build" "${SCHEME_ARGS[@]}" build
           for T in HakoClient HakoClientExtension HakoControlsExtension HakoShareExtension; do
-            echo "===== target $T =====" >> /tmp/xc.log
-            "${TARGET_ARGS[@]}" -target "$T" build >> /tmp/xc.log 2>&1 || echo "target $T FAILED" >> /tmp/xc.log
+            run_build "target $T" "${TARGET_ARGS[@]}" -target "$T" build
           done
-          ERRORS=$(grep -E ' error:' /tmp/xc.log | sed 's/^[0-9T:.Z-]* *//' | sort -u)
-          if [ -n "$ERRORS" ]; then
-            echo "=== 全部编译错误（$(echo "$ERRORS" | wc -l | tr -d ' ') 条）==="
-            echo "$ERRORS"
+          if [ "$FAILED" -ne 0 ]; then
+            echo "===== 构建失败（$FAILED 处）——错误摘要 ====="
+            { grep -a ' error:' /tmp/xc.log || true; } | sed 's/^[0-9T:.Z-]* *//' | sort -u | head -100 || true
+            echo "===== xc.log 末尾 80 行 ====="
+            tail -80 /tmp/xc.log || true
             exit 1
           fi
           echo "构建通过"
+
+      - name: Upload xcodebuild log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcode-build-log
+          path: /tmp/xc.log
+          if-no-files-found: ignore
+          retention-days: 7
 
   # HakoAgentKit：纯逻辑协议包的 swift test（Linux runner 即可，swift-crypto 跨平台）
   swift-test:
