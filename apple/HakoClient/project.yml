@@ -132,6 +132,7 @@ targets:
         com.apple.developer.ubiquity-container-identifiers:
         - $(HAKO_ICLOUD_CONTAINER)
     dependencies:
+    - package: HakoAgentKit
     - package: HakoClientKit
     - package: HakoClientUI
     - target: Hako
