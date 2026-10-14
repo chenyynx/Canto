@@ -1,7 +1,6 @@
 #if os(iOS) || os(macOS)
 import Foundation
 import Hako
-import HakoAgentKit
 
 /// AnchorAgentControlService — Anchor 协议的 EC（Extension 连接器）胶水层。
 ///

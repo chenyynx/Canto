@@ -240,7 +240,7 @@ private func CryptoSHA256(_ data: Data) -> Data {
 
 extension String {
     func base64urlDecoded() -> Data? {
-        var s = String(decoding: self, as: UTF8.self)
+        var s = self
             .replacingOccurrences(of: "-", with: "+")
             .replacingOccurrences(of: "_", with: "/")
         while s.count % 4 != 0 { s.append("=") }

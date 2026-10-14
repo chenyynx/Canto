@@ -185,6 +185,8 @@ targets:
     sources:
     - path: Extension
       excludes: []
+    - path: ../HakoAgentKit/Sources/HakoAgentKit
+      group: HakoAgentKit
     - Shared
     - path: ../HakoClientUI/Sources/HakoClientUI/Features/Widgets/HakoWidgetSnapshot.swift
       group: Shared
@@ -227,7 +229,6 @@ targets:
     dependencies:
     - target: Hako
       embed: false
-    - package: HakoAgentKit
       product: HakoAgentKit
     - sdk: NetworkExtension.framework
   HakoControlsExtension:
