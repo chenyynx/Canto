@@ -39,8 +39,6 @@ targets:
       excludes:
       - Mac
       - TV
-    - path: ../HakoClientUI/Sources/HakoClientUI
-      group: HakoClientUI
     - Shared
     - Assets.xcassets
     - Resources/Branding/SharedSymbols.xcassets
