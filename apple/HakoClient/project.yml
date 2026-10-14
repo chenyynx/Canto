@@ -39,6 +39,8 @@ targets:
       excludes:
       - Mac
       - TV
+    - path: ../HakoClientUI/Sources/HakoClientUI
+      group: HakoClientUI
     - Shared
     - Assets.xcassets
     - Resources/Branding/SharedSymbols.xcassets
@@ -134,7 +136,6 @@ targets:
     dependencies:
     - package: HakoAgentKit
     - package: HakoClientKit
-    - package: HakoClientUI
     - target: Hako
       embed: true
     - target: HakoClientExtension
@@ -473,7 +474,6 @@ targets:
         - $(HAKO_ICLOUD_CONTAINER)
     dependencies:
     - package: HakoClientKit
-    - package: HakoClientUI
     - package: HakoMacClient
     - target: HakoMacCore
       embed: true
