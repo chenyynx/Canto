@@ -173,6 +173,7 @@ private struct AnchorBridgeEnvironmentKey: EnvironmentKey {
 public final class AnchorBridgeProxy: ObservableObject {
     public let bridge: any AnchorBridgeObservable
     private var cancellable: AnyCancellable?
+    @MainActor
     public init(_ bridge: any AnchorBridgeObservable) {
         self.bridge = bridge
         cancellable = bridge.observeChanges { [weak self] in

@@ -446,7 +446,7 @@ let anchorPreviewProfile = AnchorAgentProfile(
 
 /// 预览用调色板：全部取系统语义色，深浅色自适应。
 /// 不依赖 App 侧 `HakoProductPalette.hakoProduct` 扩展（本目录也可能被编进包目标）。
-extension HakoClientUI.HakoProductPalette {
+public extension HakoClientUI.HakoProductPalette {
     static var anchorPreview: Self {
 #if os(macOS)
         Self(

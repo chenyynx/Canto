@@ -1,5 +1,8 @@
 import Foundation
 import SwiftUI
+#if os(iOS)
+import UIKit
+#endif
 
 // MARK: - UI 侧可选契约
 
@@ -135,11 +138,9 @@ public struct AnchorPairingView: View {
                             if token.hasPrefix("hako://pair") { connect(withURI: token) }
                         }
                     )
-                    // 复用宿主既有的粘贴控件：iOS 16+ 用系统 UIPasteControl（不触发“已粘贴”横幅），
-                    // iOS 15 与 macOS 走直读剪贴板。
-                    HakoPasteControl(style: .square) { pasted in
-                        token = pasted
-                    }
+                    // 包内自足粘贴：iOS 16+ 用系统 PasteButton（不触发「已粘贴」横幅），
+                    // iOS 15 回退到读剪贴板按钮（HakoPasteControl 属 App target，包内不可见）。
+                    AnchorPasteButton { pasted in token = pasted }
                 }
 
                 Text(hako: .copy("口令由电脑端 anchor pair 生成，一次性有效。"))
@@ -529,3 +530,31 @@ struct AnchorSASConfirmSheet: View {
     )
 }
 #endif
+
+// MARK: - 包内粘贴控件
+
+/// 口令粘贴控件（包内自足；宿主 App 的 HakoPasteControl 在 App target，包看不到）。
+struct AnchorPasteButton: View {
+    let onPaste: (String) -> Void
+
+    var body: some View {
+        if #available(iOS 16.0, macOS 13.0, *) {
+            PasteButton(payloadType: String.self) { strings in
+                if let first = strings.first { onPaste(first) }
+            }
+            .labelStyle(.iconOnly)
+            .buttonBorderShape(.roundedRectangle)
+            .accessibilityIdentifier("anchor.pair.paste")
+        } else {
+            Button {
+                #if os(iOS)
+                if let text = UIPasteboard.general.string { onPaste(text) }
+                #endif
+            } label: {
+                AnchorSymbolImage(symbol: .docOnClipboard)
+            }
+            .buttonStyle(.bordered)
+            .accessibilityIdentifier("anchor.pair.paste")
+        }
+    }
+}
