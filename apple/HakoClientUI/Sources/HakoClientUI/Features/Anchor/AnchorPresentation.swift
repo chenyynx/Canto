@@ -329,7 +329,32 @@ private struct AnchorSelectableText: ViewModifier {
     }
 }
 
-// MARK: - 预览 mock（#if DEBUG）
+// MARK: - 预览 mock（/// 预览/默认调色板：全部取系统语义色，深浅色自适应。
+/// ⚠️ 必须在 DEBUG 之外——Release 构建也要有（HomeCard 的默认参数引用它）。
+public extension HakoClientUI.HakoProductPalette {
+    static var anchorPreview: Self {
+#if os(macOS)
+        Self(
+            canvas: Color(nsColor: .windowBackgroundColor),
+            surface: Color(nsColor: .controlBackgroundColor),
+            raisedFill: Color(nsColor: .unemphasizedSelectedContentBackgroundColor),
+            separator: Color(nsColor: .separatorColor)
+        )
+#elseif os(tvOS)
+        Self(
+            canvas: Color(uiColor: .black),
+            surface: Color(uiColor: .darkGray),
+            raisedFill: Color(uiColor: .darkGray),
+            separator: Color(uiColor: .separator)
+        )
+#else
+        Self(
+            canvas: Color(uiColor: .systemGroupedBackground),
+            surface: Color(uiColor: .secondarySystemGroupedBackground),
+            raisedFill: Color(uiColor: .tertiarySystemFill),
+            separator: Color(uiColor: .separator)
+        )
+#endif
 
 #if DEBUG
 
@@ -446,30 +471,6 @@ let anchorPreviewProfile = AnchorAgentProfile(
 
 /// 预览用调色板：全部取系统语义色，深浅色自适应。
 /// 不依赖 App 侧 `HakoProductPalette.hakoProduct` 扩展（本目录也可能被编进包目标）。
-public extension HakoClientUI.HakoProductPalette {
-    static var anchorPreview: Self {
-#if os(macOS)
-        Self(
-            canvas: Color(nsColor: .windowBackgroundColor),
-            surface: Color(nsColor: .controlBackgroundColor),
-            raisedFill: Color(nsColor: .unemphasizedSelectedContentBackgroundColor),
-            separator: Color(nsColor: .separatorColor)
-        )
-#elseif os(tvOS)
-        Self(
-            canvas: Color(uiColor: .black),
-            surface: Color(uiColor: .darkGray),
-            raisedFill: Color(uiColor: .darkGray),
-            separator: Color(uiColor: .separator)
-        )
-#else
-        Self(
-            canvas: Color(uiColor: .systemGroupedBackground),
-            surface: Color(uiColor: .secondarySystemGroupedBackground),
-            raisedFill: Color(uiColor: .tertiarySystemFill),
-            separator: Color(uiColor: .separator)
-        )
-#endif
     }
 }
 
