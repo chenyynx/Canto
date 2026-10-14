@@ -106,7 +106,7 @@ struct GoldenFlowHomeAdapter: View {
     @ObservedObject var nodes: NodesModel
     @ObservedObject var stats: StatsModel
     /// Anchor 控制面桥（未启用/未装配时为 nil → 首页 Anchor 卡隐藏）
-    var anchorBridge: (any HakoClientUI.AnchorBridgeObservable)?
+    var anchorBridge: HakoClientUI.AnchorBridgeProxy?
     let profileRefreshToken: Int
      
      

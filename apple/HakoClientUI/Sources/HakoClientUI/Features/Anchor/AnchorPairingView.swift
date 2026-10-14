@@ -41,7 +41,8 @@ public struct AnchorPairingView: View {
     @Environment(\.locale) private var locale
 
     /// 总门面（口令路径：bridge.startPairing(withURI:)）。
-    @ObservedObject private var bridge: AnchorBridgeObservable
+    @ObservedObject private var proxy: AnchorBridgeProxy
+    private var bridge: any AnchorBridgeObservable { proxy.bridge }
     /// 配对服务（Bonjour 路径）。为 nil 时该区块显示「未启用」并保留扫码/口令路径。
     private let pairingService: AnchorPairingServiceProtocol?
     private let palette: HakoClientUI.HakoProductPalette
@@ -60,12 +61,12 @@ public struct AnchorPairingView: View {
     @State private var pairingTask: Task<Void, Never>?
 
     public init(
-        bridge: Bridge,
+        proxy: AnchorBridgeProxy,
         pairingService: AnchorPairingServiceProtocol? = nil,
         palette: HakoClientUI.HakoProductPalette,
         onPaired: (() -> Void)? = nil
     ) {
-        self.bridge = bridge
+        self.proxy = proxy
         self.pairingService = pairingService
         self.palette = palette
         self.onPaired = onPaired

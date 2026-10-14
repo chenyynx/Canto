@@ -71,13 +71,13 @@ struct AnchorQRScannerView: View {
 
     private var iosBody: some View {
         ZStack {
-            viewportFill
+            Rectangle().fill(viewportFill)
             scannerContent
         }
         .aspectRatio(1, contentMode: .fit)
         .clipShape(
             RoundedRectangle(
-                cornerRadius: HakoClientUI.HakoTheme.Radius.groupedSection,
+                cornerRadius: HakoClientUI.HakoTheme.Radius.card,
                 style: .continuous
             )
         )

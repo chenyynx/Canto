@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 import SwiftUI
 import HakoAgentKit
@@ -69,6 +70,10 @@ public final class AnchorBridgeController: ObservableObject, AnchorBridgeObserva
         } catch {
             phase = .failed(reason: String(describing: error))
         }
+    }
+
+    public func observeChanges(_ action: @escaping () -> Void) -> AnyCancellable {
+        objectWillChange.sink { _ in action() }
     }
 
     public func forgetPairing() async {

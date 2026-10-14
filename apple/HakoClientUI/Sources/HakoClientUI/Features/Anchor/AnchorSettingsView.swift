@@ -7,12 +7,11 @@ import SwiftUI
 ///
 /// 数据：AnchorBridgeObservable（phase、agentID、recentActivity、forgetPairing）
 /// + 宿主汇总的 AnchorAgentProfile（id / 名称 / 指纹 / endpoint）。
-public struct AnchorSettingsView<Bridge: AnchorBridgeObservable>: View {
+public struct AnchorSettingsView: View {
     @Environment(\.dismiss) private var dismiss
 
-    /// 用泛型约束而非 `any AnchorBridgeObservable`：ObservableObject 带关联类型，
-    /// 存在类型不满足 `@ObservedObject` 的具体类型要求。
-    @ObservedObject private var bridge: Bridge
+    @ObservedObject private var proxy: AnchorBridgeProxy
+    private var bridge: any AnchorBridgeObservable { proxy.bridge }
     private let profile: AnchorAgentProfile
     private let palette: HakoClientUI.HakoProductPalette
     /// 忘记配对完成后的回调（宿主可借此返回首页；默认 dismiss 当前页）。
@@ -25,12 +24,12 @@ public struct AnchorSettingsView<Bridge: AnchorBridgeObservable>: View {
     private static let activityLimit = 20
 
     public init(
-        bridge: Bridge,
+        proxy: AnchorBridgeProxy,
         profile: AnchorAgentProfile,
         palette: HakoClientUI.HakoProductPalette,
         onForget: (() -> Void)? = nil
     ) {
-        self.bridge = bridge
+        self.proxy = proxy
         self.profile = profile
         self.palette = palette
         self.onForget = onForget

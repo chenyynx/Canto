@@ -17,10 +17,9 @@ public struct AnchorHomeCard<Icon: View>: View {
     @Environment(\.locale) private var locale
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
-    /// any 桥（环境注入）：ObservableObject 的变更经 objectWillChange 手动桥接
-    /// （@ObservedObject 不支持 existential）。
-    private let bridge: any AnchorBridgeObservable
-    @State private var revision = Int64(0)
+    /// 类型擦除桥（环境注入：AnchorBridgeProxy 是可订阅的具体类型）
+    @ObservedObject private var proxy: AnchorBridgeProxy
+    private var bridge: any AnchorBridgeObservable { proxy.bridge }
     private let palette: HakoClientUI.HakoProductPalette
     private let profile: AnchorAgentProfile
     private let pairingService: AnchorPairingServiceProtocol?
@@ -28,14 +27,14 @@ public struct AnchorHomeCard<Icon: View>: View {
     private let icon: (HakoSymbol) -> Icon
 
     public init(
-        bridge: any AnchorBridgeObservable,
-        palette: HakoClientUI.HakoProductPalette = .hakoProduct,
+        proxy: AnchorBridgeProxy,
+        palette: HakoClientUI.HakoProductPalette = .anchorPreview,
         profile: AnchorAgentProfile = AnchorAgentProfile(),
         pairingService: AnchorPairingServiceProtocol? = nil,
         onOpen: ((AnchorCardPage) -> Void)? = nil,
         @ViewBuilder icon: @escaping (HakoSymbol) -> Icon
     ) {
-        self.bridge = bridge
+        self.proxy = proxy
         self.palette = palette
         self.profile = profile
         self.pairingService = pairingService
@@ -44,14 +43,9 @@ public struct AnchorHomeCard<Icon: View>: View {
     }
 
     public var body: some View {
-        // any 桥的 objectWillChange → @State revision：驱动卡片重算
-        let _ = revision
         linkedCard
             .accessibilityElement(children: .contain)
             .accessibilityIdentifier("home.card.anchor")
-            .onReceive(bridge.objectWillChange) { _ in
-                revision &+= 1
-            }
     }
 
     // MARK: 整卡跳转
@@ -86,13 +80,13 @@ public struct AnchorHomeCard<Icon: View>: View {
     private var destination: some View {
         if bridge.isPaired {
             AnchorSettingsView(
-                bridge: bridge,
+                proxy: proxy,
                 profile: profile,
                 palette: palette
             )
         } else {
             AnchorPairingView(
-                bridge: bridge,
+                proxy: proxy,
                 pairingService: pairingService,
                 palette: palette
             )

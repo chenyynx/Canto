@@ -75,7 +75,8 @@ jobs:
             echo "===== target $T =====" >> /tmp/xc.log
             "${TARGET_ARGS[@]}" -target "$T" build >> /tmp/xc.log 2>&1 || echo "target $T FAILED" >> /tmp/xc.log
           done
-          ERRORS=$(grep -E ' error:' /tmp/xc.log | sed 's/^[0-9T:.Z-]* *//' | sort -u)
+          # 过滤 -target 构建产生的假模块解析错误（包依赖只在 scheme 构建里解析）
+          ERRORS=$(grep -E ' error:' /tmp/xc.log | grep -v 'Unable to resolve module dependency' | grep -v 'unable to resolve module dependency' | sed 's/^[0-9T:.Z-]* *//' | sort -u)
           if [ -n "$ERRORS" ]; then
             echo "=== 全部编译错误（$(echo "$ERRORS" | wc -l | tr -d ' ') 条）==="
             echo "$ERRORS"

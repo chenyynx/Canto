@@ -1,4 +1,7 @@
+import Combine
 import Foundation
+import HakoAgentKit
+import SwiftUI
 
 /// AnchorBridge — P2 各组件的公共接口契约。
 ///
@@ -118,6 +121,10 @@ public protocol AnchorBridgeObservable: ObservableObject {
     func undoLastConfigApply() async throws
     func startPairing(withURI uri: String) async
     func forgetPairing() async
+    /// 类型擦除后的变更通知：具体实现转发 objectWillChange。
+    /// （`any AnchorBridgeObservable` 的 objectWillChange 是 `any Publisher`，
+    ///  不能直接喂给 SwiftUI 的 onReceive，故显式桥接。）
+    func observeChanges(_ action: @escaping () -> Void) -> AnyCancellable
 }
 
 public struct AnchorActivityEntry: Equatable, Identifiable, Sendable {
@@ -157,13 +164,35 @@ public protocol AnchorIdentityStoring: AnyObject, Sendable {
 
 /// 首页经环境取 Anchor 桥；未装配时为 nil → 卡片整段隐藏。
 private struct AnchorBridgeEnvironmentKey: EnvironmentKey {
-    static let defaultValue: (any AnchorBridgeObservable)? = nil
+    // 类型擦除的包装类，非 Sendable——环境默认值用 nonisolated(unsafe) 标注
+    nonisolated(unsafe) static let defaultValue: AnchorBridgeProxy? = nil
+}
+
+/// 类型擦除的可观察包装：把 `any AnchorBridgeObservable` 变成 SwiftUI 能订阅的
+/// 具体类型（@ObservedObject / @EnvironmentObject 都不支持 existential）。
+public final class AnchorBridgeProxy: ObservableObject {
+    public let bridge: any AnchorBridgeObservable
+    private var cancellable: AnyCancellable?
+    public init(_ bridge: any AnchorBridgeObservable) {
+        self.bridge = bridge
+        cancellable = bridge.observeChanges { [weak self] in
+            self?.objectWillChange.send()
+        }
+    }
 }
 
 extension EnvironmentValues {
     /// App 侧装配：`\.anchorBridge = controller`（未配对/未启用保持 nil）。
-    public var anchorBridge: (any AnchorBridgeObservable)? {
+    public var anchorBridge: AnchorBridgeProxy? {
         get { self[AnchorBridgeEnvironmentKey.self] }
         set { self[AnchorBridgeEnvironmentKey.self] = newValue }
+    }
+}
+
+extension View {
+    /// 装配入口：`view.anchorBridge(AnchorBridgeProxy(controller))`
+    /// 未装配（nil）时首页 Anchor 区块整段隐藏（feature-off 无痕）。
+    public func anchorBridge(_ bridge: AnchorBridgeProxy?) -> some View {
+        environment(\.anchorBridge, bridge)
     }
 }

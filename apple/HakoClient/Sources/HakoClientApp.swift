@@ -856,7 +856,7 @@ struct AppShellView: View {
             command: command,
             nodes: nodes,
             stats: stats,
-            anchorBridge: anchorBridgeController,
+            anchorBridge: anchorBridgeController.map(HakoClientUI.AnchorBridgeProxy.init),
             profiles: profiles,
             profileRefreshToken: profileRefreshToken,
             pendingSessionPage: $pendingSessionPage,
