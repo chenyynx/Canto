@@ -288,7 +288,7 @@ struct AnchorActivityRow: View {
 #if DEBUG
 #Preview("Agent 管理 · 已配对") {
     AnchorSettingsView(
-        bridge: AnchorPreviewBridge(
+        proxy: AnchorBridgeProxy(AnchorPreviewBridge(
             phase: .connected,
             isPaired: true,
             agentID: "4N7Q2W8Z0R5TVK9Y",
@@ -299,7 +299,7 @@ struct AnchorActivityRow: View {
                 ("core.conn.close", -7200, "rejected"),
                 ("app.subscription.update", -86400, "applied"),
             ])
-        ),
+        )),
         profile: anchorPreviewProfile,
         palette: .anchorPreview
     )
@@ -307,7 +307,7 @@ struct AnchorActivityRow: View {
 
 #Preview("Agent 管理 · 未配对") {
     AnchorSettingsView(
-        bridge: AnchorPreviewBridge(),
+        proxy: AnchorBridgeProxy(AnchorPreviewBridge()),
         profile: AnchorAgentProfile(),
         palette: .anchorPreview
     )

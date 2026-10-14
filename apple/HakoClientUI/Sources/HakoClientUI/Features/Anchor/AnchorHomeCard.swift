@@ -270,7 +270,7 @@ private struct AnchorCardPressStyle: ButtonStyle {
 #Preview("首页卡 · 未配对") {
     NavigationView {
         AnchorHomeCard(
-            bridge: AnchorPreviewBridge(),
+            proxy: AnchorBridgeProxy(AnchorPreviewBridge()),
             palette: .anchorPreview,
             pairingService: AnchorPreviewPairingService()
         ) { symbol in
@@ -284,7 +284,7 @@ private struct AnchorCardPressStyle: ButtonStyle {
 #Preview("首页卡 · 连接中") {
     NavigationView {
         AnchorHomeCard(
-            bridge: AnchorPreviewBridge(phase: .connecting),
+            proxy: AnchorBridgeProxy(AnchorPreviewBridge(phase: .connecting)),
             palette: .anchorPreview
         ) { symbol in
             AnchorSymbolImage(symbol: symbol)
@@ -297,14 +297,14 @@ private struct AnchorCardPressStyle: ButtonStyle {
 #Preview("首页卡 · 已连接") {
     NavigationView {
         AnchorHomeCard(
-            bridge: AnchorPreviewBridge(
+            proxy: AnchorBridgeProxy(AnchorPreviewBridge(
                 phase: .connected,
                 isPaired: true,
                 agentID: "4N7Q2W8Z0R5TVK9Y",
                 recentActivity: anchorPreviewActivity([
                     ("core.proxy.select", -180, "applied")
                 ])
-            ),
+            )),
             palette: .anchorPreview,
             profile: anchorPreviewProfile
         ) { symbol in
@@ -320,7 +320,7 @@ private struct AnchorCardPressStyle: ButtonStyle {
         EmptyView()
     } label: {
         AnchorHomeCard(
-            bridge: AnchorPreviewBridge(phase: .failed(reason: "Agent 未响应：连接被拒绝")),
+            proxy: AnchorBridgeProxy(AnchorPreviewBridge(phase: .failed(reason: "Agent 未响应：连接被拒绝"))),
             palette: .anchorPreview
         ) { symbol in
             AnchorSymbolImage(symbol: symbol)

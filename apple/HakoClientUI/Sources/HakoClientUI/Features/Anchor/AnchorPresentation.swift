@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 import SwiftUI
 
@@ -395,6 +396,15 @@ final class AnchorPreviewBridge: AnchorBridgeObservable {
         isPaired = false
         agentID = nil
         phase = .idle
+    }
+
+    // MARK: P3 桩（预览不需要真实回滚能力）
+    var hasPendingConfigApply: Bool { false }
+    func undoLastConfigApply() async throws {}
+
+    /// 类型擦除的变更通知：预览里直接转发 objectWillChange。
+    func observeChanges(_ action: @escaping () -> Void) -> AnyCancellable {
+        objectWillChange.sink { _ in action() }
     }
 }
 

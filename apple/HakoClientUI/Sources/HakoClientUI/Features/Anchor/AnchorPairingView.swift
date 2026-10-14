@@ -17,20 +17,28 @@ public protocol AnchorSASCodeProviding: AnyObject, Sendable {
 }
 
 /// SAS 双端比对的挂起点：配对服务 await `wait()`，UI 用按钮 `decide(_:)` 放行。
-@MainActor
-final class AnchorSASDecision {
+///
+/// 注意：`wait()` 的闭包会被传进 @Sendable 的 Task（见 startBonjourPairing），
+/// 因此本类不能标 @MainActor，必须是 Sendable；内部状态用锁保护。
+final class AnchorSASDecision: @unchecked Sendable {
+    private let lock = NSLock()
     private var continuation: CheckedContinuation<Bool, Never>?
 
     func wait() async -> Bool {
         await withCheckedContinuation { continuation in
+            lock.lock()
             self.continuation = continuation
+            lock.unlock()
         }
     }
 
     func decide(_ approved: Bool) {
-        guard let continuation else { return }
-        self.continuation = nil
-        continuation.resume(returning: approved)
+        lock.lock()
+        let c = continuation
+        continuation = nil
+        lock.unlock()
+        // resume 必须在锁外调：它可能同步唤醒等待者
+        c?.resume(returning: approved)
     }
 }
 
@@ -517,7 +525,7 @@ struct AnchorSASConfirmSheet: View {
 #if DEBUG
 #Preview("配对页 · 未配对") {
     AnchorPairingView(
-        bridge: AnchorPreviewBridge(),
+        proxy: AnchorBridgeProxy(AnchorPreviewBridge()),
         pairingService: AnchorPreviewPairingService(),
         palette: .anchorPreview
     )
@@ -525,7 +533,7 @@ struct AnchorSASConfirmSheet: View {
 
 #Preview("配对页 · 无配对服务") {
     AnchorPairingView(
-        bridge: AnchorPreviewBridge(),
+        proxy: AnchorBridgeProxy(AnchorPreviewBridge()),
         palette: .anchorPreview
     )
 }
