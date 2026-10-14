@@ -1,6 +1,5 @@
 import Combine
 import Foundation
-import HakoAgentKit
 import SwiftUI
 
 /// AnchorBridge — P2 各组件的公共接口契约。
