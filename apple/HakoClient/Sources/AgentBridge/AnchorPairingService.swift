@@ -246,7 +246,6 @@ private func CryptoSHA256(_ data: Data) -> Data {
         while s.count % 4 != 0 { s.append("=") }
         return Data(base64Encoded: s)
     }
-}
 
 #endif
 
