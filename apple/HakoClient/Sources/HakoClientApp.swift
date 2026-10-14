@@ -137,7 +137,6 @@ struct AppShellView: View {
     // P2 全组件装配：身份库 → 配对/连接器/执行器 → 总桥（UI 经环境取用）。
     // init 是 MainActor（View struct），可直接 assemble。
     @State private var anchorBridgeController: AnchorBridgeController?
-    @State private var activityLens: HakoClientUI.HakoActivityLens = .connections
 
     init() {
         let vpn = VPNController()
@@ -826,6 +825,7 @@ struct AppShellView: View {
                 stun: stun,
                 proxyShare: proxyShare,
                 destination: item,
+                activityLens: $activityLens,
                 usesRegularDetailLayout: true
             )
         case .more(let item):

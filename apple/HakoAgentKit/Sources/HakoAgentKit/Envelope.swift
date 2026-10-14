@@ -1,5 +1,9 @@
 import Foundation
+#if canImport(CryptoKit)
+import CryptoKit
+#else
 import Crypto
+#endif
 
 /// 信封帧（对齐 envelope.schema.json；TS 侧负责 JSON Schema 校验，
 /// Swift 侧负责类型化建模 + 关键不变量校验 + JSON 编解码）。

@@ -1,6 +1,10 @@
 import Foundation
 #if canImport(Crypto)
+#if canImport(CryptoKit)
+import CryptoKit
+#else
 import Crypto
+#endif
 #endif
 
 // AnchorMailbox v2 — App ↔ EC command channel with authentication.

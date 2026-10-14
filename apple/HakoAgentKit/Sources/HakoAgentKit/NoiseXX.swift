@@ -1,5 +1,9 @@
 import Foundation
+#if canImport(CryptoKit)
+import CryptoKit
+#else
 import Crypto
+#endif
 
 /// X25519 密钥工具（对齐 TS 的 generateDH / dhRaw / rawPublic / fromRawPublic）。
 public struct DHKey {

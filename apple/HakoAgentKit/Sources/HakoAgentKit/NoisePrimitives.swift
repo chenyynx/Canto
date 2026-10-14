@@ -1,11 +1,15 @@
 import Foundation
+#if canImport(CryptoKit)
+import CryptoKit
+#else
 import Crypto
+#endif
 
 /// Noise 基础原语（对齐 TS src/protocol/noise.ts 的 hkdf / CipherState / SymmetricState）。
 ///
 /// 原语选型：HKDF-SHA256 手写（RFC 5869）、AES-256-GCM 用 swift-crypto、X25519 用 Curve25519。
 /// 黄金向量（vectors-noise.json primitives）保证与 TS 侧逐字节一致。
-public enum NoisePrimitives {
+enum NoisePrimitives {
     static let protocolName = AnchorProtocol.protocolName
 
     /// H0 = protocol name 补零到 32 字节
@@ -44,7 +48,7 @@ public enum NoisePrimitives {
         return d
     }
 
-    public static func sha256(_ data: Data) -> Data { Data(SHA256.hash(data: data)) }
+    static func sha256(_ data: Data) -> Data { Data(SHA256.hash(data: data)) }
 }
 
 /// 单密钥 AES-256-GCM 状态（nonce 从 0 单调递增；无密钥时直通=握手明文段）。

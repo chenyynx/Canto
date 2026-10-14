@@ -1,5 +1,9 @@
 import Foundation
+#if canImport(CryptoKit)
+import CryptoKit
+#else
 import Crypto
+#endif
 
 /// Crockford Base32 / ULID / id 派生（对齐 TS src/lib/ids.ts）。
 public enum AnchorIDs {
