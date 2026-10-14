@@ -136,6 +136,7 @@ targets:
     dependencies:
     - package: HakoAgentKit
     - package: HakoClientKit
+    - package: HakoClientUI
     - target: Hako
       embed: true
     - target: HakoClientExtension
