@@ -81,7 +81,7 @@ public protocol AnchorPairingServiceProtocol: AnyObject, Sendable {
     func pair(withURI uri: String) async throws -> PairingResult
     /// Bonjour 路径：发现同一局域网的 agent（SAS 确认码双端比对）
     func discoverAgents() -> AsyncStream<[AnchorBonjourAgent]>
-    func pair(bonjour agent: AnchorBonjourAgent, sasConfirmed: () async -> Bool) async throws -> PairingResult
+    func pair(bonjour agent: AnchorBonjourAgent, sasConfirmed: @Sendable () async -> Bool) async throws -> PairingResult
     /// 当前 agent 静态公钥指纹（配对前人眼比对用）
     var agentFingerprint: String { get }
 }

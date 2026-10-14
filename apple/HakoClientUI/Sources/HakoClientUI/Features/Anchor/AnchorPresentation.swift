@@ -452,7 +452,7 @@ final class AnchorPreviewPairingService: AnchorPairingServiceProtocol, AnchorSAS
 
     func pair(
         bonjour agent: AnchorBonjourAgent,
-        sasConfirmed: () async -> Bool
+        sasConfirmed: @Sendable () async -> Bool
     ) async throws -> PairingResult {
         let confirmed = await sasConfirmed()
         return PairingResult(
