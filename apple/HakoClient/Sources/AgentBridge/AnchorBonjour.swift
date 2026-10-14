@@ -117,8 +117,8 @@ public final class AnchorBonjourDiscovery: @unchecked Sendable {
 
     private func publishLocked() -> [AnchorBonjourAgent] {
         let records: [AnchorBonjourAgent] = base.map { entry in
-            let (service, record) = entry
-            var record = record
+            let (service, baseRecord) = entry
+            var record = baseRecord
             if record.endpoint.isEmpty, let endpoint = resolved[service] {
                 record.endpoint = endpoint
             }

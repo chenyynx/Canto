@@ -625,7 +625,7 @@ final class AnchorAppCommandExecutor: AnchorCommandHandling {
                 hint: "先 app.config.get 拿当前 rev 与 patch")
         }
         let manager = try configManager()
-        let staged = try manager.stage(baseRev: Int(baseRev), patch: Self.plainObject(patchObj))
+        let staged = try manager.stage(baseRev: Int(baseRev), patch: Self.plainObject(.object(patchObj)))
         return ["ok": .bool(true), "data": .object([
             "rev": .int(Int64(staged.rev)),
             "merged": Self.jsonFromString(staged.mergedJSON),
@@ -644,7 +644,7 @@ final class AnchorAppCommandExecutor: AnchorCommandHandling {
         if case .int(let s)? = args["confirm_within_s"], s >= 10, s <= 600 { confirmWithinS = Int(s) }
         else { confirmWithinS = 60 }
         let manager = try configManager()
-        let staged = try manager.stage(baseRev: Int(baseRev), patch: Self.plainObject(patchObj))
+        let staged = try manager.stage(baseRev: Int(baseRev), patch: Self.plainObject(.object(patchObj)))
         let snap = try await manager.apply(rev: staged.rev, mergedJSON: staged.mergedJSON, confirmWithinS: confirmWithinS, reload: {})
         return ["ok": .bool(true), "data": .object([
             "rev": .int(Int64(snap.rev)),

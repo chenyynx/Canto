@@ -136,6 +136,7 @@ struct AppShellView: View {
     // P2 全组件装配：身份库 → 配对/连接器/执行器 → 总桥（UI 经环境取用）。
     // init 是 MainActor（View struct），可直接 assemble。
     @State private var anchorBridgeController: AnchorBridgeController?
+    @State private var activityLens: HakoClientUI.HakoActivityLens = .connections
 
     init() {
         let vpn = VPNController()
@@ -475,7 +476,7 @@ struct AppShellView: View {
             // P4：配对状态下注册 APNs（含被静默推送拉起的冷启动场景——
             // scenePhase 转变时重试注册，幂等）
             if phase != .background, anchorBridgeController?.isPaired == true {
-                anchorPushService.registerIfNeeded()
+                AnchorPushService.shared.registerIfNeeded()
             }
             if phase == .active {
                 Task {
@@ -535,18 +536,17 @@ struct AppShellView: View {
         .task {
              
              
-            ProviderFirstLoadRetry.loadedRuleProvidersInCore = { [weak command] in
+            // @Sendable 闭包不能直接捕获 @MainActor 的 command：用弱盒转交，
+            // 主线程内取值（isConnected / providerRuntimeCatalog 均为 MainActor 隔离）。
+            let clientBox = WeakClashCommandClientBox(command)
+            ProviderFirstLoadRetry.loadedRuleProvidersInCore = {
                 await MainActor.run {
-                    guard let command, command.isConnected else { return nil as ClashCommandClient? }
-                    return command
-                }.map { client in
-                    Task { @MainActor in
-                        let catalog = try? await client.providerRuntimeCatalog()
-                        return Set(catalog?.ruleProviders.compactMap { name, provider in
-                            provider.updatedAt == nil ? nil : name
-                        } ?? [])
-                    }
-                }?.value ?? []
+                    guard let client = clientBox.client, client.isConnected else { return Set<String>() }
+                    guard let catalog = try? await client.providerRuntimeCatalog() else { return Set<String>() }
+                    return Set(catalog.ruleProviders.compactMap { (name: String, provider: RuleProviderRuntime) in
+                        provider.updatedAt == nil ? nil : name
+                    })
+                }
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: ProviderFirstLoadRetry.didRefreshNotification)) { _ in
@@ -1383,4 +1383,12 @@ private struct RegularSidebarTitleStyle: ViewModifier {
  
 private final class ScenePhaseWitness {
     var phase: ScenePhase = .inactive
+}
+
+// MARK: - Anchor/弱引用小工具
+
+/// @Sendable 弱盒：把 @MainActor 的 ClashCommandClient 安全带进 @Sendable 闭包。
+private struct WeakClashCommandClientBox: @unchecked Sendable {
+    weak var client: ClashCommandClient?
+    init(_ client: ClashCommandClient?) { self.client = client }
 }

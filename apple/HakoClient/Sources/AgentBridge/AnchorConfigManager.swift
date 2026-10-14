@@ -17,7 +17,7 @@ import Foundation
 //  - The agent endpoint direct rule is always forced to the top of the rules
 //    list in every applied patch; patches cannot remove or deprioritize it.
 
-struct AnchorConfigSnapshot: Equatable {
+struct AnchorConfigSnapshot: Codable, Equatable {
     var rev: Int
     var patchJSON: String
     var savedAt: Date
@@ -90,7 +90,7 @@ struct AnchorConfigStore: AnchorConfigStoring {
     private let queue = DispatchQueue(label: "anchor.config.store")
 
     static func defaultStore() -> AnchorConfigStore? {
-        guard let root = HakoAppGroupContainer.appGroupContainer?.appendingPathComponent("anchor/config", isDirectory: true) else { return nil }
+        guard let root = HakoAppIdentifiers.appGroupContainer?.appendingPathComponent("anchor/config", isDirectory: true) else { return nil }
         try? FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
         return AnchorConfigStore(root: root)
     }

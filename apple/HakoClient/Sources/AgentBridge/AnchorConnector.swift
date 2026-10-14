@@ -240,7 +240,7 @@ final class AnchorConnector: AnchorConnecting, @unchecked Sendable {
         if isReplay { return }
 
         // TTL：过期拒绝（接收方单调时钟 + 创建时间判定）
-        if frameIsExpired(cmd, nowMs: nowMs) {
+        if Self.frameIsExpired(cmd, nowMs: nowMs) {
             sendResult(for: cmd, ok: false, status: "rejected", err: .init(
                 code: "EXPIRED", message: "命令已过有效期", retryable: true,
                 hint: "agent 侧重新下发"))

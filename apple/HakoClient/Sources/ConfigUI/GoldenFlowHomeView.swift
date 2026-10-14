@@ -190,6 +190,7 @@ struct GoldenFlowHomeAdapter: View {
         command: ClashCommandClient,
         nodes: NodesModel,
         stats: StatsModel,
+        anchorBridge: HakoClientUI.AnchorBridgeProxy? = nil,
         profiles: ProfilesViewModel,
         profileRefreshToken: Int,
         pendingSessionPage:
@@ -221,6 +222,7 @@ struct GoldenFlowHomeAdapter: View {
         self.openDNSQuery = openDNSQuery
         self.rebind = rebind
         self.profiles = profiles
+        self.anchorBridge = anchorBridge
     }
 
     var body: some View {
@@ -240,8 +242,8 @@ struct GoldenFlowHomeAdapter: View {
         ) { symbol in
             HakoSymbolImage(symbol: symbol)
         }
-        .anchorBridge(anchorBridge)
         .equatable()
+        .anchorBridge(anchorBridge)
 
 
         .task(id: profileRefreshToken) {

@@ -3,6 +3,7 @@ import Foundation
 import HakoAgentKit
 import HakoClientUI
 #if canImport(UIKit)
+import UIKit
 #endif
 
 /// AnchorPairingService — 配对流程主体（粘贴口令 / Bonjour 两路）。
@@ -37,7 +38,7 @@ final class AnchorPairingService: AnchorPairingServiceProtocol, @unchecked Senda
         return try await runPairing(
             endpoint: endpoint,
             agentPub: agentPub,
-            includeSecret: parsed.s,
+            includeSecret: parsed.secret,
             sasCode: nil
         )
     }
@@ -48,7 +49,7 @@ final class AnchorPairingService: AnchorPairingServiceProtocol, @unchecked Senda
         bonjour.makeStream()
     }
 
-    func pair(bonjour agent: AnchorBonjourAgent, sasConfirmed: () async -> Bool) async throws -> PairingResult {
+    func pair(bonjour agent: AnchorBonjourAgent, sasConfirmed: @Sendable () async -> Bool) async throws -> PairingResult {
         // Bonjour 路径（trust-on-first-use）：
         //   1) 先连 endpoint 完成 msg1/msg2 —— 从 readMsg2 得到 agent 公钥
         //   2) 用公钥算 SAS 交 UI 人眼比对
@@ -234,6 +235,14 @@ private func CryptoSHA256(_ data: Data) -> Data {
 }
 
 extension Data {
+    init?(base64urlEncoded string: String) {
+        var s = string
+            .replacingOccurrences(of: "-", with: "+")
+            .replacingOccurrences(of: "_", with: "/")
+        while s.count % 4 != 0 { s.append("=") }
+        self.init(base64Encoded: s)
+    }
+
     func base64urlDecoded() -> Data? {
         var s = String(decoding: self, as: UTF8.self)
             .replacingOccurrences(of: "-", with: "+")

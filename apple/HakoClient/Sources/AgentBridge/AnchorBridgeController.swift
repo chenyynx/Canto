@@ -149,7 +149,7 @@ public final class AnchorActivityLog: AnchorActivityLogging, @unchecked Sendable
 extension AnchorBridgeController {
     /// App 启动装配：真实依赖全部在此汇合（唯一组装点）。
     @MainActor
-    public static func assemble(vpn: VPNController, profiles: ProfilesViewModel) -> AnchorBridgeController {
+    static func assemble(vpn: VPNController, profiles: ProfilesViewModel) -> AnchorBridgeController {
         let identity = AnchorIdentityStore()
         let executor = AnchorAppCommandExecutor(
             vpn: AnchorVPNServiceAdapter(controller: vpn),
