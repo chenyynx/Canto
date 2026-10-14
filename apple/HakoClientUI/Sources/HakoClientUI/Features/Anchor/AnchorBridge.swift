@@ -1,4 +1,5 @@
 import Combine
+import HakoAgentKit
 import Foundation
 import SwiftUI
 
