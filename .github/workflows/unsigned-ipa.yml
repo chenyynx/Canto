@@ -64,7 +64,18 @@ jobs:
           .build/python-env/bin/python3 scripts/configure.py \
             --bundle-base "${{ github.event.inputs.bundle_base }}"
 
+      - name: Resolve SwiftPM packages
+        # 与 ci.yml 同：显式解析一次，确保嵌套本地包（HakoClientUI→HakoAgentKit/HakoClientKit）传递依赖就绪
+        run: |
+          xcodebuild -project apple/HakoClient/HakoClient.xcodeproj -resolvePackageDependencies
+
       - name: Build for device (unsigned)
+        # ⚠️ 判成败只看退出码（与 ci.yml 同规）。旧版用 grep 文本判空：零编译错误（=成功）时
+        #   grep 无匹配 + pipefail + set -e 会静默 exit 1；错误全被 grep -v 过滤时中途管道
+        #   退出码同样触发死法——该写法没有任何成功出口（2026-10-14 实踩，17 次全红）。
+        # ⚠️ 不逐 target 构建 HakoClient：`xcodebuild -target` 对嵌套本地包 target 有模块解析
+        #   缺陷（恒报 unable to resolve module dependency 假错误），其编译由 scheme 构建权威
+        #   覆盖；扩展 target 无嵌套包依赖，可安全逐 target 构建。
         run: |
           set -uo pipefail
           SCHEME_ARGS=(xcodebuild -project apple/HakoClient/HakoClient.xcodeproj \
@@ -77,23 +88,46 @@ jobs:
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" CODE_SIGN_ENTITLEMENTS="")
           rm -f /tmp/xc.log
-          # ① scheme 构建：成功即产出 .app；失败也不中断（继续收集）
-          echo "===== scheme build =====" >> /tmp/xc.log
-          "${SCHEME_ARGS[@]}" build >> /tmp/xc.log 2>&1 || echo "scheme build FAILED" >> /tmp/xc.log
-          # ② 逐 target 构建：把每个 target 的错误都收进来（-keepGoing 在本版本不可用）
-          for T in HakoClient HakoClientExtension HakoControlsExtension HakoShareExtension; do
-            echo "===== target $T =====" >> /tmp/xc.log
-            "${TARGET_ARGS[@]}" -target "$T" build >> /tmp/xc.log 2>&1 || echo "target $T FAILED" >> /tmp/xc.log
+          FAILED=0
+          run_build () {
+            LABEL="$1"; shift
+            echo "===== $LABEL =====" >> /tmp/xc.log
+            if "$@" >> /tmp/xc.log 2>&1; then
+              echo "PASS: $LABEL"
+            else
+              echo "FAIL: $LABEL"
+              FAILED=$((FAILED + 1))
+            fi
+          }
+          # ① scheme 构建：成功即产出 .app；失败不中断（继续收集）
+          run_build "scheme build" "${SCHEME_ARGS[@]}" build
+          # ② 逐 target 构建：把每个扩展 target 的错误都收进来（-keepGoing 在本版本不可用）
+          for T in HakoClientExtension HakoControlsExtension HakoShareExtension; do
+            run_build "target $T" "${TARGET_ARGS[@]}" -target "$T" build
           done
-          # 过滤 -target 构建产生的假模块解析错误（包依赖只在 scheme 构建里解析）
-          ERRORS=$(grep -E ' error:' /tmp/xc.log | grep -v 'Unable to resolve module dependency' | grep -v 'unable to resolve module dependency' | sed 's/^[0-9T:.Z-]* *//' | sort -u)
-          if [ -n "$ERRORS" ]; then
-            echo "=== 全部编译错误（$(echo "$ERRORS" | wc -l | tr -d ' ') 条）==="
-            echo "$ERRORS"
+          if [ "$FAILED" -ne 0 ]; then
+            echo "===== 构建失败（$FAILED 处）——错误摘要 ====="
+            { grep -a ' error:' /tmp/xc.log || true; } | sed 's/^[0-9T:.Z-]* *//' | sort -u | head -100 || true
+            echo "===== xc.log 末尾 80 行 ====="
+            tail -80 /tmp/xc.log || true
             exit 1
           fi
           echo "=== 无编译错误，产物： ==="
-          find .build/dd/Build/Products -maxdepth 2 -name "*.app" | head
+          APP=$(find .build/dd/Build/Products -maxdepth 2 -name "*.app" 2>/dev/null | head -1 || true)
+          if [ -z "$APP" ]; then
+            echo "未找到 .app 产物（构建通过但产物缺失，需检查）"
+            exit 1
+          fi
+          echo "$APP"
+
+      - name: Upload xcodebuild log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcode-build-log
+          path: /tmp/xc.log
+          if-no-files-found: ignore
+          retention-days: 7
 
       - name: Package unsigned IPA
         run: |
