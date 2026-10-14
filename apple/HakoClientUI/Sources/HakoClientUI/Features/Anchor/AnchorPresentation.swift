@@ -329,8 +329,10 @@ private struct AnchorSelectableText: ViewModifier {
     }
 }
 
-// MARK: - 预览 mock（/// 预览/默认调色板：全部取系统语义色，深浅色自适应。
-/// ⚠️ 必须在 DEBUG 之外——Release 构建也要有（HomeCard 的默认参数引用它）。
+// MARK: - 默认调色板（Release 构建同样可用）
+
+/// 预览/默认调色板：全部取系统语义色，深浅色自适应。
+/// ⚠️ 必须在 #if DEBUG 之外——AnchorHomeCard 的默认参数引用它。
 public extension HakoClientUI.HakoProductPalette {
     static var anchorPreview: Self {
 #if os(macOS)
@@ -355,8 +357,11 @@ public extension HakoClientUI.HakoProductPalette {
             separator: Color(uiColor: .separator)
         )
 #endif
+    }
+}
 
 #if DEBUG
+
 
 /// 预览用总门面 mock：不联网、不落盘。
 @MainActor
@@ -468,10 +473,5 @@ let anchorPreviewProfile = AnchorAgentProfile(
     fingerprint: "J5H2QT9M4N7Q2W8Z",
     endpoint: "wss://192.168.1.20:8787/anchor"
 )
-
-/// 预览用调色板：全部取系统语义色，深浅色自适应。
-/// 不依赖 App 侧 `HakoProductPalette.hakoProduct` 扩展（本目录也可能被编进包目标）。
-    }
-}
 
 #endif
