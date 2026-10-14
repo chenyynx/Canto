@@ -8,7 +8,7 @@ let package = Package(
         .target(
             name: "HakoClientUI",
             path: "Sources/HakoClientUI",
-            sources: [".", "../../HakoAgentKit/Sources/HakoAgentKit", "../../HakoClientKit/Sources/HakoClientKit"],
+            sources: [".", "../../../HakoAgentKit/Sources/HakoAgentKit", "../../../HakoClientKit/Sources/HakoClientKit"],
             swiftSettings: [.unsafeFlags(["-Osize"], .when(platforms: [.iOS, .macOS], configuration: .release))]
         )
     ]

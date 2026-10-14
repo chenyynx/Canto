@@ -1,5 +1,4 @@
 import Foundation
-import HakoClientKit
 
 public enum HakoProfileSourceKind:
     String,
