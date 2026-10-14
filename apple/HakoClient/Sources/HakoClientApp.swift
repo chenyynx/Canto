@@ -540,13 +540,7 @@ struct AppShellView: View {
             // 主线程内取值（isConnected / providerRuntimeCatalog 均为 MainActor 隔离）。
             let clientBox = WeakClashCommandClientBox(command)
             ProviderFirstLoadRetry.loadedRuleProvidersInCore = {
-                await MainActor.run {
-                    guard let client = clientBox.client, client.isConnected else { return Set<String>() }
-                    guard let catalog = try? await client.providerRuntimeCatalog() else { return Set<String>() }
-                    return Set(catalog.ruleProviders.compactMap { (name: String, provider: RuleProviderRuntime) in
-                        provider.updatedAt == nil ? nil : name
-                    })
-                }
+                await HakoClientApp.loadedRuleProviderNames(box: clientBox)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: ProviderFirstLoadRetry.didRefreshNotification)) { _ in
@@ -1391,4 +1385,19 @@ private final class ScenePhaseWitness {
 private struct WeakClashCommandClientBox: @unchecked Sendable {
     weak var client: ClashCommandClient?
     init(_ client: ClashCommandClient?) { self.client = client }
+}
+
+extension HakoClientApp {
+    /// 类型检查器对嵌套闭包超时，拆成显式签名的独立函数。
+    fileprivate static func loadedRuleProviderNames(box: WeakClashCommandClientBox) async -> Set<String> {
+        await MainActor.run { () -> Set<String> in
+            guard let client = box.client, client.isConnected else { return Set<String>() }
+            guard let catalog = try? await client.providerRuntimeCatalog() else { return Set<String>() }
+            var names = Set<String>()
+            for (name, provider) in catalog.ruleProviders {
+                if provider.updatedAt != nil { names.insert(name) }
+            }
+            return names
+        }
+    }
 }

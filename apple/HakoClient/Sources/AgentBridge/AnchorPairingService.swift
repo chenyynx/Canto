@@ -1,5 +1,6 @@
 #if os(iOS) || os(macOS)
 import Foundation
+import CryptoKit
 import HakoAgentKit
 import HakoClientUI
 #if canImport(UIKit)
@@ -230,8 +231,8 @@ public enum AnchorPairingFlowError: Error, Equatable {
 // MARK: - 小工具
 
 private func CryptoSHA256(_ data: Data) -> Data {
-    // 复用 HakoAgentKit 的 SHA256（swift-crypto 跨平台）
-    NoisePrimitives.sha256(data)
+    // iOS/macOS 原生 CryptoKit（与 HakoAgentKit 内 swift-crypto 的 SHA256 同算法）
+    Data(SHA256.hash(data: data))
 }
 
 extension Data {
