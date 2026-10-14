@@ -1,18 +1,30 @@
 import CloudKit
 import Foundation
 
- 
- 
- 
- 
+// iCloud entitlement gate（与 CloudKitBackupRecordSink 同因）：无 entitlement 时
+// 不构造 CKContainer（会抛 NSException），直接走 unavailable 错误。
 public final class CloudKitBackupRecordSource: BackupRecordSource, @unchecked Sendable {
-    private let container: CKContainer
+    private let containerIdentifier: String
+    private var container: CKContainer?
 
     public init(containerIdentifier: String) {
-        container = CKContainer(identifier: containerIdentifier)
+        self.containerIdentifier = containerIdentifier
+    }
+
+    private func ensuredContainer() throws -> CKContainer {
+        if let container { return container }
+        guard ICloudEntitlementProbe.hasICloudEntitlement else {
+            throw BackupRecordSourceError.unavailable(
+                "iCloud is not available in this build (no iCloud container entitlement)."
+            )
+        }
+        let created = CKContainer(identifier: containerIdentifier)
+        container = created
+        return created
     }
 
     public func listBackups() async throws -> [BackupRecordSummary] {
+        let container = try ensuredContainer()
         let status: CKAccountStatus
         do {
             status = try await container.accountStatus()
@@ -25,8 +37,6 @@ public final class CloudKitBackupRecordSource: BackupRecordSource, @unchecked Se
         case .noAccount:
             throw BackupRecordSourceError.noAccount
         default:
-             
-             
             throw BackupRecordSourceError.unavailable("iCloud account status: \(Self.name(of: status))")
         }
         let predicate = NSPredicate(format: "%K == %@", BackupRecordSchema.kindField, BackupRecordSchema.kindAuto)
@@ -46,6 +56,7 @@ public final class CloudKitBackupRecordSource: BackupRecordSource, @unchecked Se
     }
 
     public func fetchArchive(installID: String) async throws -> Data {
+        let container = try ensuredContainer()
         let record: CKRecord
         do {
             record = try await container.privateCloudDatabase.record(for: CKRecord.ID(recordName: installID))
@@ -70,8 +81,6 @@ public final class CloudKitBackupRecordSource: BackupRecordSource, @unchecked Se
         }
     }
 
-     
-     
     public static func summary(from record: CKRecord) -> BackupRecordSummary {
         BackupRecordSummary(
             installID: record.recordID.recordName,
