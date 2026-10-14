@@ -13,7 +13,6 @@ import Foundation
 
 #if os(iOS) || os(macOS)
 import Hako
-import HakoAgentKit
 
 final class AnchorMailboxService {
     static let directory = "anchor/mailbox"
