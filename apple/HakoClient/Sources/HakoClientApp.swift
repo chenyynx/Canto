@@ -1388,16 +1388,15 @@ private struct WeakClashCommandClientBox: @unchecked Sendable {
 }
 
 extension HakoClientApp {
-    /// 类型检查器对嵌套闭包超时，拆成显式签名的独立函数。
+    /// 类型检查器对嵌套闭包超时，拆成独立函数；直接标 @MainActor，不用 MainActor.run。
+    @MainActor
     fileprivate static func loadedRuleProviderNames(box: WeakClashCommandClientBox) async -> Set<String> {
-        await MainActor.run { () async -> Set<String> in
-            guard let client = box.client, client.isConnected else { return Set<String>() }
-            guard let catalog = try? await client.providerRuntimeCatalog() else { return Set<String>() }
-            var names = Set<String>()
-            for (name, provider) in catalog.ruleProviders {
-                if provider.updatedAt != nil { names.insert(name) }
-            }
-            return names
+        guard let client = box.client, client.isConnected else { return Set<String>() }
+        guard let catalog = try? await client.providerRuntimeCatalog() else { return Set<String>() }
+        var names = Set<String>()
+        for (name, provider) in catalog.ruleProviders {
+            if provider.updatedAt != nil { names.insert(name) }
         }
+        return names
     }
 }

@@ -62,6 +62,12 @@ jobs:
       - name: Generate Xcode project
         run: .build/python-env/bin/python3 scripts/configure.py
 
+      - name: Resolve SwiftPM packages
+        # HakoAgentKit 经本地包依赖 swift-crypto；xcodebuild 不总是自动解析传递依赖，
+        # 显式跑一次确保 Crypto 模块可构建（2026-10-14 修 CI 实踩）。
+        run: |
+          xcodebuild -project apple/HakoClient/HakoClient.xcodeproj -resolvePackageDependencies
+
       - name: Build HakoClient (unsigned, iOS Simulator)
         # ⚠️ pipefail + 逐 target：xcodebuild|tee 曾吞掉失败退出码导致假绿（2026-10-13）
         run: |
