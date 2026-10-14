@@ -692,7 +692,13 @@ struct AppShellView: View {
 
     private var compactTabShell: some View {
         TabView(selection: appTabSelection) {
-            homeRoot
+            // 2026-10-15：包 HakoFeatureNavigationContainer（与 utilities/more
+            // tab 同款）——首页此前没有任何 NavigationStack，Anchor 卡的
+            // NavigationLink 静默无效（点击无反应）。包上后原生 push 生效，
+            // 其余卡片走 navigate(to:) 根切换不受影响。
+            HakoFeatureNavigationContainer {
+                homeRoot
+            }
             .tabItem {
                  
                  
