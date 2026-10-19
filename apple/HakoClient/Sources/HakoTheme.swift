@@ -105,6 +105,9 @@ enum HakoTheme {
 }
 
 extension HakoClientUI.HakoProductPalette {
+    /// 上游 Clash-Client 的命名别名，便于按文件搬运上游代码时无需改名。
+    static var clashProduct: HakoClientUI.HakoProductPalette { hakoProduct }
+
      
      
      
