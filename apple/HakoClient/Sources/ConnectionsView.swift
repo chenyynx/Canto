@@ -54,7 +54,9 @@ struct ConnectionsView: View {
 #else
                     UIPasteboard.general.string = value
 #endif
-                case .clearRequests, .clearLogs, .exportLogs, .setLogRecording, .setLogRetention,
+                case .clearRequests:
+                    await model.clearRequestHistory()
+                case .clearLogs, .exportLogs, .setLogRecording, .setLogRetention,
                      .setLogSeverityFilter, .setLogLevelDirective, .openLogSettings:
                     break
                 }
