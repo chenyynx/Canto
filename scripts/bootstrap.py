@@ -41,13 +41,24 @@ def verify_sdk(sdk, revision):
         if info['sourceRevision']!=revision or info['sourceDirty'] or info['internalDiagnostics'] or info['debugBuild']:
             raise RuntimeError('SDK provenance does not match public source build')
 
+def sdk_provenance_ok(sdk, revision):
+    try:
+        verify_sdk(sdk, revision); return True
+    except Exception:
+        return False
+
 def main():
     lock=json.loads((ROOT/'Dependencies.lock.json').read_text())
     kernel=checkout('kernel',lock['kernel']);adapter=checkout('adapter',lock['adapter'])
     sdk=kernel/'Hako.xcframework';receipt=kernel.parent/'sdk-inventory.json'
-    reuse=sdk.exists() and receipt.exists() and json.loads(receipt.read_text())==inventory(sdk)
+    reuse=(sdk.exists() and receipt.exists() and json.loads(receipt.read_text())==inventory(sdk)
+           and sdk_provenance_ok(sdk,lock['kernel']['revision']))
     if not reuse:
-        if sdk.exists(): raise RuntimeError('Unverified SDK exists; move it aside before rebuilding')
+        # 缓存恢复（restore-key 前缀命中）可能带回过期 SDK：revision 对不上即整体移开重建
+        if sdk.exists():
+            stale=kernel.parent/('sdk-stale-'+lock['kernel']['revision'][:12])
+            if stale.exists(): shutil.rmtree(stale)
+            shutil.move(str(sdk),str(stale))
         bins=ROOT/'.build/bin';bins.mkdir(parents=True,exist_ok=True)
         env=dict(os.environ,GOBIN=str(bins),PATH=str(bins)+os.pathsep+os.environ['PATH'])
         for tool in ('gomobile','gobind'): run('go','install',lock[tool],env=env)
