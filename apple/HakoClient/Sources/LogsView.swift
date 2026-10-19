@@ -352,7 +352,8 @@ struct LogsContent: View {
 #endif
                 case .refresh,
                      .closeConnection,
-                     .closeAllConnections:
+                     .closeAllConnections,
+                     .clearRequests:
                     break
                 }
             },
