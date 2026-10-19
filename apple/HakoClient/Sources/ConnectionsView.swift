@@ -42,6 +42,7 @@ struct ConnectionsView: View {
                      
                     if command.isConnected { await model.refresh() }
                     else { command.reconnectIfNeeded() }
+                 
                 case .closeConnection(let id):
                     await model.close(id)
                 case .closeAllConnections:
@@ -53,7 +54,7 @@ struct ConnectionsView: View {
 #else
                     UIPasteboard.general.string = value
 #endif
-                case .clearLogs, .exportLogs, .setLogRecording, .setLogRetention,
+                case .clearRequests, .clearLogs, .exportLogs, .setLogRecording, .setLogRetention,
                      .setLogSeverityFilter, .setLogLevelDirective, .openLogSettings:
                     break
                 }
@@ -87,7 +88,7 @@ struct ConnectionsView: View {
 
 @MainActor
 enum HakoActivityIOSAdapter {
-    static let palette = HakoClientUI.HakoProductPalette.hakoProduct
+    static let palette = HakoClientUI.HakoProductPalette.clashProduct
 
      
      

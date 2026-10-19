@@ -4,9 +4,15 @@ struct ConnectionSamplingGate {
     private(set) var lastSequence: UInt64 = 0
     private var nextDeadline: UInt64 = 0
     let interval: UInt64 = 1_000_000_000
+     
+     
+     
+     
+     
+    var maxAge: UInt64 = 1_000_000_000
 
     mutating func accept(sequence: UInt64, observedAt: UInt64, now: UInt64, immediate: Bool = false) -> Bool {
-        guard sequence > lastSequence, observedAt <= now, now - observedAt <= interval,
+        guard sequence > lastSequence, observedAt <= now, now - observedAt <= maxAge,
               immediate || now >= nextDeadline else { return false }
         lastSequence = sequence
         nextDeadline = now.addingReportingOverflow(interval).overflow ? .max : now + interval
@@ -16,6 +22,14 @@ struct ConnectionSamplingGate {
     mutating func resume() { nextDeadline = 0; lastSequence = 0 }
 }
 
+ 
+ 
+ 
+enum ConnectionGapKind: Equatable {
+    case decoder
+    case runtimeConfirmation
+}
+
 struct ConnectionObservation<Value> {
     let value: Value
     let sequence: UInt64
@@ -23,6 +37,11 @@ struct ConnectionObservation<Value> {
     let observedDate: Date
     let transportGeneration: UInt64
     let runtimeIdentity: String?
+     
+     
+    var tableSequence: UInt64? = nil
+     
+    var decodedSequence: UInt64 { tableSequence ?? sequence }
     func age(at now: UInt64) -> UInt64 { now >= observedAt ? now - observedAt : .max }
 }
 
@@ -42,6 +61,26 @@ protocol ConnectionSourceTransport: AnyObject {
 
  
  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+struct HakoReconnectBackoff {
+    static let delays: [TimeInterval] = [1, 1, 2, 5, 30]
+    private(set) var failures = 0
+
+    mutating func nextDelay() -> TimeInterval {
+        defer { failures += 1 }
+        return Self.delays[min(failures, Self.delays.count - 1)]
+    }
+
+    mutating func reset() { failures = 0 }
+}
+
 final class ConnectionTransportBox: @unchecked Sendable {
     let value: ConnectionSourceTransport
     init(_ value: ConnectionSourceTransport) { self.value = value }
@@ -95,12 +134,16 @@ private final class ConnectionMailbox<Value>: @unchecked Sendable {
     private let consume: @MainActor (Decoded) -> Void
     private let maxFrames: Int
     private let maxBytes: Int
+     
+     
+    private let memoizes: Bool
     private var lastText: String?
     private var lastValue: Value?
 
-    init(clock: ConnectionReceiptClock, maxFrames: Int, maxBytes: Int,
+    init(clock: ConnectionReceiptClock, maxFrames: Int, maxBytes: Int, memoizes: Bool = true,
          parse: @escaping (String) -> Value?, consume: @escaping @MainActor (Decoded) -> Void) {
         self.clock = clock; self.maxFrames = maxFrames; self.maxBytes = maxBytes
+        self.memoizes = memoizes
         self.parse = parse; self.consume = consume
     }
 
@@ -134,7 +177,17 @@ private final class ConnectionMailbox<Value>: @unchecked Sendable {
     private func next() -> (Item?, Int)? {
         lock.lock(); defer { lock.unlock() }
         if closed { queue.removeAll(); byteCount = 0; dropped = 0; control = nil; lastText = nil; lastValue = nil }
-        if let item = control { control = nil; return (item, 0) }
+         
+         
+         
+         
+        if let item = control {
+            if case .disconnected = item.event, !queue.isEmpty {
+                 
+            } else {
+                control = nil; return (item, 0)
+            }
+        }
         if dropped > 0 {
             let count = dropped; dropped = 0
             return (nil, count)
@@ -142,6 +195,16 @@ private final class ConnectionMailbox<Value>: @unchecked Sendable {
         guard !queue.isEmpty else { worker = nil; return nil }
         let item = queue.removeFirst(); byteCount -= item.bytes
         return (item, 0)
+    }
+
+     
+    private func hasQueuedFrame() -> Bool {
+        lock.lock(); defer { lock.unlock() }
+         
+         
+        var controlWaits = control == nil
+        if let item = control, case .disconnected = item.event { controlWaits = true }
+        return !closed && controlWaits && dropped == 0 && !queue.isEmpty
     }
 
     private func drain() async {
@@ -153,14 +216,21 @@ private final class ConnectionMailbox<Value>: @unchecked Sendable {
             case let .disconnected(message): await consume(.disconnected(message))
             case let .snapshot(text):
                 let value: Value?
-                if text == lastText {
+                if memoizes, text == lastText {
                     value = lastValue
                 } else {
                     value = parse(text)
-                    lastText = text
-                    lastValue = value
+                    if memoizes { lastText = text; lastValue = value }
                 }
-                if let value { await consume(.snapshot(value, item.receipt)) }
+                 
+                 
+                 
+                 
+                 
+                if let value {
+                    if hasQueuedFrame() { continue }
+                    await consume(.snapshot(value, item.receipt))
+                }
                 else { await consume(.gap(1, "Invalid connections snapshot")) }
             }
         }
@@ -192,14 +262,14 @@ final class ConnectionObservationSource<Value> {
     enum Event {
         case frame(ConnectionObservation<Value>)
         case state(connected: Bool, error: String)
-        case gap(count: Int, reason: String)
+        case gap(count: Int, reason: String, kind: ConnectionGapKind)
         case runtimeChanged
     }
     private struct Subscriber {
         let id: UUID
         let diagnostic: Bool
         let receive: (Event) -> Void
-        var gate = ConnectionSamplingGate()
+        var gate: ConnectionSamplingGate
     }
     private struct Attempt {
         let generation: UInt64
@@ -210,6 +280,34 @@ final class ConnectionObservationSource<Value> {
 
     private let factory: Factory
     private let parse: (String) -> Value?
+     
+     
+    private let parseSnapshot: (String) -> Value?
+     
+    private let memoizesIdenticalFrames: Bool
+     
+     
+     
+     
+    private let resubscribesOnDecoderGap: Bool
+     
+     
+     
+    private var framesSinceConnect = 0
+     
+     
+     
+     
+     
+    private let cumulativeFrames: Bool
+     
+    let closedLog: ConnectionClosedLog?
+     
+     
+     
+     
+     
+    private var lastDecodedFrame: ConnectionObservation<Value>?
     private let clock: ConnectionReceiptClock
     private let schedulesTicks: Bool
     private let requiresRuntimeIdentification: Bool
@@ -231,6 +329,7 @@ final class ConnectionObservationSource<Value> {
     private var attempt: Attempt?
     private var cleanup: Task<Void, Never>?
     private var pendingStart: Task<Void, Never>?
+    private var backoff = HakoReconnectBackoff()
     private var timer: Task<Void, Never>?
     private var generation: UInt64 = 0
     private var mutation: UInt64 = 0
@@ -252,7 +351,18 @@ final class ConnectionObservationSource<Value> {
 
     init(now: @escaping () -> UInt64 = { DispatchTime.now().uptimeNanoseconds },
          schedulesTicks: Bool = true, requiresRuntimeIdentification: Bool = false, maxFrames: Int = 8, maxBytes: Int = 4 * 1_024 * 1_024,
-         parse: @escaping (String) -> Value?, factory: @escaping Factory) {
+         parse: @escaping (String) -> Value?,
+         parseSnapshot: ((String) -> Value?)? = nil,
+         memoizesIdenticalFrames: Bool = true,
+         resubscribesOnDecoderGap: Bool = false,
+         cumulativeFrames: Bool = false,
+         closedLog: ConnectionClosedLog? = nil,
+         factory: @escaping Factory) {
+        self.cumulativeFrames = cumulativeFrames
+        self.closedLog = closedLog
+        self.parseSnapshot = parseSnapshot ?? parse
+        self.memoizesIdenticalFrames = memoizesIdenticalFrames
+        self.resubscribesOnDecoderGap = resubscribesOnDecoderGap
         clock = ConnectionReceiptClock(now: now)
         self.schedulesTicks = schedulesTicks
         self.requiresRuntimeIdentification = requiresRuntimeIdentification
@@ -263,7 +373,9 @@ final class ConnectionObservationSource<Value> {
     func acquire(diagnostic: Bool = false, receive: @escaping (Event) -> Void) -> ConnectionSourceLease {
         let id = UUID()
         let previousOwner = diagnosticOwnerID
-        subscribers.append(Subscriber(id: id, diagnostic: diagnostic, receive: receive))
+        var gate = ConnectionSamplingGate()
+        if cumulativeFrames { gate.maxAge = .max }
+        subscribers.append(Subscriber(id: id, diagnostic: diagnostic, receive: receive, gate: gate))
         if previousOwner != diagnosticOwnerID { diagnosticFloor = clock.current() }
         receive(.state(connected: connected, error: ""))
         if let latest, !diagnostic { publishHistory(latest, only: id, immediate: true) }
@@ -275,7 +387,7 @@ final class ConnectionObservationSource<Value> {
         let previousOwner = diagnosticOwnerID
         subscribers.removeAll { $0.id == id }
         if previousOwner != diagnosticOwnerID { revokeRuntimeConfirmation() }
-        if subscribers.isEmpty { stopAttempt() }
+        if subscribers.isEmpty { stopAttempt(); backoff.reset() }
         else if !subscribers.contains(where: { !$0.diagnostic }) { timer?.cancel(); timer = nil }
     }
 
@@ -288,7 +400,8 @@ final class ConnectionObservationSource<Value> {
             confirmedOwnerID = owner
         }
         if unconfirmedFrames > 1 {
-            broadcast(.gap(count: unconfirmedFrames - 1, reason: "Runtime identity was not yet confirmed"))
+            broadcast(.gap(count: unconfirmedFrames - 1, reason: "Runtime identity was not yet confirmed",
+                           kind: .runtimeConfirmation))
         }
         unconfirmedFrames = 0
         guard identity != runtimeIdentity else { return }
@@ -299,10 +412,11 @@ final class ConnectionObservationSource<Value> {
         if replacingKnownRuntime { broadcast(.runtimeChanged) }
     }
 
-    func reportDiagnosticGap(reason: String, invalidateLatest: Bool = true) {
+    func reportDiagnosticGap(reason: String, invalidateLatest: Bool = true,
+                             kind: ConnectionGapKind = .runtimeConfirmation) {
         gapCount += 1
         if invalidateLatest { invalidateHistory() }
-        broadcast(.gap(count: 1, reason: reason))
+        broadcast(.gap(count: 1, reason: reason, kind: kind))
     }
 
      
@@ -315,8 +429,12 @@ final class ConnectionObservationSource<Value> {
         frame.sequence > diagnosticFloor && frame.sequence > identityFloor
     }
 
+     
+     
+    var receiptSequence: UInt64 { clock.current() }
+
     private func isHistoryEligible(_ frame: ConnectionObservation<Value>) -> Bool {
-        pendingMutations == 0 && canPublishHistory &&
+        (cumulativeFrames || pendingMutations == 0) && canPublishHistory &&
         frame.transportGeneration == generation && frame.runtimeIdentity == runtimeIdentity &&
         frame.sequence > historyFloor
     }
@@ -380,7 +498,9 @@ final class ConnectionObservationSource<Value> {
         }
         generation &+= 1
         let token = generation
-        let mailbox = ConnectionMailbox<Value>(clock: clock, maxFrames: maxFrames, maxBytes: maxBytes, parse: parse) {
+        framesSinceConnect = 0
+        let mailbox = ConnectionMailbox<Value>(clock: clock, maxFrames: maxFrames, maxBytes: maxBytes,
+                                               memoizes: memoizesIdenticalFrames, parse: parse) {
             [weak self] event in self?.consume(event, generation: token)
         }
         do {
@@ -399,18 +519,33 @@ final class ConnectionObservationSource<Value> {
         guard token == generation, attempt != nil else { return }
         switch event {
         case .connected:
+             
+             
             connected = true
+            backoff.reset()
             broadcast(.state(connected: true, error: ""))
         case let .disconnected(message):
             connectionFailed(message, generation: token)
         case let .gap(count, reason):
             gapCount += count
             invalidateHistory()
-            broadcast(.gap(count: count, reason: reason))
+            broadcast(.gap(count: count, reason: reason, kind: .decoder))
+             
+             
+             
+            if resubscribesOnDecoderGap { connectionFailed(reason, generation: token) }
         case let .snapshot(value, receipt):
             guard receipt.sequence > lastDecodedSequence else { return }
             lastDecodedSequence = receipt.sequence
-            guard receipt.sequence > identityFloor else {
+            framesSinceConnect += 1
+             
+             
+             
+             
+             
+            let stamp = cumulativeFrames ? clock.receipt() : receipt
+            closedLog?.stamp(stamp.sequence)
+            guard cumulativeFrames || receipt.sequence > identityFloor else {
                 reportDiagnosticGap(reason: "Queued frame predates runtime confirmation", invalidateLatest: false)
                 return
             }
@@ -418,12 +553,13 @@ final class ConnectionObservationSource<Value> {
                 connected = true
                 broadcast(.state(connected: true, error: ""))
             }
-            let frame = ConnectionObservation(value: value, sequence: receipt.sequence,
-                observedAt: receipt.uptime, observedDate: receipt.date,
+            let frame = ConnectionObservation(value: value, sequence: stamp.sequence,
+                observedAt: stamp.uptime, observedDate: stamp.date,
                 transportGeneration: token, runtimeIdentity: runtimeIdentity)
              
              
             confirmedOwnerID = nil
+            lastDecodedFrame = frame
             let owner = subscribers.first(where: \.diagnostic)
             confirmingOwnerID = owner?.id
             owner?.receive(.frame(frame))
@@ -434,12 +570,13 @@ final class ConnectionObservationSource<Value> {
                 unconfirmedFrames += 1
                 if unconfirmedFrames == 1 {
                     revokeRuntimeConfirmation()
-                    broadcast(.gap(count: 1, reason: "Awaiting verified runtime identity; observations incomplete"))
+                    broadcast(.gap(count: 1, reason: "Awaiting verified runtime identity; observations incomplete",
+                                   kind: .runtimeConfirmation))
                 }
                 return
             }
-            guard receipt.sequence > historyFloor, pendingMutations == 0,
-                  latest == nil || receipt.sequence > latest!.sequence else { return }
+            guard stamp.sequence > historyFloor, cumulativeFrames || pendingMutations == 0,
+                  latest == nil || stamp.sequence > latest!.sequence else { return }
             latest = frame
              
             for id in subscribers.filter({ !$0.diagnostic && $0.gate.lastSequence == 0 }).map(\.id) {
@@ -466,13 +603,20 @@ final class ConnectionObservationSource<Value> {
 
     private func connectionFailed(_ message: String, generation token: UInt64) {
         guard token == generation else { return }
+         
+         
+         
+         
+         
+        let quiet = connected && framesSinceConnect > 0 && backoff.failures == 0
         stopAttempt()
-        broadcast(.state(connected: false, error: message))
+        broadcast(.state(connected: false, error: quiet ? "" : message))
         let barrier = cleanup
         let restartGeneration = generation
+        let delay = backoff.nextDelay()
         pendingStart = Task { [weak self] in
             await barrier?.value
-            do { try await Task.sleep(nanoseconds: 1_000_000_000) } catch { return }
+            do { try await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000)) } catch { return }
             guard !Task.isCancelled, let self, restartGeneration == self.generation else { return }
             self.cleanup = nil; self.pendingStart = nil
             self.startIfNeeded()
@@ -481,6 +625,7 @@ final class ConnectionObservationSource<Value> {
 
     private func stopAttempt() {
         generation &+= 1
+        lastDecodedFrame = nil
         timer?.cancel(); timer = nil
         pendingStart?.cancel(); pendingStart = nil
         connected = false
@@ -504,6 +649,34 @@ final class ConnectionObservationSource<Value> {
     func waitForStop() async { await cleanup?.value }
 
     func refresh() async throws {
+         
+         
+         
+         
+         
+        if !canPublishHistory, let frame = lastDecodedFrame,
+           frame.transportGeneration == generation,
+           let owner = subscribers.first(where: \.diagnostic) {
+            confirmedOwnerID = nil
+            confirmingOwnerID = owner.id
+            owner.receive(.frame(frame))
+            confirmingOwnerID = nil
+        }
+         
+         
+         
+        if cumulativeFrames {
+            guard attempt != nil, canPublishHistory, let last = lastDecodedFrame,
+                  last.transportGeneration == generation else { return }
+            let receipt = clock.receipt()
+            let frame = ConnectionObservation(value: last.value, sequence: receipt.sequence,
+                observedAt: receipt.uptime, observedDate: last.observedDate,
+                transportGeneration: generation, runtimeIdentity: runtimeIdentity,
+                tableSequence: last.decodedSequence)
+            latest = frame
+            publishHistory(frame, immediate: true)
+            return
+        }
         guard let attempt, pendingMutations == 0, canPublishHistory else { return }
         refreshRequest &+= 1
         let request = refreshRequest
@@ -511,11 +684,11 @@ final class ConnectionObservationSource<Value> {
         let receiptBefore = clock.current()
         let box = attempt.client
         let token = generation
-        let parse = self.parse
+        let parse = self.parseSnapshot
         let value = try await Task.detached { () throws -> Value in
             let raw = try box.value.snapshot()
             guard let value = parse(raw) else {
-                throw NSError(domain: "Hako.Connections", code: 1,
+                throw NSError(domain: "Clash.Connections", code: 1,
                               userInfo: [NSLocalizedDescriptionKey: "Invalid connections snapshot"])
             }
             return value
@@ -534,25 +707,38 @@ final class ConnectionObservationSource<Value> {
         publishHistory(frame, immediate: true)
     }
 
-    func close(_ id: String?) async throws {
-        guard let attempt, !closingAll else { return }
+     
+     
+     
+    @discardableResult
+    func close(_ id: String?) async throws -> Bool {
+        guard let attempt else {
+            throw NSError(domain: "Clash.Connections", code: 2,
+                          userInfo: [NSLocalizedDescriptionKey: "The connections stream is unavailable."])
+        }
+        guard !closingAll else { return false }
         if let id {
-            guard closingIDs.insert(id).inserted else { return }
+            guard closingIDs.insert(id).inserted else { return false }
         } else {
-            guard closingIDs.isEmpty else { return }
+            guard closingIDs.isEmpty else { return false }
             closingAll = true
         }
-        mutation &+= 1; pendingMutations += 1; invalidateHistory()
+         
+         
+         
+        let invalidates = !cumulativeFrames
+        mutation &+= 1; pendingMutations += 1
+        if invalidates { invalidateHistory() }
         let token = generation
         defer {
             pendingMutations -= 1
             if let id { closingIDs.remove(id) } else { closingAll = false }
-            if token == generation { invalidateHistory() }
+            if invalidates, token == generation { invalidateHistory() }
         }
         let box = attempt.client
         try await Task.detached {
             if let id { try box.value.closeConnection(id) } else { try box.value.closeConnections() }
         }.value
-        guard token == generation else { return }
+        return true
     }
 }

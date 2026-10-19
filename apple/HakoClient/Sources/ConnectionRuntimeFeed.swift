@@ -41,6 +41,10 @@ final class ConnectionRuntimeFeed {
         let id: UUID
         let sceneManaged: Bool
         let context: () -> ConnectionDiagnosticContext?
+         
+         
+         
+        let projects: () -> Bool
         let receive: ([String]) -> Void
     }
     private var sinks: [DiagnosticSink] = []
@@ -67,15 +71,20 @@ final class ConnectionRuntimeFeed {
     }
 
     func acquireDiagnostics(sceneManaged: Bool = false, context: @escaping () -> ConnectionDiagnosticContext?,
+                            projects: @escaping () -> Bool = { true },
                             receive: @escaping ([String]) -> Void) -> ConnectionDiagnosticLease {
         let id = UUID()
-        sinks.append(DiagnosticSink(id: id, sceneManaged: sceneManaged, context: context, receive: receive))
+        sinks.append(DiagnosticSink(id: id, sceneManaged: sceneManaged, context: context,
+                                    projects: projects, receive: receive))
         if diagnosticLease == nil {
             diagnosticLease = source.acquire(diagnostic: true) { [weak self] event in
                 guard let self else { return }
                 switch event {
                 case let .frame(frame): self.project(frame)
-                case let .gap(count, reason):
+                case let .gap(count, reason, _):
+                     
+                     
+                    guard self.sinks.contains(where: { $0.projects() }) else { return }
                     let line = "connections diagnostic gap: \(count) frame(s); \(reason)"
                     self.fanOut([line])
                     HakoLogStore.shared.append(line, stream: .app, level: .warning)
@@ -142,6 +151,10 @@ final class ConnectionRuntimeFeed {
             guard source.isEligibleForDiagnosticProjection(frame) else { return }
             acceptedContext = context
         }
+         
+         
+         
+        guard sinks.contains(where: { $0.projects() }) else { return }
         var evidence: [RuntimeRouteEvidence] = []
         if let pause = observationPause {
             evidence.append(boundary(.observationsResumed, pause: pause, context: context.route, at: frame.observedDate))
@@ -164,21 +177,40 @@ final class ConnectionRuntimeFeed {
         clientFactory: @escaping ConnectionsClientFactory = makeNativeConnectionsClient,
         requiresRuntimeIdentification: Bool = false
     ) -> ConnectionObservationSource<[HakoConnection]> {
-        ConnectionObservationSource(requiresRuntimeIdentification: requiresRuntimeIdentification, parse: ConnectionsParser.parseValid) { receive in
+         
+         
+        let table = ConnectionEventTable()
+        return ConnectionObservationSource(
+            requiresRuntimeIdentification: requiresRuntimeIdentification,
+             
+             
+             
+            maxFrames: 100_000,
+            maxBytes: 64 * 1_024 * 1_024,
+            parse: { table.apply($0) },
+            parseSnapshot: ConnectionsParser.parseValid,
+             
+             
+            memoizesIdenticalFrames: false,
+            resubscribesOnDecoderGap: true,
+            cumulativeFrames: true,
+            closedLog: table.closedLog
+        ) { receive in
             guard let path = socketPath() else {
-                throw NSError(domain: "Hako.Connections", code: 1,
+                throw NSError(domain: "Clash.Connections", code: 1,
                               userInfo: [NSLocalizedDescriptionKey: "App Group unavailable"])
             }
             return try clientFactory(path, Handler(receive: receive))
         }
     }
 
-    private final class Handler: NSObject, HakoClashAPIClientHandlerProtocol {
+    private final class Handler: NSObject, HakoClashAPIClientHandlerProtocol, HakoConnectionEventsWriterProtocol {
         let receive: (ConnectionTransportEvent) -> Void
         init(receive: @escaping (ConnectionTransportEvent) -> Void) { self.receive = receive }
         func connected() { receive(.connected) }
         func disconnected(_ message: String?) { receive(.disconnected(message ?? "Connections stream disconnected")) }
         func writeConnections(_ message: String?) { receive(.snapshot(message ?? "")) }
+        func writeConnectionEvents(_ message: String?) { receive(.snapshot(message ?? "")) }
         func writeTraffic(_: String?) {}
         func writeMemory(_: String?) {}
         func writeLogs(_: String?) {}
