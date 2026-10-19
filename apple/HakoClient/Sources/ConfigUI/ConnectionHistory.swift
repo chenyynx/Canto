@@ -34,12 +34,50 @@ struct ConnectionHistory {
      
     private var indexByID: [String: Int] = [:]
     private var runtimeGeneration: UInt64 = 0
+     
+     
+     
+     
+     
+     
+     
+    private var sealed: [String: UInt64] = [:]
+     
+     
+     
+     
+    private var clearedAt: Date?
+
+     
+     
+     
+    mutating func clear(at now: Date = Date()) {
+        entries = []
+        indexByID = [:]
+        sealed = [:]
+        clearedAt = now
+        runtimeGeneration &+= 1
+    }
 
      
      
     mutating func beginRuntime(at now: Date) {
         record([], at: now)
+        sealed = [:]
         runtimeGeneration &+= 1
+    }
+
+     
+    private func predatesClear(_ connection: HakoConnection) -> Bool {
+        guard let clearedAt, let start = connection.start else { return false }
+        return start < clearedAt
+    }
+
+     
+     
+    mutating func releaseSeals(before sequence: UInt64) {
+        guard !sealed.isEmpty else { return }
+        sealed = sealed.filter { $0.value >= sequence }
     }
 
     private func entryID(_ connectionID: String) -> String {
@@ -52,12 +90,14 @@ struct ConnectionHistory {
 
         for connection in live {
             let id = entryID(connection.id)
-            liveIDs.insert(id)
+            guard sealed[id] == nil else { continue }
             if let position = indexByID[id] {
+                liveIDs.insert(id)
                 entries[position].connection = connection
                 entries[position].lastSeen = now
                 entries[position].closedAt = nil
-            } else {
+            } else if !predatesClear(connection) {
+                liveIDs.insert(id)
                 indexByID[id] = entries.count
                 entries.append(Entry(connection: connection, firstSeen: now,
                                      lastSeen: now, closedAt: nil, runtimeGeneration: runtimeGeneration))
@@ -84,6 +124,37 @@ struct ConnectionHistory {
             }
         }
         evictIfNeeded()
+        reindex()
+    }
+
+     
+     
+     
+    mutating func recordClosed(_ closed: [ClosedConnection], evicts: Bool = true) {
+        guard !closed.isEmpty else { return }
+        for item in closed {
+            let id = entryID(item.connection.id)
+            sealed[id] = max(sealed[id] ?? 0, item.stamp)
+            if indexByID[id] == nil, predatesClear(item.connection) { continue }
+            if let position = indexByID[id] {
+                 
+                entries[position].connection = item.connection
+                entries[position].closedAt = item.closedAt
+                entries[position].lastSeen = max(entries[position].lastSeen, item.closedAt)
+            } else {
+                let firstSeen = min(item.connection.start ?? item.closedAt, item.closedAt)
+                indexByID[id] = entries.count
+                entries.append(Entry(connection: item.connection, firstSeen: firstSeen,
+                                     lastSeen: item.closedAt, closedAt: item.closedAt,
+                                     runtimeGeneration: runtimeGeneration))
+            }
+        }
+        entries.sort {
+            if $0.lastSeen != $1.lastSeen { return $0.lastSeen > $1.lastSeen }
+            if $0.firstSeen != $1.firstSeen { return $0.firstSeen > $1.firstSeen }
+            return $0.id > $1.id
+        }
+        if evicts { evictIfNeeded() }
         reindex()
     }
 
