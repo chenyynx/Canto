@@ -98,6 +98,7 @@ public enum HakoActivityCommand: Codable, Equatable, Sendable {
     case refresh
     case closeConnection(id: String)
     case closeAllConnections
+    case clearRequests
     case clearLogs
     case exportLogs
      
