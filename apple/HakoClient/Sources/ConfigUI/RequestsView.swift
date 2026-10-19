@@ -50,6 +50,8 @@ struct RequestsView: View {
                     await model.close(id)
                 case .closeAllConnections:
                     await model.closeAll()
+                case .clearRequests:
+                    await model.clearRequestHistory()
                 case .clearLogs, .exportLogs, .setLogRecording, .setLogRetention,
                      .setLogSeverityFilter, .setLogLevelDirective, .openLogSettings:
                     break
