@@ -5,6 +5,7 @@ import Foundation
 ///
 /// 用途：活动页滚动/查看详情时冻结请求列表，避免高频刷新把正在看的行顶走；
 /// ConnectionsModel 在隧道状态变化时调用 `shared.clear()` 让暂停态失效。
+@MainActor
 public final class HakoActivityRequestsPause: ObservableObject {
     public static let shared = HakoActivityRequestsPause()
 
