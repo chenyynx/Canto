@@ -75,6 +75,12 @@ enum HakoCommandCapability {
 enum HakoCommandCompatibilityError: LocalizedError, Equatable {
     case invalidPeerRange(minimum: Int32, current: Int32)
     case incompatible(localMinimum: Int32, localCurrent: Int32, peerMinimum: Int32, peerCurrent: Int32)
+     
+     
+     
+    case transportNotReady
+    case transportNoReply
+    case malformedHello(String)
 
     var errorDescription: String? {
         switch self {
@@ -82,6 +88,12 @@ enum HakoCommandCompatibilityError: LocalizedError, Equatable {
             return "Extension returned an invalid command schema range \(minimum)...\(current)."
         case let .incompatible(localMinimum, localCurrent, peerMinimum, peerCurrent):
             return "App command schema \(localMinimum)...\(localCurrent) is incompatible with Extension \(peerMinimum)...\(peerCurrent). Reinstall or update Hako."
+        case .transportNotReady:
+            return "The tunnel is not ready to receive commands yet."
+        case .transportNoReply:
+            return "The tunnel extension did not reply to the command session."
+        case let .malformedHello(reply):
+            return "The tunnel extension replied with an unreadable hello: \(reply)"
         }
     }
 }
@@ -703,8 +715,11 @@ struct HakoClient {
     }
 
     func hello() async throws -> HakoCommandHello {
+        guard await waitUntilActive(upToNanoseconds: 3_000_000_000) else {
+            throw HakoCommandCompatibilityError.transportNotReady
+        }
         guard let data = await send(["cmd": "hello"]) else {
-            throw HakoCommandCompatibilityError.invalidPeerRange(minimum: 0, current: 0)
+            throw HakoCommandCompatibilityError.transportNoReply
         }
         do {
             let hello = try JSONDecoder().decode(HakoCommandHello.self, from: data)
@@ -713,8 +728,24 @@ struct HakoClient {
         } catch let error as HakoCommandCompatibilityError {
             throw error
         } catch {
-            throw HakoCommandCompatibilityError.invalidPeerRange(minimum: 0, current: 0)
+            let raw = String(data: data.prefix(200), encoding: .utf8) ?? "<binary>"
+            throw HakoCommandCompatibilityError.malformedHello(raw)
         }
+    }
+
+    /// 隧道刚变 connected 的头几十毫秒内，session 状态与扩展消息通道尚未就绪，
+    /// 立即发 hello 会直接拿到 nil（旧代码把它误报成 schema 0...0）。
+    /// 这里按需轮询等待，最多 3 秒。
+    private func waitUntilActive(upToNanoseconds limit: UInt64) async -> Bool {
+        if isVPNActive { return true }
+        let step: UInt64 = 100_000_000
+        var waited: UInt64 = 0
+        while waited < limit {
+            try? await Task.sleep(nanoseconds: step)
+            waited += step
+            if isVPNActive { return true }
+        }
+        return isVPNActive
     }
 
 
