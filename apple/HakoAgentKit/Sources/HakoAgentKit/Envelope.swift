@@ -56,6 +56,30 @@ public struct Envelope: Codable, Equatable {
         case ok, status, err, meta, reason
     }
 
+    /// 容错解码（2026-10-21）：TS 侧 daemon 的历史实现不发 `v` 字段，
+    /// Swift 侧严格解码会抛 keyNotFound("v")，表现为配对后「握手/解码失败」。
+    /// 协议约定 v 缺省为 1，这里显式兜底，同时兼容两端版本错位。
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        v = try c.decodeIfPresent(Int.self, forKey: .v) ?? 1
+        t = try c.decode(String.self, forKey: .t)
+        id = try c.decode(String.self, forKey: .id)
+        ref = try c.decodeIfPresent(String.self, forKey: .ref)
+        seq = try c.decodeIfPresent(Int.self, forKey: .seq)
+        ch = try c.decodeIfPresent(String.self, forKey: .ch)
+        op = try c.decodeIfPresent(String.self, forKey: .op)
+        args = try c.decodeIfPresent([String: JSONValue].self, forKey: .args)
+        data = try c.decodeIfPresent([String: JSONValue].self, forKey: .data)
+        ttlMs = try c.decodeIfPresent(Int.self, forKey: .ttlMs)
+        idem = try c.decodeIfPresent(String.self, forKey: .idem)
+        self.if = try c.decodeIfPresent(Precondition.self, forKey: .if)
+        ok = try c.decodeIfPresent(Bool.self, forKey: .ok)
+        status = try c.decodeIfPresent(String.self, forKey: .status)
+        err = try c.decodeIfPresent(ErrorBody.self, forKey: .err)
+        meta = try c.decodeIfPresent([String: JSONValue].self, forKey: .meta)
+        reason = try c.decodeIfPresent(String.self, forKey: .reason)
+    }
+
     // MARK: 不变量（与 envelope schema 的 allOf 一致）
 
     public func validate() -> EnvelopeValidationError? {
