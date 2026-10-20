@@ -1261,21 +1261,19 @@ struct GoldenFlowHomeAdapter: View {
                 ),
                 traffic: HakoClientUI.HakoPerfExperiment.freezesTrafficFigures
                     ? AppleClientTrafficSnapshot()
-                    : AppleClientTrafficSnapshot(
-                    uploadBytesPerSecond: command.traffic.upload,
-                    downloadBytesPerSecond: command.traffic.download,
-                    uploadTotalBytes: command.traffic.uploadTotal,
-                    downloadTotalBytes: command.traffic.downloadTotal,
-                     
-                     
-                     
-                    uploadRatesBytesPerSecond:
-                        command.traffic.uploadHistory,
-                    downloadRatesBytesPerSecond:
-                        command.traffic.downloadHistory,
-                    coreStartedAtUnixSeconds:
-                        command.runtimeDiagnostics?.startTimeUnix ?? 0
-                ),
+                    : .zero,
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
                 proxyGroupCount: timedTally?.proxyGroups ?? 0,
                 proxyCount: timedTally?.proxies ?? 0,
                 ruleCount: timedTally?.rules ?? 0,

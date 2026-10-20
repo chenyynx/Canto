@@ -130,6 +130,12 @@ struct AppShellView: View {
     @StateObject private var stun = STUNTestModel()
     @StateObject private var connections = ConnectionsModel()
     @StateObject private var proxyShare = ProxyShareModel()
+     
+     
+     
+     
+     
+    @StateObject private var trafficFeed = HakoClientUI.HakoTrafficFeed(traffic: .zero)
     @StateObject private var profileImports = ProfileImportRouter()
     @State private var navigationState = HakoClientUI.AppleClientNavigationState()
 
@@ -652,6 +658,33 @@ struct AppShellView: View {
          
          
         .environment(\.hakoShellLayout, shellLayout)
+
+         
+         
+         
+         
+         
+         
+         
+         
+        .environment(\.hakoTrafficFeed, trafficFeed)
+        .onReceive(command.$traffic) { traffic in
+             
+             
+             
+             
+            guard !HakoClientUI.HakoPerfExperiment.freezesTrafficFigures else { return }
+            trafficFeed.traffic = HakoClientUI.AppleClientTrafficSnapshot(
+                uploadBytesPerSecond: traffic.upload,
+                downloadBytesPerSecond: traffic.download,
+                uploadTotalBytes: traffic.uploadTotal,
+                downloadTotalBytes: traffic.downloadTotal,
+                uploadRatesBytesPerSecond: traffic.uploadHistory,
+                downloadRatesBytesPerSecond: traffic.downloadHistory,
+                coreStartedAtUnixSeconds:
+                    command.runtimeDiagnostics?.startTimeUnix ?? 0
+            )
+        }
 
          
          
