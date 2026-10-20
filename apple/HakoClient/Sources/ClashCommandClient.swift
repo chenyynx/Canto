@@ -2173,7 +2173,7 @@ return
         let options = HakoClashAPIClientOptions()
          
          
-        options.statusInterval = 250
+        options.statusInterval = 1000
         options.addCommand(HakoCommandStatus)
         options.addCommand(HakoCommandLog)
         options.logLevel = logLevel
