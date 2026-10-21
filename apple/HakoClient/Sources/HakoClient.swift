@@ -735,7 +735,23 @@ struct HakoClient {
         guard await waitUntilActive(upToNanoseconds: 3_000_000_000) else {
             throw HakoCommandCompatibilityError.transportNotReady
         }
-        guard let data = await send(["cmd": "hello"]) else {
+        // 2026-10-21：session 变 connected 不等于扩展已跑完 startTunnel
+        //（配置解析 + TUN + 控制面 1-2s）。此前一次 15s 硬等会整段落空，
+        // 现在改为 2s 短超时 + 5 次重试（累计约 12s），覆盖扩展启动窗口。
+        var lastReply: Data?
+        for attempt in 0..<5 {
+            if let data = await send(
+                ["cmd": "hello"],
+                timeoutNanoseconds: 2_000_000_000
+            ) {
+                lastReply = data
+                break
+            }
+            if attempt < 4 {
+                try? await Task.sleep(nanoseconds: 500_000_000)
+            }
+        }
+        guard let data = lastReply else {
             throw HakoCommandCompatibilityError.transportNoReply
         }
         do {
