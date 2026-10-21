@@ -672,6 +672,23 @@ private actor HakoIPCChannel {
                 Task { await self?.finish(id: pending.id, reply: reply) }
             }
         } catch {
+            // 2026-10-21：底层错误必须可见——sendProviderMessage 抛出的
+            // NSError（domain/code）此前被吞成 nil reply，导致「扩展不回包」
+            // 无法与「发送即失败」区分。
+            let nsError = error as NSError
+            NSLog(
+                "hako-ipc sendProviderMessage failed domain=%@ code=%d msg=%@",
+                nsError.domain, nsError.code,
+                nsError.localizedDescription
+            )
+            HakoLogStore.shared.append(
+                String(
+                    format: "ipc send failed domain=%@ code=%d msg=%@",
+                    nsError.domain, nsError.code,
+                    nsError.localizedDescription
+                ),
+                stream: .app, level: .warning
+            )
             finish(id: pending.id, reply: nil)
             return
         }
@@ -724,6 +741,10 @@ struct HakoClient {
         do {
             let hello = try JSONDecoder().decode(HakoCommandHello.self, from: data)
             try hello.validate()
+            HakoLogStore.shared.append(
+                "control hello ok peer=\(hello.minSchemaVersion)...\(hello.schemaVersion) core=\(hello.coreVersion)",
+                stream: .app, level: .info
+            )
             return hello
         } catch let error as HakoCommandCompatibilityError {
             throw error

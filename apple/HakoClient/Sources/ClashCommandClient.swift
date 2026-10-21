@@ -451,6 +451,8 @@ final class ClashCommandClient: ObservableObject, ProxyShareCommanding {
      
      
     @Published private(set) var channelAttachFailed = false
+    /// 控制通道连续失败次数（指数退避基数，成功清零）
+    private var controlReconnectAttempt = 0
     @Published private(set) var lastError = ""
     @Published private(set) var traffic = ClashTrafficSnapshot() {
         didSet { HakoPerf.count("pub.cmd.traffic") }
@@ -2314,6 +2316,7 @@ return
          
         isReopeningControlSession = false
         lastError = ""
+        controlReconnectAttempt = 0
         trafficReducer = ClashTrafficReducer()
         traffic = ClashTrafficSnapshot()
         recordRouteControl(kind: .runtimeControlConnected)
@@ -2390,8 +2393,14 @@ return
     private func scheduleReconnect(token: UInt64) {
         guard wantsConnection, token == generation else { return }
         connectTask?.cancel()
+        // 2026-10-21：固定 1s 重试是卡顿元凶——每次重连失败都会触发
+        // shell.rebind / nodes.reloadInventory / store.activePointer
+        //（单次 27-53ms 主线程阻塞），风暴期间 fps 16-45。
+        // 指数退避 1s → 16s，成功后清零。
+        controlReconnectAttempt += 1
+        let backoff = min(1 << min(controlReconnectAttempt - 1, 4), 16)
         connectTask = Task { [weak self] in
-            try? await Task.sleep(nanoseconds: 1_000_000_000)
+            try? await Task.sleep(nanoseconds: UInt64(backoff) * 1_000_000_000)
             guard !Task.isCancelled, let self, token == self.generation, self.wantsConnection else { return }
             self.connectTask = nil
             self.connectIfNeeded()
