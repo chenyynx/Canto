@@ -24,11 +24,15 @@ struct LogExportDeviceFacts: Equatable {
      
     var cellular: String?
     var exportedAt: Date
+    /// CI 注入的 git 短哈希（`HAKO_BUILD_REVISION`）。版本号恒定 1.0.9 (1)，
+    /// 没有它就是「装的是哪个包」只能靠猜（2026-10-21 排查控制通道时踩到）。
+    var buildRevision: String?
 
     static func current(now: Date = Date()) -> LogExportDeviceFacts {
         let info = Bundle.main.infoDictionary ?? [:]
         let version = (info["CFBundleShortVersionString"] as? String) ?? "?"
         let build = (info["CFBundleVersion"] as? String) ?? "?"
+        let revision = info["HakoBuildRevision"] as? String
         #if os(iOS)
         let cellular: String? = radioName(CTTelephonyNetworkInfo().serviceCurrentRadioAccessTechnology)
         #else
@@ -39,7 +43,8 @@ struct LogExportDeviceFacts: Equatable {
             system: "\(HakoDeviceModel.platformFallback) \(ProcessInfo.processInfo.operatingSystemVersionString)",
             model: HakoDeviceModel.identifier,
             cellular: cellular,
-            exportedAt: now
+            exportedAt: now,
+            buildRevision: revision
         )
     }
 
@@ -61,6 +66,9 @@ struct LogExportDeviceFacts: Equatable {
         ]
         if let cellular {
             lines.append("cellular: \(cellular)")
+        }
+        if let buildRevision, !buildRevision.isEmpty {
+            lines.append("build: \(buildRevision)")
         }
          
          

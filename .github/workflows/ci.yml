@@ -83,7 +83,8 @@ jobs:
           DEST='generic/platform=iOS Simulator'
           SCHEME_ARGS=(xcodebuild -project apple/HakoClient/HakoClient.xcodeproj \
             -scheme HakoClient -configuration Release -destination "$DEST" \
-            -derivedDataPath .build/dd-sim CODE_SIGNING_ALLOWED=NO)
+            -derivedDataPath .build/dd-sim \
+            HAKO_BUILD_REVISION="$(git rev-parse --short HEAD)" CODE_SIGNING_ALLOWED=NO)
           TARGET_ARGS=(xcodebuild -project apple/HakoClient/HakoClient.xcodeproj \
             -configuration Release -destination "$DEST" CODE_SIGNING_ALLOWED=NO)
           rm -f /tmp/xc.log

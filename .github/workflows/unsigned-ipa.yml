@@ -81,6 +81,7 @@ jobs:
           SCHEME_ARGS=(xcodebuild -project apple/HakoClient/HakoClient.xcodeproj \
             -scheme HakoClient -configuration Release -destination 'generic/platform=iOS' \
             -derivedDataPath .build/dd \
+            HAKO_BUILD_REVISION="$(git rev-parse --short HEAD)" \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" CODE_SIGN_ENTITLEMENTS="")
           TARGET_ARGS=(xcodebuild -project apple/HakoClient/HakoClient.xcodeproj \
