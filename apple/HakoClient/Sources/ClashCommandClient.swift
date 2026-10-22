@@ -2297,7 +2297,9 @@ return
         closeNativeControlAttempt()
         isConnected = false
         lastError = error.localizedDescription
-        noteConnectFailure("connect-failed:" + error.localizedDescription)
+        // session 状态一起记：能区分「消息发不出去」和「发出去没人回」。
+        let sessionStatus = providerSession.map { HakoClient.statusName($0.status) } ?? "nil"
+        noteConnectFailure("connect-failed:" + error.localizedDescription + " session=\(sessionStatus)")
          
          
         isReopeningControlSession = false

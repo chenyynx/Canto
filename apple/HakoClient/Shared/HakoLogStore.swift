@@ -431,11 +431,14 @@ public final class HakoLogStore: @unchecked Sendable {
     public func append(
         _ message: String,
         stream: HakoLogStream = .app,
-        level: HakoLogLevel = .info
+        level: HakoLogLevel = .info,
+        force: Bool = false
     ) {
-         
-         
-        if let settings, !HakoLogSettings.isRecording(from: settings) { return }
+
+
+
+
+        if !force, let settings, !HakoLogSettings.isRecording(from: settings) { return }
          
          
          

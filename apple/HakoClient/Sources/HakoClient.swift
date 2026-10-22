@@ -634,17 +634,29 @@ private actor HakoIPCChannel {
     static let shared = HakoIPCChannel()
     static let timeoutNanoseconds: UInt64 = 15_000_000_000
 
+    private enum Outcome {
+        case reply(Data)
+        case emptyReply
+        case failure(NSError)
+        case timeout
+    }
+
     private struct Pending {
         let id: UUID
         let session: NETunnelProviderSession
         let data: Data
         let timeoutNanoseconds: UInt64
+        let began: DispatchTime
         let continuation: CheckedContinuation<Data?, Never>
     }
 
     private var queue: [Pending] = []
     private var current: Pending?
     private var timeoutTask: Task<Void, Never>?
+    // 诊断日志抑制：同样的失败 2s 内只记一条，被压掉的条数补在下一行。
+    // 没有它，「每秒重试」会把日志预算写穿（app 流只有 128KB）。
+    private var lastOutcomeLog: (text: String, at: Date)?
+    private var suppressedOutcomeLogs = 0
 
     func send(
         session: NETunnelProviderSession,
@@ -657,19 +669,33 @@ private actor HakoIPCChannel {
                 session: session,
                 data: data,
                 timeoutNanoseconds: timeoutNanoseconds,
+                began: DispatchTime.now(),
                 continuation: continuation
             ))
             startNextIfNeeded()
         }
     }
 
+    /// `HakoClient.send` 在 session 非 active 时会静默返回 nil——2026-10-21 的
+    /// 日志证明这条路径会让「压根没发」看起来和「扩展不回包」一模一样。
+    func noteSkipped(status: String) {
+        logOutcome("skipped session-not-active", status: status)
+    }
+
     private func startNextIfNeeded() {
         guard current == nil, !queue.isEmpty else { return }
         let pending = queue.removeFirst()
         current = pending
+        let status = HakoClient.statusName(pending.session.status)
         do {
             try pending.session.sendProviderMessage(pending.data) { [weak self] reply in
-                Task { await self?.finish(id: pending.id, reply: reply) }
+                Task {
+                    await self?.finish(
+                        id: pending.id,
+                        outcome: reply.map(Outcome.reply) ?? .emptyReply,
+                        status: status
+                    )
+                }
             }
         } catch {
             // 2026-10-21：底层错误必须可见——sendProviderMessage 抛出的
@@ -681,34 +707,70 @@ private actor HakoIPCChannel {
                 nsError.domain, nsError.code,
                 nsError.localizedDescription
             )
-            HakoLogStore.shared.append(
-                String(
-                    format: "ipc send failed domain=%@ code=%d msg=%@",
-                    nsError.domain, nsError.code,
-                    nsError.localizedDescription
-                ),
-                stream: .app, level: .warning
+            logOutcome(
+                "send failed domain=\(nsError.domain) code=\(nsError.code) msg=\(nsError.localizedDescription)",
+                status: status
             )
-            finish(id: pending.id, reply: nil)
+            finish(id: pending.id, outcome: .failure(nsError), status: status)
             return
         }
         timeoutTask = Task { [weak self] in
             try? await Task.sleep(nanoseconds: pending.timeoutNanoseconds)
-            await self?.finish(id: pending.id, reply: nil)
+            await self?.finish(id: pending.id, outcome: .timeout, status: status)
         }
     }
 
-    private func finish(id: UUID, reply: Data?) {
+    private func finish(id: UUID, outcome: Outcome, status: String) {
         guard let pending = current, pending.id == id else { return }
         timeoutTask?.cancel()
         timeoutTask = nil
         current = nil
+        let elapsed = Self.milliseconds(since: pending.began)
+        let reply: Data?
+        switch outcome {
+        case let .reply(data):
+            reply = data
+        case .emptyReply:
+            logOutcome("reply empty elapsed=\(elapsed)ms", status: status)
+            reply = nil
+        case .failure:
+            // domain/code 与耗时已在 startNextIfNeeded 的 catch 里记过。
+            reply = nil
+        case .timeout:
+            logOutcome("timeout elapsed=\(elapsed)ms", status: status)
+            reply = nil
+        }
         pending.continuation.resume(returning: reply)
         startNextIfNeeded()
     }
+
+    /// 强制写入（不受「日志录制」开关影响）：这条通道的诊断信息是排查
+    /// 「VPN 已连但显示未连接」的唯一线索，用户关掉日志录制也必须留下。
+    private func logOutcome(_ text: String, status: String) {
+        let now = Date()
+        if let last = lastOutcomeLog, last.text == text, now.timeIntervalSince(last.at) < 2 {
+            suppressedOutcomeLogs += 1
+            return
+        }
+        let suffix = suppressedOutcomeLogs > 0 ? " suppressed=\(suppressedOutcomeLogs)" : ""
+        suppressedOutcomeLogs = 0
+        lastOutcomeLog = (text, now)
+        HakoLogStore.shared.append(
+            "ipc \(text) status=\(status)\(suffix)",
+            stream: .app,
+            level: .warning,
+            force: true
+        )
+    }
+
+    private static func milliseconds(since began: DispatchTime) -> Int {
+        let now = DispatchTime.now().uptimeNanoseconds
+        guard now >= began.uptimeNanoseconds else { return 0 }
+        return Int((now - began.uptimeNanoseconds) / 1_000_000)
+    }
 }
 
- 
+
  
 struct HakoClient {
     let session: NETunnelProviderSession
@@ -721,9 +783,14 @@ struct HakoClient {
         _ payload: [String: Any],
         timeoutNanoseconds: UInt64 = HakoIPCChannel.timeoutNanoseconds
     ) async -> Data? {
-        guard isVPNActive,
-              let data = try? JSONSerialization.data(withJSONObject: payload)
-        else { return nil }
+        guard let data = try? JSONSerialization.data(withJSONObject: payload) else {
+            return nil
+        }
+        guard isVPNActive else {
+            // 这条分支以前是静默的；它和「扩展不回包」在日志里无法区分。
+            await HakoIPCChannel.shared.noteSkipped(status: Self.statusName(session.status))
+            return nil
+        }
         return await HakoIPCChannel.shared.send(
             session: session,
             data: data,
@@ -731,10 +798,30 @@ struct HakoClient {
         )
     }
 
+    static func statusName(_ status: NEVPNStatus) -> String {
+        switch status {
+        case .invalid: return "invalid"
+        case .disconnected: return "disconnected"
+        case .connecting: return "connecting"
+        case .connected: return "connected"
+        case .reasserting: return "reasserting"
+        case .disconnecting: return "disconnecting"
+        @unknown default: return "unknown(\(status.rawValue))"
+        }
+    }
+
     func hello() async throws -> HakoCommandHello {
         guard await waitUntilActive(upToNanoseconds: 3_000_000_000) else {
+            HakoLogStore.shared.append(
+                "control hello not-ready status=\(Self.statusName(session.status))",
+                stream: .app, level: .warning, force: true
+            )
             throw HakoCommandCompatibilityError.transportNotReady
         }
+        HakoLogStore.shared.append(
+            "control hello begin status=\(Self.statusName(session.status))",
+            stream: .app, level: .info, force: true
+        )
         // 2026-10-21：session 变 connected 不等于扩展已跑完 startTunnel
         //（配置解析 + TUN + 控制面 1-2s）。此前一次 15s 硬等会整段落空，
         // 现在改为 2s 短超时 + 5 次重试（累计约 12s），覆盖扩展启动窗口。
@@ -752,6 +839,20 @@ struct HakoClient {
             }
         }
         guard let data = lastReply else {
+            // 兜底：扩展启动时会把 hello 写进 App Group 并每 60s 刷新。
+            // 消息通道被系统拒绝时（全能签重签环境），直接拿文件里的
+            // schema 去连 clash.sock——连接/流量/节点/日志就能恢复显示。
+            if let fallback = Self.appGroupHello() {
+                HakoLogStore.shared.append(
+                    "control hello ok source=app-group-file age=\(Int(fallback.age))s core=\(fallback.hello.coreVersion)",
+                    stream: .app, level: .warning, force: true
+                )
+                return fallback.hello
+            }
+            HakoLogStore.shared.append(
+                "control hello failed status=\(Self.statusName(session.status)) fallback=unavailable",
+                stream: .app, level: .warning, force: true
+            )
             throw HakoCommandCompatibilityError.transportNoReply
         }
         do {
@@ -785,7 +886,28 @@ struct HakoClient {
         return isVPNActive
     }
 
-
+    /// 读扩展写下的 hello 兜底文件。心跳 60s 一次，超过 180s 视为扩展已不在
+    /// （避免 VPN 重启后拿到上一次进程的陈旧 schema）。
+    private static func appGroupHello(now: Date = Date()) -> (hello: HakoCommandHello, age: TimeInterval)? {
+        guard let container = HakoAppIdentifiers.resolvedAppGroupContainer
+            ?? HakoAppIdentifiers.appGroupContainer,
+            let payload = HakoIpcHelloFile.read(in: container)
+        else { return nil }
+        let age = now.timeIntervalSince1970 - Double(payload.writtenAtUnix)
+        guard age >= -5, age <= HakoIpcHelloFile.maximumAgeSeconds else { return nil }
+        let hello = HakoCommandHello(
+            schemaVersion: payload.schemaVersion,
+            minSchemaVersion: payload.minSchemaVersion,
+            coreVersion: payload.coreVersion,
+            capabilities: payload.capabilities
+        )
+        do {
+            try hello.validate()
+        } catch {
+            return nil
+        }
+        return (hello, age)
+    }
 
     func runtimeDiagnostics() async throws -> HakoRuntimeDiagnostics {
         guard let data = await send(["cmd": "runtimeDiagnostics"]) else {

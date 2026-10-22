@@ -2017,9 +2017,15 @@ final class VPNController: ObservableObject, DNSOnlyTunnelControlling {
         guard isCurrent(), intent == profileWriteIntentGeneration else { throw CancellationError() }
         let installed: NETunnelProviderManager?
         do {
-            installed = try await systemVPNManagers().first {
+            let managers = try await systemVPNManagers()
+            let owned = managers.filter {
                 Self.isOwnedSystemVPNProfile($0, providerBundleIdentifier: extensionBundleID)
             }
+            installed = owned.first
+            // 2026-10-21：`.first` 可能选中陈旧配置（状态还写着 connected，
+            // 背后扩展进程早已不在）——那样 sendProviderMessage 会永远无回音。
+            // 把候选与选中的状态记下来，日志里一眼能看出是不是僵尸配置。
+            noteSystemVPNProfileSelection(site: "start", candidates: owned, chosen: installed)
         } catch {
             try Task.checkCancellation()
             guard isCurrent(), intent == profileWriteIntentGeneration else { throw CancellationError() }
@@ -2178,7 +2184,29 @@ final class VPNController: ObservableObject, DNSOnlyTunnelControlling {
     private func adoptManager(_ mgr: NETunnelProviderManager?) {
         manager = mgr
         systemVPNInstallationKnown = true
+        // 控制通道的诊断锚点：App 之后所有 provider message 都发给这条
+        // connection。名字/状态/session 类型对不上，就是「发给了错的对象」。
+        let status = mgr.map { connectionStatusLabel($0.connection.status) } ?? "nil"
+        let kind = (mgr?.connection as? NETunnelProviderSession) != nil ? "provider" : "other"
+        HakoLogStore.shared.append(
+            "vpn manager adopt name=\(mgr?.localizedDescription ?? "nil") status=\(status) session=\(kind)",
+            stream: .app, level: .info, force: true
+        )
         observeStatus()
+    }
+
+    private func noteSystemVPNProfileSelection(
+        site: String,
+        candidates: [NETunnelProviderManager],
+        chosen: NETunnelProviderManager?
+    ) {
+        let detail = candidates.map {
+            "\($0.localizedDescription ?? "?")=\(connectionStatusLabel($0.connection.status))"
+        }.joined(separator: ",")
+        HakoLogStore.shared.append(
+            "vpn profile select site=\(site) candidates=\(candidates.count) [\(detail)] chosen=\(chosen?.localizedDescription ?? "nil")",
+            stream: .app, level: .info, force: true
+        )
     }
 
     private func observeStatus() {

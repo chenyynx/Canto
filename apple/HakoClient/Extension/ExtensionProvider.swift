@@ -102,6 +102,9 @@ final class ExtensionProvider: NSObject {
     private var pathRecoveredSinceApply = false
     private var appliedInterfaceName: String?
     private var pathReapplyTask: Task<Void, Never>?
+    /// 控制通道兜底：provider message 被系统拒绝时，App 读 App Group 里的
+    /// hello 文件直接连 socket（见 HakoIpcHelloFile）。
+    private var ipcHelloHeartbeat: Task<Void, Never>?
     private var tunStrictRouteRequested = false
      
      
@@ -545,6 +548,7 @@ final class ExtensionProvider: NSObject {
             try await start0(samplingToken: &samplingToken)
             try lifecycle.didStart()
             startupMemorySampler.mark("tunnel-up", token: samplingToken)
+            startIpcHelloHeartbeat()
             await operationGate.leave()
         } catch {
              
@@ -589,6 +593,43 @@ final class ExtensionProvider: NSObject {
             await operationGate.leave()
             throw error
         }
+    }
+
+    // MARK: - 控制通道兜底（App Group hello 文件）
+
+    /// 扩展启动完成时写一份 hello 到共享容器，之后每 60s 刷新。
+    /// `writtenAtUnix` 就是「扩展还活着」的证明：App 只在 180s 内采信。
+    private func startIpcHelloHeartbeat() {
+        guard let container = HakoAppIdentifiers.resolvedAppGroupContainer else {
+            HakoLogStore.shared.append(
+                "ipc hello file skipped: no shared app group container",
+                stream: .app, level: .warning, force: true
+            )
+            return
+        }
+        let startedAtUnix = Int64(Date().timeIntervalSince1970)
+        writeIpcHelloFile(container: container, startedAtUnix: startedAtUnix)
+        ipcHelloHeartbeat?.cancel()
+        ipcHelloHeartbeat = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: HakoIpcHelloFile.heartbeatNanoseconds)
+                guard !Task.isCancelled, let self else { return }
+                self.writeIpcHelloFile(container: container, startedAtUnix: startedAtUnix)
+            }
+        }
+    }
+
+    private func writeIpcHelloFile(container: URL, startedAtUnix: Int64) {
+        let payload = HakoIpcHelloFile.Payload(
+            schemaVersion: HakoCommandSchemaVersion,
+            minSchemaVersion: HakoCommandSchemaMinVersion,
+            coreVersion: HakoVersion(),
+            capabilities: ["stun-v1", ProviderReloadEnvelope.capability],
+            processIdentifier: ProcessInfo.processInfo.processIdentifier,
+            startedAtUnix: startedAtUnix,
+            writtenAtUnix: Int64(Date().timeIntervalSince1970)
+        )
+        HakoIpcHelloFile.write(payload, in: container)
     }
 
     private func start0(samplingToken outputSamplingToken: inout StartupMemorySampler.Token?) async throws {
@@ -918,6 +959,9 @@ final class ExtensionProvider: NSObject {
          
          
         let stopBegan = DispatchTime.now()
+        // 心跳必须停：否则扩展停了文件还新鲜，App 会拿过期 hello 去连 socket。
+        ipcHelloHeartbeat?.cancel()
+        ipcHelloHeartbeat = nil
         await operationGate.enter()
         let gateWaitMs = Self.milliseconds(since: stopBegan)
         guard lifecycle.beginStop() else {
