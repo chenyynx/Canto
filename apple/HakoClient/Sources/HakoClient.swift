@@ -930,13 +930,32 @@ struct HakoClient {
             if let sample = HakoIpcDiagnosticsFile.read(in: container),
                sample.age <= HakoIpcDiagnosticsFile.maximumAgeSeconds {
                 do {
-                    return try JSONDecoder().decode(HakoRuntimeDiagnostics.self, from: sample.data)
+                    let diagnostics = try JSONDecoder().decode(HakoRuntimeDiagnostics.self, from: sample.data)
+                    noteFileDiagnostics("ipc diagnostics ok source=app-group-file age=\(Int(sample.age))s")
+                    return diagnostics
                 } catch {
                     throw URLError(.cannotParseResponse)
                 }
             }
         }
+        noteFileDiagnostics("ipc diagnostics failed source=app-group-file age=timeout")
         throw URLError(.timedOut)
+    }
+
+    private static let diagnosticsFileLogLock = NSLock()
+    private static var lastDiagnosticsFileLog: (message: String, at: Date)?
+
+    /// 文件通道是否生效对排查很关键，但每次诊断请求都记会刷屏：同一内容 60s 一条。
+    private static func noteFileDiagnostics(_ message: String) {
+        diagnosticsFileLogLock.lock()
+        let now = Date()
+        let shouldLog = ControlConnectFailureLogGate.shouldLog(
+            message, after: lastDiagnosticsFileLog, now: now
+        )
+        if shouldLog { lastDiagnosticsFileLog = (message, now) }
+        diagnosticsFileLogLock.unlock()
+        guard shouldLog else { return }
+        HakoLogStore.shared.append(message, stream: .app, level: .warning, force: true)
     }
 
     func forceGarbageCollection() async throws {
