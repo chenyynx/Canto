@@ -916,6 +916,29 @@ struct HakoClient {
         return try JSONDecoder().decode(HakoRuntimeDiagnostics.self, from: data)
     }
 
+    /// provider message 被系统拒绝时的诊断读取：先落请求标记（扩展 1s 轮询），
+    /// 再等扩展把同一份 JSON 写进共享容器。连接列表的运行时身份确认依赖它。
+    static func runtimeDiagnosticsFromAppGroup() async throws -> HakoRuntimeDiagnostics {
+        guard let container = HakoAppIdentifiers.resolvedAppGroupContainer
+            ?? HakoAppIdentifiers.appGroupContainer
+        else { throw URLError(.cannotConnectToHost) }
+        HakoIpcDiagnosticsFile.request(in: container)
+        let deadline = Date().addingTimeInterval(2.5)
+        while Date() < deadline {
+            if Task.isCancelled { throw CancellationError() }
+            try? await Task.sleep(nanoseconds: 200_000_000)
+            if let sample = HakoIpcDiagnosticsFile.read(in: container),
+               sample.age <= HakoIpcDiagnosticsFile.maximumAgeSeconds {
+                do {
+                    return try JSONDecoder().decode(HakoRuntimeDiagnostics.self, from: sample.data)
+                } catch {
+                    throw URLError(.cannotParseResponse)
+                }
+            }
+        }
+        throw URLError(.timedOut)
+    }
+
     func forceGarbageCollection() async throws {
         guard let data = await send(["cmd": "forceGC"]) else {
             throw URLError(.cannotConnectToHost)

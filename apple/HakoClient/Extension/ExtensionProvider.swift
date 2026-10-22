@@ -105,6 +105,9 @@ final class ExtensionProvider: NSObject {
     /// 控制通道兜底：provider message 被系统拒绝时，App 读 App Group 里的
     /// hello 文件直接连 socket（见 HakoIpcHelloFile）。
     private var ipcHelloHeartbeat: Task<Void, Never>?
+    /// 诊断快照中继：App 用请求标记表达「现在要」，扩展按需写文件
+    /// （见 HakoIpcDiagnosticsFile）。
+    private var diagnosticsRelayTask: Task<Void, Never>?
     private var tunStrictRouteRequested = false
      
      
@@ -549,6 +552,7 @@ final class ExtensionProvider: NSObject {
             try lifecycle.didStart()
             startupMemorySampler.mark("tunnel-up", token: samplingToken)
             startIpcHelloHeartbeat()
+            startDiagnosticsRelay()
             await operationGate.leave()
         } catch {
              
@@ -615,6 +619,24 @@ final class ExtensionProvider: NSObject {
                 try? await Task.sleep(nanoseconds: HakoIpcHelloFile.heartbeatNanoseconds)
                 guard !Task.isCancelled, let self else { return }
                 self.writeIpcHelloFile(container: container, startedAtUnix: startedAtUnix)
+            }
+        }
+    }
+
+    /// 诊断中继循环：1s 轮询一次请求标记，新鲜就用当前 service 生成诊断 JSON。
+    /// 不用定时无条件写——避免 VPN 常驻时每秒写闪存。
+    private func startDiagnosticsRelay() {
+        guard let container = HakoAppIdentifiers.resolvedAppGroupContainer else { return }
+        diagnosticsRelayTask?.cancel()
+        diagnosticsRelayTask = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: 1_000_000_000)
+                guard !Task.isCancelled, let self else { return }
+                guard let age = HakoIpcDiagnosticsFile.requestAge(in: container),
+                      age <= HakoIpcDiagnosticsFile.requestLifetimeSeconds
+                else { continue }
+                guard let service = self.currentService else { continue }
+                HakoIpcDiagnosticsFile.write(self.runtimeDiagnosticsData(service), in: container)
             }
         }
     }
@@ -962,6 +984,8 @@ final class ExtensionProvider: NSObject {
         // 心跳必须停：否则扩展停了文件还新鲜，App 会拿过期 hello 去连 socket。
         ipcHelloHeartbeat?.cancel()
         ipcHelloHeartbeat = nil
+        diagnosticsRelayTask?.cancel()
+        diagnosticsRelayTask = nil
         await operationGate.enter()
         let gateWaitMs = Self.milliseconds(since: stopBegan)
         guard lifecycle.beginStop() else {

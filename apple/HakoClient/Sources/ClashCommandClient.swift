@@ -1345,7 +1345,17 @@ return
     private func beginDiagnosticRequest() -> DiagnosticRequest? {
         let read: () async throws -> HakoRuntimeDiagnostics
         if let runtimeDiagnosticsReader { read = runtimeDiagnosticsReader }
-        else if let providerSession { read = { try await HakoClient(session: providerSession).runtimeDiagnostics() } }
+        else if let providerSession {
+            read = {
+                do {
+                    return try await HakoClient(session: providerSession).runtimeDiagnostics()
+                } catch {
+                    // 2026-10-22：重签环境下 provider message 被系统静默丢弃
+                    //（扩展根本收不到），诊断改读扩展按需写出的文件快照。
+                    return try await HakoClient.runtimeDiagnosticsFromAppGroup()
+                }
+            }
+        }
         else { return nil }
         scheduledDiagnosticsTask?.cancel(); scheduledDiagnosticsTask = nil
         runtimeDiagnosticsRequest &+= 1
