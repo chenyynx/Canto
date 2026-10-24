@@ -2,14 +2,14 @@
 
 - 日期：2026-10-24
 - 级别：L（跨模块 / 构建链 / pin）
-- 状态：P0 完成；P1 待执行
+- 状态：P0/P1/P2/P2b/P2c/P3-pin 完成；P3 CI/镜像、P4、P5 待执行
 - 回滚：tag `pre-sync-20261024`（c7a63dc）；分支 `diag/ipc-channel-evidence`
 
 ## 1. 目标与边界
 
 - 以 `ProjectClash/Clash-Client@3b8ea95` 为树基座全量导入。
 - 保留本地改动：P0 文件通道/IPC 修复、Agent/Canto、CI、构建标识、连接流优化。
-- 本次不做品牌改名；品牌层最后单独提交。
+- 品牌层已完成：产品名 Canto，Hako/Anchor 功能名全部清掉；上游 `Clash*` 内部代码名保留。
 - 不做全局 Clash→Canto 改名；内部保留 upstream 的 `Clash*` 命名，避免每次同步重跑改名。
 
 ## 2. 上游事实（2026-10-24 实测）
@@ -29,14 +29,14 @@
 ## 4. 阶段
 
 - P0（完成）：tag / 分支 / 任务单 / 上游树导出。
-- P1：导入上游树（不全局改名），提交 `chore: import upstream 3b8ea95`；先保证能编译。
-- P2：重放本地改动：
-  - 新增文件：Agent/Canto（约 6.8k 行）、`CantoAgentKit`、CI workflow、scripts 改动。
-  - 共享 UI：`ClashClientApp`、`GoldenFlowHomeView`、`ConnectionsView`、`RequestsView`、`LogsView`、`AppleClientActions`、`CantoTheme`。
-  - 集成点：`ExtensionProvider`、`PacketTunnelProvider`、`ClashCommandClient`、`ConfigStore`、`project.yml`。
-- P3：pin 更新到自有镜像；清缓存重建 SDK；CI。
-- P4：真机冒烟 + 模块测试（Surge `.sgmodule` / Loon `.lpx` / QX module）。
-- P5：品牌改名（显示名 / bundle / 图标 / URL scheme / App Group / README），单独提交；真机复测签名与 App Group。
+- P1（完成）：导入上游树 `chore: import upstream 3b8ea95`（dfba835）。
+- P2（完成）：重放本地改动：
+  - 新增文件：Agent/Canto（约 6.8k 行）、`CantoAgentKit`、CI workflow。
+  - 共享 UI：`ClashClientApp`、`GoldenFlowHomeView`、`ConnectionsView`、`RequestsView`、`LogsView`、`AppleClientActions`、`ClashTheme`。
+  - 集成点：`ExtensionProvider`、`PacketTunnelProvider`、`ClashCommandClient`、`project.yml`；P2c 提交 `6aa24aa`。
+- P3（进行中）：pin 已改 `d1aff39` / `bdf40d4`（bbf507c）；待推分支跑 CI，绿后镜像到 `Canto-Core` / `Canto-Adapter` 并切换。
+- P4（待执行）：真机冒烟 + 模块测试（Surge `.sgmodule` / Loon `.lpx` / QX module）。
+- P5（部分完成）：Canto 显示名 / bundle / App Group / URL scheme 已改，外部仓库已改名；待真机复测签名与 App Group。
 
 ## 5. 冲突清单（本地 vs 上游）
 
@@ -54,6 +54,6 @@
 
 ## 7. 未决
 
-- 产品名：Canto（已定）——只影响 P5 品牌层，不阻塞 P1。
-- Kernel pin：先试 `d1aff39`；不兼容回退 `a5cb38d`，CVE 修复单独评估。
-- 镜像策略：复用 `chenyynx/Canto` / `Canto-Adapter` / `Canto-Client` 三个仓，不新建仓；旧 commit 打 tag。
+- 产品名：Canto（已定，品牌层已完成）。
+- Kernel pin：当前 `d1aff39` / `bdf40d4`；CI 不兼容回退 `a5cb38d`。
+- 镜像策略：`chenyynx/Canto`（App）/ `Canto-Core`（内核）/ `Canto-Adapter`；CI 绿后把上游 revision 镜像到后两者并切换 pin。
