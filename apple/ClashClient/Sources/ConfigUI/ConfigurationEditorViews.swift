@@ -779,11 +779,10 @@ struct ConfigurationSettingsSectionView: View {
                                                                              in: session.settingsDocument),
                                                           key: basePath.last ?? "", locale: locale)))
         .toolbar {
-             
-             
-             
-            if entryField != nil {
-                ToolbarItem(placement: .primaryAction) {
+            // 条件必须放进 ToolbarItem 的 ViewBuilder：ToolbarContentBuilder.buildIf
+            // 要求 iOS 16+，而本 target 部署目标是 iOS 15（2026-10-25 CI 实踩）。
+            ToolbarItem(placement: .primaryAction) {
+                if entryField != nil {
                     ControlGroup {
                         Button { adding = true } label: { Image(systemName: ClashSymbol.plus.name) }
                             .accessibilityIdentifier("configuration-editor.key.add")

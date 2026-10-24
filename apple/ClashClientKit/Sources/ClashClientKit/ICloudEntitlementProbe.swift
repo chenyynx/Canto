@@ -16,13 +16,14 @@ import Foundation
 //
 // SecTask API 是私有 SPI（LiveContainer/Provenance 等项目同款用法），
 // 经 dlsym 动态解析，避免头文件/链接依赖。
-enum ICloudEntitlementProbe {
+// public：主 App 的 ConfigUI/ICloudAutoBackup.swift 跨模块使用。
+public enum ICloudEntitlementProbe {
     static let entitlementKey = "com.apple.developer.icloud-container-identifiers"
 
     /// 当前进程签名是否含 iCloud 容器 entitlement。
     /// 探测失败（API 不可用等）按"有"处理——宁可放行给 CloudKit 自己报错，
     /// 也不因探测误判把正常签名环境挡掉（探测只会在这条崩溃链上更保守）。
-    static var hasICloudEntitlement: Bool {
+    public static var hasICloudEntitlement: Bool {
         cached ?? true
     }
 
