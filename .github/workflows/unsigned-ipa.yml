@@ -110,7 +110,10 @@ jobs:
           # ① scheme 构建：成功即产出 .app；失败不中断（继续收集）
           run_build "scheme build" "${SCHEME_ARGS[@]}" build
           # ② 逐 target 构建：把每个扩展 target 的错误都收进来（-keepGoing 在本版本不可用）
-          for T in ClashiOSExtension ClashControlsExtension ClashShareExtension; do
+          #    ClashiOSExtension 不在此列：它直接链接 swift-crypto/_CryptoExtras，`-target`
+          #    模式下 Xcode 26.6 不把 SwiftASN1 的模块路径接进 swiftc；scheme 构建已包含它
+          #    （2026-10-25 真机打包实踩，与 ci.yml 同一缺陷）。
+          for T in ClashControlsExtension ClashShareExtension; do
             run_build "target $T" "${TARGET_ARGS[@]}" -target "$T" build
           done
           if [ "$FAILED" -ne 0 ]; then
