@@ -77,6 +77,10 @@ jobs:
         # ⚠️ 不逐 target 构建 ClashiOS：`xcodebuild -target` 对嵌套本地包 target 有模块解析
         #   缺陷（恒报 unable to resolve module dependency 假错误），其编译由 scheme 构建权威
         #   覆盖；扩展 target 无嵌套包依赖，可安全逐 target 构建。
+        # ⚠️ Xcode 26.6 默认开启 explicitly built modules，真机（iphoneos）构建下会解析不到
+        #   SwiftPM 包内部依赖（swift-crypto/_CryptoExtras 报 unable to resolve module
+        #   dependency: 'SwiftASN1'；模拟器不触发）。Swift Forums 80516 有同类记录，
+        #   打包这里显式关闭（2026-10-25 实踩）。
         run: |
           set -uo pipefail
           SCHEME_ARGS=(xcodebuild -project apple/ClashClient/ClashClient.xcodeproj \
@@ -84,11 +88,13 @@ jobs:
             -derivedDataPath .build/dd \
             CANTO_BUILD_REVISION="$(git rev-parse --short HEAD)" \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY="" CODE_SIGN_ENTITLEMENTS="")
+            CODE_SIGN_IDENTITY="" CODE_SIGN_ENTITLEMENTS="" \
+            SWIFT_ENABLE_EXPLICIT_MODULES=NO CLANG_ENABLE_EXPLICIT_MODULES=NO)
           TARGET_ARGS=(xcodebuild -project apple/ClashClient/ClashClient.xcodeproj \
             -configuration Release -destination 'generic/platform=iOS' \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY="" CODE_SIGN_ENTITLEMENTS="")
+            CODE_SIGN_IDENTITY="" CODE_SIGN_ENTITLEMENTS="" \
+            SWIFT_ENABLE_EXPLICIT_MODULES=NO CLANG_ENABLE_EXPLICIT_MODULES=NO)
           rm -f /tmp/xc.log
           FAILED=0
           run_build () {
