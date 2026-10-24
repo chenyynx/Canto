@@ -19,6 +19,8 @@ settings:
     OTHER_LDFLAGS:
     - -lresolv
 packages:
+  HakoAgentKit:
+    path: ../HakoAgentKit
   ClashClientKit:
     path: ../ClashClientKit
   ClashClientUI:
@@ -142,6 +144,7 @@ targets:
         com.apple.developer.ubiquity-container-identifiers:
         - $(CLASH_ICLOUD_CONTAINER)
     dependencies:
+    - package: HakoAgentKit
     - package: ClashClientKit
     - package: ClashClientUI
     - package: swift-certificates
@@ -204,6 +207,8 @@ targets:
     sources:
     - path: Extension
       excludes: []
+    - path: ../HakoAgentKit/Sources/HakoAgentKit
+      group: HakoAgentKit
     - path: Sources/ConfigStore/ModuleIR.swift
     - path: Sources/ConfigStore/ModuleRegexDeadline.swift
     - path: Sources/ConfigStore/ModuleHostList.swift
@@ -511,6 +516,7 @@ targets:
         com.apple.developer.ubiquity-container-identifiers:
         - $(CLASH_ICLOUD_CONTAINER)
     dependencies:
+    - package: HakoAgentKit
     - package: ClashClientKit
     - package: ClashClientUI
     - package: ClashMacClient

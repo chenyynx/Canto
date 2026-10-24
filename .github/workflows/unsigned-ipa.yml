@@ -37,9 +37,9 @@ jobs:
           path: |
             .build
             ~/go/pkg/mod
-          key: hako-build-${{ runner.os }}-${{ hashFiles('Dependencies.lock.json') }}
+          key: clash-build-${{ runner.os }}-${{ hashFiles('Dependencies.lock.json') }}
           restore-keys: |
-            hako-build-${{ runner.os }}-
+            clash-build-${{ runner.os }}-
 
       - name: Install XcodeGen and PyYAML
         run: |
@@ -65,26 +65,26 @@ jobs:
             --bundle-base "${{ github.event.inputs.bundle_base }}"
 
       - name: Resolve SwiftPM packages
-        # 与 ci.yml 同：显式解析一次，确保嵌套本地包（HakoClientUI→HakoAgentKit/HakoClientKit）传递依赖就绪
+        # 与 ci.yml 同：显式解析一次，确保本地包（ClashClientUI→ClashClientKit、HakoAgentKit）依赖就绪
         run: |
-          xcodebuild -project apple/HakoClient/HakoClient.xcodeproj -resolvePackageDependencies
+          xcodebuild -project apple/ClashClient/ClashClient.xcodeproj -resolvePackageDependencies
 
       - name: Build for device (unsigned)
         # ⚠️ 判成败只看退出码（与 ci.yml 同规）。旧版用 grep 文本判空：零编译错误（=成功）时
         #   grep 无匹配 + pipefail + set -e 会静默 exit 1；错误全被 grep -v 过滤时中途管道
         #   退出码同样触发死法——该写法没有任何成功出口（2026-10-14 实踩，17 次全红）。
-        # ⚠️ 不逐 target 构建 HakoClient：`xcodebuild -target` 对嵌套本地包 target 有模块解析
+        # ⚠️ 不逐 target 构建 ClashiOS：`xcodebuild -target` 对嵌套本地包 target 有模块解析
         #   缺陷（恒报 unable to resolve module dependency 假错误），其编译由 scheme 构建权威
         #   覆盖；扩展 target 无嵌套包依赖，可安全逐 target 构建。
         run: |
           set -uo pipefail
-          SCHEME_ARGS=(xcodebuild -project apple/HakoClient/HakoClient.xcodeproj \
-            -scheme HakoClient -configuration Release -destination 'generic/platform=iOS' \
+          SCHEME_ARGS=(xcodebuild -project apple/ClashClient/ClashClient.xcodeproj \
+            -scheme ClashiOS -configuration Release -destination 'generic/platform=iOS' \
             -derivedDataPath .build/dd \
             HAKO_BUILD_REVISION="$(git rev-parse --short HEAD)" \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" CODE_SIGN_ENTITLEMENTS="")
-          TARGET_ARGS=(xcodebuild -project apple/HakoClient/HakoClient.xcodeproj \
+          TARGET_ARGS=(xcodebuild -project apple/ClashClient/ClashClient.xcodeproj \
             -configuration Release -destination 'generic/platform=iOS' \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" CODE_SIGN_ENTITLEMENTS="")
@@ -103,7 +103,7 @@ jobs:
           # ① scheme 构建：成功即产出 .app；失败不中断（继续收集）
           run_build "scheme build" "${SCHEME_ARGS[@]}" build
           # ② 逐 target 构建：把每个扩展 target 的错误都收进来（-keepGoing 在本版本不可用）
-          for T in HakoClientExtension HakoControlsExtension HakoShareExtension; do
+          for T in ClashiOSExtension ClashControlsExtension ClashShareExtension; do
             run_build "target $T" "${TARGET_ARGS[@]}" -target "$T" build
           done
           if [ "$FAILED" -ne 0 ]; then
@@ -139,14 +139,14 @@ jobs:
           cp -R "$APP" /tmp/ipa/Payload/
           # 未签名包：清掉可能残留的签名目录（侧载工具会重签）
           rm -rf /tmp/ipa/Payload/*.app/_CodeSignature || true
-          cd /tmp/ipa && zip -qry "$GITHUB_WORKSPACE/Hako-unsigned.ipa" Payload
-          ls -la "$GITHUB_WORKSPACE/Hako-unsigned.ipa"
-          unzip -l "$GITHUB_WORKSPACE/Hako-unsigned.ipa" | head -20
+          cd /tmp/ipa && zip -qry "$GITHUB_WORKSPACE/Clash-unsigned.ipa" Payload
+          ls -la "$GITHUB_WORKSPACE/Clash-unsigned.ipa"
+          unzip -l "$GITHUB_WORKSPACE/Clash-unsigned.ipa" | head -20
           echo "--- 嵌套扩展 ---"
-          unzip -l "$GITHUB_WORKSPACE/Hako-unsigned.ipa" | grep -E '\.appex' | head
+          unzip -l "$GITHUB_WORKSPACE/Clash-unsigned.ipa" | grep -E '\.appex' | head
 
       - uses: actions/upload-artifact@v4
         with:
-          name: Hako-unsigned-ipa
-          path: Hako-unsigned.ipa
+          name: Clash-unsigned-ipa
+          path: Clash-unsigned.ipa
           retention-days: 7

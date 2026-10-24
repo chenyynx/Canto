@@ -51,9 +51,9 @@ jobs:
           path: |
             .build
             ~/go/pkg/mod
-          key: hako-build-${{ runner.os }}-${{ hashFiles('Dependencies.lock.json') }}
+          key: clash-build-${{ runner.os }}-${{ hashFiles('Dependencies.lock.json') }}
           restore-keys: |
-            hako-build-${{ runner.os }}-
+            clash-build-${{ runner.os }}-
 
       - name: Bootstrap pinned SDK and Adapter
         # 克隆钉住的内核/适配器源码，装钉住的 gomobile，编五切片 xcframework
@@ -66,26 +66,26 @@ jobs:
         # HakoAgentKit 经本地包依赖 swift-crypto；xcodebuild 不总是自动解析传递依赖，
         # 显式跑一次确保 Crypto 模块可构建（2026-10-14 修 CI 实踩）。
         run: |
-          xcodebuild -project apple/HakoClient/HakoClient.xcodeproj -resolvePackageDependencies
+          xcodebuild -project apple/ClashClient/ClashClient.xcodeproj -resolvePackageDependencies
 
-      - name: Build HakoClient (unsigned, iOS Simulator)
+      - name: Build ClashiOS (unsigned, iOS Simulator)
         # ⚠️ 判成败只看退出码。历史踩坑：①xcodebuild|tee 吞掉退出码致假绿（2026-10-13）；
         # ②grep 匹配错误文本判失败，零错误（=构建成功）时 grep 无匹配 + pipefail + set -e
         #   令脚本静默 exit 1 致假失败（2026-10-14 实踩）。失败时打印错误摘要 + 日志尾部，
         #   完整 xc.log 由下一步上传 artifact 供取证。
-        # ⚠️ 不要给主 target（HakoClient）加逐 target 构建：`xcodebuild -target` 对消费嵌套
-        #   本地包的 target（HakoClient→HakoClientUI→HakoAgentKit/HakoClientKit）有模块解析
+        # ⚠️ 不要给主 target（ClashiOS）加逐 target 构建：`xcodebuild -target` 对消费嵌套
+        #   本地包的 target（ClashiOS→ClashClientUI→ClashClientKit）有模块解析
         #   缺陷，恒报 unable to resolve module dependency（2026-10-14 实测：同代码 scheme 全绿、
         #   -target 必红）。主 target 编译由 scheme 构建权威覆盖；扩展 target 无嵌套包依赖，
         #   保留逐 target 构建（scheme 早失败时仍可独立验证扩展）。
         run: |
           set -uo pipefail
           DEST='generic/platform=iOS Simulator'
-          SCHEME_ARGS=(xcodebuild -project apple/HakoClient/HakoClient.xcodeproj \
-            -scheme HakoClient -configuration Release -destination "$DEST" \
+          SCHEME_ARGS=(xcodebuild -project apple/ClashClient/ClashClient.xcodeproj \
+            -scheme ClashiOS -configuration Release -destination "$DEST" \
             -derivedDataPath .build/dd-sim \
             HAKO_BUILD_REVISION="$(git rev-parse --short HEAD)" CODE_SIGNING_ALLOWED=NO)
-          TARGET_ARGS=(xcodebuild -project apple/HakoClient/HakoClient.xcodeproj \
+          TARGET_ARGS=(xcodebuild -project apple/ClashClient/ClashClient.xcodeproj \
             -configuration Release -destination "$DEST" CODE_SIGNING_ALLOWED=NO)
           rm -f /tmp/xc.log
           FAILED=0
@@ -100,7 +100,7 @@ jobs:
             fi
           }
           run_build "scheme build" "${SCHEME_ARGS[@]}" build
-          for T in HakoClientExtension HakoControlsExtension HakoShareExtension; do
+          for T in ClashiOSExtension ClashControlsExtension ClashShareExtension; do
             run_build "target $T" "${TARGET_ARGS[@]}" -target "$T" build
           done
           if [ "$FAILED" -ne 0 ]; then

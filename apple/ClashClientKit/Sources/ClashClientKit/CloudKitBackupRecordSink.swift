@@ -5,16 +5,31 @@ import Foundation
  
  
 public final class CloudKitBackupRecordSink: BackupRecordSink, @unchecked Sendable {
-    private let container: CKContainer
-     
-     
+    private let containerIdentifier: String
+    private var container: CKContainer?
+
+
     public var diagnostics: (@Sendable (String) -> Void)?
 
     public init(containerIdentifier: String) {
-        container = CKContainer(identifier: containerIdentifier)
+        self.containerIdentifier = containerIdentifier
+    }
+
+    /// 惰性容器：无 iCloud entitlement 时不构造 CKContainer（sideload 会抛 NSException）。
+    private func ensuredContainer() throws -> CKContainer {
+        if let container { return container }
+        guard ICloudEntitlementProbe.hasICloudEntitlement else {
+            throw BackupRecordSinkError.unavailable(
+                "iCloud is not available in this build (no iCloud container entitlement)."
+            )
+        }
+        let created = CKContainer(identifier: containerIdentifier)
+        container = created
+        return created
     }
 
     public func upsert(_ payload: BackupRecordPayload) async throws {
+        let container = try ensuredContainer()
         try await requireAccount()
         if let diagnostics {
              
@@ -42,6 +57,7 @@ public final class CloudKitBackupRecordSink: BackupRecordSink, @unchecked Sendab
     }
 
     public func deleteOwn(installID: String) async throws {
+        let container = try ensuredContainer()
         try await requireAccount()
         do {
             _ = try await container.privateCloudDatabase.modifyRecords(
@@ -71,6 +87,7 @@ public final class CloudKitBackupRecordSink: BackupRecordSink, @unchecked Sendab
     }
 
     private func requireAccount() async throws {
+        let container = try ensuredContainer()
         let status: CKAccountStatus
         do {
             status = try await container.accountStatus()

@@ -140,7 +140,7 @@ final class ICloudAutoBackup: ObservableObject {
             && strings("com.apple.developer.icloud-container-identifiers")
                 .contains(ClashAppIdentifiers.iCloudContainer)
         #else
-        return true
+        return ICloudEntitlementProbe.hasICloudEntitlement
         #endif
     }
 
