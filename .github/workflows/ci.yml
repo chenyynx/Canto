@@ -32,8 +32,10 @@ jobs:
 
       - uses: actions/setup-go@v5
         with:
-          # 与 Dependencies.lock.json 所钉内核的 go.mod 工具链指令一致
-          go-version: '1.26.6'
+          # 与 Dependencies.lock.json 所钉内核 bind/clash/go.mod 的 toolchain 指令一致。
+          # 低于该版本时 Go 会把 toolchain 下到 GOMODCACHE，build_libbox 拒绝在
+          # GOMODCACHE 下做覆盖，Apple 切片全部失败（2026-10-24 CI 实踩）。
+          go-version: '1.26.10'
 
       - name: Install XcodeGen and PyYAML
         # runner 的 Homebrew Python 是 externally-managed，pip 直装会被拒；

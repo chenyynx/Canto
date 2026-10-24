@@ -28,7 +28,8 @@ jobs:
 
       - uses: actions/setup-go@v5
         with:
-          go-version: '1.26.6'
+          # 与 Dependencies.lock.json 所钉内核 bind/clash/go.mod 的 toolchain 一致
+          go-version: '1.26.10'
 
       - name: Restore build cache (kernel xcframework / gomobile / venv)
         id: cache
