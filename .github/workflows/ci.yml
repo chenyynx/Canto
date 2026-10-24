@@ -83,12 +83,15 @@ jobs:
         run: |
           set -uo pipefail
           DEST='generic/platform=iOS Simulator'
+          # 门禁用 Debug：Release + WMO 在 3 vCPU runner 上即使命中缓存也要 ~28 分钟
+          # （2026-10-25 实测 1668s），增量几乎不生效。Debug 只验证"能编过"，
+          # Release/真机产物由 unsigned-ipa.yml 的打包流程验证。
           SCHEME_ARGS=(xcodebuild -project apple/ClashClient/ClashClient.xcodeproj \
-            -scheme ClashiOS -configuration Release -destination "$DEST" \
+            -scheme ClashiOS -configuration Debug -destination "$DEST" \
             -derivedDataPath .build/dd-sim \
             CANTO_BUILD_REVISION="$(git rev-parse --short HEAD)" CODE_SIGNING_ALLOWED=NO)
           TARGET_ARGS=(xcodebuild -project apple/ClashClient/ClashClient.xcodeproj \
-            -configuration Release -destination "$DEST" CODE_SIGNING_ALLOWED=NO)
+            -configuration Debug -destination "$DEST" CODE_SIGNING_ALLOWED=NO)
           rm -f /tmp/xc.log
           FAILED=0
           run_build () {
