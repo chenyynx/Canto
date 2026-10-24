@@ -2524,7 +2524,7 @@ return
     }
 
     private static let urlTestLog = Logger(
-        subsystem: "org.example.clash", category: "urltest")
+        subsystem: "org.example.canto", category: "urltest")
 
      
      

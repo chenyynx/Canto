@@ -17,7 +17,7 @@ final class ActivationStopwatch {
         let detail: String?
     }
 
-    private static let system = Logger(subsystem: "org.example.clash", category: "activation")
+    private static let system = Logger(subsystem: "org.example.canto", category: "activation")
 
      
      

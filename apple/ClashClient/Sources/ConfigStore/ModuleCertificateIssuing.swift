@@ -557,7 +557,7 @@ enum ModuleCAFiles {
  
  
 enum ModuleCAKeychain {
-    static let service = "org.example.clash.adblock.ca-key"
+    static let service = "org.example.canto.adblock.ca-key"
     static let label = #"Clash Module CA private key"#
 
     private static func query(_ locations: ModuleEngineLocations) -> [CFString: Any]? {

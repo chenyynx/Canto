@@ -130,7 +130,7 @@ final class ClashMainLoopBusyMeter {
 }
 
 public enum ClashPerf {
-    public static let subsystem = "org.example.clash"
+    public static let subsystem = "org.example.canto"
     public static let log = Logger(subsystem: subsystem, category: "perf")
     public static let signposter = OSSignposter(
         subsystem: subsystem, category: .pointsOfInterest

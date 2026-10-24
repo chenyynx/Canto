@@ -7,10 +7,10 @@ import os.log
 class PacketTunnelProvider: NEPacketTunnelProvider {
     private lazy var provider = ExtensionProvider(tunnelProvider: self)
     private static let launchLog = Logger(
-        subsystem: "org.example.clash.demo.extension", category: "launch")
+        subsystem: "org.example.canto.demo.extension", category: "launch")
     #if os(iOS) || os(macOS)
      
-    private static let modulesLog = Logger(subsystem: "org.example.clash.demo.extension", category: "modules")
+    private static let modulesLog = Logger(subsystem: "org.example.canto.demo.extension", category: "modules")
      
      
      

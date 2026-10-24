@@ -123,7 +123,7 @@ enum ProviderFirstLoadRetry {
      
      
      
-    static let didRefreshNotification = Notification.Name("org.example.clash.provider.first-load.refreshed")
+    static let didRefreshNotification = Notification.Name("org.example.canto.provider.first-load.refreshed")
 
      
      

@@ -172,7 +172,7 @@ final class ExtensionProvider: NSObject {
     private let reloadEnvelope = ProviderReloadEnvelope()
 
 
-    private let log = Logger(subsystem: "org.example.clash.demo.extension", category: "core")
+    private let log = Logger(subsystem: "org.example.canto.demo.extension", category: "core")
 
      
      
@@ -182,7 +182,7 @@ final class ExtensionProvider: NSObject {
     private let physicalPathMonitorSession = PhysicalPathMonitorSession()
     private let pathQueueKey = DispatchSpecificKey<Void>()
     private lazy var pathQueue: DispatchQueue = {
-        let queue = DispatchQueue(label: "org.example.clash.pathmonitor")
+        let queue = DispatchQueue(label: "org.example.canto.pathmonitor")
         queue.setSpecific(key: pathQueueKey, value: ())
         return queue
     }()
@@ -3008,7 +3008,7 @@ final class ClashConnectionOwnerBridge: NSObject, ClashConnectionOwnerResolverPr
     private let tally = NSLock()
     private var asked = 0
     private var named = 0
-    private static let log = Logger(subsystem: "org.example.clash.demo.extension", category: "process-owner")
+    private static let log = Logger(subsystem: "org.example.canto.demo.extension", category: "process-owner")
 
     private init(client: ClashConnectionOwnerClient) {
         self.client = client

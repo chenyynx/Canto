@@ -15,7 +15,7 @@ import WidgetKit
 final class WidgetMailboxService {
     private unowned let provider: ExtensionProvider
     private let store: ClashWidgetMailboxStore
-    private let queue = DispatchQueue(label: "org.example.clash.widget.mailbox")
+    private let queue = DispatchQueue(label: "org.example.canto.widget.mailbox")
     private var accounting = ClashWidgetInterfaceAccounting()
     private var interfaceKind: ClashWidgetInterfaceAccounting.Kind = .other
     private var phase: ClashWidgetPhase = .disconnected

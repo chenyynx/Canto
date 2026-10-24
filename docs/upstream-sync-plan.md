@@ -1,4 +1,4 @@
-# 上游同步方案（ProjectClash/Clash-Client → chenyynx/Hako-Client）
+# 上游同步方案（ProjectClash/Clash-Client → chenyynx/Canto-Client）
 
 > 2026-10-22 盘点。基线：我们 fork 的代码快照 = 上游 `3e93b98`（2026-10-10）。
 > 上游 HEAD：`3b8ea95`（2026-10-21）。
@@ -12,7 +12,7 @@
 | 代码量 | **+108,067 / −6,017 行** |
 | 主要新增子系统 | AdBlock 引擎（~1.6 万行）、Module 子系统（MITM/重写/脚本）、大列表分页与规则集预编译、macOS 修复 |
 
-> 注意：我们的仓库是「改名 fork」（Clash→Hako），直接 `git merge` 不可行（新上游是独立历史，无共同祖先）。所有同步必须做**文件级语义合并 + 改名变换**。
+> 注意：我们的仓库是「改名 fork」（Clash→Canto），直接 `git merge` 不可行（新上游是独立历史，无共同祖先）。所有同步必须做**文件级语义合并 + 改名变换**。
 
 ## 2. 两种方案
 
@@ -38,21 +38,21 @@
 
 **P0 准备（0.5 天）**
 1. 打快照 tag `pre-upstream-sync-20261022`（回滚锚）
-2. 写改名变换脚本（`Clash`→`Hako`、`clash`→`hako` 的标识符/路径映射，排除第三方与系统 API 名）
+2. 写改名变换脚本（`Clash`→`Canto`、`clash`→`canto` 的标识符/路径映射，排除第三方与系统 API 名）
 3. 生成闭包清单（新增 128 + 修改 30），逐项标注：直接搬 / 需三方合并
 
 **P1 新增文件落库（1–1.5 天）**
-- 128 个新文件按变换搬入，登记 `apple/HakoClient/project.yml` 对应 target
+- 128 个新文件按变换搬入，登记 `apple/CantoClient/project.yml` 对应 target
 - 先保证能编译（允许功能未接线）
 
 **P2 集成点合并（1.5–2 天）**
 - 对约 30 个「我们也改过、上游也改了」的文件做三方合并
 - 重点：ExtensionProvider / PacketTunnelProvider / CommandClient / App / ConfigStore / project.yml
-- 保留我们自己的改动：App Group 探测、Anchor 桥、文件通道（hello/diagnostics）、构建标识、连接流优化、UI 导航
+- 保留我们自己的改动：App Group 探测、Canto 桥、文件通道（hello/diagnostics）、构建标识、连接流优化、UI 导航
 
 **P3 验证（1 天）**
-- CI 编译 + HakoAgentKit 单测
-- 真机冒烟：VPN 连接、连接列表、节点/配置、文件通道、Anchor 配对
+- CI 编译 + CantoAgentKit 单测
+- 真机冒烟：VPN 连接、连接列表、节点/配置、文件通道、Canto 配对
 - 帧日志：`home.snapshot` 不劣化（基线 18–222）
 - 模块验证：装 1 个 Surge `.sgmodule` + 1 个 Loon `.lpx`，确认规则/重写/脚本生效
 

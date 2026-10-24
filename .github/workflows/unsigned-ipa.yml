@@ -6,9 +6,9 @@ on:
   workflow_dispatch:
     inputs:
       bundle_base:
-        description: 'Bundle id 前缀（默认 org.example.hako）'
+        description: 'Bundle id 前缀（默认 org.example.canto）'
         required: false
-        default: 'org.example.hako'
+        default: 'org.example.canto'
 
 jobs:
   ipa:
@@ -37,9 +37,9 @@ jobs:
           path: |
             .build
             ~/go/pkg/mod
-          key: clash-build-${{ runner.os }}-${{ hashFiles('Dependencies.lock.json') }}
+          key: canto-build-${{ runner.os }}-${{ hashFiles('Dependencies.lock.json') }}
           restore-keys: |
-            clash-build-${{ runner.os }}-
+            canto-build-${{ runner.os }}-
 
       - name: Install XcodeGen and PyYAML
         run: |
@@ -65,7 +65,7 @@ jobs:
             --bundle-base "${{ github.event.inputs.bundle_base }}"
 
       - name: Resolve SwiftPM packages
-        # 与 ci.yml 同：显式解析一次，确保本地包（ClashClientUI→ClashClientKit、HakoAgentKit）依赖就绪
+        # 与 ci.yml 同：显式解析一次，确保本地包（ClashClientUI→ClashClientKit、CantoAgentKit）依赖就绪
         run: |
           xcodebuild -project apple/ClashClient/ClashClient.xcodeproj -resolvePackageDependencies
 
@@ -81,7 +81,7 @@ jobs:
           SCHEME_ARGS=(xcodebuild -project apple/ClashClient/ClashClient.xcodeproj \
             -scheme ClashiOS -configuration Release -destination 'generic/platform=iOS' \
             -derivedDataPath .build/dd \
-            HAKO_BUILD_REVISION="$(git rev-parse --short HEAD)" \
+            CANTO_BUILD_REVISION="$(git rev-parse --short HEAD)" \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" CODE_SIGN_ENTITLEMENTS="")
           TARGET_ARGS=(xcodebuild -project apple/ClashClient/ClashClient.xcodeproj \
@@ -139,14 +139,14 @@ jobs:
           cp -R "$APP" /tmp/ipa/Payload/
           # 未签名包：清掉可能残留的签名目录（侧载工具会重签）
           rm -rf /tmp/ipa/Payload/*.app/_CodeSignature || true
-          cd /tmp/ipa && zip -qry "$GITHUB_WORKSPACE/Clash-unsigned.ipa" Payload
-          ls -la "$GITHUB_WORKSPACE/Clash-unsigned.ipa"
-          unzip -l "$GITHUB_WORKSPACE/Clash-unsigned.ipa" | head -20
+          cd /tmp/ipa && zip -qry "$GITHUB_WORKSPACE/Canto-unsigned.ipa" Payload
+          ls -la "$GITHUB_WORKSPACE/Canto-unsigned.ipa"
+          unzip -l "$GITHUB_WORKSPACE/Canto-unsigned.ipa" | head -20
           echo "--- 嵌套扩展 ---"
-          unzip -l "$GITHUB_WORKSPACE/Clash-unsigned.ipa" | grep -E '\.appex' | head
+          unzip -l "$GITHUB_WORKSPACE/Canto-unsigned.ipa" | grep -E '\.appex' | head
 
       - uses: actions/upload-artifact@v4
         with:
-          name: Clash-unsigned-ipa
-          path: Clash-unsigned.ipa
+          name: Canto-unsigned-ipa
+          path: Canto-unsigned.ipa
           retention-days: 7

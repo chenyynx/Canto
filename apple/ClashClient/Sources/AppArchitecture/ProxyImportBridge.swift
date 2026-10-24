@@ -595,7 +595,7 @@ enum ProxyImportBridge {
     }()
 
     private static let capabilityLog = Logger(
-        subsystem: "org.example.clash", category: "proxyimport")
+        subsystem: "org.example.canto", category: "proxyimport")
 
     private static func capabilityDocument() throws -> [String: Any] {
         guard let box = ClashProxyImportCapabilitiesForIOS() else {

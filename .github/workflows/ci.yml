@@ -51,9 +51,9 @@ jobs:
           path: |
             .build
             ~/go/pkg/mod
-          key: clash-build-${{ runner.os }}-${{ hashFiles('Dependencies.lock.json') }}
+          key: canto-build-${{ runner.os }}-${{ hashFiles('Dependencies.lock.json') }}
           restore-keys: |
-            clash-build-${{ runner.os }}-
+            canto-build-${{ runner.os }}-
 
       - name: Bootstrap pinned SDK and Adapter
         # 克隆钉住的内核/适配器源码，装钉住的 gomobile，编五切片 xcframework
@@ -63,7 +63,7 @@ jobs:
         run: .build/python-env/bin/python3 scripts/configure.py
 
       - name: Resolve SwiftPM packages
-        # HakoAgentKit 经本地包依赖 swift-crypto；xcodebuild 不总是自动解析传递依赖，
+        # CantoAgentKit 经本地包依赖 swift-crypto；xcodebuild 不总是自动解析传递依赖，
         # 显式跑一次确保 Crypto 模块可构建（2026-10-14 修 CI 实踩）。
         run: |
           xcodebuild -project apple/ClashClient/ClashClient.xcodeproj -resolvePackageDependencies
@@ -84,7 +84,7 @@ jobs:
           SCHEME_ARGS=(xcodebuild -project apple/ClashClient/ClashClient.xcodeproj \
             -scheme ClashiOS -configuration Release -destination "$DEST" \
             -derivedDataPath .build/dd-sim \
-            HAKO_BUILD_REVISION="$(git rev-parse --short HEAD)" CODE_SIGNING_ALLOWED=NO)
+            CANTO_BUILD_REVISION="$(git rev-parse --short HEAD)" CODE_SIGNING_ALLOWED=NO)
           TARGET_ARGS=(xcodebuild -project apple/ClashClient/ClashClient.xcodeproj \
             -configuration Release -destination "$DEST" CODE_SIGNING_ALLOWED=NO)
           rm -f /tmp/xc.log
@@ -121,9 +121,9 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
-  # HakoAgentKit：纯逻辑协议包的 swift test（Linux runner 即可，swift-crypto 跨平台）
+  # CantoAgentKit：纯逻辑协议包的 swift test（Linux runner 即可，swift-crypto 跨平台）
   swift-test:
-    name: swift-test (HakoAgentKit)
+    name: swift-test (CantoAgentKit)
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -131,6 +131,6 @@ jobs:
       - uses: swift-actions/setup-swift@v2
         with:
           swift-version: '6.0'
-      - name: swift test (HakoAgentKit)
-        working-directory: apple/HakoAgentKit
+      - name: swift test (CantoAgentKit)
+        working-directory: apple/CantoAgentKit
         run: swift test

@@ -40,7 +40,7 @@ final class ClashMacOwnerService: @unchecked Sendable {
     private var asked = 0
     private var answered = 0
     private var took: [UInt64] = []
-    private static let log = Logger(subsystem: "org.example.clash", category: "process-owner")
+    private static let log = Logger(subsystem: "org.example.canto", category: "process-owner")
 
     init?(container: URL, owners: ClashMacSocketOwners = .shared, checkEvery: DispatchTimeInterval = .seconds(5)) {
         let path = container.appendingPathComponent(Self.socketName).path

@@ -1,13 +1,13 @@
 name: ClashClient
 options:
-  bundleIdPrefix: org.example.clash
+  bundleIdPrefix: org.example.canto
   deploymentTarget:
     iOS: '15.0'
     macOS: '13.0'
     tvOS: '17.0'
 settings:
   base:
-    CLASH_BUNDLE_BASE: org.example.clash
+    CLASH_BUNDLE_BASE: org.example.canto
     CLASH_APP_GROUP: group.$(CLASH_BUNDLE_BASE)
     CLASH_ICLOUD_CONTAINER: iCloud.$(CLASH_BUNDLE_BASE)
     CLASH_DEVELOPMENT_TEAM: ''
@@ -19,8 +19,8 @@ settings:
     OTHER_LDFLAGS:
     - -lresolv
 packages:
-  HakoAgentKit:
-    path: ../HakoAgentKit
+  CantoAgentKit:
+    path: ../CantoAgentKit
   ClashClientKit:
     path: ../ClashClientKit
   ClashClientUI:
@@ -89,7 +89,7 @@ targets:
     info:
       path: Info.plist
       properties:
-        CFBundleDisplayName: Clash
+        CFBundleDisplayName: Canto
         CFBundleShortVersionString: $(MARKETING_VERSION)
         NSAppTransportSecurity:
           NSAllowsArbitraryLoads: true
@@ -108,6 +108,7 @@ targets:
         CFBundleURLTypes:
         - CFBundleTypeRole: Editor
           CFBundleURLSchemes:
+          - canto
           - clash
           - clashmeta
           - flclash
@@ -125,7 +126,7 @@ targets:
         - fetch
         - processing
         NSUbiquitousContainers:
-          iCloud.org.example.clash:
+          iCloud.org.example.canto:
             NSUbiquitousContainerIsDocumentScopePublic: true
             NSUbiquitousContainerName: Clash
             NSUbiquitousContainerSupportedFolderLevels: Any
@@ -144,7 +145,7 @@ targets:
         com.apple.developer.ubiquity-container-identifiers:
         - $(CLASH_ICLOUD_CONTAINER)
     dependencies:
-    - package: HakoAgentKit
+    - package: CantoAgentKit
     - package: ClashClientKit
     - package: ClashClientUI
     - package: swift-certificates
@@ -207,8 +208,8 @@ targets:
     sources:
     - path: Extension
       excludes: []
-    - path: ../HakoAgentKit/Sources/HakoAgentKit
-      group: HakoAgentKit
+    - path: ../CantoAgentKit/Sources/CantoAgentKit
+      group: CantoAgentKit
     - path: Sources/ConfigStore/ModuleIR.swift
     - path: Sources/ConfigStore/ModuleRegexDeadline.swift
     - path: Sources/ConfigStore/ModuleHostList.swift
@@ -253,7 +254,7 @@ targets:
     info:
       path: Extension/Info.plist
       properties:
-        CFBundleDisplayName: Clash
+        CFBundleDisplayName: Canto
         CFBundleShortVersionString: '1.0'
         CFBundleVersion: '1'
         NSExtension:
@@ -325,7 +326,7 @@ targets:
     info:
       path: ControlsExtension/Info.plist
       properties:
-        CFBundleDisplayName: Clash Controls
+        CFBundleDisplayName: Canto Controls
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         NSExtension:
@@ -363,7 +364,7 @@ targets:
     info:
       path: ShareExtension/Info.plist
       properties:
-        CFBundleDisplayName: Import to Clash
+        CFBundleDisplayName: Import to Canto
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         NSExtension:
@@ -477,7 +478,7 @@ targets:
     info:
       path: Resources/macOS/ClashMacInfo.plist
       properties:
-        CFBundleDisplayName: Clash
+        CFBundleDisplayName: Canto
         NSAppTransportSecurity:
           NSAllowsArbitraryLoads: true
         CFBundleIconName: AppIcon
@@ -486,6 +487,7 @@ targets:
         - CFBundleTypeRole: Editor
           CFBundleURLName: $(PRODUCT_BUNDLE_IDENTIFIER).install-config
           CFBundleURLSchemes:
+          - canto
           - clash
           - clashmeta
           - flclash
@@ -516,7 +518,7 @@ targets:
         com.apple.developer.ubiquity-container-identifiers:
         - $(CLASH_ICLOUD_CONTAINER)
     dependencies:
-    - package: HakoAgentKit
+    - package: CantoAgentKit
     - package: ClashClientKit
     - package: ClashClientUI
     - package: ClashMacClient
@@ -600,7 +602,7 @@ targets:
     info:
       path: MacWidgets/Info.plist
       properties:
-        CFBundleDisplayName: Clash
+        CFBundleDisplayName: Canto
         ClashSourceRevision: $(CLASH_SOURCE_REVISION)
         NSExtension:
           NSExtensionPointIdentifier: com.apple.widgetkit-extension
@@ -662,7 +664,7 @@ targets:
     info:
       path: Resources/macOS/ClashMacExtensionInfo.plist
       properties:
-        CFBundleDisplayName: Clash
+        CFBundleDisplayName: Canto
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         ClashSourceRevision: $(CLASH_SOURCE_REVISION)
@@ -812,7 +814,7 @@ targets:
     info:
       path: Resources/tvOS/ClashTVInfo.plist
       properties:
-        CFBundleDisplayName: Clash
+        CFBundleDisplayName: Canto
         NSLocalNetworkUsageDescription: Let other devices on your network use this
           Apple TV's proxy.
         CFBundleShortVersionString: $(MARKETING_VERSION)
@@ -880,7 +882,7 @@ targets:
     info:
       path: Resources/tvOS/ClashTVExtensionInfo.plist
       properties:
-        CFBundleDisplayName: Clash
+        CFBundleDisplayName: Canto
         UIRequiredDeviceCapabilities:
         - arm64
         CFBundleShortVersionString: $(MARKETING_VERSION)

@@ -299,7 +299,7 @@ struct ModuleSystemTrust: ModuleTrustEvaluating {
 enum ModuleCertificateProfile {
      
      
-    static let identifier = "org.example.clash.adblock.ca"
+    static let identifier = "org.example.canto.adblock.ca"
 
      
      

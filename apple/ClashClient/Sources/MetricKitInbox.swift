@@ -318,7 +318,7 @@ final class MetricKitCollector: NSObject, MXMetricManagerSubscriber {
     static let shared = MetricKitCollector()
 
     private let manager = MXMetricManager.shared
-    private let queue = DispatchQueue(label: "org.example.clash.metrickit", qos: .utility)
+    private let queue = DispatchQueue(label: "org.example.canto.metrickit", qos: .utility)
     private let lock = NSLock()
     private var started = false
 
@@ -363,7 +363,7 @@ final class MetricKitCollector: NSObject, MXMetricManagerSubscriber {
                 body()
                 finished.signal()
             }
-            thread.name = "org.example.clash.metrickit.ingest"
+            thread.name = "org.example.canto.metrickit.ingest"
             thread.qualityOfService = .utility
             thread.stackSize = 8 << 20
             thread.start()
