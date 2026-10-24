@@ -2,7 +2,7 @@
 
 - 日期：2026-10-24
 - 级别：L（跨模块 / 构建链 / pin）
-- 状态：P0/P1/P2/P2b/P2c/P3-pin 完成；P3 CI/镜像、P4、P5 待执行
+- 状态：P0–P3 完成（CI 绿 run 40114363290，缓存已建 1.3GB）；P4 真机、P5 UI 改造待执行
 - 回滚：tag `pre-sync-20261024`（c7a63dc）；分支 `diag/ipc-channel-evidence`
 
 ## 1. 目标与边界
@@ -34,7 +34,7 @@
   - 新增文件：Agent/Canto（约 6.8k 行）、`CantoAgentKit`、CI workflow。
   - 共享 UI：`ClashClientApp`、`GoldenFlowHomeView`、`ConnectionsView`、`RequestsView`、`LogsView`、`AppleClientActions`、`ClashTheme`。
   - 集成点：`ExtensionProvider`、`PacketTunnelProvider`、`ClashCommandClient`、`project.yml`；P2c 提交 `6aa24aa`。
-- P3（进行中）：pin 已改 `d1aff39` / `bdf40d4`（bbf507c）；待推分支跑 CI，绿后镜像到 `Canto-Core` / `Canto-Adapter` 并切换。
+- P3（完成）：pin `d1aff39` / `bdf40d4`；镜像已切到公开仓 `chenyynx/Canto-Core` / `Canto-Adapter`（本地 mirror clone + push，非 fork，SHA 保留）；CI 绿 run 40114363290（commit 54442c7）。runner 只有 Xcode 26.6（上游 README 要求 27），据此做了三处适配：Go 1.26.10、`buildIf` 条件移进 ToolbarItem、`ICloudEntitlementProbe` 改 public。
 - P4（待执行）：真机冒烟 + 模块测试（Surge `.sgmodule` / Loon `.lpx` / QX module）。
 - P5（部分完成）：Canto 显示名 / bundle / App Group / URL scheme 已改，外部仓库已改名；待真机复测签名与 App Group。
 
@@ -55,5 +55,5 @@
 ## 7. 未决
 
 - 产品名：Canto（已定，品牌层已完成）。
-- Kernel pin：当前 `d1aff39` / `bdf40d4`；CI 不兼容回退 `a5cb38d`。
-- 镜像策略：`chenyynx/Canto`（App）/ `Canto-Core`（内核）/ `Canto-Adapter`；CI 绿后把上游 revision 镜像到后两者并切换 pin。
+- Kernel pin：当前 `d1aff39` / `bdf40d4`，CI 已验证；回退备选 `a5cb38d`。
+- 镜像策略（已落地）：`chenyynx/Canto`（App）/ `Canto-Core`（内核镜像）/ `Canto-Adapter`（适配层镜像），均为公开仓、非 fork。旧 `*-Legacy` 私有仓与临时 fork 仓待清理。
