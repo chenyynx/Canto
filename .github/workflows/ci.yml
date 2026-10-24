@@ -53,7 +53,10 @@ jobs:
           path: |
             .build
             ~/go/pkg/mod
-          key: canto-build-${{ runner.os }}-${{ hashFiles('Dependencies.lock.json') }}
+          # key 必须带 Debug：配置不同，dd-sim 的编译产物不能混用；而 actions/cache
+          # 命中主 key 时不会重存，混用会导致 Debug 产物永远存不进去（2026-10-25 实测）。
+          # restore-keys 回退到不带配置的旧 key，保证内核 xcframework 仍能复用。
+          key: canto-build-${{ runner.os }}-debug-${{ hashFiles('Dependencies.lock.json') }}
           restore-keys: |
             canto-build-${{ runner.os }}-
 
@@ -86,12 +89,16 @@ jobs:
           # 门禁用 Debug：Release + WMO 在 3 vCPU runner 上即使命中缓存也要 ~28 分钟
           # （2026-10-25 实测 1668s），增量几乎不生效。Debug 只验证"能编过"，
           # Release/真机产物由 unsigned-ipa.yml 的打包流程验证。
+          # ARCHS=arm64 + ONLY_ACTIVE_ARCH：generic Simulator 默认编 arm64+x86_64，
+          # 砍掉 x86_64 省一半编译量；只影响 CI，本地/真机不受影响。
           SCHEME_ARGS=(xcodebuild -project apple/ClashClient/ClashClient.xcodeproj \
             -scheme ClashiOS -configuration Debug -destination "$DEST" \
             -derivedDataPath .build/dd-sim \
-            CANTO_BUILD_REVISION="$(git rev-parse --short HEAD)" CODE_SIGNING_ALLOWED=NO)
+            CANTO_BUILD_REVISION="$(git rev-parse --short HEAD)" CODE_SIGNING_ALLOWED=NO \
+            ARCHS=arm64 ONLY_ACTIVE_ARCH=YES)
           TARGET_ARGS=(xcodebuild -project apple/ClashClient/ClashClient.xcodeproj \
-            -configuration Debug -destination "$DEST" CODE_SIGNING_ALLOWED=NO)
+            -configuration Debug -destination "$DEST" CODE_SIGNING_ALLOWED=NO \
+            ARCHS=arm64 ONLY_ACTIVE_ARCH=YES)
           rm -f /tmp/xc.log
           FAILED=0
           run_build () {
