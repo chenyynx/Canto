@@ -1,0 +1,707 @@
+{
+  "external-controller-cors": {
+    "title": {"en": "Controller CORS", "zh-Hans": "控制接口跨域", "zh-Hant": "控制介面跨來源"},
+    "summary": {"en": "Which web pages may call the controller API from a browser.",
+                "zh-Hans": "哪些网页可以在浏览器里调用控制接口。",
+                "zh-Hant": "哪些網頁可以在瀏覽器裡呼叫控制介面。"}
+  },
+  "iptables": {
+    "title": {"en": "iptables Rules", "zh-Hans": "iptables 规则", "zh-Hant": "iptables 規則"},
+    "summary": {"en": "Linux only: transparent proxying set up through iptables.",
+                "zh-Hans": "仅 Linux：通过 iptables 做透明代理。",
+                "zh-Hant": "僅 Linux：透過 iptables 做透明代理。"},
+    "platform": {"en": "iptables is a Linux feature; it does nothing here.", "zh-Hans": "iptables 是 Linux 的功能，在这里不起作用。", "zh-Hant": "iptables 是 Linux 的功能，在這裡不起作用。"}
+  },
+  "experimental": {
+    "title": {"en": "Experimental", "zh-Hans": "实验性配置", "zh-Hant": "實驗性設定"},
+    "summary": {"en": "Experimental options; leave them alone unless you need one.",
+                "zh-Hans": "实验性的选项，没有需要就不用改。",
+                "zh-Hant": "實驗性的選項，沒有需要就不用改。"}
+  },
+  "profile": {
+    "title": {"en": "Keep After Restart", "zh-Hans": "重启后保留", "zh-Hant": "重新啟動後保留"},
+    "summary": {"en": "After the core restarts you don't pick nodes again, and connections don't break over changed fake IPs.",
+                "zh-Hans": "内核重启后不用重新选节点，连接也不会因虚拟 IP 改变而断开。",
+                "zh-Hant": "核心重新啟動後不用重選節點，連線也不會因虛擬 IP 改變而中斷。"}
+  },
+  "geox-url": {
+    "title": {"en": "Rule Database Downloads", "zh-Hans": "规则数据库下载地址", "zh-Hant": "規則資料庫下載網址"},
+    "summary": {"en": "Usually left alone; switch to a mirror if GitHub is hard to reach.",
+                "zh-Hans": "一般不用改；访问 GitHub 困难时换成镜像。",
+                "zh-Hant": "一般不用改；連線 GitHub 困難時改用鏡像。"}
+  },
+  "tls": {
+    "title": {"en": "TLS", "zh-Hans": "TLS 证书", "zh-Hant": "TLS 憑證"},
+    "summary": {"en": "Certificates for the controller API's HTTPS, and extra CAs to trust.",
+                "zh-Hans": "控制接口 HTTPS 的证书，以及额外信任的 CA。",
+                "zh-Hant": "控制介面 HTTPS 的憑證，以及額外信任的 CA。"}
+  },
+  "clash-for-android": {
+    "title": {"en": "Clash for Android", "zh-Hans": "Clash 安卓版专用", "zh-Hant": "Clash 安卓版專用"},
+    "summary": {"en": "Read only by Clash for Android; no effect here.",
+                "zh-Hans": "仅 Clash for Android 读取，这里不起作用。",
+                "zh-Hant": "僅 Clash for Android 讀取，這裡不起作用。"},
+    "platform": {"en": "Only Clash for Android reads these; they do nothing here.", "zh-Hans": "这组只有 Clash for Android 读取，在这里不起作用。", "zh-Hant": "這組只有 Clash for Android 讀取，在這裡不起作用。"}
+  },
+  "port": {
+    "title": {"en": "HTTP Proxy Port", "zh-Hans": "HTTP 代理端口", "zh-Hant": "HTTP 代理埠"},
+    "summary": {"en": "Opens an HTTP proxy on this port for apps that let you set a proxy. 0 turns it off.",
+                "zh-Hans": "在这个端口开 HTTP 代理，供能手动设代理的 App 使用。0 为关闭。",
+                "zh-Hant": "在這個埠開 HTTP 代理，供能手動設代理的 App 使用。0 為關閉。"},
+    "unset": {"en": "Off", "zh-Hans": "关闭", "zh-Hant": "關閉"},
+    "example": "7890"
+  },
+  "socks-port": {
+    "title": {"en": "SOCKS Proxy Port", "zh-Hans": "SOCKS 代理端口", "zh-Hant": "SOCKS 代理埠"},
+    "summary": {"en": "Opens a SOCKS proxy on this port for apps that let you set a proxy. 0 turns it off.",
+                "zh-Hans": "在这个端口开 SOCKS 代理，供能手动设代理的 App 使用。0 为关闭。",
+                "zh-Hant": "在這個埠開 SOCKS 代理，供能手動設代理的 App 使用。0 為關閉。"},
+    "unset": {"en": "Off", "zh-Hans": "关闭", "zh-Hant": "關閉"},
+    "example": "7891"
+  },
+  "mixed-port": {
+    "title": {"en": "Mixed Proxy Port", "zh-Hans": "混合代理端口", "zh-Hant": "混合代理埠"},
+    "summary": {"en": "One port that serves both HTTP and SOCKS proxy clients. 0 turns it off.",
+                "zh-Hans": "同一个端口同时提供 HTTP 和 SOCKS 代理。0 为关闭。",
+                "zh-Hant": "同一個埠同時提供 HTTP 和 SOCKS 代理。0 為關閉。"},
+    "unset": {"en": "Off", "zh-Hans": "关闭", "zh-Hant": "關閉"},
+    "example": "7890"
+  },
+  "redir-port": {
+    "title": {"en": "Redirect Port", "zh-Hans": "重定向端口", "zh-Hant": "重新導向埠"},
+    "summary": {"en": "A transparent-proxy port that carries TCP only. 0 turns it off.",
+                "zh-Hans": "透明代理用的端口，只转发 TCP。0 为关闭。",
+                "zh-Hant": "透明代理用的埠，只轉發 TCP。0 為關閉。"},
+    "unset": {"en": "Off", "zh-Hans": "关闭", "zh-Hant": "關閉"},
+    "example": "7893",
+    "platform": {"en": "Apple doesn't let apps open a redirect listener, so none is opened.", "zh-Hans": "苹果不允许 App 打开重定向监听，这里不会打开。", "zh-Hant": "Apple 不允許 App 開啟重新導向監聽，這裡不會開啟。"}
+  },
+  "tproxy-port": {
+    "title": {"en": "TProxy Port", "zh-Hans": "TProxy 端口", "zh-Hant": "TProxy 埠"},
+    "summary": {"en": "A Linux transparent-proxy port for TCP and UDP. 0 turns it off.",
+                "zh-Hans": "Linux 透明代理用的端口，转发 TCP 和 UDP。0 为关闭。",
+                "zh-Hant": "Linux 透明代理用的埠，轉發 TCP 和 UDP。0 為關閉。"},
+    "unset": {"en": "Off", "zh-Hans": "关闭", "zh-Hant": "關閉"},
+    "example": "7894",
+    "platform": {"en": "Transparent proxying is Linux-only, so no TProxy listener is opened.", "zh-Hans": "透明代理只有 Linux 支持，这里不会打开 TProxy 监听。", "zh-Hant": "透明代理只有 Linux 支援，這裡不會開啟 TProxy 監聽。"}
+  },
+  "ss-config": {
+    "title": {"en": "Shadowsocks Inbound Link", "zh-Hans": "SS 入站链接", "zh-Hant": "SS 入站連結"},
+    "summary": {"en": "Opens a Shadowsocks inbound from a single ss:// link.",
+                "zh-Hans": "用一条 ss:// 链接快速开一个 Shadowsocks 入站。",
+                "zh-Hant": "用一條 ss:// 連結快速開一個 Shadowsocks 入站。"},
+    "unset": {"en": "Off", "zh-Hans": "关闭", "zh-Hant": "關閉"},
+    "example": "ss://aes-256-gcm:your-password@:8388"
+  },
+  "vmess-config": {
+    "title": {"en": "VMess Inbound Link", "zh-Hans": "VMess 入站链接", "zh-Hant": "VMess 入站連結"},
+    "summary": {"en": "Opens a VMess inbound from a single vmess:// link.",
+                "zh-Hans": "用一条 vmess:// 链接快速开一个 VMess 入站。",
+                "zh-Hant": "用一條 vmess:// 連結快速開一個 VMess 入站。"},
+    "unset": {"en": "Off", "zh-Hans": "关闭", "zh-Hant": "關閉"},
+    "example": "vmess://1:00000000-0000-0000-0000-000000000000@:12345"
+  },
+  "inbound-tfo": {
+    "title": {"en": "Inbound TCP Fast Open", "zh-Hans": "入站 TCP 快速打开", "zh-Hant": "入站 TCP 快速開啟"},
+    "summary": {"en": "Lets the proxy ports accept TCP Fast Open.",
+                "zh-Hans": "让代理端口支持 TCP 快速打开。",
+                "zh-Hant": "讓代理埠支援 TCP 快速開啟。"}
+  },
+  "inbound-mptcp": {
+    "title": {"en": "Inbound Multipath TCP", "zh-Hans": "入站多路径 TCP", "zh-Hant": "入站多路徑 TCP"},
+    "summary": {"en": "Lets the proxy ports accept Multipath TCP (MPTCP).",
+                "zh-Hans": "让代理端口支持多路径 TCP（MPTCP）。",
+                "zh-Hant": "讓代理埠支援多路徑 TCP（MPTCP）。"}
+  },
+  "authentication": {
+    "title": {"en": "Proxy Accounts", "zh-Hans": "代理账号", "zh-Hant": "代理帳號"},
+    "summary": {"en": "The user names and passwords the HTTP, SOCKS and mixed proxy ports ask for.",
+                "zh-Hans": "HTTP、SOCKS 和混合代理端口要求的用户名和密码。",
+                "zh-Hant": "HTTP、SOCKS 和混合代理埠要求的使用者名稱和密碼。"},
+    "unset": {"en": "Not required", "zh-Hans": "不需要", "zh-Hant": "不需要"},
+    "example": "user1:pass1"
+  },
+  "skip-auth-prefixes": {
+    "title": {"en": "No Sign-In From", "zh-Hans": "免验证的来源", "zh-Hant": "免驗證的來源"},
+    "summary": {"en": "Devices in these ranges use the proxy ports without an account.",
+                "zh-Hans": "这些网段的设备使用代理端口时不用账号密码。",
+                "zh-Hant": "這些網段的裝置使用代理埠時不用帳號密碼。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "127.0.0.1/8"
+  },
+  "lan-allowed-ips": {
+    "title": {"en": "Allowed Devices", "zh-Hans": "允许的来源 IP", "zh-Hant": "允許的來源 IP"},
+    "summary": {"en": "With LAN access on, only devices in these ranges may connect.",
+                "zh-Hans": "开放局域网时，只接受这些网段的设备连接。",
+                "zh-Hant": "開放區域網路時，只接受這些網段的裝置連線。"},
+    "unset": {"en": "All", "zh-Hans": "全部", "zh-Hant": "全部"},
+    "example": "192.168.0.0/16"
+  },
+  "lan-disallowed-ips": {
+    "title": {"en": "Blocked Devices", "zh-Hans": "拒绝的来源 IP", "zh-Hant": "拒絕的來源 IP"},
+    "summary": {"en": "Devices in these ranges can't connect, even if the allowed list includes them.",
+                "zh-Hans": "这些网段的设备不能连接，优先于允许列表。",
+                "zh-Hant": "這些網段的裝置不能連線，優先於允許清單。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "192.168.0.3/32"
+  },
+  "allow-lan": {
+    "title": {"en": "Allow LAN Connections", "zh-Hans": "允许局域网连接", "zh-Hant": "允許區域網路連線"},
+    "summary": {"en": "Lets other devices on your network go online through this device's proxy ports.",
+                "zh-Hans": "让同一网络里的其他设备通过本机的代理端口上网。",
+                "zh-Hant": "讓同一網路裡的其他裝置透過本機的代理埠上網。"},
+    "platform": {"en": "While LAN Proxy Share is off, only this device can connect.", "zh-Hans": "局域网共享关闭时，只有本机能连接。", "zh-Hant": "區域網路共享關閉時，只有本機能連線。"}
+  },
+  "bind-address": {
+    "title": {"en": "Listen Address", "zh-Hans": "监听地址", "zh-Hant": "監聽位址"},
+    "summary": {"en": "With LAN access on, connections are accepted only on this address; * means all.",
+                "zh-Hans": "开放局域网时只在这个地址上接受连接，* 表示全部。",
+                "zh-Hant": "開放區域網路時只在這個位址上接受連線，* 表示全部。"},
+    "unset": {"en": "All addresses", "zh-Hans": "全部地址", "zh-Hant": "全部位址"},
+    "example": "192.168.31.31",
+    "presets": [
+      {"value": "*", "label": {"en": "All addresses", "zh-Hans": "全部地址", "zh-Hant": "全部位址"}}
+    ]
+  },
+  "mode": {
+    "title": {"en": "Routing Mode", "zh-Hans": "运行模式", "zh-Hant": "執行模式"},
+    "summary": {"en": "Route by rules, send everything through the proxy, or connect everything directly.",
+                "zh-Hans": "按规则分流、全部走代理，还是全部直连。",
+                "zh-Hant": "依規則分流、全部走代理，還是全部直連。"},
+    "unset": {"en": "Rules", "zh-Hans": "规则分流", "zh-Hant": "規則分流"},
+    "presets": [
+      {"value": "rule", "label": {"en": "Rules", "zh-Hans": "规则分流", "zh-Hant": "規則分流"}},
+      {"value": "global", "label": {"en": "Global Proxy", "zh-Hans": "全局代理", "zh-Hant": "全域代理"}},
+      {"value": "direct", "label": {"en": "Direct", "zh-Hans": "全部直连", "zh-Hant": "全部直連"}}
+    ]
+  },
+  "log-level": {
+    "title": {"en": "Log Level", "zh-Hans": "日志级别", "zh-Hant": "日誌等級"},
+    "summary": {"en": "How much the core writes to the log; choose Debug while tracking down a problem.",
+                "zh-Hans": "日志记录多详细；排查问题时选「调试」。",
+                "zh-Hant": "日誌記錄多詳細；排查問題時選「除錯」。"},
+    "unset": {"en": "Info", "zh-Hans": "信息", "zh-Hant": "資訊"},
+    "presets": [
+      {"value": "silent", "label": {"en": "Silent", "zh-Hans": "不记录", "zh-Hant": "不記錄"}},
+      {"value": "error", "label": {"en": "Errors", "zh-Hans": "错误", "zh-Hant": "錯誤"}},
+      {"value": "warning", "label": {"en": "Warnings", "zh-Hans": "警告", "zh-Hant": "警告"}},
+      {"value": "info", "label": {"en": "Info", "zh-Hans": "信息", "zh-Hant": "資訊"}},
+      {"value": "debug", "label": {"en": "Debug", "zh-Hans": "调试", "zh-Hant": "除錯"}}
+    ]
+  },
+  "ipv6": {
+    "title": {"en": "IPv6", "zh-Hans": "IPv6", "zh-Hant": "IPv6"},
+    "summary": {"en": "Whether the core handles IPv6 traffic; off keeps everything on IPv4.",
+                "zh-Hans": "是否处理 IPv6 流量；关闭后只用 IPv4。",
+                "zh-Hant": "是否處理 IPv6 流量；關閉後只用 IPv4。"}
+  },
+  "unified-delay": {
+    "title": {"en": "Unified Delay", "zh-Hans": "统一延迟", "zh-Hant": "統一延遲"},
+    "summary": {"en": "Leaves the handshake out of delay tests, so proxies of different protocols compare fairly.",
+                "zh-Hans": "测速时不计握手时间，不同协议的节点延迟可直接比较。",
+                "zh-Hant": "測速時不計交握時間，不同協定的節點延遲可直接比較。"},
+    "platform": {"en": "Unwritten, delay tests measure a second round trip so nodes compare fairly; what you write is used as is.", "zh-Hans": "不写时默认开启，测速取第二次往返，节点之间才好比较；写了就按你写的。", "zh-Hant": "不寫時預設開啟，測速取第二次往返，節點之間才好比較；寫了就依你寫的。"}
+  },
+  "external-controller": {
+    "title": {"en": "Controller API", "zh-Hans": "控制接口", "zh-Hant": "控制介面"},
+    "summary": {"en": "Lets a dashboard such as MetaCubeXD view and control Clash. Leave it off if you don't use one.",
+                "zh-Hans": "让面板（如 MetaCubeXD）查看和控制 Clash。不用面板就保持关闭。",
+                "zh-Hant": "讓面板（如 MetaCubeXD）查看和控制 Clash。不用面板就保持關閉。"},
+    "unset": {"en": "Off", "zh-Hans": "关闭", "zh-Hant": "關閉"},
+    "example": "127.0.0.1:9090",
+    "presets": [
+      {"value": "127.0.0.1:9090", "label": {"en": "This device only", "zh-Hans": "仅本机", "zh-Hant": "僅本機"}},
+      {"value": "0.0.0.0:9090", "label": {"en": "Devices on your network", "zh-Hans": "局域网内的设备", "zh-Hant": "區域網路內的裝置"}}
+    ]
+  },
+  "external-controller-tls": {
+    "title": {"en": "Controller API (HTTPS)", "zh-Hans": "控制接口（HTTPS）", "zh-Hant": "控制介面（HTTPS）"},
+    "summary": {"en": "Serves the controller API over HTTPS; set the certificate and key under TLS first.",
+                "zh-Hans": "用 HTTPS 提供控制接口，需先在 TLS 里填好证书和私钥。",
+                "zh-Hant": "用 HTTPS 提供控制介面，需先在 TLS 裡填好憑證和私鑰。"},
+    "unset": {"en": "Off", "zh-Hans": "关闭", "zh-Hant": "關閉"},
+    "example": "127.0.0.1:9443",
+    "presets": [
+      {"value": "127.0.0.1:9443", "label": {"en": "This device only", "zh-Hans": "仅本机", "zh-Hant": "僅本機"}},
+      {"value": "0.0.0.0:9443", "label": {"en": "Devices on your network", "zh-Hans": "局域网内的设备", "zh-Hant": "區域網路內的裝置"}}
+    ]
+  },
+  "external-controller-unix": {
+    "title": {"en": "Controller Unix Socket", "zh-Hans": "控制接口套接字", "zh-Hant": "控制介面 Socket"},
+    "summary": {"en": "Serves the controller API on this Unix socket, which doesn't check the secret.",
+                "zh-Hans": "在这个 Unix 套接字上提供控制接口，不校验访问密钥。",
+                "zh-Hant": "在這個 Unix Socket 上提供控制介面，不驗證存取金鑰。"},
+    "unset": {"en": "Off", "zh-Hans": "关闭", "zh-Hant": "關閉"},
+    "example": "mihomo.sock"
+  },
+  "external-controller-pipe": {
+    "title": {"en": "Controller Named Pipe", "zh-Hans": "控制接口命名管道", "zh-Hant": "控制介面具名管道"},
+    "summary": {"en": "Serves the controller API on a Windows named pipe, which doesn't check the secret.",
+                "zh-Hans": "在 Windows 命名管道上提供控制接口，不校验访问密钥。",
+                "zh-Hant": "在 Windows 具名管道上提供控制介面，不驗證存取金鑰。"},
+    "unset": {"en": "Off", "zh-Hans": "关闭", "zh-Hant": "關閉"},
+    "example": "\\\\.\\pipe\\mihomo",
+    "platform": {"en": "Named pipes are a Windows feature; none is opened here.", "zh-Hans": "命名管道是 Windows 的功能，这里不会打开。", "zh-Hant": "具名管道是 Windows 的功能，這裡不會開啟。"}
+  },
+  "external-controller-routing-mark": {
+    "title": {"en": "Controller Routing Mark", "zh-Hans": "控制接口路由标记", "zh-Hant": "控制介面路由標記"},
+    "summary": {"en": "Puts this Linux routing mark on the controller API's sockets.",
+                "zh-Hans": "给控制接口的连接打上 Linux 路由标记。",
+                "zh-Hant": "給控制介面的連線加上 Linux 路由標記。"},
+    "unset": {"en": "None", "zh-Hans": "不标记", "zh-Hant": "不標記"},
+    "platform": {"en": "Routing marks are a Linux feature; the controller's traffic isn't marked here.", "zh-Hans": "路由标记是 Linux 的功能，这里不会给控制接口的流量打标记。", "zh-Hant": "路由標記是 Linux 的功能，這裡不會替控制介面的流量加標記。"}
+  },
+  "external-controller-cors.allow-origins": {
+    "title": {"en": "Allowed Web Origins", "zh-Hans": "允许的网页来源", "zh-Hant": "允許的網頁來源"},
+    "summary": {"en": "Which websites may call the controller API from a browser; * allows all.",
+                "zh-Hans": "哪些网页可以在浏览器里调用控制接口，* 表示全部。",
+                "zh-Hant": "哪些網頁可以在瀏覽器裡呼叫控制介面，* 表示全部。"},
+    "unset": {"en": "All", "zh-Hans": "全部", "zh-Hant": "全部"},
+    "example": "https://metacubex.github.io"
+  },
+  "external-controller-cors.allow-private-network": {
+    "title": {"en": "Allow Private Network", "zh-Hans": "允许私有网络访问", "zh-Hant": "允許私人網路存取"},
+    "summary": {"en": "Lets web pages on the internet reach a controller API on your local network.",
+                "zh-Hans": "允许互联网上的网页访问局域网里的控制接口。",
+                "zh-Hant": "允許網際網路上的網頁存取區域網路裡的控制介面。"}
+  },
+  "external-ui": {
+    "title": {"en": "Dashboard Folder", "zh-Hans": "面板文件夹", "zh-Hant": "面板資料夾"},
+    "summary": {"en": "The folder holding a web dashboard, served at the controller address plus /ui.",
+                "zh-Hans": "放网页面板的文件夹，在控制接口地址后加 /ui 打开。",
+                "zh-Hant": "放網頁面板的資料夾，在控制介面位址後加 /ui 開啟。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "ui"
+  },
+  "external-ui-url": {
+    "title": {"en": "Dashboard Download URL", "zh-Hans": "面板下载地址", "zh-Hant": "面板下載網址"},
+    "summary": {"en": "Where the dashboard's zip file is downloaded from when it updates.",
+                "zh-Hans": "更新面板时从这个地址下载压缩包。",
+                "zh-Hant": "更新面板時從這個網址下載壓縮檔。"},
+    "unset": {"en": "MetaCubeXD", "zh-Hans": "MetaCubeXD", "zh-Hant": "MetaCubeXD"},
+    "example": "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip",
+    "presets": [
+      {"value": "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip", "label": {"en": "MetaCubeXD", "zh-Hans": "MetaCubeXD", "zh-Hant": "MetaCubeXD"}},
+      {"value": "https://github.com/MetaCubeX/Yacd-meta/archive/refs/heads/gh-pages.zip", "label": {"en": "Yacd-meta", "zh-Hans": "Yacd-meta", "zh-Hant": "Yacd-meta"}}
+    ]
+  },
+  "external-ui-name": {
+    "title": {"en": "Dashboard Subfolder", "zh-Hans": "面板子文件夹", "zh-Hant": "面板子資料夾"},
+    "summary": {"en": "A downloaded dashboard goes into this subfolder of the dashboard folder.",
+                "zh-Hans": "下载的面板放进面板文件夹下的这个子文件夹。",
+                "zh-Hant": "下載的面板放進面板資料夾下的這個子資料夾。"},
+    "unset": {"en": "The dashboard folder itself", "zh-Hans": "直接放在面板文件夹", "zh-Hant": "直接放在面板資料夾"},
+    "example": "xd"
+  },
+  "external-doh-server": {
+    "title": {"en": "DoH on the Controller", "zh-Hans": "控制接口上的 DoH", "zh-Hant": "控制介面上的 DoH"},
+    "summary": {"en": "Adds a DNS-over-HTTPS service at this path of the controller API; it doesn't check the secret.",
+                "zh-Hans": "在控制接口的这个路径上提供 DoH 服务，不校验访问密钥。",
+                "zh-Hant": "在控制介面的這個路徑上提供 DoH 服務，不驗證存取金鑰。"},
+    "unset": {"en": "Off", "zh-Hans": "关闭", "zh-Hant": "關閉"},
+    "example": "/dns-query"
+  },
+  "secret": {
+    "title": {"en": "Controller Secret", "zh-Hans": "访问密钥", "zh-Hant": "存取金鑰"},
+    "summary": {"en": "The secret a dashboard must send to use the controller API; always set one if it's open to your network.",
+                "zh-Hans": "使用控制接口时要填的密钥；开放到局域网时务必设置。",
+                "zh-Hant": "使用控制介面時要填的金鑰；開放到區域網路時務必設定。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"}
+  },
+  "interface-name": {
+    "title": {"en": "Outbound Interface", "zh-Hans": "出站网卡", "zh-Hant": "出站網卡"},
+    "summary": {"en": "Every outbound connection leaves through this network interface.",
+                "zh-Hans": "所有出站连接都从这个网卡发出。",
+                "zh-Hant": "所有出站連線都從這個網卡送出。"},
+    "unset": {"en": "Automatic", "zh-Hans": "自动", "zh-Hant": "自動"},
+    "example": "en0",
+    "platform": {"en": "Removed here: the tunnel picks the network interface for outgoing traffic itself.", "zh-Hans": "这里会被去掉：出站用哪块网卡由隧道自己决定。", "zh-Hant": "這裡會被移除：出站用哪張網卡由通道自己決定。"}
+  },
+  "routing-mark": {
+    "title": {"en": "Routing Mark", "zh-Hans": "路由标记", "zh-Hant": "路由標記"},
+    "summary": {"en": "Puts this Linux routing mark on outbound connections.",
+                "zh-Hans": "给出站连接打上 Linux 路由标记。",
+                "zh-Hant": "給出站連線加上 Linux 路由標記。"},
+    "unset": {"en": "None", "zh-Hans": "不标记", "zh-Hant": "不標記"},
+    "platform": {"en": "Routing marks are a Linux feature; outgoing traffic isn't marked here.", "zh-Hans": "路由标记是 Linux 的功能，这里出站流量不会打标记。", "zh-Hant": "路由標記是 Linux 的功能，這裡出站流量不會加標記。"}
+  },
+  "tunnels": {
+    "title": {"en": "Traffic Tunnels", "zh-Hans": "流量隧道", "zh-Hant": "流量隧道"},
+    "summary": {"en": "Forwards TCP or UDP traffic from a local port to a fixed target, optionally through a proxy.",
+                "zh-Hans": "把本机端口收到的 TCP、UDP 流量转发到指定目标，可经过代理。",
+                "zh-Hant": "把本機埠收到的 TCP、UDP 流量轉發到指定目標，可經過代理。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"}
+  },
+  "tunnels[].network": {
+    "title": {"en": "Protocols", "zh-Hans": "转发协议", "zh-Hant": "轉發協定"},
+    "summary": {"en": "Whether the tunnel forwards TCP, UDP or both.",
+                "zh-Hans": "转发 TCP、UDP，还是两者都转发。",
+                "zh-Hant": "轉發 TCP、UDP，還是兩者都轉發。"},
+    "presets": [
+      {"value": "tcp", "label": {"en": "TCP", "zh-Hans": "TCP", "zh-Hant": "TCP"}},
+      {"value": "udp", "label": {"en": "UDP", "zh-Hans": "UDP", "zh-Hant": "UDP"}}
+    ]
+  },
+  "tunnels[].address": {
+    "title": {"en": "Local Address", "zh-Hans": "本地监听地址", "zh-Hant": "本機監聽位址"},
+    "summary": {"en": "The address and port on this device that receive the traffic to forward.",
+                "zh-Hans": "在本机哪个地址和端口接收要转发的流量。",
+                "zh-Hant": "在本機哪個位址和埠接收要轉發的流量。"},
+    "example": "127.0.0.1:6553"
+  },
+  "tunnels[].target": {
+    "title": {"en": "Target", "zh-Hans": "转发目标", "zh-Hant": "轉發目標"},
+    "summary": {"en": "The address and port the received traffic is sent to.",
+                "zh-Hans": "收到的流量发往哪个地址和端口。",
+                "zh-Hant": "收到的流量送往哪個位址和埠。"},
+    "example": "8.8.8.8:53"
+  },
+  "tunnels[].proxy": {
+    "title": {"en": "Through", "zh-Hans": "经过的代理", "zh-Hant": "經過的代理"},
+    "summary": {"en": "The proxy or group the traffic goes through; left empty, the rules decide.",
+                "zh-Hans": "流量经哪个代理或策略组发出；不选则按规则分流。",
+                "zh-Hant": "流量經哪個代理或策略群組送出；不選則依規則分流。"},
+    "unset": {"en": "By rules", "zh-Hans": "按规则", "zh-Hant": "依規則"}
+  },
+  "geo-auto-update": {
+    "title": {"en": "Update GEO Data", "zh-Hans": "自动更新 GEO 数据", "zh-Hant": "自動更新 GEO 資料"},
+    "summary": {"en": "Downloads fresh GeoIP and GeoSite databases on a schedule.",
+                "zh-Hans": "定期下载新的 GeoIP 和 GeoSite 数据库。",
+                "zh-Hant": "定期下載新的 GeoIP 和 GeoSite 資料庫。"},
+    "platform": {"en": "Off here: the app downloads the GEO databases and hands them to Clash.", "zh-Hans": "这里固定关闭：GEO 数据库由 App 下载好再交给 Clash。", "zh-Hant": "這裡固定關閉：GEO 資料庫由 App 下載好再交給 Clash。"}
+  },
+  "geo-update-interval": {
+    "title": {"en": "GEO Update Interval", "zh-Hans": "GEO 更新间隔", "zh-Hant": "GEO 更新間隔"},
+    "summary": {"en": "How often the GEO databases are updated automatically.",
+                "zh-Hans": "自动更新 GEO 数据库的间隔。",
+                "zh-Hant": "自動更新 GEO 資料庫的間隔。"},
+    "unset": {"en": "24 hours", "zh-Hans": "24 小时", "zh-Hant": "24 小時"},
+    "platform": {"en": "Not used: Clash doesn't update the GEO databases on its own here.", "zh-Hans": "不起作用：这里 Clash 不会自己定时更新 GEO 数据库。", "zh-Hant": "不起作用：這裡 Clash 不會自己定時更新 GEO 資料庫。"}
+  },
+  "geodata-mode": {
+    "title": {"en": "GeoIP from .dat", "zh-Hans": "dat 版 GeoIP", "zh-Hant": "dat 版 GeoIP"},
+    "summary": {"en": "On: GeoIP reads the .dat file. Off: it reads the .mmdb file.",
+                "zh-Hans": "开启时 GeoIP 用 dat 文件，关闭时用 mmdb 文件。",
+                "zh-Hant": "開啟時 GeoIP 用 dat 檔案，關閉時用 mmdb 檔案。"}
+  },
+  "geodata-loader": {
+    "title": {"en": "GEO Loader", "zh-Hans": "GEO 加载方式", "zh-Hant": "GEO 載入方式"},
+    "summary": {"en": "How the GEO databases are loaded; the memory-saving loader suits phones.",
+                "zh-Hans": "GEO 数据库的加载方式，省内存的方式适合手机。",
+                "zh-Hant": "GEO 資料庫的載入方式，省記憶體的方式適合手機。"},
+    "unset": {"en": "Memory-saving", "zh-Hans": "省内存", "zh-Hant": "省記憶體"},
+    "presets": [
+      {"value": "standard", "label": {"en": "Standard", "zh-Hans": "标准", "zh-Hant": "標準"}},
+      {"value": "memconservative", "label": {"en": "Memory-saving", "zh-Hans": "省内存", "zh-Hant": "省記憶體"}}
+    ],
+    "platform": {"en": "Always memory-saving here: the data is read as needed instead of held in memory.", "zh-Hans": "这里固定用省内存方式，数据按需读取，不整份放进内存。", "zh-Hant": "這裡固定用省記憶體方式，資料按需讀取，不整份放進記憶體。"}
+  },
+  "geosite-matcher": {
+    "title": {"en": "GeoSite Matcher", "zh-Hans": "GeoSite 匹配方式", "zh-Hant": "GeoSite 比對方式"},
+    "summary": {"en": "How GEOSITE rules look up a domain in a category.",
+                "zh-Hans": "GEOSITE 规则用哪种方式查找域名。",
+                "zh-Hant": "GEOSITE 規則用哪種方式查找網域。"},
+    "unset": {"en": "Compact", "zh-Hans": "紧凑", "zh-Hant": "緊湊"},
+    "presets": [
+      {"value": "succinct", "label": {"en": "Compact", "zh-Hans": "紧凑", "zh-Hant": "緊湊"}},
+      {"value": "mph", "label": {"en": "Hash table", "zh-Hans": "哈希表", "zh-Hant": "雜湊表"}}
+    ]
+  },
+  "tcp-concurrent": {
+    "title": {"en": "Concurrent TCP", "zh-Hans": "TCP 并发连接", "zh-Hant": "TCP 並行連線"},
+    "summary": {"en": "Connects to every IP a domain resolves to at once and keeps the first that answers.",
+                "zh-Hans": "同时连接域名解析出的所有 IP，用最先连通的那个。",
+                "zh-Hant": "同時連線網域解析出的所有 IP，用最先連通的那個。"}
+  },
+  "find-process-mode": {
+    "title": {"en": "Find Process", "zh-Hans": "进程匹配", "zh-Hant": "程式比對"},
+    "summary": {"en": "Whether the core looks up which program opened a connection, for per-app rules.",
+                "zh-Hans": "是否查找连接来自哪个程序，供按程序分流的规则使用。",
+                "zh-Hant": "是否查找連線來自哪個程式，供依程式分流的規則使用。"},
+    "unset": {"en": "Automatic", "zh-Hans": "自动", "zh-Hant": "自動"},
+    "presets": [
+      {"value": "always", "label": {"en": "Always", "zh-Hans": "总是", "zh-Hant": "總是"}},
+      {"value": "strict", "label": {"en": "Automatic", "zh-Hans": "自动", "zh-Hant": "自動"}},
+      {"value": "off", "label": {"en": "Off", "zh-Hans": "关闭", "zh-Hant": "關閉"}}
+    ],
+    "platform": {"en": "Off here: the system doesn't tell apps which app a connection comes from, so process rules never match.", "zh-Hans": "这里固定关闭：系统不告诉 App 连接来自哪个应用，按进程匹配的规则不会命中。", "zh-Hant": "這裡固定關閉：系統不告訴 App 連線來自哪個程式，依程式比對的規則不會命中。"}
+  },
+  "global-client-fingerprint": {
+    "title": {"en": "Global TLS Fingerprint", "zh-Hans": "全局 TLS 指纹", "zh-Hant": "全域 TLS 指紋"},
+    "summary": {"en": "Removed upstream; set the TLS fingerprint on each proxy instead.",
+                "zh-Hans": "上游已移除此项，请在各个节点里设置 TLS 指纹。",
+                "zh-Hant": "上游已移除此項，請在各個節點裡設定 TLS 指紋。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "chrome"
+  },
+  "global-ua": {
+    "title": {"en": "Download User-Agent", "zh-Hans": "下载时的 UA", "zh-Hant": "下載時的 UA"},
+    "summary": {"en": "The User-Agent used when downloading node links, rule sets and other resources.",
+                "zh-Hans": "下载节点链接、规则集等外部资源时使用的 User-Agent。",
+                "zh-Hant": "下載節點連結、規則集等外部資源時使用的 User-Agent。"},
+    "unset": {"en": "clash.meta", "zh-Hans": "clash.meta", "zh-Hant": "clash.meta"},
+    "example": "clash.meta"
+  },
+  "etag-support": {
+    "title": {"en": "ETag Caching", "zh-Hans": "ETag 缓存", "zh-Hant": "ETag 快取"},
+    "summary": {"en": "Uses ETag to skip downloading a resource that hasn't changed.",
+                "zh-Hans": "下载外部资源时用 ETag 判断有没有变化，没变就不重下。",
+                "zh-Hant": "下載外部資源時用 ETag 判斷有沒有變化，沒變就不重下。"}
+  },
+  "keep-alive-idle": {
+    "title": {"en": "TCP Keep-Alive Idle", "zh-Hans": "TCP 保活空闲时间", "zh-Hant": "TCP 保持連線閒置"},
+    "summary": {"en": "How long a connection sits idle before keep-alive probes start.",
+                "zh-Hans": "连接空闲多久后开始发送保活包。",
+                "zh-Hant": "連線閒置多久後開始送出保持連線封包。"},
+    "unset": {"en": "5 minutes", "zh-Hans": "5 分钟", "zh-Hant": "5 分鐘"}
+  },
+  "keep-alive-interval": {
+    "title": {"en": "TCP Keep-Alive Interval", "zh-Hans": "TCP 保活间隔", "zh-Hant": "TCP 保持連線間隔"},
+    "summary": {"en": "How long to wait before resending a keep-alive probe that got no answer.",
+                "zh-Hans": "保活包没有回应时，隔多久再发一次。",
+                "zh-Hant": "保持連線封包沒有回應時，隔多久再送一次。"},
+    "unset": {"en": "75 seconds", "zh-Hans": "75 秒", "zh-Hant": "75 秒"}
+  },
+  "disable-keep-alive": {
+    "title": {"en": "Turn Off TCP Keep-Alive", "zh-Hans": "关闭 TCP 保活", "zh-Hant": "關閉 TCP 保持連線"},
+    "summary": {"en": "Sends no keep-alive probes; saves power, but a dropped connection takes longer to notice.",
+                "zh-Hans": "不发送保活包，更省电，但断线要更久才能发现。",
+                "zh-Hant": "不送出保持連線封包，更省電，但斷線要更久才能發現。"}
+  },
+  "network-strategy": {
+    "title": {"en": "Network Strategy", "zh-Hans": "多网络策略", "zh-Hant": "多網路策略"},
+    "summary": {"en": "Use only the current network, or also Wi-Fi and cellular together or as a backup.",
+                "zh-Hans": "只用当前网络，还是同时或备用地使用 Wi-Fi 和蜂窝网络。",
+                "zh-Hant": "只用目前網路，還是同時或備用地使用 Wi-Fi 和行動網路。"},
+    "unset": {"en": "Current network only", "zh-Hans": "只用当前网络", "zh-Hant": "只用目前網路"},
+    "presets": [
+      {"value": "default", "label": {"en": "Current network only", "zh-Hans": "只用当前网络", "zh-Hant": "只用目前網路"}},
+      {"value": "hybrid", "label": {"en": "All networks at once", "zh-Hans": "同时使用所有网络", "zh-Hant": "同時使用所有網路"}},
+      {"value": "fallback", "label": {"en": "Backup when the main one fails", "zh-Hans": "主网络不通时用备用", "zh-Hant": "主要網路不通時用備用"}}
+    ]
+  },
+  "network-type": {
+    "title": {"en": "Preferred Networks", "zh-Hans": "优先使用的网络", "zh-Hant": "優先使用的網路"},
+    "summary": {"en": "The kinds of network connections use; none chosen means every network in all-at-once mode, the current one otherwise.",
+                "zh-Hans": "连接用哪些类型的网络；不选时，同时使用模式用全部网络，其余用当前网络。",
+                "zh-Hant": "連線用哪些類型的網路；不選時，同時使用模式用全部網路，其餘用目前網路。"},
+    "unset": {"en": "By strategy", "zh-Hans": "按策略决定", "zh-Hant": "依策略決定"},
+    "presets": [
+      {"value": "wifi", "label": {"en": "Wi-Fi", "zh-Hans": "Wi-Fi", "zh-Hant": "Wi-Fi"}},
+      {"value": "cellular", "label": {"en": "Cellular", "zh-Hans": "蜂窝网络", "zh-Hant": "行動網路"}},
+      {"value": "wired", "label": {"en": "Wired", "zh-Hans": "有线网络", "zh-Hant": "有線網路"}},
+      {"value": "other", "label": {"en": "Other", "zh-Hans": "其他", "zh-Hant": "其他"}}
+    ]
+  },
+  "fallback-network-type": {
+    "title": {"en": "Backup Networks", "zh-Hans": "备用网络", "zh-Hant": "備用網路"},
+    "summary": {"en": "With the backup strategy, the kinds of network used when the preferred ones fail.",
+                "zh-Hans": "备用策略下，优先网络不通时改用的网络类型。",
+                "zh-Hant": "備用策略下，優先網路不通時改用的網路類型。"},
+    "unset": {"en": "All other networks", "zh-Hans": "其他所有网络", "zh-Hant": "其他所有網路"},
+    "presets": [
+      {"value": "wifi", "label": {"en": "Wi-Fi", "zh-Hans": "Wi-Fi", "zh-Hant": "Wi-Fi"}},
+      {"value": "cellular", "label": {"en": "Cellular", "zh-Hans": "蜂窝网络", "zh-Hant": "行動網路"}},
+      {"value": "wired", "label": {"en": "Wired", "zh-Hans": "有线网络", "zh-Hant": "有線網路"}},
+      {"value": "other", "label": {"en": "Other", "zh-Hans": "其他", "zh-Hant": "其他"}}
+    ]
+  },
+  "rules": {
+    "title": {"en": "Rules", "zh-Hans": "规则", "zh-Hant": "規則"},
+    "summary": {"en": "Checked from top to bottom to decide whether each connection uses a proxy or goes direct.",
+                "zh-Hans": "从上往下匹配，决定每个连接走哪个代理或直连。",
+                "zh-Hant": "從上往下比對，決定每個連線走哪個代理或直連。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "DOMAIN-SUFFIX,example.com,DIRECT"
+  },
+  "sub-rules": {
+    "title": {"en": "Sub-Rules", "zh-Hans": "子规则", "zh-Hant": "子規則"},
+    "summary": {"en": "Named groups of rules that a SUB-RULE rule or an inbound can use.",
+                "zh-Hans": "按名字分组的规则，供 SUB-RULE 规则或入站使用。",
+                "zh-Hant": "依名稱分組的規則，供 SUB-RULE 規則或入站使用。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"}
+  },
+  "hosts": {
+    "title": {"en": "Hosts", "zh-Hans": "本地域名映射", "zh-Hant": "本機網域對應"},
+    "summary": {"en": "Points a domain straight at a fixed IP, or at another domain.",
+                "zh-Hans": "把域名直接指向固定的 IP，或指向另一个域名。",
+                "zh-Hant": "把網域直接指向固定的 IP，或指向另一個網域。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"}
+  },
+  "profile.store-selected": {
+    "title": {"en": "Remember Selections", "zh-Hans": "记住节点选择", "zh-Hant": "記住節點選擇"},
+    "summary": {"en": "Keeps the proxies you picked in groups after a restart.",
+                "zh-Hans": "重启后保留你在策略组里手动选的节点。",
+                "zh-Hant": "重新啟動後保留你在策略群組裡手動選的節點。"}
+  },
+  "profile.store-fake-ip": {
+    "title": {"en": "Keep Fake-IP Mappings", "zh-Hans": "保存虚拟 IP 映射", "zh-Hant": "保存虛擬 IP 對應"},
+    "summary": {"en": "After a restart, a domain keeps the same fake IP it had before.",
+                "zh-Hans": "重启后同一个域名继续用原来的虚拟 IP。",
+                "zh-Hant": "重新啟動後同一個網域繼續用原來的虛擬 IP。"},
+    "platform": {"en": "Unwritten, fake IPs are saved so they stay the same after the tunnel restarts; what you write is used as is.", "zh-Hans": "不写时默认保存，隧道重启后虚拟 IP 保持不变；写了就按你写的。", "zh-Hant": "不寫時預設儲存，通道重新啟動後虛擬 IP 保持不變；寫了就依你寫的。"}
+  },
+  "experimental.fingerprints": {
+    "title": {"en": "Fingerprints (Old)", "zh-Hans": "证书指纹（旧）", "zh-Hant": "憑證指紋（舊）"},
+    "summary": {"en": "An old setting the current core no longer reads.",
+                "zh-Hans": "旧版设置，现在的内核不再读取。",
+                "zh-Hant": "舊版設定，現在的核心不再讀取。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"}
+  },
+  "experimental.quic-go-disable-gso": {
+    "title": {"en": "QUIC: Turn Off GSO", "zh-Hans": "QUIC 关闭 GSO", "zh-Hant": "QUIC 關閉 GSO"},
+    "summary": {"en": "Stops QUIC connections from using GSO; turn it on only if QUIC misbehaves.",
+                "zh-Hans": "让 QUIC 连接不使用 GSO，QUIC 出问题时再打开。",
+                "zh-Hant": "讓 QUIC 連線不使用 GSO，QUIC 出問題時再開啟。"}
+  },
+  "experimental.quic-go-disable-ecn": {
+    "title": {"en": "QUIC: Turn Off ECN", "zh-Hans": "QUIC 关闭 ECN", "zh-Hant": "QUIC 關閉 ECN"},
+    "summary": {"en": "Stops QUIC connections from using ECN congestion signals.",
+                "zh-Hans": "让 QUIC 连接不使用 ECN 拥塞通知。",
+                "zh-Hant": "讓 QUIC 連線不使用 ECN 壅塞通知。"}
+  },
+  "experimental.dialer-ip4p-convert": {
+    "title": {"en": "IP4P Conversion", "zh-Hans": "IP4P 地址转换", "zh-Hant": "IP4P 位址轉換"},
+    "summary": {"en": "Turns IP4P-encoded addresses back into the real IP and port before connecting.",
+                "zh-Hans": "把 IP4P 格式的地址还原成真实的 IP 和端口再连接。",
+                "zh-Hant": "把 IP4P 格式的位址還原成真實的 IP 和埠再連線。"}
+  },
+  "tls.certificate": {
+    "title": {"en": "Certificate", "zh-Hans": "证书", "zh-Hant": "憑證"},
+    "summary": {"en": "The certificate for the controller API's HTTPS, as PEM text or a file path.",
+                "zh-Hans": "控制接口 HTTPS 用的证书，填 PEM 内容或文件路径。",
+                "zh-Hant": "控制介面 HTTPS 用的憑證，填 PEM 內容或檔案路徑。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "server.crt"
+  },
+  "tls.private-key": {
+    "title": {"en": "Private Key", "zh-Hans": "私钥", "zh-Hant": "私鑰"},
+    "summary": {"en": "The private key that goes with the certificate, as PEM text or a file path.",
+                "zh-Hans": "与证书配对的私钥，填 PEM 内容或文件路径。",
+                "zh-Hant": "與憑證配對的私鑰，填 PEM 內容或檔案路徑。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "server.key"
+  },
+  "tls.client-auth-type": {
+    "title": {"en": "Client Certificates", "zh-Hans": "客户端证书验证", "zh-Hant": "用戶端憑證驗證"},
+    "summary": {"en": "Whether the controller API asks for and checks a client certificate.",
+                "zh-Hans": "控制接口是否要求并校验客户端证书。",
+                "zh-Hant": "控制介面是否要求並驗證用戶端憑證。"},
+    "unset": {"en": "Not asked", "zh-Hans": "不要求", "zh-Hant": "不要求"},
+    "presets": [
+      {"value": "request", "label": {"en": "Ask, don't require", "zh-Hans": "请求但不强制", "zh-Hant": "請求但不強制"}},
+      {"value": "require-any", "label": {"en": "Require any", "zh-Hans": "必须提供", "zh-Hant": "必須提供"}},
+      {"value": "verify-if-given", "label": {"en": "Check if given", "zh-Hans": "提供了就校验", "zh-Hant": "有提供就驗證"}},
+      {"value": "require-and-verify", "label": {"en": "Require and check", "zh-Hans": "必须提供并校验", "zh-Hant": "必須提供並驗證"}}
+    ]
+  },
+  "tls.client-auth-cert": {
+    "title": {"en": "Client CA Certificate", "zh-Hans": "客户端 CA 证书", "zh-Hant": "用戶端 CA 憑證"},
+    "summary": {"en": "The CA used to check client certificates, as PEM text or a file path.",
+                "zh-Hans": "校验客户端证书用的 CA，填 PEM 内容或文件路径。",
+                "zh-Hant": "驗證用戶端憑證用的 CA，填 PEM 內容或檔案路徑。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "client-ca.crt"
+  },
+  "tls.ech-key": {
+    "title": {"en": "ECH Key", "zh-Hans": "ECH 密钥", "zh-Hant": "ECH 金鑰"},
+    "summary": {"en": "With a key here, the controller API's HTTPS uses Encrypted Client Hello.",
+                "zh-Hans": "填写后控制接口的 HTTPS 启用 ECH。",
+                "zh-Hant": "填寫後控制介面的 HTTPS 啟用 ECH。"},
+    "unset": {"en": "Off", "zh-Hans": "关闭", "zh-Hant": "關閉"},
+    "example": "ech.key"
+  },
+  "tls.custom-certifactes": {
+    "title": {"en": "Extra Trusted CAs", "zh-Hans": "额外信任的证书", "zh-Hant": "額外信任的憑證"},
+    "summary": {"en": "CA certificates to trust in addition to the system's, for proxies and downloads.",
+                "zh-Hans": "连接节点和下载资源时，在系统之外额外信任的 CA 证书。",
+                "zh-Hant": "連線節點和下載資源時，在系統之外額外信任的 CA 憑證。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "my-ca.pem"
+  },
+  "geox-url.geoip": {
+    "title": {"en": "GeoIP", "zh-Hans": "GeoIP", "zh-Hant": "GeoIP"},
+    "summary": {"en": "Where the GeoIP database (.dat) is downloaded from.",
+                "zh-Hans": "GeoIP 数据库（dat 格式）的下载地址。",
+                "zh-Hant": "GeoIP 資料庫（dat 格式）的下載網址。"},
+    "example": "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat",
+    "presets": [
+      {"value": "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat", "label": {"en": "Official (GitHub)", "zh-Hans": "官方（GitHub）", "zh-Hant": "官方（GitHub）"}},
+      {"value": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat", "label": {"en": "jsDelivr mirror", "zh-Hans": "jsDelivr 镜像", "zh-Hant": "jsDelivr 鏡像"}}
+    ]
+  },
+  "geox-url.mmdb": {
+    "title": {"en": "MMDB", "zh-Hans": "MMDB", "zh-Hant": "MMDB"},
+    "summary": {"en": "Where the GeoIP database (.mmdb) is downloaded from.",
+                "zh-Hans": "GeoIP 数据库（mmdb 格式）的下载地址。",
+                "zh-Hant": "GeoIP 資料庫（mmdb 格式）的下載網址。"},
+    "example": "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.metadb",
+    "presets": [
+      {"value": "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.metadb", "label": {"en": "Official (GitHub)", "zh-Hans": "官方（GitHub）", "zh-Hant": "官方（GitHub）"}},
+      {"value": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.metadb", "label": {"en": "jsDelivr mirror", "zh-Hans": "jsDelivr 镜像", "zh-Hant": "jsDelivr 鏡像"}}
+    ]
+  },
+  "geox-url.asn": {
+    "title": {"en": "ASN", "zh-Hans": "ASN", "zh-Hant": "ASN"},
+    "summary": {"en": "Where the database of which network owns an IP (ASN) is downloaded from.",
+                "zh-Hans": "IP 所属网络（ASN）数据库的下载地址。",
+                "zh-Hant": "IP 所屬網路（ASN）資料庫的下載網址。"},
+    "example": "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb",
+    "presets": [
+      {"value": "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb", "label": {"en": "Official (GitHub)", "zh-Hans": "官方（GitHub）", "zh-Hant": "官方（GitHub）"}}
+    ]
+  },
+  "geox-url.geosite": {
+    "title": {"en": "GeoSite", "zh-Hans": "GeoSite", "zh-Hant": "GeoSite"},
+    "summary": {"en": "Where the GeoSite domain database is downloaded from.",
+                "zh-Hans": "GeoSite 域名数据库的下载地址。",
+                "zh-Hant": "GeoSite 網域資料庫的下載網址。"},
+    "example": "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat",
+    "presets": [
+      {"value": "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat", "label": {"en": "Official (GitHub)", "zh-Hans": "官方（GitHub）", "zh-Hant": "官方（GitHub）"}},
+      {"value": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat", "label": {"en": "jsDelivr mirror", "zh-Hans": "jsDelivr 镜像", "zh-Hant": "jsDelivr 鏡像"}}
+    ]
+  },
+  "clash-for-android.append-system-dns": {
+    "title": {"en": "Append System DNS", "zh-Hans": "追加系统 DNS", "zh-Hant": "附加系統 DNS"},
+    "summary": {"en": "Read only by Clash for Android; it has no effect here.",
+                "zh-Hans": "仅 Clash for Android 读取，这里不起作用。",
+                "zh-Hant": "僅 Clash for Android 讀取，這裡不起作用。"}
+  },
+  "clash-for-android.ui-subtitle-pattern": {
+    "title": {"en": "Subtitle Pattern", "zh-Hans": "副标题匹配", "zh-Hant": "副標題比對"},
+    "summary": {"en": "A regular expression only Clash for Android's interface reads; it has no effect here.",
+                "zh-Hans": "仅 Clash for Android 界面读取的正则，这里不起作用。",
+                "zh-Hant": "僅 Clash for Android 介面讀取的正規表示式，這裡不起作用。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "[\\u4e00-\\u9fa5]{2,4}"
+  },
+  "iptables.enable": {
+    "title": {"en": "Set Up iptables", "zh-Hans": "配置 iptables", "zh-Hant": "設定 iptables"},
+    "summary": {"en": "Linux only: writes iptables rules for transparent proxying.",
+                "zh-Hans": "仅 Linux：自动写入 iptables 规则做透明代理。",
+                "zh-Hant": "僅 Linux：自動寫入 iptables 規則做透明代理。"}
+  },
+  "iptables.inbound-interface": {
+    "title": {"en": "Inbound Interface", "zh-Hans": "入站网卡", "zh-Hant": "入站網卡"},
+    "summary": {"en": "Linux only: the interface whose incoming traffic is proxied.",
+                "zh-Hans": "仅 Linux：透明代理接管哪个网卡进来的流量。",
+                "zh-Hant": "僅 Linux：透明代理接管哪個網卡進來的流量。"},
+    "unset": {"en": "lo", "zh-Hans": "lo", "zh-Hant": "lo"},
+    "example": "eth0"
+  },
+  "iptables.bypass": {
+    "title": {"en": "Bypassed Ranges", "zh-Hans": "绕过的网段", "zh-Hant": "略過的網段"},
+    "summary": {"en": "Linux only: traffic to these ranges skips the transparent proxy.",
+                "zh-Hans": "仅 Linux：这些网段不经过透明代理。",
+                "zh-Hant": "僅 Linux：這些網段不經過透明代理。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "192.168.0.0/16"
+  },
+  "iptables.dns-redirect": {
+    "title": {"en": "Redirect DNS", "zh-Hans": "DNS 重定向", "zh-Hant": "DNS 重新導向"},
+    "summary": {"en": "Linux only: sends DNS queries to the core.",
+                "zh-Hans": "仅 Linux：把 DNS 查询转给内核处理。",
+                "zh-Hant": "僅 Linux：把 DNS 查詢轉給核心處理。"}
+  }
+}

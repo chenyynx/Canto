@@ -1,0 +1,284 @@
+{
+  "dns": {
+    "title": {"en": "DNS", "zh-Hans": "DNS", "zh-Hant": "DNS"},
+    "summary": {"en": "How the core resolves domain names.",
+                "zh-Hans": "内核如何解析域名。",
+                "zh-Hant": "核心如何解析網域。"}
+  },
+  "dns.fallback-filter": {
+    "title": {"en": "Fallback Filter", "zh-Hans": "备用 DNS 条件", "zh-Hant": "備用 DNS 條件"},
+    "summary": {"en": "When the fallback servers' answer is used instead.",
+                "zh-Hans": "什么情况下改用备用服务器的结果。",
+                "zh-Hant": "什麼情況下改用備用伺服器的結果。"}
+  },
+  "dns.enable": {
+    "title": {"en": "Built-in DNS", "zh-Hans": "启用 DNS", "zh-Hant": "啟用 DNS"},
+    "summary": {"en": "The core answers DNS queries itself; off leaves them to the system's DNS.",
+                "zh-Hans": "由内核处理 DNS 查询；关闭则用系统 DNS。",
+                "zh-Hant": "由核心處理 DNS 查詢；關閉則用系統 DNS。"},
+    "platform": {"en": "Always on here: Clash answers every lookup the tunnel takes over.", "zh-Hans": "这里始终开启：由 Clash 回答隧道接管的每个域名查询。", "zh-Hant": "這裡始終開啟：由 Clash 回答通道接管的每個網域查詢。"}
+  },
+  "dns.prefer-h3": {
+    "title": {"en": "Prefer HTTP/3", "zh-Hans": "优先 HTTP/3", "zh-Hant": "優先 HTTP/3"},
+    "summary": {"en": "DoH servers are reached over HTTP/3 first when they support it.",
+                "zh-Hans": "DoH 服务器支持时优先用 HTTP/3 连接。",
+                "zh-Hant": "DoH 伺服器支援時優先用 HTTP/3 連線。"}
+  },
+  "dns.ipv6": {
+    "title": {"en": "Resolve IPv6", "zh-Hans": "解析 IPv6", "zh-Hant": "解析 IPv6"},
+    "summary": {"en": "Whether IPv6 addresses are looked up; off answers every AAAA query empty.",
+                "zh-Hans": "是否查询 IPv6 地址；关闭时 AAAA 查询返回空。",
+                "zh-Hant": "是否查詢 IPv6 位址；關閉時 AAAA 查詢回傳空白。"}
+  },
+  "dns.ipv6-timeout": {
+    "title": {"en": "IPv6 Wait", "zh-Hans": "IPv6 等待时间", "zh-Hant": "IPv6 等待時間"},
+    "summary": {"en": "Once the IPv4 answer is in, how much longer to wait for the IPv6 one.",
+                "zh-Hans": "拿到 IPv4 结果后，再等多久 IPv6 的结果。",
+                "zh-Hant": "拿到 IPv4 結果後，再等多久 IPv6 的結果。"},
+    "unset": {"en": "100 ms", "zh-Hans": "100 毫秒", "zh-Hant": "100 毫秒"}
+  },
+  "dns.use-hosts": {
+    "title": {"en": "Use Hosts", "zh-Hans": "使用 Hosts 映射", "zh-Hant": "使用 Hosts 對應"},
+    "summary": {"en": "Answers from the configuration's own Hosts list first.",
+                "zh-Hans": "查询时先看配置里的本地域名映射。",
+                "zh-Hant": "查詢時先看設定檔裡的本機網域對應。"}
+  },
+  "dns.use-system-hosts": {
+    "title": {"en": "Use System Hosts", "zh-Hans": "使用系统 Hosts", "zh-Hant": "使用系統 Hosts"},
+    "summary": {"en": "Also consults the system's hosts file.",
+                "zh-Hans": "查询时也参考系统的 hosts 文件。",
+                "zh-Hant": "查詢時也參考系統的 hosts 檔案。"}
+  },
+  "dns.respect-rules": {
+    "title": {"en": "DNS Follows Rules", "zh-Hans": "DNS 遵循路由规则", "zh-Hant": "DNS 遵循路由規則"},
+    "summary": {"en": "DNS queries go through a proxy or direct as the rules say; needs a proxy-server DNS.",
+                "zh-Hans": "DNS 查询也按规则走代理或直连，需同时填写节点域名 DNS。",
+                "zh-Hant": "DNS 查詢也依規則走代理或直連，需同時填寫節點網域 DNS。"}
+  },
+  "dns.nameserver": {
+    "title": {"en": "DNS Servers", "zh-Hans": "DNS 服务器", "zh-Hant": "DNS 伺服器"},
+    "summary": {"en": "The servers that resolve domains by default.",
+                "zh-Hans": "默认用来解析域名的服务器。",
+                "zh-Hant": "預設用來解析網域的伺服器。"},
+    "unset": {"en": "Built-in servers", "zh-Hans": "内置服务器", "zh-Hant": "內建伺服器"},
+    "example": "https://dns.alidns.com/dns-query",
+    "presets": [
+      {"value": "https://dns.alidns.com/dns-query", "label": {"en": "AliDNS (DoH)", "zh-Hans": "阿里 DNS（DoH）", "zh-Hant": "阿里 DNS（DoH）"}},
+      {"value": "https://doh.pub/dns-query", "label": {"en": "DNSPod (DoH)", "zh-Hans": "腾讯 DNSPod（DoH）", "zh-Hant": "騰訊 DNSPod（DoH）"}},
+      {"value": "https://cloudflare-dns.com/dns-query", "label": {"en": "Cloudflare (DoH)", "zh-Hans": "Cloudflare（DoH）", "zh-Hant": "Cloudflare（DoH）"}},
+      {"value": "https://dns.google/dns-query", "label": {"en": "Google (DoH)", "zh-Hans": "Google（DoH）", "zh-Hant": "Google（DoH）"}}
+    ]
+  },
+  "dns.fallback": {
+    "title": {"en": "Fallback Servers", "zh-Hans": "备用 DNS 服务器", "zh-Hant": "備用 DNS 伺服器"},
+    "summary": {"en": "Used when the main servers' answer can't be trusted; pick servers outside mainland China.",
+                "zh-Hans": "主服务器的结果不可信时改用这些，建议选境外服务器。",
+                "zh-Hant": "主伺服器的結果不可信時改用這些，建議選境外伺服器。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "tls://1.1.1.1",
+    "presets": [
+      {"value": "https://cloudflare-dns.com/dns-query", "label": {"en": "Cloudflare (DoH)", "zh-Hans": "Cloudflare（DoH）", "zh-Hant": "Cloudflare（DoH）"}},
+      {"value": "tls://1.1.1.1", "label": {"en": "Cloudflare (DoT)", "zh-Hans": "Cloudflare（DoT）", "zh-Hant": "Cloudflare（DoT）"}},
+      {"value": "https://dns.google/dns-query", "label": {"en": "Google (DoH)", "zh-Hans": "Google（DoH）", "zh-Hant": "Google（DoH）"}},
+      {"value": "tls://8.8.4.4", "label": {"en": "Google (DoT)", "zh-Hans": "Google（DoT）", "zh-Hant": "Google（DoT）"}}
+    ]
+  },
+  "dns.fallback-filter.geoip": {
+    "title": {"en": "Check by GeoIP", "zh-Hans": "按 GeoIP 判断", "zh-Hant": "依 GeoIP 判斷"},
+    "summary": {"en": "When an answer's IP isn't in the chosen country, the fallback servers' answer is used.",
+                "zh-Hans": "结果 IP 不属于指定国家时，改用备用服务器的结果。",
+                "zh-Hant": "結果 IP 不屬於指定國家時，改用備用伺服器的結果。"}
+  },
+  "dns.fallback-filter.geoip-code": {
+    "title": {"en": "Trusted Country", "zh-Hans": "信任的国家", "zh-Hant": "信任的國家"},
+    "summary": {"en": "Answers with an IP in this country are used as they are; others go to the fallback servers.",
+                "zh-Hans": "属于这个国家的 IP 结果直接采用，其余改用备用服务器。",
+                "zh-Hant": "屬於這個國家的 IP 結果直接採用，其餘改用備用伺服器。"},
+    "unset": {"en": "China mainland", "zh-Hans": "中国大陆", "zh-Hant": "中國大陸"},
+    "example": "CN",
+    "presets": [
+      {"value": "CN", "label": {"en": "China mainland", "zh-Hans": "中国大陆", "zh-Hant": "中國大陸"}}
+    ]
+  },
+  "dns.fallback-filter.ipcidr": {
+    "title": {"en": "Suspicious Ranges", "zh-Hans": "可疑的 IP 段", "zh-Hant": "可疑的 IP 段"},
+    "summary": {"en": "An answer in these ranges counts as tampered, so the fallback servers' answer is used.",
+                "zh-Hans": "结果落在这些网段时视为被污染，改用备用服务器的结果。",
+                "zh-Hant": "結果落在這些網段時視為被污染，改用備用伺服器的結果。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "240.0.0.0/4"
+  },
+  "dns.fallback-filter.domain": {
+    "title": {"en": "Fallback-Only Domains", "zh-Hans": "只用备用的域名", "zh-Hant": "只用備用的網域"},
+    "summary": {"en": "These domains are resolved only by the fallback servers.",
+                "zh-Hans": "这些域名只用备用服务器解析。",
+                "zh-Hant": "這些網域只用備用伺服器解析。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "+.google.com"
+  },
+  "dns.fallback-filter.geosite": {
+    "title": {"en": "Fallback-Only Categories", "zh-Hans": "只用备用的分类", "zh-Hant": "只用備用的分類"},
+    "summary": {"en": "Domains in these GeoSite categories use only the fallback servers (deprecated).",
+                "zh-Hans": "这些 GeoSite 分类的域名只用备用服务器解析（已废弃）。",
+                "zh-Hant": "這些 GeoSite 分類的網域只用備用伺服器解析（已廢棄）。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "gfw"
+  },
+  "dns.fallback-lazy-query": {
+    "title": {"en": "Ask Only When Needed", "zh-Hans": "按需查询备用", "zh-Hant": "依需查詢備用"},
+    "summary": {"en": "Checks the main servers' answer first and asks the fallback servers only if it fails the check.",
+                "zh-Hans": "先检查主服务器的结果，不可信时才查询备用服务器。",
+                "zh-Hant": "先檢查主伺服器的結果，不可信時才查詢備用伺服器。"}
+  },
+  "dns.listen": {
+    "title": {"en": "DNS Service Address", "zh-Hans": "DNS 服务监听", "zh-Hant": "DNS 服務監聽"},
+    "summary": {"en": "Runs a DNS service at this address for this device or others on your network.",
+                "zh-Hans": "在这个地址开一个 DNS 服务，供本机或局域网使用。",
+                "zh-Hant": "在這個位址開一個 DNS 服務，供本機或區域網路使用。"},
+    "unset": {"en": "Off", "zh-Hans": "关闭", "zh-Hant": "關閉"},
+    "example": "127.0.0.1:1053",
+    "presets": [
+      {"value": "127.0.0.1:1053", "label": {"en": "This device only", "zh-Hans": "仅本机", "zh-Hant": "僅本機"}},
+      {"value": "0.0.0.0:1053", "label": {"en": "Devices on your network", "zh-Hans": "局域网内的设备", "zh-Hant": "區域網路內的裝置"}}
+    ]
+  },
+  "dns.listen-routing-mark": {
+    "title": {"en": "DNS Service Routing Mark", "zh-Hans": "DNS 服务路由标记", "zh-Hant": "DNS 服務路由標記"},
+    "summary": {"en": "Puts this Linux routing mark on the DNS service's sockets.",
+                "zh-Hans": "给 DNS 服务的连接打上 Linux 路由标记。",
+                "zh-Hant": "給 DNS 服務的連線加上 Linux 路由標記。"},
+    "unset": {"en": "None", "zh-Hans": "不标记", "zh-Hant": "不標記"},
+    "platform": {"en": "Routing marks are a Linux feature; none is set here.", "zh-Hans": "路由标记是 Linux 的功能，这里不会设置。", "zh-Hant": "路由標記是 Linux 的功能，這裡不會設定。"}
+  },
+  "dns.enhanced-mode": {
+    "title": {"en": "DNS Mode", "zh-Hans": "DNS 模式", "zh-Hant": "DNS 模式"},
+    "summary": {"en": "Answer apps with a fake IP, which connects faster, or with the real IP.",
+                "zh-Hans": "给 App 返回虚拟 IP（连接更快）还是真实 IP。",
+                "zh-Hant": "給 App 回傳虛擬 IP（連線更快）還是真實 IP。"},
+    "presets": [
+      {"value": "fake-ip", "label": {"en": "Fake IP (fake-ip)", "zh-Hans": "虚拟 IP（fake-ip）", "zh-Hant": "虛擬 IP（fake-ip）"}},
+      {"value": "redir-host", "label": {"en": "Real IP (redir-host)", "zh-Hans": "真实 IP（redir-host）", "zh-Hant": "真實 IP（redir-host）"}},
+      {"value": "normal", "label": {"en": "Plain", "zh-Hans": "普通", "zh-Hant": "一般"}}
+    ]
+  },
+  "dns.fake-ip-range": {
+    "title": {"en": "IPv4 Range", "zh-Hans": "IPv4 网段", "zh-Hant": "IPv4 網段"},
+    "summary": {"en": "Fake IPs are handed out from this IPv4 range.",
+                "zh-Hans": "虚拟 IP 从这个 IPv4 网段里分配。",
+                "zh-Hant": "虛擬 IP 從這個 IPv4 網段裡分配。"},
+    "unset": {"en": "198.18.0.1/16", "zh-Hans": "198.18.0.1/16", "zh-Hant": "198.18.0.1/16"},
+    "example": "198.18.0.1/16"
+  },
+  "dns.fake-ip-range6": {
+    "title": {"en": "IPv6 Range", "zh-Hans": "IPv6 网段", "zh-Hant": "IPv6 網段"},
+    "summary": {"en": "The IPv6 range fake IPs are handed out from.",
+                "zh-Hans": "虚拟 IP 使用的 IPv6 网段。",
+                "zh-Hant": "虛擬 IP 使用的 IPv6 網段。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "fdfe:dcba:9876::1/64"
+  },
+  "dns.fake-ip-filter": {
+    "title": {"en": "Skipped Domains", "zh-Hans": "不用虚拟 IP 的域名", "zh-Hant": "不用虛擬 IP 的網域"},
+    "summary": {"en": "In the default filter mode, these domains get their real IP instead of a fake one.",
+                "zh-Hans": "默认过滤模式下，这些域名返回真实 IP 而不是虚拟 IP。",
+                "zh-Hant": "預設過濾模式下，這些網域回傳真實 IP 而不是虛擬 IP。"},
+    "unset": {"en": "A few built-in domains", "zh-Hans": "内置少量域名", "zh-Hant": "內建少量網域"},
+    "example": "+.lan"
+  },
+  "dns.fake-ip-filter-mode": {
+    "title": {"en": "Filter Mode", "zh-Hans": "过滤模式", "zh-Hant": "過濾模式"},
+    "summary": {"en": "Whether the domain list above is excluded from fake IPs, the only one given them, or read as rules.",
+                "zh-Hans": "上面的域名列表是排除、仅包含，还是按规则判断。",
+                "zh-Hant": "上面的網域清單是排除、僅包含，還是依規則判斷。"},
+    "unset": {"en": "Listed get real IPs", "zh-Hans": "列表内用真实 IP", "zh-Hant": "清單內用真實 IP"},
+    "presets": [
+      {"value": "blacklist", "label": {"en": "Listed get real IPs", "zh-Hans": "列表内用真实 IP", "zh-Hant": "清單內用真實 IP"}},
+      {"value": "whitelist", "label": {"en": "Only listed get fake IPs", "zh-Hans": "只有列表内用虚拟 IP", "zh-Hant": "只有清單內用虛擬 IP"}},
+      {"value": "rule", "label": {"en": "By rules", "zh-Hans": "按规则判断", "zh-Hant": "依規則判斷"}}
+    ]
+  },
+  "dns.fake-ip-ttl": {
+    "title": {"en": "TTL", "zh-Hans": "有效期", "zh-Hant": "有效期"},
+    "summary": {"en": "The TTL on fake-IP answers; leave it alone unless you have a reason.",
+                "zh-Hans": "虚拟 IP 响应的 TTL，没有必要不要改。",
+                "zh-Hant": "虛擬 IP 回應的 TTL，沒有必要不要改。"},
+    "unset": {"en": "1 second", "zh-Hans": "1 秒", "zh-Hant": "1 秒"}
+  },
+  "dns.default-nameserver": {
+    "title": {"en": "Bootstrap DNS", "zh-Hans": "引导 DNS", "zh-Hant": "引導 DNS"},
+    "summary": {"en": "Resolves the domain names of the other DNS servers; must be IP addresses.",
+                "zh-Hans": "用来解析其他 DNS 服务器的域名，必须填 IP。",
+                "zh-Hant": "用來解析其他 DNS 伺服器的網域，必須填 IP。"},
+    "unset": {"en": "Built-in servers", "zh-Hans": "内置服务器", "zh-Hant": "內建伺服器"},
+    "example": "223.5.5.5",
+    "presets": [
+      {"value": "223.5.5.5", "label": {"en": "AliDNS", "zh-Hans": "阿里 DNS", "zh-Hant": "阿里 DNS"}},
+      {"value": "119.29.29.29", "label": {"en": "DNSPod", "zh-Hans": "腾讯 DNSPod", "zh-Hant": "騰訊 DNSPod"}},
+      {"value": "1.1.1.1", "label": {"en": "Cloudflare", "zh-Hans": "Cloudflare", "zh-Hant": "Cloudflare"}},
+      {"value": "8.8.8.8", "label": {"en": "Google", "zh-Hans": "Google", "zh-Hant": "Google"}}
+    ]
+  },
+  "dns.cache-algorithm": {
+    "title": {"en": "DNS Cache Policy", "zh-Hans": "DNS 缓存算法", "zh-Hant": "DNS 快取演算法"},
+    "summary": {"en": "Which records the DNS cache drops first when it's full.",
+                "zh-Hans": "DNS 缓存满了以后先淘汰哪些记录。",
+                "zh-Hant": "DNS 快取滿了以後先淘汰哪些紀錄。"},
+    "unset": {"en": "Least recently used", "zh-Hans": "最近最少使用", "zh-Hant": "最近最少使用"},
+    "presets": [
+      {"value": "lru", "label": {"en": "Least recently used", "zh-Hans": "最近最少使用", "zh-Hant": "最近最少使用"}},
+      {"value": "arc", "label": {"en": "Adaptive", "zh-Hans": "自适应", "zh-Hant": "自適應"}}
+    ]
+  },
+  "dns.cache-max-size": {
+    "title": {"en": "DNS Cache Size", "zh-Hans": "DNS 缓存条数", "zh-Hant": "DNS 快取筆數"},
+    "summary": {"en": "The most DNS records the cache keeps.",
+                "zh-Hans": "最多缓存多少条 DNS 记录。",
+                "zh-Hant": "最多快取多少筆 DNS 紀錄。"},
+    "unset": {"en": "4096", "zh-Hans": "4096 条", "zh-Hant": "4096 筆"}
+  },
+  "dns.nameserver-policy": {
+    "title": {"en": "DNS by Domain", "zh-Hans": "分域名 DNS", "zh-Hant": "分網域 DNS"},
+    "summary": {"en": "Picks the DNS server for particular domains or categories, ahead of the default servers.",
+                "zh-Hans": "指定某些域名或分类用哪台 DNS 服务器，优先于默认服务器。",
+                "zh-Hant": "指定某些網域或分類用哪台 DNS 伺服器，優先於預設伺服器。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"}
+  },
+  "dns.proxy-server-nameserver": {
+    "title": {"en": "Proxy Server DNS", "zh-Hans": "节点域名 DNS", "zh-Hant": "節點網域 DNS"},
+    "summary": {"en": "Resolves only the domain names of your proxy servers; empty uses the default servers.",
+                "zh-Hans": "只用来解析代理节点的域名；不填则用默认服务器。",
+                "zh-Hant": "只用來解析代理節點的網域；不填則用預設伺服器。"},
+    "unset": {"en": "Default servers", "zh-Hans": "默认服务器", "zh-Hant": "預設伺服器"},
+    "example": "https://doh.pub/dns-query",
+    "presets": [
+      {"value": "https://dns.alidns.com/dns-query", "label": {"en": "AliDNS (DoH)", "zh-Hans": "阿里 DNS（DoH）", "zh-Hant": "阿里 DNS（DoH）"}},
+      {"value": "https://doh.pub/dns-query", "label": {"en": "DNSPod (DoH)", "zh-Hans": "腾讯 DNSPod（DoH）", "zh-Hant": "騰訊 DNSPod（DoH）"}}
+    ]
+  },
+  "dns.proxy-server-nameserver-policy": {
+    "title": {"en": "Proxy Server DNS by Domain", "zh-Hans": "分域名节点 DNS", "zh-Hant": "分網域節點 DNS"},
+    "summary": {"en": "Picks the server that resolves particular proxy domains; needs Proxy Server DNS to be set.",
+                "zh-Hans": "按域名指定解析节点的服务器，填了节点域名 DNS 才生效。",
+                "zh-Hant": "依網域指定解析節點的伺服器，填了節點網域 DNS 才生效。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"}
+  },
+  "dns.direct-nameserver": {
+    "title": {"en": "Direct DNS", "zh-Hans": "直连 DNS", "zh-Hant": "直連 DNS"},
+    "summary": {"en": "Resolves domains for direct connections; empty uses the default servers.",
+                "zh-Hans": "直连的连接用这些服务器解析；不填则用默认服务器。",
+                "zh-Hant": "直連的連線用這些伺服器解析；不填則用預設伺服器。"},
+    "unset": {"en": "Default servers", "zh-Hans": "默认服务器", "zh-Hant": "預設伺服器"},
+    "example": "system",
+    "presets": [
+      {"value": "system", "label": {"en": "System DNS", "zh-Hans": "系统 DNS", "zh-Hant": "系統 DNS"}},
+      {"value": "https://dns.alidns.com/dns-query", "label": {"en": "AliDNS (DoH)", "zh-Hans": "阿里 DNS（DoH）", "zh-Hant": "阿里 DNS（DoH）"}},
+      {"value": "https://doh.pub/dns-query", "label": {"en": "DNSPod (DoH)", "zh-Hans": "腾讯 DNSPod（DoH）", "zh-Hant": "騰訊 DNSPod（DoH）"}}
+    ]
+  },
+  "dns.direct-nameserver-follow-policy": {
+    "title": {"en": "Direct DNS Follows Policy", "zh-Hans": "直连 DNS 按分域名", "zh-Hant": "直連 DNS 依分網域"},
+    "summary": {"en": "Direct DNS also picks servers by the DNS-by-domain settings.",
+                "zh-Hans": "直连 DNS 也按分域名 DNS 的设置选服务器。",
+                "zh-Hant": "直連 DNS 也依分網域 DNS 的設定選伺服器。"}
+  }
+}

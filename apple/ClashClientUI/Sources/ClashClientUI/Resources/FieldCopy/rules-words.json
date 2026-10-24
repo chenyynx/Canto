@@ -1,0 +1,82 @@
+{
+  "kinds": {
+    "DOMAIN": {"en": "Domain", "zh-Hans": "域名", "zh-Hant": "網域"},
+    "DOMAIN-SUFFIX": {"en": "Domain suffix", "zh-Hans": "域名后缀", "zh-Hant": "網域後綴"},
+    "DOMAIN-KEYWORD": {"en": "Domain keyword", "zh-Hans": "域名关键词", "zh-Hant": "網域關鍵字"},
+    "DOMAIN-REGEX": {"en": "Domain pattern", "zh-Hans": "域名正则", "zh-Hant": "網域規則運算式"},
+    "DOMAIN-WILDCARD": {"en": "Domain wildcard", "zh-Hans": "域名通配", "zh-Hant": "網域萬用字元"},
+    "GEOSITE": {"en": "Website category", "zh-Hans": "网站分类", "zh-Hant": "網站分類"},
+    "GEOIP": {"en": "IP location", "zh-Hans": "IP 归属地", "zh-Hant": "IP 所在地"},
+    "SRC-GEOIP": {"en": "Source IP location", "zh-Hans": "来源 IP 归属地", "zh-Hant": "來源 IP 所在地"},
+    "IP-ASN": {"en": "IP network (ASN)", "zh-Hans": "IP 所属网络（ASN）", "zh-Hant": "IP 所屬網路（ASN）"},
+    "SRC-IP-ASN": {"en": "Source IP network (ASN)", "zh-Hans": "来源 IP 所属网络（ASN）", "zh-Hant": "來源 IP 所屬網路（ASN）"},
+    "IP-CIDR": {"en": "IP range", "zh-Hans": "IP 网段", "zh-Hant": "IP 網段"},
+    "IP-CIDR6": {"en": "IPv6 range", "zh-Hans": "IPv6 网段", "zh-Hant": "IPv6 網段"},
+    "SRC-IP-CIDR": {"en": "Source IP range", "zh-Hans": "来源 IP 网段", "zh-Hant": "來源 IP 網段"},
+    "IP-SUFFIX": {"en": "IP suffix", "zh-Hans": "IP 后缀", "zh-Hant": "IP 後綴"},
+    "SRC-IP-SUFFIX": {"en": "Source IP suffix", "zh-Hans": "来源 IP 后缀", "zh-Hant": "來源 IP 後綴"},
+    "SRC-PORT": {"en": "Source port", "zh-Hans": "来源端口", "zh-Hant": "來源連接埠"},
+    "DST-PORT": {"en": "Destination port", "zh-Hans": "目标端口", "zh-Hant": "目標連接埠"},
+    "IN-PORT": {"en": "Inbound port", "zh-Hans": "入站端口", "zh-Hant": "入站連接埠"},
+    "DSCP": {"en": "DSCP mark", "zh-Hans": "DSCP 标记", "zh-Hant": "DSCP 標記"},
+    "PROCESS-NAME": {"en": "Process name", "zh-Hans": "进程名", "zh-Hant": "程式名稱"},
+    "PROCESS-PATH": {"en": "Process path", "zh-Hans": "进程路径", "zh-Hant": "程式路徑"},
+    "PROCESS-NAME-REGEX": {"en": "Process name pattern", "zh-Hans": "进程名正则", "zh-Hant": "程式名稱規則運算式"},
+    "PROCESS-PATH-REGEX": {"en": "Process path pattern", "zh-Hans": "进程路径正则", "zh-Hant": "程式路徑規則運算式"},
+    "PROCESS-NAME-WILDCARD": {"en": "Process name wildcard", "zh-Hans": "进程名通配", "zh-Hant": "程式名稱萬用字元"},
+    "PROCESS-PATH-WILDCARD": {"en": "Process path wildcard", "zh-Hans": "进程路径通配", "zh-Hant": "程式路徑萬用字元"},
+    "NETWORK": {"en": "Protocol", "zh-Hans": "网络协议", "zh-Hant": "網路協定"},
+    "PROTOCOL": {"en": "Traffic type", "zh-Hans": "流量类型", "zh-Hant": "流量類型"},
+    "SUBNET": {"en": "Current network", "zh-Hans": "当前网络", "zh-Hant": "目前網路"},
+    "CELLULAR-RADIO": {"en": "Cellular network type", "zh-Hans": "蜂窝网络类型", "zh-Hant": "行動網路類型"},
+    "UID": {"en": "User ID", "zh-Hans": "用户 ID", "zh-Hant": "使用者 ID"},
+    "SOURCE-APP-SIGNING-ID": {"en": "App signing ID", "zh-Hans": "App 签名 ID", "zh-Hant": "App 簽署 ID"},
+    "SOURCE-APP-TEAM-ID": {"en": "App team ID", "zh-Hans": "App 团队 ID", "zh-Hant": "App 團隊 ID"},
+    "IN-TYPE": {"en": "Inbound type", "zh-Hans": "入站类型", "zh-Hant": "入站類型"},
+    "IN-USER": {"en": "Inbound user", "zh-Hans": "入站用户", "zh-Hant": "入站使用者"},
+    "IN-NAME": {"en": "Inbound name", "zh-Hans": "入站名称", "zh-Hant": "入站名稱"},
+    "REMATCH-NAME": {"en": "Rematch name", "zh-Hans": "重新匹配名称", "zh-Hant": "重新比對名稱"},
+    "SUB-RULE": {"en": "Sub-rule", "zh-Hans": "子规则", "zh-Hant": "子規則"},
+    "AND": {"en": "All conditions", "zh-Hans": "同时满足多个条件", "zh-Hant": "同時滿足多個條件"},
+    "OR": {"en": "Any condition", "zh-Hans": "满足任一条件", "zh-Hant": "滿足任一條件"},
+    "NOT": {"en": "Not the condition", "zh-Hans": "不满足条件", "zh-Hant": "不滿足條件"},
+    "RULE-SET": {"en": "Rule set", "zh-Hans": "规则集", "zh-Hant": "規則集"},
+    "MATCH": {"en": "Final rule", "zh-Hans": "兜底规则", "zh-Hant": "最終規則"}
+  },
+  "options": {
+    "no-resolve": {"en": "No DNS lookup", "zh-Hans": "不解析域名", "zh-Hant": "不解析網域"},
+    "src": {"en": "Source address", "zh-Hans": "匹配来源地址", "zh-Hant": "比對來源位址"}
+  },
+  "targets": {
+    "DIRECT": {"en": "Direct", "zh-Hans": "直连", "zh-Hant": "直連"},
+    "REJECT": {"en": "Reject", "zh-Hans": "拒绝", "zh-Hant": "拒絕"},
+    "REJECT-DROP": {"en": "Reject silently", "zh-Hans": "拒绝（静默丢弃）", "zh-Hant": "拒絕（靜默丟棄）"},
+    "COMPATIBLE": {"en": "Compatible (same as Direct)", "zh-Hans": "兼容（等同直连）", "zh-Hant": "相容（等同直連）"},
+    "PASS": {"en": "Pass (leave this rule)", "zh-Hans": "跳过（跳出这条规则）", "zh-Hant": "略過（跳出這條規則）"},
+    "PASS-RULE": {"en": "Pass (stay in sub-rules)", "zh-Hans": "跳过（留在子规则）", "zh-Hant": "略過（留在子規則）"},
+    "GLOBAL": {"en": "Global", "zh-Hans": "全局", "zh-Hant": "全域"}
+  },
+  "codes": {
+    "geoip": {
+      "cn": {"en": "China", "zh-Hans": "中国", "zh-Hant": "中國"},
+      "private": {"en": "Private addresses", "zh-Hans": "私有地址", "zh-Hant": "私有位址"},
+      "lan": {"en": "Local network", "zh-Hans": "局域网", "zh-Hant": "區域網路"}
+    },
+    "geosite": {
+      "cn": {"en": "China", "zh-Hans": "中国", "zh-Hant": "中國"},
+      "private": {"en": "Local and private domains", "zh-Hans": "本地与私有域名", "zh-Hant": "本機與私有網域"},
+      "geolocation-cn": {"en": "Sites in China", "zh-Hans": "中国网站", "zh-Hant": "中國網站"},
+      "geolocation-!cn": {"en": "Sites outside China", "zh-Hans": "中国以外的网站", "zh-Hant": "中國以外的網站"},
+      "category-ads": {"en": "Ads", "zh-Hans": "广告", "zh-Hant": "廣告"},
+      "category-ads-all": {"en": "Ads", "zh-Hans": "广告", "zh-Hant": "廣告"}
+    }
+  },
+  "phrases": {
+    "match": {"en": "All other traffic", "zh-Hans": "其余所有流量", "zh-Hant": "其餘所有流量"},
+    "and": {"en": "All of %@ conditions", "zh-Hans": "同时满足 %@ 个条件", "zh-Hant": "同時滿足 %@ 個條件"},
+    "or": {"en": "Any of %@ conditions", "zh-Hans": "满足 %@ 个条件之一", "zh-Hant": "滿足 %@ 個條件之一"},
+    "not": {"en": "Not: %@", "zh-Hans": "不满足：%@", "zh-Hant": "不滿足：%@"},
+    "sub-rule": {"en": "By sub-rule “%@”", "zh-Hans": "按子规则「%@」", "zh-Hant": "依子規則「%@」"},
+    "opens": {"en": "Opens this rule", "zh-Hans": "打开这条规则", "zh-Hant": "開啟這條規則"}
+  }
+}

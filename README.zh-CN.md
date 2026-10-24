@@ -1,48 +1,54 @@
-# Clash-Client-Legacy
+<p align="center">
+  <img src="https://clash.md/brand/clash-app-icon.png" width="128" height="128" alt="Clash">
+</p>
 
-[English](README.md) · 简体中文
-
-[![当前维护仓库](https://img.shields.io/badge/ProjectClash-%E5%BD%93%E5%89%8D%E7%BB%B4%E6%8A%A4%E4%BB%93%E5%BA%93-2563EB?logo=github)](https://github.com/ProjectClash/Clash-Client)
-[![官方网站](https://img.shields.io/badge/Website-%E5%AE%98%E7%BD%91-2563EB)](https://clash.md/)
-[![客户端下载](https://img.shields.io/badge/App_Store-%E4%B8%8B%E8%BD%BD-black?logo=apple&logoColor=white)](https://apps.apple.com/app/id6794257189)
-
-> [!IMPORTANT]
-> **后续开发已迁至 [Clash-Client](https://github.com/ProjectClash/Clash-Client)。**
->
-> 本仓库原位于 `TokenPLS/Hako-Client`，于 2026 年 10 月 10 日转入 ProjectClash，作为历史档案保留，不再更新代码或发布新版本。
->
-> 最新源码、编译说明、版本发布及[新问题反馈](https://github.com/ProjectClash/Clash-Client/issues)请前往当前维护仓库。仍待处理的反馈已连同讨论转移，原 Issue 链接会跳转至新位置。
-
-历史提交、贡献者署名、分支、标签、发行版本和下载附件均予以保留。Star 与 Fork 关系仍属于本历史仓库。下方保留的旧名称和编译说明对应历史版本，当前使用方式请以新仓库为准。
-
-<details>
-<summary>历史 README</summary>
-
-# Clash for Apple Platforms
+# Clash Apple 客户端
 
 [English](README.md) · 简体中文
 
 [![官方网站](https://img.shields.io/badge/%E5%AE%98%E7%BD%91-%E8%AE%BF%E9%97%AE-2563EB)](https://clash.md/)
 [![App Store 下载](https://img.shields.io/badge/App_Store-%E4%B8%8B%E8%BD%BD-black?logo=apple&logoColor=white)](https://apps.apple.com/app/id6794257189)
-[![Telegram 频道](https://img.shields.io/badge/Telegram-%E9%A2%91%E9%81%93-26A5E4?logo=telegram&logoColor=white)](https://t.me/clashbyhako)
+[![Telegram 频道](https://img.shields.io/badge/Telegram-%E9%A2%91%E9%81%93-26A5E4?logo=telegram&logoColor=white)](https://t.me/clashbyclash)
 [![Telegram 交流群](https://img.shields.io/badge/Telegram-%E4%BA%A4%E6%B5%81%E7%BE%A4-26A5E4?logo=telegram&logoColor=white)](https://t.me/+t__WNRvjUbk3M2Nl)
 
-基于 Hako 内核的原生规则代理客户端，适用于 iPhone、iPad、Mac 和 Apple TV。
+基于 Clash 内核的原生规则代理客户端，适用于 iPhone、iPad、Mac 和 Apple TV。
 
 安装官方应用请使用 App Store 链接。以下说明面向需要从源码构建的开发者。
 
 ## 关于本仓库
 
-本仓库包含 Apple 各平台应用、扩展、共享库及构建所需资源。[Hako 内核](https://github.com/TokenPLS/Hako)和 [Adapter 组件](https://github.com/TokenPLS/Hako-Adapter)位于独立仓库，依赖源码提交固定在 [`Dependencies.lock.json`](Dependencies.lock.json) 中。
+本仓库包含 Apple 各平台应用、扩展、共享库及构建所需资源。[Clash 内核](https://github.com/ProjectClash/Clash)和 [Adapter 组件](https://github.com/ProjectClash/Clash-Adapter)位于独立仓库，依赖源码提交固定在 [`Dependencies.lock.json`](Dependencies.lock.json) 中。
 
 | 目录 | 内容 |
 | --- | --- |
-| `apple/HakoClient` | 各平台应用、扩展与 XcodeGen 工程配置 |
-| `apple/HakoClientKit` | 共享配置与档案模型 |
-| `apple/HakoClientUI` | 共享界面组件 |
-| `apple/HakoMacClient` | macOS 组件 |
+| `apple/ClashClient` | 各平台应用、扩展与 XcodeGen 工程配置 |
+| `apple/ClashClientKit` | 共享配置与档案模型 |
+| `apple/ClashClientUI` | 共享界面组件 |
+| `apple/ClashMacClient` | macOS 组件 |
+| `cli` | Mac 应用内置终端工具及编译所需的使用说明 |
 
-当前源码分发处于预发布阶段。App Store 应用版本与本仓库检出的源码分别管理；复现构建时请固定源码提交。
+## 版本与依赖
+
+客户端源码目前按提交发布，尚无独立发行标签。各平台的 App Store 版本分别管理，内核的 `1.19.32` 不是客户端应用版本。复现构建时请固定 Client 提交，并保持该提交的依赖锁不变。
+
+本次源码对应的最近验收产品构建：
+
+| 平台 | 版本 | 构建号 |
+| --- | --- | --- |
+| iOS / iPadOS | 1.0.13 | 133 |
+| macOS | 1.0.15 | 100 |
+| tvOS | 1.0.16 | 49 |
+
+这些是产品构建版本，App Store 与 TestFlight 的可用版本可能不同。自行构建时，请在 Xcode 中为目标平台设置应用版本和构建号。
+
+| 依赖 | 固定源码或工具版本 |
+| --- | --- |
+| [Clash 内核](https://github.com/ProjectClash/Clash) | [`a5cb38dab`](https://github.com/ProjectClash/Clash/commit/a5cb38dab6123ff1dded608b0d7fdceca9027421)，从源码构建 |
+| [Clash Adapter](https://github.com/ProjectClash/Clash-Adapter) | [`821b6e40f`](https://github.com/ProjectClash/Clash-Adapter/commit/821b6e40f13b423f6e5d3017611851ef6955ca94) |
+| Swift Certificates / Crypto / ASN.1 | **1.9.0 / 3.15.1 / 1.7.3**，固定在 XcodeGen 工程中 |
+| gomobile / gobind | `github.com/sagernet/gomobile` **v0.1.13** |
+
+上述固定值以 [`Dependencies.lock.json`](Dependencies.lock.json) 为准。依赖准备脚本使用锁定的公开源码，不会自动选择最新发行版。
 
 iOS 和 macOS 工程通过共享框架封装静态 Core；工程生成时会保留所需的头文件复制步骤。客户端使用的能力以所固定的 Kernel 和 Adapter 提交为准；iOS/tvOS 的 SDK 不包含 EasyTier。
 
@@ -50,16 +56,19 @@ iOS 和 macOS 工程通过共享框架封装静态 Core；工程生成时会保�
 
 ### 环境要求
 
-- macOS、Xcode 27.0，以及 iOS、macOS、tvOS SDK。
+- macOS、Xcode 27.0 或更新版本，以及 iOS、macOS、tvOS SDK。
 - 可在命令行使用的 XcodeGen 和 Git。
-- 启用自动工具链选择的 Go，或安装固定内核绑定模块所选择的 Go 1.26.6 工具链。
+- 启用自动工具链选择的 Go，或安装固定内核绑定模块所选择的 Go 1.26.9 工具链。
 - Python 3 和 PyYAML。
+- 部署目标为 iOS/iPadOS 15+、macOS 13+ 和 tvOS 17+，以 [`project.yml`](apple/ClashClient/project.yml) 为准。
+
+请将完整 Xcode 设为当前开发工具目录。安装在标准路径时，可按需设置 `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer`。
 
 ### 准备工程
 
 ```sh
-git clone https://github.com/TokenPLS/Hako-Client.git
-cd Hako-Client
+git clone https://github.com/ProjectClash/Clash-Client.git
+cd Clash-Client
 python3 -m venv .build/python-env
 source .build/python-env/bin/activate
 python3 -m pip install PyYAML
@@ -67,22 +76,30 @@ python3 scripts/bootstrap.py
 python3 scripts/configure.py
 ```
 
-首次准备依赖时会获取固定提交的公开内核与 Adapter 源码，安装固定版本的 gomobile 工具，并构建五切片 SDK。此过程需要网络，可能耗时数分钟。配置脚本随后生成 Xcode 工程。
+首次准备依赖时会获取固定提交的公开内核与 Adapter 源码，安装固定版本的 gomobile 工具，并从源码构建五切片 SDK；不会下载发行版中的预编译压缩包。此过程需要网络，可能耗时数分钟。后续只有在保存的文件清单和源码来源校验通过时才复用 SDK。配置脚本随后生成 Xcode 工程，并构建 macOS 通用终端工具，即使你接下来只打算编译 iOS 或 tvOS。修改应用标识后需重新运行配置脚本。
 
-打开 `apple/HakoClient/HakoClient.xcodeproj`，选择相应构建方案：
+打开 `apple/ClashClient/ClashClient.xcodeproj`，选择相应构建方案：
 
 | 平台 | 构建方案 |
 | --- | --- |
-| iPhone / iPad | `HakoClient` |
-| Apple TV | `HakoTV` |
-| Mac | `HakoMac` |
+| iPhone / iPad | `ClashiOS` |
+| Apple TV | `ClashtvOS` |
+| Mac | `ClashmacOS` |
 
-不签名编译 iOS 模拟器版本：
+各平台无签名 Release 编译命令：
 
 ```sh
-xcodebuild -project apple/HakoClient/HakoClient.xcodeproj \
-  -scheme HakoClient -configuration Release \
+xcodebuild -project apple/ClashClient/ClashClient.xcodeproj \
+  -scheme ClashiOS -configuration Release \
   -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
+
+xcodebuild -project apple/ClashClient/ClashClient.xcodeproj \
+  -scheme ClashtvOS -configuration Release \
+  -destination 'generic/platform=tvOS Simulator' CODE_SIGNING_ALLOWED=NO build
+
+xcodebuild -project apple/ClashClient/ClashClient.xcodeproj \
+  -scheme ClashmacOS -configuration Release \
+  -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO build
 ```
 
 ### 签名自己的构建
@@ -97,12 +114,10 @@ python3 scripts/configure.py --bundle-base org.yourname.clash --team YOURTEAMID
 
 ## 问题反馈
 
-应用问题请提交到 [Issues](https://github.com/TokenPLS/Hako-Client/issues)，注明平台与系统版本、应用版本或源码提交、复现步骤，以及预期和实际行为。只分享复现所需的配置与日志，并移除凭据和订阅链接。
+应用问题请提交到 [Issues](https://github.com/ProjectClash/Clash-Client/issues)，注明平台与系统版本、应用版本或源码提交、复现步骤，以及预期和实际行为。只分享复现所需的配置与日志，并移除凭据和订阅链接。
 
-内核问题可提交到 [Hako](https://github.com/TokenPLS/Hako/issues)，数据包桥接与扩展生命周期问题请提交到 [Hako-Adapter](https://github.com/TokenPLS/Hako-Adapter/issues)。
+内核问题可提交到 [Clash](https://github.com/ProjectClash/Clash/issues)，数据包桥接与扩展生命周期问题请提交到 [Clash-Adapter](https://github.com/ProjectClash/Clash-Adapter/issues)。
 
 ## 许可证
 
 [GPL-3.0](LICENSE)。第三方资源的许可证随资源保留。
-
-</details>

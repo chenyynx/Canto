@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "kernel": {
-    "repository": "https://github.com/TokenPLS/Hako.git",
-    "revision": "9437767346a63957c60bf027b6d9fb27e51d89c4"
+    "repository": "https://github.com/ProjectClash/Clash.git",
+    "revision": "a5cb38dab6123ff1dded608b0d7fdceca9027421"
   },
   "adapter": {
-    "repository": "https://github.com/TokenPLS/Hako-Adapter.git",
-    "revision": "6a47cf91350ab80024e9bb4003264dd01100bdbd"
+    "repository": "https://github.com/ProjectClash/Clash-Adapter.git",
+    "revision": "821b6e40f13b423f6e5d3017611851ef6955ca94"
   },
   "gomobile": "github.com/sagernet/gomobile/cmd/gomobile@v0.1.13",
   "gobind": "github.com/sagernet/gomobile/cmd/gobind@v0.1.13"

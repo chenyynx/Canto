@@ -1,48 +1,54 @@
-# Clash-Client-Legacy
+<p align="center">
+  <img src="https://clash.md/brand/clash-app-icon.png" width="128" height="128" alt="Clash">
+</p>
 
-English · [简体中文](README.zh-CN.md)
-
-[![Active repository](https://img.shields.io/badge/ProjectClash-Active_repository-2563EB?logo=github)](https://github.com/ProjectClash/Clash-Client)
-[![Website](https://img.shields.io/badge/Website-Official-2563EB)](https://clash.md/)
-[![App Store](https://img.shields.io/badge/App_Store-Download-black?logo=apple&logoColor=white)](https://apps.apple.com/app/id6794257189)
-
-> [!IMPORTANT]
-> **Development has moved to [Clash-Client](https://github.com/ProjectClash/Clash-Client).**
->
-> This is the historical repository formerly located at `TokenPLS/Hako-Client`, transferred to ProjectClash on October 10, 2026. It is retained as an archive and will receive no further code updates or releases.
->
-> Use the active repository for current source, build instructions, releases and [new issues](https://github.com/ProjectClash/Clash-Client/issues). Outstanding reports have been transferred with their discussions; their original issue links redirect to the new locations.
-
-Historical commits, contributor attribution, branches, tags, releases and download assets are retained. Stars and fork relationships remain attached to this historical repository. Earlier names and build instructions below describe the historical version, not the current project.
-
-<details>
-<summary>Historical README</summary>
-
-# Clash for Apple Platforms
+# Clash Client for Apple Platforms
 
 English · [简体中文](README.zh-CN.md)
 
 [![Website](https://img.shields.io/badge/Website-Official-2563EB)](https://clash.md/)
 [![App Store Download](https://img.shields.io/badge/App_Store-Download-black?logo=apple&logoColor=white)](https://apps.apple.com/app/id6794257189)
-[![Telegram Channel](https://img.shields.io/badge/Telegram-Channel-26A5E4?logo=telegram&logoColor=white)](https://t.me/clashbyhako)
+[![Telegram Channel](https://img.shields.io/badge/Telegram-Channel-26A5E4?logo=telegram&logoColor=white)](https://t.me/clashbyclash)
 [![Telegram Group](https://img.shields.io/badge/Telegram-Group-26A5E4?logo=telegram&logoColor=white)](https://t.me/+t__WNRvjUbk3M2Nl)
 
-A native, rule-based proxy client for iPhone, iPad, Mac and Apple TV, powered by the Hako kernel.
+A native, rule-based proxy client for iPhone, iPad, Mac and Apple TV, powered by the Clash kernel.
 
 Use the App Store link to install the official app. The instructions below are for building from source.
 
 ## About this repository
 
-This repository contains the Apple applications, their extensions, shared libraries and resources needed to build them. The [Hako kernel](https://github.com/TokenPLS/Hako) and [Adapter components](https://github.com/TokenPLS/Hako-Adapter) are maintained in separate repositories; their source revisions are pinned in [`Dependencies.lock.json`](Dependencies.lock.json).
+This repository contains the Apple applications, their extensions, shared libraries and resources needed to build them. The [Clash kernel](https://github.com/ProjectClash/Clash) and [Adapter components](https://github.com/ProjectClash/Clash-Adapter) are maintained in separate repositories; their source revisions are pinned in [`Dependencies.lock.json`](Dependencies.lock.json).
 
 | Directory | Contents |
 | --- | --- |
-| `apple/HakoClient` | Platform applications, extensions and XcodeGen project specification |
-| `apple/HakoClientKit` | Shared configuration and profile models |
-| `apple/HakoClientUI` | Shared interface components |
-| `apple/HakoMacClient` | macOS components |
+| `apple/ClashClient` | Platform applications, extensions and XcodeGen project specification |
+| `apple/ClashClientKit` | Shared configuration and profile models |
+| `apple/ClashClientUI` | Shared interface components |
+| `apple/ClashMacClient` | macOS components |
+| `cli` | Terminal helper bundled with the Mac app, including its embedded usage guide |
 
-The source distribution is pre-release. The App Store app version and a checkout of this repository are separate artifacts; pin a source revision when reproducing a build.
+## Versions and dependencies
+
+Client source is currently published by commit, without a separate release tag. App Store versions are managed separately for each platform; the kernel's `1.19.32` is not the Client app version. Pin a Client revision to reproduce a build, and keep its dependency lock unchanged.
+
+The latest accepted product builds corresponding to this source are:
+
+| Platform | Version | Build |
+| --- | --- | --- |
+| iOS / iPadOS | 1.0.13 | 133 |
+| macOS | 1.0.15 | 100 |
+| tvOS | 1.0.16 | 49 |
+
+These identify the product builds; availability on the App Store and TestFlight may differ. For a source build, set the app version and build number in Xcode for the platform you are building.
+
+| Dependency | Pinned source or tool version |
+| --- | --- |
+| [Clash Kernel](https://github.com/ProjectClash/Clash) | [`a5cb38dab`](https://github.com/ProjectClash/Clash/commit/a5cb38dab6123ff1dded608b0d7fdceca9027421), built from source |
+| [Clash Adapter](https://github.com/ProjectClash/Clash-Adapter) | [`821b6e40f`](https://github.com/ProjectClash/Clash-Adapter/commit/821b6e40f13b423f6e5d3017611851ef6955ca94) |
+| Swift Certificates / Crypto / ASN.1 | **1.9.0 / 3.15.1 / 1.7.3**, pinned in the XcodeGen project |
+| gomobile / gobind | `github.com/sagernet/gomobile` **v0.1.13** |
+
+[`Dependencies.lock.json`](Dependencies.lock.json) is the source of truth for these pins. The bootstrap uses the pinned public source; it does not select the latest release automatically.
 
 The iOS and macOS projects wrap the static Core in a shared framework, with the required header-copy build step included in project generation. Available features depend on the pinned Kernel and Adapter revisions; the iOS/tvOS SDK does not include EasyTier.
 
@@ -50,16 +56,19 @@ The iOS and macOS projects wrap the static Core in a shared framework, with the 
 
 ### Requirements
 
-- macOS with Xcode 27.0 and the iOS, macOS and tvOS SDKs.
+- macOS with Xcode 27.0 or later and the iOS, macOS and tvOS SDKs.
 - XcodeGen and Git available on your command path.
-- Go with automatic toolchain selection enabled, or the Go 1.26.6 toolchain selected by the pinned kernel's binding module.
+- Go with automatic toolchain selection enabled, or the Go 1.26.9 toolchain selected by the pinned kernel's binding module.
 - Python 3 with PyYAML.
+- Deployment targets: iOS/iPadOS 15+, macOS 13+ and tvOS 17+, as declared in [`project.yml`](apple/ClashClient/project.yml).
+
+Use the full Xcode installation as your active developer directory. If needed, set `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer` for a standard installation.
 
 ### Prepare the project
 
 ```sh
-git clone https://github.com/TokenPLS/Hako-Client.git
-cd Hako-Client
+git clone https://github.com/ProjectClash/Clash-Client.git
+cd Clash-Client
 python3 -m venv .build/python-env
 source .build/python-env/bin/activate
 python3 -m pip install PyYAML
@@ -67,22 +76,30 @@ python3 scripts/bootstrap.py
 python3 scripts/configure.py
 ```
 
-The first bootstrap fetches the pinned public Kernel and Adapter sources, installs the pinned gomobile tools and builds the five-slice SDK. It requires network access and can take several minutes. The configure step generates the Xcode project.
+The first bootstrap fetches the pinned public Kernel and Adapter sources, installs the pinned gomobile tools and builds the five-slice SDK from source. It requires network access and can take several minutes; it does not download a prebuilt Release archive. Subsequent runs reuse the SDK only after its saved file inventory and source provenance pass verification. The configure step generates the Xcode project and builds the universal macOS terminal helper, including when you intend to build an iOS or tvOS scheme. Run it again after changing your bundle identifiers.
 
-Open `apple/HakoClient/HakoClient.xcodeproj` and choose a scheme:
+Open `apple/ClashClient/ClashClient.xcodeproj` and choose a scheme:
 
 | Platform | Scheme |
 | --- | --- |
-| iPhone / iPad | `HakoClient` |
-| Apple TV | `HakoTV` |
-| Mac | `HakoMac` |
+| iPhone / iPad | `ClashiOS` |
+| Apple TV | `ClashtvOS` |
+| Mac | `ClashmacOS` |
 
-For an unsigned iOS Simulator build:
+Unsigned Release compilation commands:
 
 ```sh
-xcodebuild -project apple/HakoClient/HakoClient.xcodeproj \
-  -scheme HakoClient -configuration Release \
+xcodebuild -project apple/ClashClient/ClashClient.xcodeproj \
+  -scheme ClashiOS -configuration Release \
   -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
+
+xcodebuild -project apple/ClashClient/ClashClient.xcodeproj \
+  -scheme ClashtvOS -configuration Release \
+  -destination 'generic/platform=tvOS Simulator' CODE_SIGNING_ALLOWED=NO build
+
+xcodebuild -project apple/ClashClient/ClashClient.xcodeproj \
+  -scheme ClashmacOS -configuration Release \
+  -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO build
 ```
 
 ### Sign your own build
@@ -97,12 +114,10 @@ Configure signing and capabilities for the app and its extensions in Xcode, incl
 
 ## Feedback
 
-Report app problems in [Issues](https://github.com/TokenPLS/Hako-Client/issues). Include the platform and OS version, app version or source revision, reproduction steps, and expected versus actual behavior. Share only the configuration and logs needed to reproduce the problem, with credentials and subscription links removed.
+Report app problems in [Issues](https://github.com/ProjectClash/Clash-Client/issues). Include the platform and OS version, app version or source revision, reproduction steps, and expected versus actual behavior. Share only the configuration and logs needed to reproduce the problem, with credentials and subscription links removed.
 
-Kernel issues can be reported in [Hako](https://github.com/TokenPLS/Hako/issues); packet bridge and provider lifecycle issues belong in [Hako-Adapter](https://github.com/TokenPLS/Hako-Adapter/issues).
+Kernel issues can be reported in [Clash](https://github.com/ProjectClash/Clash/issues); packet bridge and provider lifecycle issues belong in [Clash-Adapter](https://github.com/ProjectClash/Clash-Adapter/issues).
 
 ## License
 
 [GPL-3.0](LICENSE). Third-party resource licenses remain with their resources.
-
-</details>

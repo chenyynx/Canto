@@ -1,0 +1,471 @@
+{
+  "layouts": {
+    "proxy-groups[select]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "You pick one node by hand; every connection in the group uses it.",
+          "zh-Hans": "由你手动选一个节点，组里的连接都走它。",
+          "zh-Hant": "由你手動選一個節點，組裡的連線都走它。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "default-selected"
+        ]
+      },
+      {
+        "id": "members",
+        "title": {
+          "en": "Members",
+          "zh-Hans": "成员",
+          "zh-Hant": "成員"
+        },
+        "footer": {
+          "en": "Which nodes the group holds: picked by hand, taken from node sets, or matched by name.",
+          "zh-Hans": "组里有哪些节点：手动挑选、引用节点集合，或按名字筛选。",
+          "zh-Hant": "組裡有哪些節點：手動挑選、引用節點集合，或按名稱篩選。"
+        },
+        "keys": [
+          "proxies",
+          "use",
+          "include-all",
+          "include-all-proxies",
+          "include-all-providers",
+          "filter",
+          "exclude-filter",
+          "exclude-type",
+          "empty-fallback"
+        ]
+      },
+      {
+        "id": "health",
+        "title": {
+          "en": "Health Check",
+          "zh-Hans": "健康检查",
+          "zh-Hant": "健康檢查"
+        },
+        "footer": {
+          "en": "Tests only show each node's delay and never switch the node; they run on a schedule only when an interval is written.",
+          "zh-Hans": "测速只用来显示延迟，不会替你换节点；写了间隔才会定时测。",
+          "zh-Hant": "測速只用來顯示延遲，不會替你換節點；寫了間隔才會定時測。"
+        },
+        "keys": [
+          "url",
+          "interval",
+          "timeout",
+          "lazy",
+          "expected-status",
+          "max-failed-times"
+        ]
+      },
+      {
+        "id": "display",
+        "title": {
+          "en": "Display",
+          "zh-Hans": "显示",
+          "zh-Hant": "顯示"
+        },
+        "footer": {
+          "en": "Only changes how the group shows in lists and dashboards.",
+          "zh-Hans": "只影响列表和面板里怎么显示这个组。",
+          "zh-Hant": "只影響列表和面板裡怎麼顯示這個組。"
+        },
+        "keys": [
+          "hidden",
+          "icon"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxy-groups[url-test]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Tests regularly and uses the node with the lowest delay.",
+          "zh-Hans": "定期测速，自动用延迟最低的节点。",
+          "zh-Hant": "定期測速，自動用延遲最低的節點。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "tolerance"
+        ]
+      },
+      {
+        "id": "members",
+        "title": {
+          "en": "Members",
+          "zh-Hans": "成员",
+          "zh-Hant": "成員"
+        },
+        "footer": {
+          "en": "Which nodes the group holds: picked by hand, taken from node sets, or matched by name.",
+          "zh-Hans": "组里有哪些节点：手动挑选、引用节点集合，或按名字筛选。",
+          "zh-Hant": "組裡有哪些節點：手動挑選、引用節點集合，或按名稱篩選。"
+        },
+        "keys": [
+          "proxies",
+          "use",
+          "include-all",
+          "include-all-proxies",
+          "include-all-providers",
+          "filter",
+          "exclude-filter",
+          "exclude-type",
+          "empty-fallback"
+        ]
+      },
+      {
+        "id": "health",
+        "title": {
+          "en": "Health Check",
+          "zh-Hans": "健康检查",
+          "zh-Hant": "健康檢查"
+        },
+        "footer": {
+          "en": "Tests nodes regularly to find working ones; shorter intervals react faster but use more battery.",
+          "zh-Hans": "定期测速找出能用的节点，间隔越短越及时，也越耗电。",
+          "zh-Hant": "定期測速找出能用的節點，間隔越短越即時，也越耗電。"
+        },
+        "keys": [
+          "url",
+          "interval",
+          "timeout",
+          "lazy",
+          "expected-status",
+          "max-failed-times"
+        ]
+      },
+      {
+        "id": "display",
+        "title": {
+          "en": "Display",
+          "zh-Hans": "显示",
+          "zh-Hant": "顯示"
+        },
+        "footer": {
+          "en": "Only changes how the group shows in lists and dashboards.",
+          "zh-Hans": "只影响列表和面板里怎么显示这个组。",
+          "zh-Hant": "只影響列表和面板裡怎麼顯示這個組。"
+        },
+        "keys": [
+          "hidden",
+          "icon"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxy-groups[fallback]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Uses the first node that works, in order, and moves on when it fails.",
+          "zh-Hans": "按顺序用第一个能用的节点，坏了就自动往后换。",
+          "zh-Hant": "按順序用第一個能用的節點，壞了就自動往後換。"
+        },
+        "keys": [
+          "name",
+          "type"
+        ]
+      },
+      {
+        "id": "members",
+        "title": {
+          "en": "Members",
+          "zh-Hans": "成员",
+          "zh-Hant": "成員"
+        },
+        "footer": {
+          "en": "Which nodes the group holds: picked by hand, taken from node sets, or matched by name.",
+          "zh-Hans": "组里有哪些节点：手动挑选、引用节点集合，或按名字筛选。",
+          "zh-Hant": "組裡有哪些節點：手動挑選、引用節點集合，或按名稱篩選。"
+        },
+        "keys": [
+          "proxies",
+          "use",
+          "include-all",
+          "include-all-proxies",
+          "include-all-providers",
+          "filter",
+          "exclude-filter",
+          "exclude-type",
+          "empty-fallback"
+        ]
+      },
+      {
+        "id": "health",
+        "title": {
+          "en": "Health Check",
+          "zh-Hans": "健康检查",
+          "zh-Hant": "健康檢查"
+        },
+        "footer": {
+          "en": "Tests nodes regularly to find working ones; shorter intervals react faster but use more battery.",
+          "zh-Hans": "定期测速找出能用的节点，间隔越短越及时，也越耗电。",
+          "zh-Hant": "定期測速找出能用的節點，間隔越短越即時，也越耗電。"
+        },
+        "keys": [
+          "url",
+          "interval",
+          "timeout",
+          "lazy",
+          "expected-status",
+          "max-failed-times"
+        ]
+      },
+      {
+        "id": "display",
+        "title": {
+          "en": "Display",
+          "zh-Hans": "显示",
+          "zh-Hant": "顯示"
+        },
+        "footer": {
+          "en": "Only changes how the group shows in lists and dashboards.",
+          "zh-Hans": "只影响列表和面板里怎么显示这个组。",
+          "zh-Hant": "只影響列表和面板裡怎麼顯示這個組。"
+        },
+        "keys": [
+          "hidden",
+          "icon"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxy-groups[load-balance]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Spreads connections across the nodes in the group.",
+          "zh-Hans": "把连接分散到组里的多个节点上。",
+          "zh-Hant": "把連線分散到組裡的多個節點上。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "strategy",
+          "hash-key"
+        ]
+      },
+      {
+        "id": "members",
+        "title": {
+          "en": "Members",
+          "zh-Hans": "成员",
+          "zh-Hant": "成員"
+        },
+        "footer": {
+          "en": "Which nodes the group holds: picked by hand, taken from node sets, or matched by name.",
+          "zh-Hans": "组里有哪些节点：手动挑选、引用节点集合，或按名字筛选。",
+          "zh-Hant": "組裡有哪些節點：手動挑選、引用節點集合，或按名稱篩選。"
+        },
+        "keys": [
+          "proxies",
+          "use",
+          "include-all",
+          "include-all-proxies",
+          "include-all-providers",
+          "filter",
+          "exclude-filter",
+          "exclude-type",
+          "empty-fallback"
+        ]
+      },
+      {
+        "id": "health",
+        "title": {
+          "en": "Health Check",
+          "zh-Hans": "健康检查",
+          "zh-Hant": "健康檢查"
+        },
+        "footer": {
+          "en": "Tests nodes regularly to find working ones; shorter intervals react faster but use more battery.",
+          "zh-Hans": "定期测速找出能用的节点，间隔越短越及时，也越耗电。",
+          "zh-Hant": "定期測速找出能用的節點，間隔越短越即時，也越耗電。"
+        },
+        "keys": [
+          "url",
+          "interval",
+          "timeout",
+          "lazy",
+          "expected-status",
+          "max-failed-times"
+        ]
+      },
+      {
+        "id": "display",
+        "title": {
+          "en": "Display",
+          "zh-Hans": "显示",
+          "zh-Hant": "顯示"
+        },
+        "footer": {
+          "en": "Only changes how the group shows in lists and dashboards.",
+          "zh-Hans": "只影响列表和面板里怎么显示这个组。",
+          "zh-Hant": "只影響列表和面板裡怎麼顯示這個組。"
+        },
+        "keys": [
+          "hidden",
+          "icon"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxy-groups[*]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "The group's name and how it picks a node.",
+          "zh-Hans": "组的名字和选节点的方式。",
+          "zh-Hant": "組的名稱和選節點的方式。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "strategy",
+          "default-selected",
+          "tolerance"
+        ]
+      },
+      {
+        "id": "members",
+        "title": {
+          "en": "Members",
+          "zh-Hans": "成员",
+          "zh-Hant": "成員"
+        },
+        "footer": {
+          "en": "Which nodes the group holds: picked by hand, taken from node sets, or matched by name.",
+          "zh-Hans": "组里有哪些节点：手动挑选、引用节点集合，或按名字筛选。",
+          "zh-Hant": "組裡有哪些節點：手動挑選、引用節點集合，或按名稱篩選。"
+        },
+        "keys": [
+          "proxies",
+          "use",
+          "include-all",
+          "include-all-proxies",
+          "include-all-providers",
+          "filter",
+          "exclude-filter",
+          "exclude-type",
+          "empty-fallback"
+        ]
+      },
+      {
+        "id": "health",
+        "title": {
+          "en": "Health Check",
+          "zh-Hans": "健康检查",
+          "zh-Hant": "健康檢查"
+        },
+        "footer": {
+          "en": "Tests nodes regularly to find working ones; shorter intervals react faster but use more battery.",
+          "zh-Hans": "定期测速找出能用的节点，间隔越短越及时，也越耗电。",
+          "zh-Hant": "定期測速找出能用的節點，間隔越短越即時，也越耗電。"
+        },
+        "keys": [
+          "url",
+          "interval",
+          "timeout",
+          "lazy",
+          "expected-status",
+          "max-failed-times"
+        ]
+      },
+      {
+        "id": "display",
+        "title": {
+          "en": "Display",
+          "zh-Hans": "显示",
+          "zh-Hant": "顯示"
+        },
+        "footer": {
+          "en": "Only changes how the group shows in lists and dashboards.",
+          "zh-Hans": "只影响列表和面板里怎么显示这个组。",
+          "zh-Hant": "只影響列表和面板裡怎麼顯示這個組。"
+        },
+        "keys": [
+          "hidden",
+          "icon"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ]
+  }
+}

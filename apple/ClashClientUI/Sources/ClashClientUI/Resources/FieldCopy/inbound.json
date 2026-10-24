@@ -1,0 +1,6033 @@
+{
+  "listeners": {
+    "summary": {
+      "en": "Extra ports that accept connections, each with its own protocol and routing.",
+      "zh-Hans": "额外开放的入站端口，每个可单独设协议和分流。",
+      "zh-Hant": "額外開放的入站連接埠，每個可單獨設定協定和分流。"
+    },
+    "title": {
+      "en": "Custom Inbounds",
+      "zh-Hans": "自定义入站",
+      "zh-Hant": "自訂入站"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    }
+  },
+  "listeners[*].aead-method": {
+    "presets": [
+      {
+        "label": {
+          "en": "ChaCha20-Poly1305",
+          "zh-Hans": "ChaCha20-Poly1305",
+          "zh-Hant": "ChaCha20-Poly1305"
+        },
+        "value": "chacha20-poly1305"
+      },
+      {
+        "label": {
+          "en": "AES-128-GCM",
+          "zh-Hans": "AES-128-GCM",
+          "zh-Hant": "AES-128-GCM"
+        },
+        "value": "aes-128-gcm"
+      },
+      {
+        "label": {
+          "en": "None (no AEAD)",
+          "zh-Hans": "不加密（无 AEAD 保护）",
+          "zh-Hant": "不加密（無 AEAD 保護）"
+        },
+        "value": "none"
+      }
+    ],
+    "summary": {
+      "en": "The AEAD cipher; none gives no encryption protection.",
+      "zh-Hans": "AEAD 加密方法，none 不提供加密保护。",
+      "zh-Hant": "AEAD 加密方法，none 不提供加密保護。"
+    },
+    "title": {
+      "en": "Encryption",
+      "zh-Hans": "加密方式",
+      "zh-Hant": "加密方式"
+    }
+  },
+  "listeners[*].allow-insecure": {
+    "summary": {
+      "en": "Allow running without TLS; only behind a reverse proxy such as nginx.",
+      "zh-Hans": "允许不开 TLS，仅在前面有 nginx 等反代时使用。",
+      "zh-Hant": "允許不開 TLS，僅在前面有 nginx 等反向代理時使用。"
+    },
+    "title": {
+      "en": "Allow Without TLS",
+      "zh-Hans": "允许不加密",
+      "zh-Hant": "允許不加密"
+    }
+  },
+  "listeners[*].alpn": {
+    "example": "h3",
+    "summary": {
+      "en": "TLS application protocols; the connecting side must use one of them.",
+      "zh-Hans": "TLS 应用层协议列表，连接端须用其中之一。",
+      "zh-Hant": "TLS 應用層協定列表，連線端須用其中之一。"
+    },
+    "title": {
+      "en": "ALPN",
+      "zh-Hans": "ALPN",
+      "zh-Hant": "ALPN"
+    }
+  },
+  "listeners[*].authentication-timeout": {
+    "summary": {
+      "en": "How long a client has to authenticate.",
+      "zh-Hans": "客户端须在多长时间内完成认证。",
+      "zh-Hant": "用戶端須在多長時間內完成驗證。"
+    },
+    "title": {
+      "en": "Sign-In Timeout",
+      "zh-Hans": "认证超时",
+      "zh-Hant": "驗證逾時"
+    }
+  },
+  "listeners[*].auto-detect-interface": {
+    "summary": {
+      "en": "Pick the outgoing network interface automatically.",
+      "zh-Hans": "自动选择流量出口网卡，多网卡设备建议手动指定。",
+      "zh-Hant": "自動選擇流量出口網卡，多網卡裝置建議手動指定。"
+    },
+    "title": {
+      "en": "Auto Detect Interface",
+      "zh-Hans": "自动选择出口",
+      "zh-Hant": "自動選擇出口"
+    }
+  },
+  "listeners[*].auto-redirect": {
+    "summary": {
+      "en": "Redirect TCP connections automatically; needs auto route, Linux only.",
+      "zh-Hans": "自动重定向 TCP 连接，需开启自动路由，仅 Linux。",
+      "zh-Hant": "自動重新導向 TCP 連線，需開啟自動路由，僅 Linux。"
+    },
+    "title": {
+      "en": "Auto Redirect",
+      "zh-Hans": "自动重定向",
+      "zh-Hant": "自動重新導向"
+    }
+  },
+  "listeners[*].auto-redirect-input-mark": {
+    "summary": {
+      "en": "The mark auto redirect puts on incoming traffic; Linux only.",
+      "zh-Hans": "自动重定向使用的入站流量标记，仅 Linux。",
+      "zh-Hant": "自動重新導向使用的入站流量標記，僅 Linux。"
+    },
+    "title": {
+      "en": "Redirect Input Mark",
+      "zh-Hans": "重定向入口标记",
+      "zh-Hant": "重新導向入口標記"
+    }
+  },
+  "listeners[*].auto-redirect-iproute2-fallback-rule-index": {
+    "summary": {
+      "en": "The iproute2 fallback rule number for auto redirect; Linux only.",
+      "zh-Hans": "自动重定向的 iproute2 兜底规则编号，仅 Linux。",
+      "zh-Hant": "自動重新導向的 iproute2 備援規則編號，僅 Linux。"
+    },
+    "title": {
+      "en": "Redirect Fallback Rule",
+      "zh-Hans": "重定向兜底规则编号",
+      "zh-Hant": "重新導向備援規則"
+    }
+  },
+  "listeners[*].auto-redirect-output-mark": {
+    "summary": {
+      "en": "The mark auto redirect puts on outgoing traffic; Linux only.",
+      "zh-Hans": "自动重定向使用的出站流量标记，仅 Linux。",
+      "zh-Hant": "自動重新導向使用的出站流量標記，僅 Linux。"
+    },
+    "title": {
+      "en": "Redirect Output Mark",
+      "zh-Hans": "重定向出口标记",
+      "zh-Hant": "重新導向出口標記"
+    }
+  },
+  "listeners[*].auto-route": {
+    "summary": {
+      "en": "Send the system's traffic into the TUN automatically.",
+      "zh-Hans": "自动把系统流量导入 TUN。",
+      "zh-Hant": "自動把系統流量導入 TUN。"
+    },
+    "title": {
+      "en": "Auto Route",
+      "zh-Hans": "自动路由",
+      "zh-Hant": "自動路由"
+    }
+  },
+  "listeners[*].bbr-profile": {
+    "presets": [
+      {
+        "label": {
+          "en": "Standard",
+          "zh-Hans": "标准",
+          "zh-Hant": "標準"
+        },
+        "value": "standard"
+      },
+      {
+        "label": {
+          "en": "Conservative",
+          "zh-Hans": "保守",
+          "zh-Hant": "保守"
+        },
+        "value": "conservative"
+      },
+      {
+        "label": {
+          "en": "Aggressive",
+          "zh-Hans": "激进",
+          "zh-Hant": "積極"
+        },
+        "value": "aggressive"
+      }
+    ],
+    "summary": {
+      "en": "How aggressive BBR congestion control is: conservative, standard or aggressive.",
+      "zh-Hans": "BBR 拥塞控制的激进程度：保守、标准或激进。",
+      "zh-Hant": "BBR 壅塞控制的積極程度：保守、標準或積極。"
+    },
+    "title": {
+      "en": "BBR Aggressiveness",
+      "zh-Hans": "BBR 激进程度",
+      "zh-Hant": "BBR 積極程度"
+    },
+    "unset": {
+      "en": "Standard",
+      "zh-Hans": "标准",
+      "zh-Hant": "標準"
+    }
+  },
+  "listeners[*].certificate": {
+    "example": "./server.crt",
+    "summary": {
+      "en": "The TLS certificate as PEM text or a file path; set it with the private key.",
+      "zh-Hans": "TLS 证书，填 PEM 内容或文件路径，要与私钥一起填。",
+      "zh-Hant": "TLS 憑證，填 PEM 內容或檔案路徑，要與私鑰一起填。"
+    },
+    "title": {
+      "en": "Certificate",
+      "zh-Hans": "证书",
+      "zh-Hant": "憑證"
+    }
+  },
+  "listeners[*].cipher": {
+    "presets": [
+      {
+        "label": {
+          "en": "None (no encryption)",
+          "zh-Hans": "不加密",
+          "zh-Hant": "不加密"
+        },
+        "value": "none"
+      },
+      {
+        "label": {
+          "en": "AES-128-GCM",
+          "zh-Hans": "AES-128-GCM",
+          "zh-Hant": "AES-128-GCM"
+        },
+        "value": "aes-128-gcm"
+      },
+      {
+        "label": {
+          "en": "AES-192-GCM",
+          "zh-Hans": "AES-192-GCM",
+          "zh-Hant": "AES-192-GCM"
+        },
+        "value": "aes-192-gcm"
+      },
+      {
+        "label": {
+          "en": "AES-256-GCM",
+          "zh-Hans": "AES-256-GCM",
+          "zh-Hant": "AES-256-GCM"
+        },
+        "value": "aes-256-gcm"
+      },
+      {
+        "label": {
+          "en": "ChaCha20-IETF-Poly1305",
+          "zh-Hans": "ChaCha20-IETF-Poly1305",
+          "zh-Hant": "ChaCha20-IETF-Poly1305"
+        },
+        "value": "chacha20-ietf-poly1305"
+      },
+      {
+        "label": {
+          "en": "XChaCha20-IETF-Poly1305",
+          "zh-Hans": "XChaCha20-IETF-Poly1305",
+          "zh-Hant": "XChaCha20-IETF-Poly1305"
+        },
+        "value": "xchacha20-ietf-poly1305"
+      },
+      {
+        "label": {
+          "en": "ChaCha8-IETF-Poly1305",
+          "zh-Hans": "ChaCha8-IETF-Poly1305",
+          "zh-Hant": "ChaCha8-IETF-Poly1305"
+        },
+        "value": "chacha8-ietf-poly1305"
+      },
+      {
+        "label": {
+          "en": "XChaCha8-IETF-Poly1305",
+          "zh-Hans": "XChaCha8-IETF-Poly1305",
+          "zh-Hant": "XChaCha8-IETF-Poly1305"
+        },
+        "value": "xchacha8-ietf-poly1305"
+      },
+      {
+        "label": {
+          "en": "Rabbit128-Poly1305",
+          "zh-Hans": "Rabbit128-Poly1305",
+          "zh-Hant": "Rabbit128-Poly1305"
+        },
+        "value": "rabbit128-poly1305"
+      },
+      {
+        "label": {
+          "en": "AES-128-CCM",
+          "zh-Hans": "AES-128-CCM",
+          "zh-Hant": "AES-128-CCM"
+        },
+        "value": "aes-128-ccm"
+      },
+      {
+        "label": {
+          "en": "AES-192-CCM",
+          "zh-Hans": "AES-192-CCM",
+          "zh-Hant": "AES-192-CCM"
+        },
+        "value": "aes-192-ccm"
+      },
+      {
+        "label": {
+          "en": "AES-256-CCM",
+          "zh-Hans": "AES-256-CCM",
+          "zh-Hant": "AES-256-CCM"
+        },
+        "value": "aes-256-ccm"
+      },
+      {
+        "label": {
+          "en": "AES-128-GCM-SIV",
+          "zh-Hans": "AES-128-GCM-SIV",
+          "zh-Hant": "AES-128-GCM-SIV"
+        },
+        "value": "aes-128-gcm-siv"
+      },
+      {
+        "label": {
+          "en": "AES-256-GCM-SIV",
+          "zh-Hans": "AES-256-GCM-SIV",
+          "zh-Hant": "AES-256-GCM-SIV"
+        },
+        "value": "aes-256-gcm-siv"
+      },
+      {
+        "label": {
+          "en": "AEGIS-128L",
+          "zh-Hans": "AEGIS-128L",
+          "zh-Hant": "AEGIS-128L"
+        },
+        "value": "aegis-128l"
+      },
+      {
+        "label": {
+          "en": "AEGIS-256",
+          "zh-Hans": "AEGIS-256",
+          "zh-Hant": "AEGIS-256"
+        },
+        "value": "aegis-256"
+      },
+      {
+        "label": {
+          "en": "AEZ-384",
+          "zh-Hans": "AEZ-384",
+          "zh-Hant": "AEZ-384"
+        },
+        "value": "aez-384"
+      },
+      {
+        "label": {
+          "en": "Deoxys-II-256-128",
+          "zh-Hans": "Deoxys-II-256-128",
+          "zh-Hant": "Deoxys-II-256-128"
+        },
+        "value": "deoxys-ii-256-128"
+      },
+      {
+        "label": {
+          "en": "LEA-128-GCM",
+          "zh-Hans": "LEA-128-GCM",
+          "zh-Hant": "LEA-128-GCM"
+        },
+        "value": "lea-128-gcm"
+      },
+      {
+        "label": {
+          "en": "LEA-192-GCM",
+          "zh-Hans": "LEA-192-GCM",
+          "zh-Hant": "LEA-192-GCM"
+        },
+        "value": "lea-192-gcm"
+      },
+      {
+        "label": {
+          "en": "LEA-256-GCM",
+          "zh-Hans": "LEA-256-GCM",
+          "zh-Hant": "LEA-256-GCM"
+        },
+        "value": "lea-256-gcm"
+      },
+      {
+        "label": {
+          "en": "Ascon-128",
+          "zh-Hans": "Ascon-128",
+          "zh-Hant": "Ascon-128"
+        },
+        "value": "ascon128"
+      },
+      {
+        "label": {
+          "en": "Ascon-128a",
+          "zh-Hans": "Ascon-128a",
+          "zh-Hant": "Ascon-128a"
+        },
+        "value": "ascon128a"
+      },
+      {
+        "label": {
+          "en": "2022-BLAKE3-AES-128-GCM",
+          "zh-Hans": "2022-BLAKE3-AES-128-GCM",
+          "zh-Hant": "2022-BLAKE3-AES-128-GCM"
+        },
+        "value": "2022-blake3-aes-128-gcm"
+      },
+      {
+        "label": {
+          "en": "2022-BLAKE3-AES-256-GCM",
+          "zh-Hans": "2022-BLAKE3-AES-256-GCM",
+          "zh-Hant": "2022-BLAKE3-AES-256-GCM"
+        },
+        "value": "2022-blake3-aes-256-gcm"
+      },
+      {
+        "label": {
+          "en": "2022-BLAKE3-ChaCha20-Poly1305",
+          "zh-Hans": "2022-BLAKE3-ChaCha20-Poly1305",
+          "zh-Hant": "2022-BLAKE3-ChaCha20-Poly1305"
+        },
+        "value": "2022-blake3-chacha20-poly1305"
+      },
+      {
+        "label": {
+          "en": "2022-BLAKE3-ChaCha8-Poly1305",
+          "zh-Hans": "2022-BLAKE3-ChaCha8-Poly1305",
+          "zh-Hant": "2022-BLAKE3-ChaCha8-Poly1305"
+        },
+        "value": "2022-blake3-chacha8-poly1305"
+      },
+      {
+        "label": {
+          "en": "2022-BLAKE3-AES-128-CCM",
+          "zh-Hans": "2022-BLAKE3-AES-128-CCM",
+          "zh-Hant": "2022-BLAKE3-AES-128-CCM"
+        },
+        "value": "2022-blake3-aes-128-ccm"
+      },
+      {
+        "label": {
+          "en": "2022-BLAKE3-AES-256-CCM",
+          "zh-Hans": "2022-BLAKE3-AES-256-CCM",
+          "zh-Hant": "2022-BLAKE3-AES-256-CCM"
+        },
+        "value": "2022-blake3-aes-256-ccm"
+      },
+      {
+        "label": {
+          "en": "None (dummy)",
+          "zh-Hans": "不加密（dummy）",
+          "zh-Hant": "不加密（dummy）"
+        },
+        "value": "dummy"
+      },
+      {
+        "label": {
+          "en": "RC4-MD5",
+          "zh-Hans": "RC4-MD5",
+          "zh-Hant": "RC4-MD5"
+        },
+        "value": "rc4-md5"
+      },
+      {
+        "label": {
+          "en": "AES-128-CTR",
+          "zh-Hans": "AES-128-CTR",
+          "zh-Hant": "AES-128-CTR"
+        },
+        "value": "aes-128-ctr"
+      },
+      {
+        "label": {
+          "en": "AES-192-CTR",
+          "zh-Hans": "AES-192-CTR",
+          "zh-Hant": "AES-192-CTR"
+        },
+        "value": "aes-192-ctr"
+      },
+      {
+        "label": {
+          "en": "AES-256-CTR",
+          "zh-Hans": "AES-256-CTR",
+          "zh-Hant": "AES-256-CTR"
+        },
+        "value": "aes-256-ctr"
+      },
+      {
+        "label": {
+          "en": "AES-128-CFB",
+          "zh-Hans": "AES-128-CFB",
+          "zh-Hant": "AES-128-CFB"
+        },
+        "value": "aes-128-cfb"
+      },
+      {
+        "label": {
+          "en": "AES-192-CFB",
+          "zh-Hans": "AES-192-CFB",
+          "zh-Hant": "AES-192-CFB"
+        },
+        "value": "aes-192-cfb"
+      },
+      {
+        "label": {
+          "en": "AES-256-CFB",
+          "zh-Hans": "AES-256-CFB",
+          "zh-Hant": "AES-256-CFB"
+        },
+        "value": "aes-256-cfb"
+      },
+      {
+        "label": {
+          "en": "ChaCha20",
+          "zh-Hans": "ChaCha20",
+          "zh-Hant": "ChaCha20"
+        },
+        "value": "chacha20"
+      },
+      {
+        "label": {
+          "en": "ChaCha20-IETF",
+          "zh-Hans": "ChaCha20-IETF",
+          "zh-Hant": "ChaCha20-IETF"
+        },
+        "value": "chacha20-ietf"
+      },
+      {
+        "label": {
+          "en": "XChaCha20",
+          "zh-Hans": "XChaCha20",
+          "zh-Hant": "XChaCha20"
+        },
+        "value": "xchacha20"
+      }
+    ],
+    "summary": {
+      "en": "The Shadowsocks cipher; it must match the connecting side.",
+      "zh-Hans": "Shadowsocks 的加密方法，须与连接端一致。",
+      "zh-Hant": "Shadowsocks 的加密方法，須與連線端一致。"
+    },
+    "title": {
+      "en": "Encryption",
+      "zh-Hans": "加密方式",
+      "zh-Hant": "加密方式"
+    }
+  },
+  "listeners[*].client-auth-cert": {
+    "summary": {
+      "en": "The certificate client certificates are checked against, as PEM or a path.",
+      "zh-Hans": "用来验证连接方证书的 CA 证书，填 PEM 或路径。",
+      "zh-Hant": "用來驗證連線方憑證的 CA 憑證，填 PEM 或路徑。"
+    },
+    "title": {
+      "en": "Client CA Certificate",
+      "zh-Hans": "客户端 CA 证书",
+      "zh-Hant": "用戶端 CA 憑證"
+    }
+  },
+  "listeners[*].client-auth-type": {
+    "presets": [
+      {
+        "label": {
+          "en": "Asked, not checked",
+          "zh-Hans": "请求证书，不验证",
+          "zh-Hant": "請求憑證，不驗證"
+        },
+        "value": "request"
+      },
+      {
+        "label": {
+          "en": "Required, not checked",
+          "zh-Hans": "必须出示，不验证",
+          "zh-Hant": "必須出示，不驗證"
+        },
+        "value": "require-any"
+      },
+      {
+        "label": {
+          "en": "Checked if given",
+          "zh-Hans": "出示了就验证",
+          "zh-Hant": "有出示就驗證"
+        },
+        "value": "verify-if-given"
+      },
+      {
+        "label": {
+          "en": "Required and checked",
+          "zh-Hans": "必须出示并验证",
+          "zh-Hant": "必須出示並驗證"
+        },
+        "value": "require-and-verify"
+      }
+    ],
+    "summary": {
+      "en": "Whether connecting clients must show a certificate (mutual TLS).",
+      "zh-Hans": "是否要求连接方出示证书（双向 TLS）。",
+      "zh-Hant": "是否要求連線方出示憑證（雙向 TLS）。"
+    },
+    "title": {
+      "en": "Client Certificates",
+      "zh-Hans": "客户端证书",
+      "zh-Hant": "用戶端憑證"
+    },
+    "unset": {
+      "en": "Not required",
+      "zh-Hans": "不要求",
+      "zh-Hant": "不要求"
+    }
+  },
+  "listeners[*].congestion-controller": {
+    "presets": [
+      {
+        "label": {
+          "en": "BBR",
+          "zh-Hans": "BBR",
+          "zh-Hant": "BBR"
+        },
+        "value": "bbr"
+      },
+      {
+        "label": {
+          "en": "CUBIC",
+          "zh-Hans": "CUBIC",
+          "zh-Hant": "CUBIC"
+        },
+        "value": "cubic"
+      },
+      {
+        "label": {
+          "en": "NewReno",
+          "zh-Hans": "NewReno",
+          "zh-Hant": "NewReno"
+        },
+        "value": "new_reno"
+      },
+      {
+        "label": {
+          "en": "BBR (Meta v1)",
+          "zh-Hans": "BBR（Meta v1）",
+          "zh-Hant": "BBR（Meta v1）"
+        },
+        "value": "bbr_meta_v1"
+      },
+      {
+        "label": {
+          "en": "BBR (Meta v2)",
+          "zh-Hans": "BBR（Meta v2）",
+          "zh-Hant": "BBR（Meta v2）"
+        },
+        "value": "bbr_meta_v2"
+      }
+    ],
+    "summary": {
+      "en": "The congestion control algorithm QUIC uses.",
+      "zh-Hans": "QUIC 使用的拥塞控制算法。",
+      "zh-Hant": "QUIC 使用的壅塞控制演算法。"
+    },
+    "title": {
+      "en": "Congestion Control",
+      "zh-Hans": "拥塞控制",
+      "zh-Hant": "壅塞控制"
+    }
+  },
+  "listeners[tun].congestion-controller": {
+    "presets": [
+      {
+        "label": {
+          "en": "CUBIC",
+          "zh-Hans": "CUBIC",
+          "zh-Hant": "CUBIC"
+        },
+        "value": "cubic"
+      },
+      {
+        "label": {
+          "en": "Reno",
+          "zh-Hans": "Reno",
+          "zh-Hant": "Reno"
+        },
+        "value": "reno"
+      },
+      {
+        "label": {
+          "en": "BBR",
+          "zh-Hans": "BBR",
+          "zh-Hant": "BBR"
+        },
+        "value": "bbr"
+      },
+      {
+        "label": {
+          "en": "BBRv3",
+          "zh-Hans": "BBRv3",
+          "zh-Hant": "BBRv3"
+        },
+        "value": "bbr3"
+      }
+    ],
+    "summary": {
+      "en": "The congestion control for TCP inside the tunnel; only the mihomo stack (MIPS) uses it.",
+      "zh-Hans": "隧道内 TCP 的拥塞控制算法，只有 mihomo 协议栈（MIPS）使用。",
+      "zh-Hant": "隧道內 TCP 的壅塞控制演算法，只有 mihomo 協定堆疊（MIPS）使用。"
+    },
+    "title": {
+      "en": "TCP Congestion Control",
+      "zh-Hans": "TCP 拥塞控制",
+      "zh-Hant": "TCP 壅塞控制"
+    },
+    "unset": {
+      "en": "CUBIC",
+      "zh-Hans": "CUBIC",
+      "zh-Hant": "CUBIC"
+    }
+  },
+  "listeners[*].custom-table": {
+    "example": "xpxvvpvv",
+    "summary": {
+      "en": "A layout of 2 x, 2 p and 4 v; applies to the high-entropy direction.",
+      "zh-Hans": "由 2 个 x、2 个 p、4 个 v 组成的布局，仅对高熵方向生效。",
+      "zh-Hant": "由 2 個 x、2 個 p、4 個 v 組成的配置，僅對高熵方向生效。"
+    },
+    "title": {
+      "en": "Custom Byte Layout",
+      "zh-Hans": "自定义字节布局",
+      "zh-Hant": "自訂位元組配置"
+    }
+  },
+  "listeners[*].custom-tables": {
+    "example": "xpxvvpvv",
+    "summary": {
+      "en": "Several layouts used in rotation; overrides the single layout when set.",
+      "zh-Hans": "多个自定义布局轮换使用，填写后覆盖单个布局。",
+      "zh-Hant": "多個自訂配置輪替使用，填寫後覆蓋單一配置。"
+    },
+    "title": {
+      "en": "Custom Byte Layouts",
+      "zh-Hans": "字节布局列表",
+      "zh-Hant": "位元組配置列表"
+    }
+  },
+  "listeners[*].cwnd": {
+    "summary": {
+      "en": "The congestion window a connection starts with; usually leave it as is.",
+      "zh-Hans": "连接开始时的拥塞窗口大小，一般保持默认。",
+      "zh-Hant": "連線開始時的壅塞視窗大小，一般保持預設。"
+    },
+    "title": {
+      "en": "Initial Congestion Window",
+      "zh-Hans": "初始拥塞窗口",
+      "zh-Hant": "初始壅塞視窗"
+    }
+  },
+  "listeners[mtproto].dc-config-url": {
+    "title": {
+      "en": "Data Center List URL",
+      "zh-Hans": "数据中心列表地址",
+      "zh-Hant": "資料中心列表網址"
+    },
+    "summary": {
+      "en": "Not used: Clash has the data centers built in and downloads nothing.",
+      "zh-Hans": "不起作用：Clash 内置了数据中心列表，不会下载。",
+      "zh-Hant": "不起作用：Clash 內建了資料中心列表，不會下載。"
+    }
+  },
+  "listeners[*].decryption": {
+    "presets": [
+      {
+        "label": {
+          "en": "None",
+          "zh-Hans": "不加密",
+          "zh-Hant": "不加密"
+        },
+        "value": "none"
+      }
+    ],
+    "summary": {
+      "en": "The server side of VLESS encryption; none means no encryption.",
+      "zh-Hans": "VLESS 加密的服务端配置，none 为不加密。",
+      "zh-Hant": "VLESS 加密的伺服器端設定，none 為不加密。"
+    },
+    "title": {
+      "en": "VLESS Decryption",
+      "zh-Hans": "VLESS 解密",
+      "zh-Hant": "VLESS 解密"
+    }
+  },
+  "listeners[*].device": {
+    "example": "utun9",
+    "summary": {
+      "en": "The TUN device's name; on macOS it must start with utun.",
+      "zh-Hans": "TUN 网卡的名字，macOS 上须以 utun 开头。",
+      "zh-Hant": "TUN 網卡的名稱，macOS 上須以 utun 開頭。"
+    },
+    "title": {
+      "en": "Device Name",
+      "zh-Hans": "TUN 网卡名",
+      "zh-Hant": "TUN 網卡名稱"
+    }
+  },
+  "listeners[*].disable-http-mask": {
+    "summary": {
+      "en": "The older spelling of the switch inside HTTP disguise settings.",
+      "zh-Hans": "旧写法，等同 httpmask 里的关闭伪装。",
+      "zh-Hant": "舊寫法，等同 httpmask 裡的關閉偽裝。"
+    },
+    "title": {
+      "en": "Turn Off HTTP Disguise",
+      "zh-Hans": "关闭 HTTP 伪装",
+      "zh-Hant": "關閉 HTTP 偽裝"
+    }
+  },
+  "listeners[*].disable-icmp-forwarding": {
+    "summary": {
+      "en": "Answer pings on the device instead of sending them out.",
+      "zh-Hans": "开启后 ping 由本机直接回应，不再真的发出去。",
+      "zh-Hant": "開啟後 ping 由本機直接回應，不再真的送出去。"
+    },
+    "title": {
+      "en": "Don't Forward Ping",
+      "zh-Hans": "不转发 ping",
+      "zh-Hant": "不轉送 ping"
+    }
+  },
+  "listeners[*].disable-mtu-discovery": {
+    "summary": {
+      "en": "Turn off path MTU discovery.",
+      "zh-Hans": "关闭路径 MTU 发现。",
+      "zh-Hant": "關閉路徑 MTU 探索。"
+    },
+    "title": {
+      "en": "No MTU Discovery",
+      "zh-Hans": "关闭 MTU 探测",
+      "zh-Hant": "關閉 MTU 探測"
+    }
+  },
+  "listeners[*].dns-hijack": {
+    "example": "0.0.0.0:53",
+    "summary": {
+      "en": "DNS queries sent to these addresses are answered by the built-in DNS.",
+      "zh-Hans": "发往这些地址的 DNS 查询交给内置 DNS 处理。",
+      "zh-Hant": "送往這些位址的 DNS 查詢交給內建 DNS 處理。"
+    },
+    "title": {
+      "en": "Hijacked Addresses",
+      "zh-Hans": "劫持的地址",
+      "zh-Hant": "劫持的位址"
+    }
+  },
+  "listeners[*].down": {
+    "example": "100",
+    "summary": {
+      "en": "The server's download (the client's upload) speed limit, in Mbps.",
+      "zh-Hans": "服务端下载（即客户端上传）的速度上限，单位 Mbps。",
+      "zh-Hant": "伺服器端下載（即用戶端上傳）的速度上限，單位 Mbps。"
+    },
+    "title": {
+      "en": "Download Bandwidth",
+      "zh-Hans": "下载带宽",
+      "zh-Hant": "下載頻寬"
+    }
+  },
+  "listeners[*].ech-key": {
+    "summary": {
+      "en": "Turns on Encrypted Client Hello; generate the key with mihomo.",
+      "zh-Hans": "填写后启用 ECH（加密握手信息），密钥可用 mihomo 生成。",
+      "zh-Hant": "填寫後啟用 ECH（加密交握資訊），金鑰可用 mihomo 產生。"
+    },
+    "title": {
+      "en": "ECH Key",
+      "zh-Hans": "ECH 密钥",
+      "zh-Hant": "ECH 金鑰"
+    }
+  },
+  "listeners[*].enable-pure-downlink": {
+    "summary": {
+      "en": "On sends downlink as pure Sudoku; off optimises downlink bandwidth.",
+      "zh-Hans": "开启为纯 Sudoku 下行，关闭则优化下行带宽。",
+      "zh-Hant": "開啟為純 Sudoku 下行，關閉則最佳化下行頻寬。"
+    },
+    "title": {
+      "en": "Pure Sudoku Downlink",
+      "zh-Hans": "纯 Sudoku 下行",
+      "zh-Hant": "純 Sudoku 下行"
+    }
+  },
+  "listeners[*].endpoint-independent-nat": {
+    "summary": {
+      "en": "Makes peer-to-peer apps such as games connect more easily; slightly slower.",
+      "zh-Hans": "利于联机游戏等点对点连接，会稍微降低性能。",
+      "zh-Hant": "利於連線遊戲等點對點連線，會稍微降低效能。"
+    },
+    "title": {
+      "en": "Endpoint-Independent NAT",
+      "zh-Hans": "端点无关 NAT",
+      "zh-Hant": "端點無關 NAT"
+    }
+  },
+  "listeners[*].exclude-dst-port": {
+    "summary": {
+      "en": "Traffic to these ports isn't taken over; Linux only.",
+      "zh-Hans": "发往这些端口的流量不接管，仅 Linux。",
+      "zh-Hant": "送往這些連接埠的流量不接管，僅 Linux。"
+    },
+    "title": {
+      "en": "Excluded Target Ports",
+      "zh-Hans": "排除的目标端口",
+      "zh-Hant": "排除的目標連接埠"
+    }
+  },
+  "listeners[*].exclude-dst-port-range": {
+    "example": "1000:2000",
+    "summary": {
+      "en": "Traffic to this port range isn't taken over; Linux only.",
+      "zh-Hans": "发往这个端口范围的流量不接管，仅 Linux。",
+      "zh-Hant": "送往這個連接埠範圍的流量不接管，僅 Linux。"
+    },
+    "title": {
+      "en": "Excluded Target Ranges",
+      "zh-Hans": "排除的目标端口范围",
+      "zh-Hant": "排除的目標埠範圍"
+    }
+  },
+  "listeners[*].exclude-interface": {
+    "example": "en1",
+    "summary": {
+      "en": "Traffic from these interfaces isn't taken over; not with the list above.",
+      "zh-Hans": "这些网卡的流量不接管，不能与只接管网卡同用。",
+      "zh-Hant": "這些網卡的流量不接管，不能與只接管網卡同用。"
+    },
+    "title": {
+      "en": "Excluded Interfaces",
+      "zh-Hans": "排除的网卡",
+      "zh-Hant": "排除的網卡"
+    }
+  },
+  "listeners[*].exclude-mac-address": {
+    "example": "00:11:22:33:44:66",
+    "summary": {
+      "en": "LAN devices with these MAC addresses aren't taken over; Linux only.",
+      "zh-Hans": "这些 MAC 地址的局域网设备不接管，仅 Linux。",
+      "zh-Hant": "這些 MAC 位址的區域網路裝置不接管，僅 Linux。"
+    },
+    "title": {
+      "en": "Excluded Devices",
+      "zh-Hans": "排除的设备",
+      "zh-Hant": "排除的裝置"
+    }
+  },
+  "listeners[*].exclude-package": {
+    "example": "com.android.captiveportallogin",
+    "summary": {
+      "en": "Traffic from these Android apps isn't taken over, by package name.",
+      "zh-Hans": "这些 Android 应用的流量不接管，填包名。",
+      "zh-Hant": "這些 Android App 的流量不接管，填套件名稱。"
+    },
+    "title": {
+      "en": "Excluded Apps",
+      "zh-Hans": "排除的应用",
+      "zh-Hant": "排除的 App"
+    }
+  },
+  "listeners[*].exclude-src-port": {
+    "summary": {
+      "en": "Traffic sent from these ports isn't taken over; Linux only.",
+      "zh-Hans": "从这些端口发出的流量不接管，仅 Linux。",
+      "zh-Hant": "從這些連接埠送出的流量不接管，僅 Linux。"
+    },
+    "title": {
+      "en": "Excluded Source Ports",
+      "zh-Hans": "排除的来源端口",
+      "zh-Hant": "排除的來源連接埠"
+    }
+  },
+  "listeners[*].exclude-src-port-range": {
+    "example": "1000:2000",
+    "summary": {
+      "en": "Traffic sent from this port range isn't taken over; Linux only.",
+      "zh-Hans": "从这个端口范围发出的流量不接管，仅 Linux。",
+      "zh-Hant": "從這個連接埠範圍送出的流量不接管，僅 Linux。"
+    },
+    "title": {
+      "en": "Excluded Source Ranges",
+      "zh-Hans": "排除的来源端口范围",
+      "zh-Hant": "排除的來源埠範圍"
+    }
+  },
+  "listeners[*].exclude-uid": {
+    "example": "1000",
+    "summary": {
+      "en": "Traffic from these user IDs isn't taken over; Linux only.",
+      "zh-Hans": "这些 UID 的流量不接管，仅 Linux。",
+      "zh-Hant": "這些 UID 的流量不接管，僅 Linux。"
+    },
+    "title": {
+      "en": "Excluded Users",
+      "zh-Hans": "排除的用户",
+      "zh-Hant": "排除的使用者"
+    }
+  },
+  "listeners[*].exclude-uid-range": {
+    "example": "1000:9999",
+    "summary": {
+      "en": "Traffic from this range of user IDs isn't taken over; Linux only.",
+      "zh-Hans": "这个 UID 范围的流量不接管，仅 Linux。",
+      "zh-Hant": "這個 UID 範圍的流量不接管，僅 Linux。"
+    },
+    "title": {
+      "en": "Excluded User Ranges",
+      "zh-Hans": "排除的用户范围",
+      "zh-Hant": "排除的使用者範圍"
+    }
+  },
+  "listeners[*].fallback": {
+    "example": "127.0.0.1:80",
+    "summary": {
+      "en": "HTTP-like requests that aren't the tunnel go here, to share the port.",
+      "zh-Hans": "像 HTTP 但不是隧道的请求转给这里，便于共用端口。",
+      "zh-Hant": "像 HTTP 但不是隧道的請求轉給這裡，便於共用連接埠。"
+    },
+    "title": {
+      "en": "Fallback Address",
+      "zh-Hans": "回落地址",
+      "zh-Hant": "回落位址"
+    }
+  },
+  "listeners[*].file-descriptor": {
+    "summary": {
+      "en": "Use an already opened TUN device by its number; usually leave empty.",
+      "zh-Hans": "直接使用已打开的 TUN 设备编号，一般不填。",
+      "zh-Hant": "直接使用已開啟的 TUN 裝置編號，一般不填。"
+    },
+    "title": {
+      "en": "TUN File Descriptor",
+      "zh-Hans": "TUN 文件描述符",
+      "zh-Hant": "TUN 檔案描述符"
+    }
+  },
+  "listeners[*].grpc-service-name": {
+    "example": "GunService",
+    "summary": {
+      "en": "Setting a name turns on gRPC; it must match the connecting side.",
+      "zh-Hans": "填写后启用 gRPC 传输，须与连接端一致。",
+      "zh-Hant": "填寫後啟用 gRPC 傳輸，須與連線端一致。"
+    },
+    "title": {
+      "en": "gRPC Service Name",
+      "zh-Hans": "gRPC 服务名",
+      "zh-Hant": "gRPC 服務名稱"
+    }
+  },
+  "listeners[*].gso": {
+    "summary": {
+      "en": "Generic segmentation offload for more throughput; Linux only.",
+      "zh-Hans": "启用通用分段卸载以提升吞吐，仅 Linux。",
+      "zh-Hant": "啟用通用分段卸載以提升傳輸量，僅 Linux。"
+    },
+    "title": {
+      "en": "GSO",
+      "zh-Hans": "GSO",
+      "zh-Hant": "GSO"
+    }
+  },
+  "listeners[*].gso-max-size": {
+    "summary": {
+      "en": "The largest GSO block, in bytes.",
+      "zh-Hans": "GSO 单个数据块的最大长度（字节）。",
+      "zh-Hant": "GSO 單個資料塊的最大長度（位元組）。"
+    },
+    "title": {
+      "en": "GSO Max Size",
+      "zh-Hans": "GSO 最大长度",
+      "zh-Hant": "GSO 最大長度"
+    }
+  },
+  "listeners[*].handshake-timeout": {
+    "summary": {
+      "en": "How long the handshake may take.",
+      "zh-Hans": "握手须在多长时间内完成。",
+      "zh-Hant": "交握須在多長時間內完成。"
+    },
+    "title": {
+      "en": "Handshake Timeout",
+      "zh-Hans": "握手超时",
+      "zh-Hant": "交握逾時"
+    }
+  },
+  "listeners[*].http-mask-mode": {
+    "presets": [
+      {
+        "label": {
+          "en": "Legacy",
+          "zh-Hans": "旧版",
+          "zh-Hant": "舊版"
+        },
+        "value": "legacy"
+      },
+      {
+        "label": {
+          "en": "Stream",
+          "zh-Hans": "流式",
+          "zh-Hant": "串流"
+        },
+        "value": "stream"
+      },
+      {
+        "label": {
+          "en": "Poll",
+          "zh-Hans": "轮询",
+          "zh-Hant": "輪詢"
+        },
+        "value": "poll"
+      },
+      {
+        "label": {
+          "en": "Auto",
+          "zh-Hans": "自动",
+          "zh-Hant": "自動"
+        },
+        "value": "auto"
+      },
+      {
+        "label": {
+          "en": "WebSocket",
+          "zh-Hans": "WebSocket",
+          "zh-Hant": "WebSocket"
+        },
+        "value": "ws"
+      }
+    ],
+    "summary": {
+      "en": "The older spelling of the mode inside HTTP disguise settings.",
+      "zh-Hans": "旧写法，等同 httpmask 里的模式。",
+      "zh-Hant": "舊寫法，等同 httpmask 裡的模式。"
+    },
+    "title": {
+      "en": "HTTP Disguise Mode",
+      "zh-Hans": "HTTP 伪装模式",
+      "zh-Hant": "HTTP 偽裝模式"
+    }
+  },
+  "listeners[*].httpmask": {
+    "summary": {
+      "en": "Disguises Sudoku traffic as HTTP; some modes can pass a CDN. It must match the clients.",
+      "zh-Hans": "把 Sudoku 流量伪装成 HTTP，部分方式可走 CDN；要和客户端一致。",
+      "zh-Hant": "把 Sudoku 流量偽裝成 HTTP，部分方式可走 CDN；要和用戶端一致。"
+    },
+    "title": {
+      "en": "HTTP Disguise",
+      "zh-Hans": "HTTP 伪装",
+      "zh-Hant": "HTTP 偽裝"
+    }
+  },
+  "listeners[*].httpmask.disable": {
+    "summary": {
+      "en": "Turn off all HTTP disguise and tunnelling.",
+      "zh-Hans": "关闭所有 HTTP 伪装和隧道。",
+      "zh-Hant": "關閉所有 HTTP 偽裝和隧道。"
+    },
+    "title": {
+      "en": "Turn Off HTTP Disguise",
+      "zh-Hans": "关闭 HTTP 伪装",
+      "zh-Hant": "關閉 HTTP 偽裝"
+    }
+  },
+  "listeners[*].httpmask.mode": {
+    "presets": [
+      {
+        "label": {
+          "en": "Legacy",
+          "zh-Hans": "旧版",
+          "zh-Hant": "舊版"
+        },
+        "value": "legacy"
+      },
+      {
+        "label": {
+          "en": "Stream",
+          "zh-Hans": "流式",
+          "zh-Hant": "串流"
+        },
+        "value": "stream"
+      },
+      {
+        "label": {
+          "en": "Poll",
+          "zh-Hans": "轮询",
+          "zh-Hant": "輪詢"
+        },
+        "value": "poll"
+      },
+      {
+        "label": {
+          "en": "Auto",
+          "zh-Hans": "自动",
+          "zh-Hant": "自動"
+        },
+        "value": "auto"
+      },
+      {
+        "label": {
+          "en": "WebSocket",
+          "zh-Hans": "WebSocket",
+          "zh-Hant": "WebSocket"
+        },
+        "value": "ws"
+      }
+    ],
+    "summary": {
+      "en": "How traffic is disguised as HTTP: legacy, stream, poll, auto or ws.",
+      "zh-Hans": "HTTP 伪装方式：legacy、stream、poll、auto 或 ws。",
+      "zh-Hant": "HTTP 偽裝方式：legacy、stream、poll、auto 或 ws。"
+    },
+    "title": {
+      "en": "Mode",
+      "zh-Hans": "伪装模式",
+      "zh-Hant": "偽裝模式"
+    },
+    "unset": {
+      "en": "legacy",
+      "zh-Hans": "legacy",
+      "zh-Hant": "legacy"
+    }
+  },
+  "listeners[*].httpmask.path-root": {
+    "example": "aabbcc",
+    "summary": {
+      "en": "The first path segment of the HTTP tunnel; both ends must match.",
+      "zh-Hans": "HTTP 隧道路径的一级前缀，两端须一致。",
+      "zh-Hant": "HTTP 隧道路徑的第一層前綴，兩端須一致。"
+    },
+    "title": {
+      "en": "Path Prefix",
+      "zh-Hans": "路径前缀",
+      "zh-Hant": "路徑前綴"
+    }
+  },
+  "listeners[*].icmp-timeout": {
+    "summary": {
+      "en": "Close an idle ping session after this long.",
+      "zh-Hans": "ping 会话空闲多久后关闭。",
+      "zh-Hant": "ping 工作階段閒置多久後關閉。"
+    },
+    "title": {
+      "en": "Ping Timeout",
+      "zh-Hans": "ping 超时",
+      "zh-Hant": "ping 逾時"
+    },
+    "unset": {
+      "en": "10 seconds",
+      "zh-Hans": "10 秒",
+      "zh-Hant": "10 秒"
+    }
+  },
+  "listeners[*].ignore-client-bandwidth": {
+    "summary": {
+      "en": "Ignore the bandwidth a client declares and control the speed here.",
+      "zh-Hans": "忽略客户端声明的带宽，由服务端自己控制速度。",
+      "zh-Hant": "忽略用戶端宣告的頻寬，由伺服器端自行控制速度。"
+    },
+    "title": {
+      "en": "Ignore Client Bandwidth",
+      "zh-Hans": "忽略客户端带宽",
+      "zh-Hant": "忽略用戶端頻寬"
+    }
+  },
+  "listeners[*].include-android-user": {
+    "example": "0",
+    "summary": {
+      "en": "Take over traffic only for these Android users; the owner is 0.",
+      "zh-Hans": "只接管这些 Android 用户的流量，机主为 0。",
+      "zh-Hant": "只接管這些 Android 使用者的流量，機主為 0。"
+    },
+    "title": {
+      "en": "Only These Android Users",
+      "zh-Hans": "只接管的安卓用户",
+      "zh-Hant": "只接管的安卓使用者"
+    }
+  },
+  "listeners[*].include-interface": {
+    "example": "en0",
+    "summary": {
+      "en": "Take over traffic from these interfaces only; not with excluded interfaces.",
+      "zh-Hans": "只接管这些网卡的流量，不能与排除网卡同用。",
+      "zh-Hant": "只接管這些網卡的流量，不能與排除網卡同用。"
+    },
+    "title": {
+      "en": "Only These Interfaces",
+      "zh-Hans": "只接管的网卡",
+      "zh-Hant": "只接管的網卡"
+    }
+  },
+  "listeners[*].include-mac-address": {
+    "example": "00:11:22:33:44:55",
+    "summary": {
+      "en": "Take over only LAN devices with these MAC addresses; Linux only.",
+      "zh-Hans": "只接管这些 MAC 地址的局域网设备，仅 Linux。",
+      "zh-Hant": "只接管這些 MAC 位址的區域網路裝置，僅 Linux。"
+    },
+    "title": {
+      "en": "Only These Devices",
+      "zh-Hans": "只接管的设备",
+      "zh-Hant": "只接管的裝置"
+    }
+  },
+  "listeners[*].include-package": {
+    "example": "com.android.chrome",
+    "summary": {
+      "en": "Take over traffic only for these Android apps, by package name.",
+      "zh-Hans": "只接管这些 Android 应用的流量，填包名。",
+      "zh-Hant": "只接管這些 Android App 的流量，填套件名稱。"
+    },
+    "title": {
+      "en": "Only These Apps",
+      "zh-Hans": "只接管的应用",
+      "zh-Hant": "只接管的 App"
+    }
+  },
+  "listeners[*].include-uid": {
+    "example": "0",
+    "summary": {
+      "en": "Take over traffic only from these system user IDs; Linux only.",
+      "zh-Hans": "只接管这些系统用户（UID）的流量，仅 Linux。",
+      "zh-Hant": "只接管這些系統使用者（UID）的流量，僅 Linux。"
+    },
+    "title": {
+      "en": "Only These Users",
+      "zh-Hans": "只接管的用户",
+      "zh-Hant": "只接管的使用者"
+    }
+  },
+  "listeners[*].include-uid-range": {
+    "example": "1000:9999",
+    "summary": {
+      "en": "Take over traffic only from this range of user IDs; Linux only.",
+      "zh-Hans": "只接管这个 UID 范围的流量，仅 Linux。",
+      "zh-Hant": "只接管這個 UID 範圍的流量，僅 Linux。"
+    },
+    "title": {
+      "en": "Only These User Ranges",
+      "zh-Hans": "只接管的用户范围",
+      "zh-Hant": "只接管的使用者範圍"
+    }
+  },
+  "listeners[*].inet4-address": {
+    "example": "198.19.0.1/30",
+    "summary": {
+      "en": "The TUN device's IPv4 address range.",
+      "zh-Hans": "TUN 网卡的 IPv4 地址段。",
+      "zh-Hant": "TUN 網卡的 IPv4 位址段。"
+    },
+    "title": {
+      "en": "IPv4 Address",
+      "zh-Hans": "IPv4 地址",
+      "zh-Hant": "IPv4 位址"
+    }
+  },
+  "listeners[*].inet4-route-address": {
+    "summary": {
+      "en": "The older spelling of Routed Networks; prefer the new one.",
+      "zh-Hans": "旧写法，等同路由网段，建议改用新写法。",
+      "zh-Hant": "舊寫法，等同路由網段，建議改用新寫法。"
+    },
+    "title": {
+      "en": "IPv4 Routed Networks (Old)",
+      "zh-Hans": "IPv4 路由网段（旧）",
+      "zh-Hant": "IPv4 路由網段（舊）"
+    }
+  },
+  "listeners[*].inet4-route-exclude-address": {
+    "summary": {
+      "en": "The older spelling of Excluded Networks; prefer the new one.",
+      "zh-Hans": "旧写法，等同排除网段，建议改用新写法。",
+      "zh-Hant": "舊寫法，等同排除網段，建議改用新寫法。"
+    },
+    "title": {
+      "en": "IPv4 Excluded (Old)",
+      "zh-Hans": "IPv4 排除网段（旧）",
+      "zh-Hant": "IPv4 排除網段（舊）"
+    }
+  },
+  "listeners[*].inet6-address": {
+    "example": "fdfe:dcba:9877::1/126",
+    "summary": {
+      "en": "The TUN device's IPv6 range; needs IPv6 turned on in General too.",
+      "zh-Hans": "TUN 网卡的 IPv6 地址段，需同时开启全局 IPv6。",
+      "zh-Hant": "TUN 網卡的 IPv6 位址段，需同時開啟全域 IPv6。"
+    },
+    "title": {
+      "en": "IPv6 Address",
+      "zh-Hans": "IPv6 地址",
+      "zh-Hant": "IPv6 位址"
+    }
+  },
+  "listeners[*].inet6-route-address": {
+    "summary": {
+      "en": "The older spelling of Routed Networks; prefer the new one.",
+      "zh-Hans": "旧写法，等同路由网段，建议改用新写法。",
+      "zh-Hant": "舊寫法，等同路由網段，建議改用新寫法。"
+    },
+    "title": {
+      "en": "IPv6 Routed Networks (Old)",
+      "zh-Hans": "IPv6 路由网段（旧）",
+      "zh-Hant": "IPv6 路由網段（舊）"
+    }
+  },
+  "listeners[*].inet6-route-exclude-address": {
+    "summary": {
+      "en": "The older spelling of Excluded Networks; prefer the new one.",
+      "zh-Hans": "旧写法，等同排除网段，建议改用新写法。",
+      "zh-Hant": "舊寫法，等同排除網段，建議改用新寫法。"
+    },
+    "title": {
+      "en": "IPv6 Excluded (Old)",
+      "zh-Hans": "IPv6 排除网段（旧）",
+      "zh-Hant": "IPv6 排除網段（舊）"
+    }
+  },
+  "listeners[*].initial-connection-receive-window": {
+    "summary": {
+      "en": "A QUIC connection receive window, in bytes; usually leave it as is.",
+      "zh-Hans": "QUIC 的连接接收窗口（字节），一般保持默认。",
+      "zh-Hant": "QUIC 的連線接收視窗（位元組），一般保持預設。"
+    },
+    "title": {
+      "en": "Initial Connection Window",
+      "zh-Hans": "初始连接接收窗口",
+      "zh-Hant": "初始連線接收視窗"
+    }
+  },
+  "listeners[*].initial-stream-receive-window": {
+    "summary": {
+      "en": "A QUIC stream receive window, in bytes; usually leave it as is.",
+      "zh-Hans": "QUIC 的流接收窗口（字节），一般保持默认。",
+      "zh-Hant": "QUIC 的串流接收視窗（位元組），一般保持預設。"
+    },
+    "title": {
+      "en": "Initial Stream Window",
+      "zh-Hans": "初始流接收窗口",
+      "zh-Hant": "初始串流接收視窗"
+    }
+  },
+  "listeners[*].iproute2-rule-index": {
+    "summary": {
+      "en": "The first iproute2 rule number auto route uses; Linux only.",
+      "zh-Hans": "自动路由生成的 iproute2 规则起始编号，仅 Linux。",
+      "zh-Hant": "自動路由產生的 iproute2 規則起始編號，僅 Linux。"
+    },
+    "title": {
+      "en": "First Rule Number",
+      "zh-Hans": "路由规则起始编号",
+      "zh-Hant": "路由規則起始編號"
+    }
+  },
+  "listeners[*].iproute2-table-index": {
+    "summary": {
+      "en": "The iproute2 table auto route creates; Linux only.",
+      "zh-Hans": "自动路由生成的 iproute2 路由表编号，仅 Linux。",
+      "zh-Hant": "自動路由產生的 iproute2 路由表編號，僅 Linux。"
+    },
+    "title": {
+      "en": "Table Number",
+      "zh-Hans": "路由表编号",
+      "zh-Hant": "路由表編號"
+    }
+  },
+  "listeners[mtproto].ipv6": {
+    "title": {
+      "en": "Data Centers over IPv6",
+      "zh-Hans": "用 IPv6 连数据中心",
+      "zh-Hant": "用 IPv6 連資料中心"
+    },
+    "summary": {
+      "en": "Connects to the MTProto data centers over IPv6 instead of IPv4; where clients connect in does not change.",
+      "zh-Hans": "连 MTProto 数据中心时用 IPv6 而不是 IPv4；客户端从哪里连进来不变。",
+      "zh-Hant": "連 MTProto 資料中心時用 IPv6 而不是 IPv4；用戶端從哪裡連進來不變。"
+    }
+  },
+  "listeners[*].jls-config": {
+    "summary": {
+      "en": "JLS in place of TLS; unverified connections go to the real site.",
+      "zh-Hans": "用 JLS 代替 TLS，未验证的连接转给真实网站。",
+      "zh-Hant": "用 JLS 代替 TLS，未驗證的連線轉給真實網站。"
+    },
+    "title": {
+      "en": "JLS",
+      "zh-Hans": "JLS",
+      "zh-Hant": "JLS"
+    }
+  },
+  "listeners[*].jls-config.alpn": {
+    "example": "h2",
+    "summary": {
+      "en": "The application protocols JLS offers, such as h2 and http/1.1.",
+      "zh-Hans": "JLS 提供的应用层协议，如 h2、http/1.1。",
+      "zh-Hant": "JLS 提供的應用層協定，如 h2、http/1.1。"
+    },
+    "title": {
+      "en": "ALPN",
+      "zh-Hans": "ALPN",
+      "zh-Hant": "ALPN"
+    }
+  },
+  "listeners[*].jls-config.dest": {
+    "example": "www.example.com:443",
+    "summary": {
+      "en": "The real website unverified connections go to, as host:port.",
+      "zh-Hans": "未通过验证的连接转去的真实网站，写成 域名:端口。",
+      "zh-Hant": "未通過驗證的連線轉去的真實網站，寫成 網域:連接埠。"
+    },
+    "title": {
+      "en": "Target Site",
+      "zh-Hans": "目标网站",
+      "zh-Hant": "目標網站"
+    }
+  },
+  "listeners[*].jls-config.enable": {
+    "summary": {
+      "en": "Use JLS in place of TLS; unverified connections go to the real site.",
+      "zh-Hans": "用 JLS 代替 TLS，未通过验证的连接转给真实网站。",
+      "zh-Hant": "用 JLS 代替 TLS，未通過驗證的連線轉給真實網站。"
+    },
+    "title": {
+      "en": "Turn On JLS",
+      "zh-Hans": "启用 JLS",
+      "zh-Hant": "啟用 JLS"
+    }
+  },
+  "listeners[*].jls-config.proxy": {
+    "summary": {
+      "en": "The proxy used to reach the JLS target.",
+      "zh-Hans": "连接 JLS 目标网站时使用的代理。",
+      "zh-Hant": "連線 JLS 目標網站時使用的代理。"
+    },
+    "title": {
+      "en": "Proxy to Site",
+      "zh-Hans": "连接网站所用代理",
+      "zh-Hant": "連線網站所用代理"
+    }
+  },
+  "listeners[*].jls-config.rate-limit": {
+    "summary": {
+      "en": "Speed limit for connections passed to the real site, bits/s; 0 is off.",
+      "zh-Hans": "转给真实网站的连接限速（bit/s），0 为不限速。",
+      "zh-Hant": "轉給真實網站的連線限速（bit/s），0 為不限速。"
+    },
+    "title": {
+      "en": "Unverified Speed Limit",
+      "zh-Hans": "未验证连接限速",
+      "zh-Hant": "未驗證連線限速"
+    },
+    "unset": {
+      "en": "No limit",
+      "zh-Hans": "不限速",
+      "zh-Hant": "不限速"
+    }
+  },
+  "listeners[*].jls-config.sni": {
+    "example": "www.example.com",
+    "summary": {
+      "en": "The site name JLS presents; empty takes the host from the target.",
+      "zh-Hans": "JLS 使用的网站域名，不填取目标地址里的域名。",
+      "zh-Hant": "JLS 使用的網站網域，不填取目標位址裡的網域。"
+    },
+    "title": {
+      "en": "SNI",
+      "zh-Hans": "SNI",
+      "zh-Hant": "SNI"
+    },
+    "unset": {
+      "en": "From the target",
+      "zh-Hans": "取自目标",
+      "zh-Hant": "取自目標"
+    }
+  },
+  "listeners[*].jls-config.users": {
+    "summary": {
+      "en": "JLS usernames and passwords.",
+      "zh-Hans": "JLS 的用户名和密码。",
+      "zh-Hant": "JLS 的使用者名稱和密碼。"
+    },
+    "title": {
+      "en": "Users",
+      "zh-Hans": "用户",
+      "zh-Hant": "使用者"
+    }
+  },
+  "listeners[*].jls-config.users[].password": {
+    "summary": {
+      "en": "This JLS user's password; it must match the connecting side.",
+      "zh-Hans": "JLS 密码，须与连接端一致。",
+      "zh-Hant": "JLS 密碼，須與連線端一致。"
+    },
+    "title": {
+      "en": "Password",
+      "zh-Hans": "密码",
+      "zh-Hant": "密碼"
+    }
+  },
+  "listeners[*].jls-config.users[].username": {
+    "summary": {
+      "en": "A JLS username; it must match the connecting side.",
+      "zh-Hans": "JLS 用户名，须与连接端一致。",
+      "zh-Hant": "JLS 使用者名稱，須與連線端一致。"
+    },
+    "title": {
+      "en": "Username",
+      "zh-Hans": "用户名",
+      "zh-Hant": "使用者名稱"
+    }
+  },
+  "listeners[*].jls-upstream": {
+    "summary": {
+      "en": "The QUIC website unverified connections go to.",
+      "zh-Hans": "未通过认证的连接转去的 QUIC 网站。",
+      "zh-Hant": "未通過驗證的連線轉去的 QUIC 網站。"
+    },
+    "title": {
+      "en": "Disguise Upstream",
+      "zh-Hans": "伪装上游",
+      "zh-Hant": "偽裝上游"
+    }
+  },
+  "listeners[*].jls-upstream.addr": {
+    "example": "www.example.com:443",
+    "summary": {
+      "en": "The QUIC website unverified connections go to, as host:port.",
+      "zh-Hans": "未通过认证的连接转去的 QUIC 网站，写成 域名:端口。",
+      "zh-Hant": "未通過驗證的連線轉去的 QUIC 網站，寫成 網域:連接埠。"
+    },
+    "title": {
+      "en": "Address",
+      "zh-Hans": "地址",
+      "zh-Hant": "位址"
+    }
+  },
+  "listeners[*].jls-upstream.proxy": {
+    "summary": {
+      "en": "The proxy used to reach the disguise upstream.",
+      "zh-Hans": "连接伪装上游时使用的代理。",
+      "zh-Hant": "連線偽裝上游時使用的代理。"
+    },
+    "title": {
+      "en": "Proxy to Upstream",
+      "zh-Hans": "连接上游所用代理",
+      "zh-Hant": "連線上游所用代理"
+    }
+  },
+  "listeners[*].jls-upstream.rate-limit": {
+    "summary": {
+      "en": "Speed limit for connections passed upstream, bits/s; 0 is off.",
+      "zh-Hans": "转给伪装上游的连接限速（bit/s），0 为不限速。",
+      "zh-Hant": "轉給偽裝上游的連線限速（bit/s），0 為不限速。"
+    },
+    "title": {
+      "en": "Forwarding Speed Limit",
+      "zh-Hans": "转发限速",
+      "zh-Hant": "轉送限速"
+    },
+    "unset": {
+      "en": "No limit",
+      "zh-Hans": "不限速",
+      "zh-Hant": "不限速"
+    }
+  },
+  "listeners[*].jls-upstream.sni": {
+    "summary": {
+      "en": "The SNI of the disguise upstream; empty takes it from the address.",
+      "zh-Hans": "伪装目标的 SNI，不填从地址推导。",
+      "zh-Hant": "偽裝目標的 SNI，不填從位址推導。"
+    },
+    "title": {
+      "en": "Disguise SNI",
+      "zh-Hans": "伪装 SNI",
+      "zh-Hant": "偽裝 SNI"
+    },
+    "unset": {
+      "en": "From the address",
+      "zh-Hans": "取自地址",
+      "zh-Hant": "取自位址"
+    }
+  },
+  "listeners[*].kcp-tun": {
+    "summary": {
+      "en": "Carries traffic over UDP with KCP; both ends must match.",
+      "zh-Hans": "用基于 UDP 的 KCP 传输，两端设置须一致。",
+      "zh-Hant": "用基於 UDP 的 KCP 傳輸，兩端設定須一致。"
+    },
+    "title": {
+      "en": "KCP",
+      "zh-Hans": "KCP",
+      "zh-Hant": "KCP"
+    }
+  },
+  "listeners[*].kcp-tun.acknodelay": {
+    "summary": {
+      "en": "Acknowledge each packet at once, using more data for lower latency.",
+      "zh-Hans": "收到数据包立即确认，多用流量换更低延迟。",
+      "zh-Hant": "收到封包立即確認，多用流量換更低延遲。"
+    },
+    "title": {
+      "en": "Immediate ACK",
+      "zh-Hans": "立即确认",
+      "zh-Hant": "立即確認"
+    }
+  },
+  "listeners[*].kcp-tun.autoexpire": {
+    "summary": {
+      "en": "Used by the connecting side only; leave it empty for an inbound.",
+      "zh-Hans": "这是连接端用的设置，入站用不上，留空即可。",
+      "zh-Hant": "這是連線端用的設定，入站用不上，留空即可。"
+    },
+    "title": {
+      "en": "Connection Lifetime",
+      "zh-Hans": "连接有效期",
+      "zh-Hant": "連線有效期"
+    }
+  },
+  "listeners[*].kcp-tun.conn": {
+    "summary": {
+      "en": "Used by the connecting side only; leave it empty for an inbound.",
+      "zh-Hans": "这是连接端用的设置，入站用不上，留空即可。",
+      "zh-Hant": "這是連線端用的設定，入站用不上，留空即可。"
+    },
+    "title": {
+      "en": "UDP Connections",
+      "zh-Hans": "UDP 连接数",
+      "zh-Hant": "UDP 連線數"
+    }
+  },
+  "listeners[*].kcp-tun.crypt": {
+    "presets": [
+      {
+        "label": {
+          "en": "AES",
+          "zh-Hans": "AES",
+          "zh-Hant": "AES"
+        },
+        "value": "aes"
+      },
+      {
+        "label": {
+          "en": "AES-128",
+          "zh-Hans": "AES-128",
+          "zh-Hant": "AES-128"
+        },
+        "value": "aes-128"
+      },
+      {
+        "label": {
+          "en": "AES-192",
+          "zh-Hans": "AES-192",
+          "zh-Hant": "AES-192"
+        },
+        "value": "aes-192"
+      },
+      {
+        "label": {
+          "en": "AES-128-GCM",
+          "zh-Hans": "AES-128-GCM",
+          "zh-Hant": "AES-128-GCM"
+        },
+        "value": "aes-128-gcm"
+      },
+      {
+        "label": {
+          "en": "Salsa20",
+          "zh-Hans": "Salsa20",
+          "zh-Hant": "Salsa20"
+        },
+        "value": "salsa20"
+      },
+      {
+        "label": {
+          "en": "Blowfish",
+          "zh-Hans": "Blowfish",
+          "zh-Hant": "Blowfish"
+        },
+        "value": "blowfish"
+      },
+      {
+        "label": {
+          "en": "Twofish",
+          "zh-Hans": "Twofish",
+          "zh-Hant": "Twofish"
+        },
+        "value": "twofish"
+      },
+      {
+        "label": {
+          "en": "CAST5",
+          "zh-Hans": "CAST5",
+          "zh-Hant": "CAST5"
+        },
+        "value": "cast5"
+      },
+      {
+        "label": {
+          "en": "3DES",
+          "zh-Hans": "3DES",
+          "zh-Hant": "3DES"
+        },
+        "value": "3des"
+      },
+      {
+        "label": {
+          "en": "TEA",
+          "zh-Hans": "TEA",
+          "zh-Hant": "TEA"
+        },
+        "value": "tea"
+      },
+      {
+        "label": {
+          "en": "XTEA",
+          "zh-Hans": "XTEA",
+          "zh-Hant": "XTEA"
+        },
+        "value": "xtea"
+      },
+      {
+        "label": {
+          "en": "XOR",
+          "zh-Hans": "XOR",
+          "zh-Hant": "XOR"
+        },
+        "value": "xor"
+      },
+      {
+        "label": {
+          "en": "None (with checksum)",
+          "zh-Hans": "不加密（带校验）",
+          "zh-Hant": "不加密（含檢查碼）"
+        },
+        "value": "none"
+      },
+      {
+        "label": {
+          "en": "None (no checksum)",
+          "zh-Hans": "不加密（无校验）",
+          "zh-Hant": "不加密（無檢查碼）"
+        },
+        "value": "null"
+      }
+    ],
+    "summary": {
+      "en": "The KCP cipher; it must match the connecting side.",
+      "zh-Hans": "KCP 的加密算法，须与连接端一致。",
+      "zh-Hant": "KCP 的加密演算法，須與連線端一致。"
+    },
+    "title": {
+      "en": "Encryption",
+      "zh-Hans": "加密方式",
+      "zh-Hant": "加密方式"
+    }
+  },
+  "listeners[*].kcp-tun.datashard": {
+    "summary": {
+      "en": "Error-correction data shards; must match the connecting side.",
+      "zh-Hans": "纠错用的数据分片数，须与连接端一致。",
+      "zh-Hant": "糾錯用的資料分片數，須與連線端一致。"
+    },
+    "title": {
+      "en": "Data Shards",
+      "zh-Hans": "数据分片",
+      "zh-Hant": "資料分片"
+    }
+  },
+  "listeners[*].kcp-tun.dscp": {
+    "summary": {
+      "en": "The DSCP priority mark on KCP packets (0 to 63).",
+      "zh-Hans": "KCP 数据包的 DSCP 优先级标记（0–63）。",
+      "zh-Hant": "KCP 封包的 DSCP 優先權標記（0–63）。"
+    },
+    "title": {
+      "en": "DSCP",
+      "zh-Hans": "DSCP",
+      "zh-Hant": "DSCP"
+    }
+  },
+  "listeners[*].kcp-tun.enable": {
+    "summary": {
+      "en": "Carry traffic over KCP (UDP), which can be faster on lossy networks.",
+      "zh-Hans": "用 KCP（基于 UDP）传输，在丢包严重的网络上可能更快。",
+      "zh-Hant": "用 KCP（基於 UDP）傳輸，在封包遺失嚴重的網路上可能更快。"
+    },
+    "title": {
+      "en": "Turn On KCP",
+      "zh-Hans": "启用 KCP",
+      "zh-Hant": "啟用 KCP"
+    }
+  },
+  "listeners[*].kcp-tun.framesize": {
+    "summary": {
+      "en": "The largest multiplexing frame, in bytes.",
+      "zh-Hans": "多路复用单帧的最大字节数。",
+      "zh-Hant": "多工單一訊框的最大位元組數。"
+    },
+    "title": {
+      "en": "Frame Size",
+      "zh-Hans": "帧大小",
+      "zh-Hant": "訊框大小"
+    }
+  },
+  "listeners[*].kcp-tun.interval": {
+    "summary": {
+      "en": "How often KCP works through its queue.",
+      "zh-Hans": "KCP 内部刷新的间隔。",
+      "zh-Hant": "KCP 內部更新的間隔。"
+    },
+    "title": {
+      "en": "Update Interval",
+      "zh-Hans": "刷新间隔",
+      "zh-Hant": "更新間隔"
+    }
+  },
+  "listeners[*].kcp-tun.keepalive": {
+    "summary": {
+      "en": "How often a heartbeat keeps the connection open.",
+      "zh-Hans": "多久发一次心跳包，用来保持连接。",
+      "zh-Hant": "多久送一次心跳封包，用來保持連線。"
+    },
+    "title": {
+      "en": "Keepalive",
+      "zh-Hans": "保活间隔",
+      "zh-Hant": "保持連線間隔"
+    }
+  },
+  "listeners[*].kcp-tun.key": {
+    "summary": {
+      "en": "The key both ends share; it must match the connecting side.",
+      "zh-Hans": "KCP 两端共用的密钥，须与连接端一致。",
+      "zh-Hant": "KCP 兩端共用的金鑰，須與連線端一致。"
+    },
+    "title": {
+      "en": "Key",
+      "zh-Hans": "密钥",
+      "zh-Hant": "金鑰"
+    }
+  },
+  "listeners[*].kcp-tun.mode": {
+    "presets": [
+      {
+        "label": {
+          "en": "Fast",
+          "zh-Hans": "快速",
+          "zh-Hant": "快速"
+        },
+        "value": "fast"
+      },
+      {
+        "label": {
+          "en": "Normal",
+          "zh-Hans": "普通",
+          "zh-Hant": "普通"
+        },
+        "value": "normal"
+      },
+      {
+        "label": {
+          "en": "Faster",
+          "zh-Hans": "更快",
+          "zh-Hant": "更快"
+        },
+        "value": "fast2"
+      },
+      {
+        "label": {
+          "en": "Fastest",
+          "zh-Hans": "最快",
+          "zh-Hant": "最快"
+        },
+        "value": "fast3"
+      }
+    ],
+    "summary": {
+      "en": "A speed preset: fast3 has the lowest latency, normal uses the least data.",
+      "zh-Hans": "速度档位：fast3 延迟最低，normal 最省流量。",
+      "zh-Hant": "速度檔位：fast3 延遲最低，normal 最省流量。"
+    },
+    "title": {
+      "en": "Mode",
+      "zh-Hans": "模式",
+      "zh-Hant": "模式"
+    }
+  },
+  "listeners[*].kcp-tun.mtu": {
+    "summary": {
+      "en": "The largest UDP packet KCP sends, in bytes; usually leave it as is.",
+      "zh-Hans": "KCP 单个 UDP 包的最大字节数，一般保持默认。",
+      "zh-Hant": "KCP 單個 UDP 封包的最大位元組數，一般保持預設。"
+    },
+    "title": {
+      "en": "MTU",
+      "zh-Hans": "MTU",
+      "zh-Hant": "MTU"
+    }
+  },
+  "listeners[*].kcp-tun.nc": {
+    "summary": {
+      "en": "1 turns off congestion control for more speed and less fairness.",
+      "zh-Hans": "填 1 关闭拥塞控制，更快但更不公平。",
+      "zh-Hant": "填 1 關閉壅塞控制，更快但更不公平。"
+    },
+    "title": {
+      "en": "No Congestion Control",
+      "zh-Hans": "关闭拥塞控制",
+      "zh-Hant": "關閉壅塞控制"
+    }
+  },
+  "listeners[*].kcp-tun.nocomp": {
+    "summary": {
+      "en": "Turn off compression; it must match the connecting side.",
+      "zh-Hans": "关闭数据压缩，须与连接端一致。",
+      "zh-Hant": "關閉資料壓縮，須與連線端一致。"
+    },
+    "title": {
+      "en": "No Compression",
+      "zh-Hans": "关闭压缩",
+      "zh-Hant": "關閉壓縮"
+    }
+  },
+  "listeners[*].kcp-tun.nodelay": {
+    "summary": {
+      "en": "KCP's no-delay switch (1 is on); usually set by the mode.",
+      "zh-Hans": "KCP 的无延迟开关（1 为开），一般由模式决定。",
+      "zh-Hant": "KCP 的無延遲開關（1 為開），一般由模式決定。"
+    },
+    "title": {
+      "en": "No Delay",
+      "zh-Hans": "无延迟模式",
+      "zh-Hant": "無延遲模式"
+    }
+  },
+  "listeners[*].kcp-tun.parityshard": {
+    "summary": {
+      "en": "Error-correction parity shards; must match the connecting side.",
+      "zh-Hans": "纠错用的校验分片数，须与连接端一致。",
+      "zh-Hant": "糾錯用的校驗分片數，須與連線端一致。"
+    },
+    "title": {
+      "en": "Parity Shards",
+      "zh-Hans": "校验分片",
+      "zh-Hant": "校驗分片"
+    }
+  },
+  "listeners[*].kcp-tun.ratelimit": {
+    "summary": {
+      "en": "Maximum sending speed per KCP connection, bytes/s; 0 is off.",
+      "zh-Hans": "单个 KCP 连接的发送限速（字节/秒），0 为不限速。",
+      "zh-Hant": "單個 KCP 連線的傳送限速（位元組/秒），0 為不限速。"
+    },
+    "title": {
+      "en": "Speed Limit",
+      "zh-Hans": "限速",
+      "zh-Hant": "限速"
+    },
+    "unset": {
+      "en": "No limit",
+      "zh-Hans": "不限速",
+      "zh-Hant": "不限速"
+    }
+  },
+  "listeners[*].kcp-tun.rcvwnd": {
+    "summary": {
+      "en": "How many packets KCP may receive before acknowledging; usually as is.",
+      "zh-Hans": "KCP 的接收窗口（包数），一般保持默认。",
+      "zh-Hant": "KCP 的接收視窗（封包數），一般保持預設。"
+    },
+    "title": {
+      "en": "Receive Window",
+      "zh-Hans": "接收窗口",
+      "zh-Hant": "接收視窗"
+    }
+  },
+  "listeners[*].kcp-tun.resend": {
+    "summary": {
+      "en": "Resend after this many skipped acknowledgements; 0 turns it off.",
+      "zh-Hans": "跳过这么多次确认后快速重传，0 为关闭。",
+      "zh-Hant": "略過這麼多次確認後快速重傳，0 為關閉。"
+    },
+    "title": {
+      "en": "Fast Resend",
+      "zh-Hans": "快速重传",
+      "zh-Hant": "快速重傳"
+    }
+  },
+  "listeners[*].kcp-tun.scavengettl": {
+    "summary": {
+      "en": "Used by the connecting side only; leave it empty for an inbound.",
+      "zh-Hans": "这是连接端用的设置，入站用不上，留空即可。",
+      "zh-Hant": "這是連線端用的設定，入站用不上，留空即可。"
+    },
+    "title": {
+      "en": "Expired Connection Grace",
+      "zh-Hans": "过期连接保留",
+      "zh-Hant": "過期連線保留"
+    }
+  },
+  "listeners[*].kcp-tun.smuxbuf": {
+    "summary": {
+      "en": "The overall multiplexing buffer, in bytes.",
+      "zh-Hans": "多路复用的总缓冲区大小，单位字节。",
+      "zh-Hant": "多工的總緩衝區大小，單位位元組。"
+    },
+    "title": {
+      "en": "Multiplex Buffer",
+      "zh-Hans": "多路复用缓冲区",
+      "zh-Hant": "多工緩衝區"
+    }
+  },
+  "listeners[*].kcp-tun.smuxver": {
+    "summary": {
+      "en": "The smux version, 1 or 2; it must match the connecting side.",
+      "zh-Hans": "smux 多路复用版本（1 或 2），须与连接端一致。",
+      "zh-Hant": "smux 多工版本（1 或 2），須與連線端一致。"
+    },
+    "title": {
+      "en": "Multiplex Version",
+      "zh-Hans": "多路复用版本",
+      "zh-Hant": "多工版本"
+    }
+  },
+  "listeners[*].kcp-tun.sndwnd": {
+    "summary": {
+      "en": "How many packets KCP may send before waiting; usually leave it as is.",
+      "zh-Hans": "KCP 的发送窗口（包数），一般保持默认。",
+      "zh-Hant": "KCP 的傳送視窗（封包數），一般保持預設。"
+    },
+    "title": {
+      "en": "Send Window",
+      "zh-Hans": "发送窗口",
+      "zh-Hant": "傳送視窗"
+    }
+  },
+  "listeners[*].kcp-tun.sockbuf": {
+    "summary": {
+      "en": "The buffer size for each socket, in bytes.",
+      "zh-Hans": "每个套接字的缓冲区大小，单位字节。",
+      "zh-Hant": "每個通訊端的緩衝區大小，單位位元組。"
+    },
+    "title": {
+      "en": "Socket Buffer",
+      "zh-Hans": "套接字缓冲区",
+      "zh-Hant": "通訊端緩衝區"
+    }
+  },
+  "listeners[*].kcp-tun.streambuf": {
+    "summary": {
+      "en": "The receive buffer for each stream, in bytes (smux version 2).",
+      "zh-Hans": "每条流的接收缓冲区（字节），用于 smux 第 2 版。",
+      "zh-Hant": "每條串流的接收緩衝區（位元組），用於 smux 第 2 版。"
+    },
+    "title": {
+      "en": "Stream Buffer",
+      "zh-Hans": "单流缓冲区",
+      "zh-Hant": "單一串流緩衝區"
+    }
+  },
+  "listeners[*].key": {
+    "summary": {
+      "en": "The Sudoku key: the public key of a key pair, or any UUID.",
+      "zh-Hans": "Sudoku 密钥：密钥对中的公钥，或任意 UUID。",
+      "zh-Hant": "Sudoku 金鑰：金鑰對中的公鑰，或任意 UUID。"
+    },
+    "title": {
+      "en": "Key",
+      "zh-Hans": "密钥",
+      "zh-Hant": "金鑰"
+    }
+  },
+  "listeners[*].listen": {
+    "example": "0.0.0.0",
+    "presets": [
+      {
+        "label": {
+          "en": "This device only",
+          "zh-Hans": "仅本机",
+          "zh-Hant": "僅本機"
+        },
+        "value": "127.0.0.1"
+      },
+      {
+        "label": {
+          "en": "All networks",
+          "zh-Hans": "所有网络",
+          "zh-Hant": "所有網路"
+        },
+        "value": "0.0.0.0"
+      }
+    ],
+    "summary": {
+      "en": "Where connections are accepted: this device only, or every network.",
+      "zh-Hans": "在哪些网络上接受连接：仅本机或所有网络。",
+      "zh-Hant": "在哪些網路上接受連線：僅本機或所有網路。"
+    },
+    "title": {
+      "en": "Listen Address",
+      "zh-Hans": "监听地址",
+      "zh-Hant": "監聽位址"
+    },
+    "unset": {
+      "en": "All networks",
+      "zh-Hans": "所有网络",
+      "zh-Hant": "所有網路"
+    }
+  },
+  "listeners[*].loopback-address": {
+    "example": "10.7.0.1",
+    "summary": {
+      "en": "TCP connections to these addresses are looped back to the device that made them.",
+      "zh-Hans": "连到这些地址的 TCP 连接会接回发起它的设备。",
+      "zh-Hant": "連到這些位址的 TCP 連線會接回發起它的裝置。"
+    },
+    "title": {
+      "en": "Loopback Addresses",
+      "zh-Hans": "回环地址",
+      "zh-Hant": "迴路位址"
+    }
+  },
+  "listeners[*].masquerade": {
+    "example": "https://www.example.com",
+    "summary": {
+      "en": "What non-proxy visitors see: a website or folder; empty returns 404.",
+      "zh-Hans": "非代理访问时伪装成的网站或目录，留空返回 404。",
+      "zh-Hant": "非代理存取時偽裝成的網站或目錄，留空回傳 404。"
+    },
+    "title": {
+      "en": "Masquerade",
+      "zh-Hans": "伪装网站",
+      "zh-Hant": "偽裝網站"
+    }
+  },
+  "listeners[*].max-connection-receive-window": {
+    "summary": {
+      "en": "A QUIC connection receive window, in bytes; usually leave it as is.",
+      "zh-Hans": "QUIC 的连接接收窗口（字节），一般保持默认。",
+      "zh-Hant": "QUIC 的連線接收視窗（位元組），一般保持預設。"
+    },
+    "title": {
+      "en": "Max Connection Window",
+      "zh-Hans": "最大连接接收窗口",
+      "zh-Hant": "最大連線接收視窗"
+    }
+  },
+  "listeners[*].max-datagram-frame-size": {
+    "summary": {
+      "en": "The largest UDP datagram frame, in bytes.",
+      "zh-Hans": "UDP datagram 帧的最大大小（字节）。",
+      "zh-Hant": "UDP datagram 訊框的最大大小（位元組）。"
+    },
+    "title": {
+      "en": "Max Datagram Frame",
+      "zh-Hans": "最大数据报帧",
+      "zh-Hant": "最大資料包訊框"
+    }
+  },
+  "listeners[*].max-idle-time": {
+    "summary": {
+      "en": "Close a connection after it has been idle this long.",
+      "zh-Hans": "连接空闲多久后断开。",
+      "zh-Hant": "連線閒置多久後中斷。"
+    },
+    "title": {
+      "en": "Idle Timeout",
+      "zh-Hans": "空闲超时",
+      "zh-Hant": "閒置逾時"
+    }
+  },
+  "listeners[hysteria2].max-idle-time": {
+    "summary": {
+      "en": "The Hysteria2 listener doesn't read this; writing it changes nothing.",
+      "zh-Hans": "Hysteria2 监听不读取这一项，写了也不起作用。",
+      "zh-Hant": "Hysteria2 監聽不讀取這一項，寫了也不起作用。"
+    },
+    "title": {
+      "en": "Idle Timeout",
+      "zh-Hans": "空闲超时",
+      "zh-Hant": "閒置逾時"
+    }
+  },
+  "listeners[*].max-realms": {
+    "summary": {
+      "en": "The most realms this server holds; 0 means no limit.",
+      "zh-Hans": "最多容纳的 Realm 数，0 为不限。",
+      "zh-Hant": "最多容納的 Realm 數，0 為不限。"
+    },
+    "title": {
+      "en": "Max Realms",
+      "zh-Hans": "Realm 总数上限",
+      "zh-Hant": "Realm 總數上限"
+    }
+  },
+  "listeners[*].max-realms-per-ip": {
+    "summary": {
+      "en": "The most realms one client IP may register; 0 means no limit.",
+      "zh-Hans": "每个客户端 IP 最多注册的 Realm 数，0 为不限。",
+      "zh-Hant": "每個用戶端 IP 最多註冊的 Realm 數，0 為不限。"
+    },
+    "title": {
+      "en": "Max Realms per IP",
+      "zh-Hans": "每个 IP 的上限",
+      "zh-Hant": "每個 IP 的上限"
+    }
+  },
+  "listeners[*].max-stream-receive-window": {
+    "summary": {
+      "en": "A QUIC stream receive window, in bytes; usually leave it as is.",
+      "zh-Hans": "QUIC 的流接收窗口（字节），一般保持默认。",
+      "zh-Hant": "QUIC 的串流接收視窗（位元組），一般保持預設。"
+    },
+    "title": {
+      "en": "Max Stream Window",
+      "zh-Hans": "最大流接收窗口",
+      "zh-Hant": "最大串流接收視窗"
+    }
+  },
+  "listeners[*].max-udp-relay-packet-size": {
+    "summary": {
+      "en": "The largest UDP packet relayed, in bytes.",
+      "zh-Hans": "转发 UDP 时单个包的最大字节数。",
+      "zh-Hant": "轉送 UDP 時單個封包的最大位元組數。"
+    },
+    "title": {
+      "en": "Max UDP Packet",
+      "zh-Hans": "UDP 最大包长",
+      "zh-Hant": "UDP 最大封包長度"
+    }
+  },
+  "listeners[*].mekya-config": {
+    "summary": {
+      "en": "The v2ray-compatible Mekya transport; its settings must match the clients.",
+      "zh-Hans": "兼容 v2ray 的 Mekya 传输，参数要和客户端一致。",
+      "zh-Hant": "相容 v2ray 的 Mekya 傳輸，參數要和用戶端一致。"
+    },
+    "title": {
+      "en": "Mekya",
+      "zh-Hans": "Mekya",
+      "zh-Hant": "Mekya"
+    }
+  },
+  "listeners[*].mekya-config.enable": {
+    "summary": {
+      "en": "Turn on v2ray-compatible Mekya; not with mKCP, WebSocket or gRPC.",
+      "zh-Hans": "启用兼容 v2ray 的 Mekya 传输，不能与其他传输同用。",
+      "zh-Hant": "啟用相容 v2ray 的 Mekya 傳輸，不能與其他傳輸同用。"
+    },
+    "title": {
+      "en": "Turn On Mekya",
+      "zh-Hans": "启用 Mekya",
+      "zh-Hant": "啟用 Mekya"
+    }
+  },
+  "listeners[*].mekya-config.h2-pool-size": {
+    "summary": {
+      "en": "Used by the connecting side only; leave it empty for an inbound.",
+      "zh-Hans": "这是连接端用的设置，入站用不上，留空即可。",
+      "zh-Hant": "這是連線端用的設定，入站用不上，留空即可。"
+    },
+    "title": {
+      "en": "HTTP/2 Pool Size",
+      "zh-Hans": "HTTP/2 连接池",
+      "zh-Hant": "HTTP/2 連線池"
+    }
+  },
+  "listeners[*].mekya-config.kcp": {
+    "summary": {
+      "en": "The KCP settings Mekya uses inside.",
+      "zh-Hans": "Mekya 内部使用的 KCP 参数。",
+      "zh-Hant": "Mekya 內部使用的 KCP 參數。"
+    },
+    "title": {
+      "en": "Inner KCP",
+      "zh-Hans": "内部 KCP",
+      "zh-Hant": "內部 KCP"
+    }
+  },
+  "listeners[*].mekya-config.kcp.congestion": {
+    "summary": {
+      "en": "Slow down automatically when the network is congested.",
+      "zh-Hans": "网络拥堵时自动降速。",
+      "zh-Hant": "網路壅塞時自動降速。"
+    },
+    "title": {
+      "en": "Congestion Control",
+      "zh-Hans": "拥塞控制",
+      "zh-Hant": "壅塞控制"
+    }
+  },
+  "listeners[*].mekya-config.kcp.downlink-capacity": {
+    "summary": {
+      "en": "The download bandwidth KCP may use, in MB/s.",
+      "zh-Hans": "KCP 可用的下行带宽，单位 MB/s。",
+      "zh-Hant": "KCP 可用的下行頻寬，單位 MB/s。"
+    },
+    "title": {
+      "en": "Downlink Capacity",
+      "zh-Hans": "下行容量",
+      "zh-Hant": "下行容量"
+    }
+  },
+  "listeners[*].mekya-config.kcp.enable": {
+    "summary": {
+      "en": "Mekya's inner KCP switch; usually leave it as is.",
+      "zh-Hans": "Mekya 内部 KCP 的开关，一般保持默认。",
+      "zh-Hant": "Mekya 內部 KCP 的開關，一般保持預設。"
+    },
+    "title": {
+      "en": "Turn On Inner KCP",
+      "zh-Hans": "启用内部 KCP",
+      "zh-Hant": "啟用內部 KCP"
+    }
+  },
+  "listeners[*].mekya-config.kcp.header": {
+    "presets": [
+      {
+        "label": {
+          "en": "None",
+          "zh-Hans": "不伪装",
+          "zh-Hant": "不偽裝"
+        },
+        "value": "none"
+      },
+      {
+        "label": {
+          "en": "SRTP (video call)",
+          "zh-Hans": "SRTP（视频通话）",
+          "zh-Hant": "SRTP（視訊通話）"
+        },
+        "value": "srtp"
+      },
+      {
+        "label": {
+          "en": "uTP (BitTorrent)",
+          "zh-Hans": "uTP（BT 下载）",
+          "zh-Hant": "uTP（BT 下載）"
+        },
+        "value": "utp"
+      },
+      {
+        "label": {
+          "en": "WeChat video call",
+          "zh-Hans": "微信视频通话",
+          "zh-Hant": "微信視訊通話"
+        },
+        "value": "wechat-video"
+      },
+      {
+        "label": {
+          "en": "DTLS 1.2",
+          "zh-Hans": "DTLS 1.2",
+          "zh-Hant": "DTLS 1.2"
+        },
+        "value": "dtls"
+      },
+      {
+        "label": {
+          "en": "WireGuard",
+          "zh-Hans": "WireGuard",
+          "zh-Hant": "WireGuard"
+        },
+        "value": "wireguard"
+      }
+    ],
+    "summary": {
+      "en": "Make packets look like video calls or other traffic; must match the client.",
+      "zh-Hans": "把数据包伪装成视频通话等流量，须与连接端一致。",
+      "zh-Hant": "把封包偽裝成視訊通話等流量，須與連線端一致。"
+    },
+    "title": {
+      "en": "Packet Disguise",
+      "zh-Hans": "伪装包头",
+      "zh-Hant": "偽裝封包頭"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "不伪装",
+      "zh-Hant": "不偽裝"
+    }
+  },
+  "listeners[*].mekya-config.kcp.mtu": {
+    "summary": {
+      "en": "The largest KCP packet, in bytes; usually leave it as is.",
+      "zh-Hans": "KCP 单个数据包的最大字节数，一般保持默认。",
+      "zh-Hant": "KCP 單個封包的最大位元組數，一般保持預設。"
+    },
+    "title": {
+      "en": "KCP MTU",
+      "zh-Hans": "KCP MTU",
+      "zh-Hant": "KCP MTU"
+    }
+  },
+  "listeners[*].mekya-config.kcp.read-buffer": {
+    "summary": {
+      "en": "KCP read buffer size, in bytes.",
+      "zh-Hans": "KCP 读缓冲区大小，单位字节。",
+      "zh-Hant": "KCP 讀取緩衝區大小，單位位元組。"
+    },
+    "title": {
+      "en": "Read Buffer",
+      "zh-Hans": "读缓冲区",
+      "zh-Hant": "讀取緩衝區"
+    }
+  },
+  "listeners[*].mekya-config.kcp.seed": {
+    "summary": {
+      "en": "Setting a seed turns on AES-GCM authentication; must match the client.",
+      "zh-Hans": "填写后启用 AES-GCM 认证，须与连接端一致。",
+      "zh-Hant": "填寫後啟用 AES-GCM 驗證，須與連線端一致。"
+    },
+    "title": {
+      "en": "Seed",
+      "zh-Hans": "混淆种子",
+      "zh-Hant": "混淆種子"
+    }
+  },
+  "listeners[*].mekya-config.kcp.tti": {
+    "summary": {
+      "en": "How often KCP sends.",
+      "zh-Hans": "KCP 发送数据的时间间隔。",
+      "zh-Hant": "KCP 傳送資料的時間間隔。"
+    },
+    "title": {
+      "en": "Transmission Interval",
+      "zh-Hans": "传输间隔",
+      "zh-Hant": "傳輸間隔"
+    }
+  },
+  "listeners[*].mekya-config.kcp.uplink-capacity": {
+    "summary": {
+      "en": "The upload bandwidth KCP may use, in MB/s.",
+      "zh-Hans": "KCP 可用的上行带宽，单位 MB/s。",
+      "zh-Hant": "KCP 可用的上行頻寬，單位 MB/s。"
+    },
+    "title": {
+      "en": "Uplink Capacity",
+      "zh-Hans": "上行容量",
+      "zh-Hant": "上行容量"
+    }
+  },
+  "listeners[*].mekya-config.kcp.write-buffer": {
+    "summary": {
+      "en": "KCP write buffer size, in bytes.",
+      "zh-Hans": "KCP 写缓冲区大小，单位字节。",
+      "zh-Hant": "KCP 寫入緩衝區大小，單位位元組。"
+    },
+    "title": {
+      "en": "Write Buffer",
+      "zh-Hans": "写缓冲区",
+      "zh-Hant": "寫入緩衝區"
+    }
+  },
+  "listeners[*].mekya-config.max-request-size": {
+    "summary": {
+      "en": "Used by the connecting side only; leave it empty for an inbound.",
+      "zh-Hans": "这是连接端用的设置，入站用不上，留空即可。",
+      "zh-Hant": "這是連線端用的設定，入站用不上，留空即可。"
+    },
+    "title": {
+      "en": "Max Request Size",
+      "zh-Hans": "单次请求上限",
+      "zh-Hant": "單次請求上限"
+    }
+  },
+  "listeners[*].mekya-config.max-simultaneous-write-connection": {
+    "summary": {
+      "en": "How many requests in one session may wait for a reply at once.",
+      "zh-Hans": "同一会话允许同时等待写回的请求数。",
+      "zh-Hant": "同一工作階段允許同時等待寫回的請求數。"
+    },
+    "title": {
+      "en": "Waiting Requests",
+      "zh-Hans": "同时等待写回数",
+      "zh-Hant": "同時等待寫回數"
+    }
+  },
+  "listeners[*].mekya-config.max-write-delay": {
+    "summary": {
+      "en": "Used by the connecting side only; leave it empty for an inbound.",
+      "zh-Hans": "这是连接端用的设置，入站用不上，留空即可。",
+      "zh-Hant": "這是連線端用的設定，入站用不上，留空即可。"
+    },
+    "title": {
+      "en": "Max Write Delay",
+      "zh-Hans": "最大聚合等待",
+      "zh-Hant": "最大聚合等待"
+    }
+  },
+  "listeners[*].mekya-config.max-write-duration-ms": {
+    "summary": {
+      "en": "The longest one response may keep sending.",
+      "zh-Hans": "单个响应写回的最长时间。",
+      "zh-Hant": "單個回應寫回的最長時間。"
+    },
+    "title": {
+      "en": "Max Write Time",
+      "zh-Hans": "单次写回时长",
+      "zh-Hant": "單次寫回時長"
+    }
+  },
+  "listeners[*].mekya-config.max-write-size": {
+    "summary": {
+      "en": "The most data one response may send back, in bytes.",
+      "zh-Hans": "单个响应写回的最大数据量，单位字节。",
+      "zh-Hant": "單個回應寫回的最大資料量，單位位元組。"
+    },
+    "title": {
+      "en": "Max Write Size",
+      "zh-Hans": "单次写回上限",
+      "zh-Hant": "單次寫回上限"
+    }
+  },
+  "listeners[*].mekya-config.packet-writing-buffer": {
+    "summary": {
+      "en": "The buffer used for writing packets.",
+      "zh-Hans": "写数据包用的缓冲区大小。",
+      "zh-Hant": "寫入封包用的緩衝區大小。"
+    },
+    "title": {
+      "en": "Packet Buffer",
+      "zh-Hans": "写包缓冲区",
+      "zh-Hant": "寫入封包緩衝區"
+    }
+  },
+  "listeners[*].mekya-config.polling-interval-initial": {
+    "summary": {
+      "en": "Used by the connecting side only; leave it empty for an inbound.",
+      "zh-Hans": "这是连接端用的设置，入站用不上，留空即可。",
+      "zh-Hant": "這是連線端用的設定，入站用不上，留空即可。"
+    },
+    "title": {
+      "en": "Polling Interval",
+      "zh-Hans": "轮询间隔",
+      "zh-Hant": "輪詢間隔"
+    }
+  },
+  "listeners[*].mekya-config.url": {
+    "summary": {
+      "en": "Used by the connecting side only; leave it empty for an inbound.",
+      "zh-Hans": "这是连接端用的设置，入站用不上，留空即可。",
+      "zh-Hant": "這是連線端用的設定，入站用不上，留空即可。"
+    },
+    "title": {
+      "en": "URL",
+      "zh-Hans": "地址",
+      "zh-Hant": "位址"
+    }
+  },
+  "listeners[*].mkcp-config": {
+    "summary": {
+      "en": "v2ray-compatible mKCP transport, over UDP.",
+      "zh-Hans": "兼容 v2ray 的 mKCP 传输（基于 UDP）。",
+      "zh-Hant": "相容 v2ray 的 mKCP 傳輸（基於 UDP）。"
+    },
+    "title": {
+      "en": "mKCP",
+      "zh-Hans": "mKCP",
+      "zh-Hant": "mKCP"
+    }
+  },
+  "listeners[*].mkcp-config.congestion": {
+    "summary": {
+      "en": "Slow down automatically when the network is congested.",
+      "zh-Hans": "网络拥堵时自动降速。",
+      "zh-Hant": "網路壅塞時自動降速。"
+    },
+    "title": {
+      "en": "Congestion Control",
+      "zh-Hans": "拥塞控制",
+      "zh-Hant": "壅塞控制"
+    }
+  },
+  "listeners[*].mkcp-config.downlink-capacity": {
+    "summary": {
+      "en": "The download bandwidth mKCP may use, in MB/s.",
+      "zh-Hans": "mKCP 可用的下行带宽，单位 MB/s。",
+      "zh-Hant": "mKCP 可用的下行頻寬，單位 MB/s。"
+    },
+    "title": {
+      "en": "Downlink Capacity",
+      "zh-Hans": "下行容量",
+      "zh-Hant": "下行容量"
+    }
+  },
+  "listeners[*].mkcp-config.enable": {
+    "summary": {
+      "en": "Turn on v2ray-compatible mKCP, which runs over UDP.",
+      "zh-Hans": "启用兼容 v2ray 的 mKCP 传输（基于 UDP）。",
+      "zh-Hant": "啟用相容 v2ray 的 mKCP 傳輸（基於 UDP）。"
+    },
+    "title": {
+      "en": "Turn On mKCP",
+      "zh-Hans": "启用 mKCP",
+      "zh-Hant": "啟用 mKCP"
+    }
+  },
+  "listeners[*].mkcp-config.header": {
+    "presets": [
+      {
+        "label": {
+          "en": "None",
+          "zh-Hans": "不伪装",
+          "zh-Hant": "不偽裝"
+        },
+        "value": "none"
+      },
+      {
+        "label": {
+          "en": "SRTP (video call)",
+          "zh-Hans": "SRTP（视频通话）",
+          "zh-Hant": "SRTP（視訊通話）"
+        },
+        "value": "srtp"
+      },
+      {
+        "label": {
+          "en": "uTP (BitTorrent)",
+          "zh-Hans": "uTP（BT 下载）",
+          "zh-Hant": "uTP（BT 下載）"
+        },
+        "value": "utp"
+      },
+      {
+        "label": {
+          "en": "WeChat video call",
+          "zh-Hans": "微信视频通话",
+          "zh-Hant": "微信視訊通話"
+        },
+        "value": "wechat-video"
+      },
+      {
+        "label": {
+          "en": "DTLS 1.2",
+          "zh-Hans": "DTLS 1.2",
+          "zh-Hant": "DTLS 1.2"
+        },
+        "value": "dtls"
+      },
+      {
+        "label": {
+          "en": "WireGuard",
+          "zh-Hans": "WireGuard",
+          "zh-Hant": "WireGuard"
+        },
+        "value": "wireguard"
+      }
+    ],
+    "summary": {
+      "en": "Make packets look like video calls or other traffic; must match the client.",
+      "zh-Hans": "把数据包伪装成视频通话等流量，须与连接端一致。",
+      "zh-Hant": "把封包偽裝成視訊通話等流量，須與連線端一致。"
+    },
+    "title": {
+      "en": "Packet Disguise",
+      "zh-Hans": "伪装包头",
+      "zh-Hant": "偽裝封包頭"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "不伪装",
+      "zh-Hant": "不偽裝"
+    }
+  },
+  "listeners[*].mkcp-config.mtu": {
+    "summary": {
+      "en": "The largest mKCP packet, in bytes; usually leave it as is.",
+      "zh-Hans": "mKCP 单个数据包的最大字节数，一般保持默认。",
+      "zh-Hant": "mKCP 單個封包的最大位元組數，一般保持預設。"
+    },
+    "title": {
+      "en": "MTU",
+      "zh-Hans": "MTU",
+      "zh-Hant": "MTU"
+    }
+  },
+  "listeners[*].mkcp-config.read-buffer": {
+    "summary": {
+      "en": "mKCP read buffer size, in bytes.",
+      "zh-Hans": "mKCP 读缓冲区大小，单位字节。",
+      "zh-Hant": "mKCP 讀取緩衝區大小，單位位元組。"
+    },
+    "title": {
+      "en": "Read Buffer",
+      "zh-Hans": "读缓冲区",
+      "zh-Hant": "讀取緩衝區"
+    }
+  },
+  "listeners[*].mkcp-config.seed": {
+    "summary": {
+      "en": "Setting a seed turns on AES-GCM authentication; must match the client.",
+      "zh-Hans": "填写后启用 AES-GCM 认证，须与连接端一致。",
+      "zh-Hant": "填寫後啟用 AES-GCM 驗證，須與連線端一致。"
+    },
+    "title": {
+      "en": "Seed",
+      "zh-Hans": "混淆种子",
+      "zh-Hant": "混淆種子"
+    }
+  },
+  "listeners[*].mkcp-config.tti": {
+    "summary": {
+      "en": "How often mKCP sends.",
+      "zh-Hans": "mKCP 发送数据的时间间隔。",
+      "zh-Hant": "mKCP 傳送資料的時間間隔。"
+    },
+    "title": {
+      "en": "Transmission Interval",
+      "zh-Hans": "传输间隔",
+      "zh-Hant": "傳輸間隔"
+    }
+  },
+  "listeners[*].mkcp-config.uplink-capacity": {
+    "summary": {
+      "en": "The upload bandwidth mKCP may use, in MB/s.",
+      "zh-Hans": "mKCP 可用的上行带宽，单位 MB/s。",
+      "zh-Hant": "mKCP 可用的上行頻寬，單位 MB/s。"
+    },
+    "title": {
+      "en": "Uplink Capacity",
+      "zh-Hans": "上行容量",
+      "zh-Hant": "上行容量"
+    }
+  },
+  "listeners[*].mkcp-config.write-buffer": {
+    "summary": {
+      "en": "mKCP write buffer size, in bytes.",
+      "zh-Hans": "mKCP 写缓冲区大小，单位字节。",
+      "zh-Hant": "mKCP 寫入緩衝區大小，單位位元組。"
+    },
+    "title": {
+      "en": "Write Buffer",
+      "zh-Hans": "写缓冲区",
+      "zh-Hant": "寫入緩衝區"
+    }
+  },
+  "listeners[snell].mode": {
+    "title": {
+      "en": "Snell 6 Mode",
+      "zh-Hans": "Snell 6 模式",
+      "zh-Hant": "Snell 6 模式"
+    },
+    "summary": {
+      "en": "How Snell 6 carries the data; it must match the connecting side.",
+      "zh-Hans": "Snell 6 的传输方式，须与连接端一致。",
+      "zh-Hant": "Snell 6 的傳輸方式，須與連線端一致。"
+    },
+    "presets": [
+      {
+        "value": "default",
+        "label": {
+          "en": "Standard (encrypted, disguised)",
+          "zh-Hans": "标准（加密并伪装）",
+          "zh-Hant": "標準（加密並偽裝）"
+        }
+      },
+      {
+        "value": "unshaped",
+        "label": {
+          "en": "Encrypted only",
+          "zh-Hans": "仅加密",
+          "zh-Hant": "僅加密"
+        }
+      },
+      {
+        "value": "unsafe-raw",
+        "label": {
+          "en": "Unencrypted (unsafe)",
+          "zh-Hans": "不加密（不安全）",
+          "zh-Hant": "不加密（不安全）"
+        }
+      }
+    ]
+  },
+  "listeners[*].mtu": {
+    "summary": {
+      "en": "The largest packet size; usually leave it as is.",
+      "zh-Hans": "单个数据包的最大大小，一般保持默认。",
+      "zh-Hant": "單個封包的最大大小，一般保持預設。"
+    },
+    "title": {
+      "en": "MTU",
+      "zh-Hans": "MTU",
+      "zh-Hant": "MTU"
+    }
+  },
+  "listeners[*].mux-option": {
+    "summary": {
+      "en": "Server settings for multiplexed connections.",
+      "zh-Hans": "多路复用连接的服务端设置。",
+      "zh-Hant": "多工連線的伺服器端設定。"
+    },
+    "title": {
+      "en": "Multiplexing",
+      "zh-Hans": "多路复用",
+      "zh-Hant": "多工"
+    }
+  },
+  "listeners[*].mux-option.brutal": {
+    "summary": {
+      "en": "Send multiplexed connections at a fixed speed.",
+      "zh-Hans": "让多路复用连接按固定速度发送。",
+      "zh-Hant": "讓多工連線依固定速度傳送。"
+    },
+    "title": {
+      "en": "TCP Brutal",
+      "zh-Hans": "TCP Brutal",
+      "zh-Hant": "TCP Brutal"
+    }
+  },
+  "listeners[*].mux-option.brutal.down": {
+    "example": "100",
+    "summary": {
+      "en": "TCP Brutal download speed, in Mbps.",
+      "zh-Hans": "TCP Brutal 的下载速度，单位 Mbps。",
+      "zh-Hant": "TCP Brutal 的下載速度，單位 Mbps。"
+    },
+    "title": {
+      "en": "Download Speed",
+      "zh-Hans": "下载速度",
+      "zh-Hant": "下載速度"
+    }
+  },
+  "listeners[*].mux-option.brutal.enabled": {
+    "summary": {
+      "en": "Use TCP Brutal to hold a fixed speed on multiplexed connections.",
+      "zh-Hans": "对多路复用连接启用 TCP Brutal，按固定速度发送。",
+      "zh-Hant": "對多工連線啟用 TCP Brutal，依固定速度傳送。"
+    },
+    "title": {
+      "en": "Turn On TCP Brutal",
+      "zh-Hans": "启用 Brutal",
+      "zh-Hant": "啟用 Brutal"
+    }
+  },
+  "listeners[*].mux-option.brutal.up": {
+    "example": "100",
+    "summary": {
+      "en": "TCP Brutal upload speed, in Mbps.",
+      "zh-Hans": "TCP Brutal 的上传速度，单位 Mbps。",
+      "zh-Hant": "TCP Brutal 的上傳速度，單位 Mbps。"
+    },
+    "title": {
+      "en": "Upload Speed",
+      "zh-Hans": "上传速度",
+      "zh-Hant": "上傳速度"
+    }
+  },
+  "listeners[*].mux-option.padding": {
+    "summary": {
+      "en": "Accept only padded multiplexed connections; others are refused.",
+      "zh-Hans": "只接受带填充的多路复用连接，其余拒绝。",
+      "zh-Hant": "只接受帶填充的多工連線，其餘拒絕。"
+    },
+    "title": {
+      "en": "Require Padding",
+      "zh-Hans": "要求填充",
+      "zh-Hant": "要求填充"
+    }
+  },
+  "listeners[*].name": {
+    "example": "socks-in",
+    "summary": {
+      "en": "A unique name; rules can route by it with IN-NAME.",
+      "zh-Hans": "入站的名字，规则里可用 IN-NAME 按它分流。",
+      "zh-Hant": "入站的名稱，規則裡可用 IN-NAME 依它分流。"
+    },
+    "title": {
+      "en": "Name",
+      "zh-Hans": "名称",
+      "zh-Hant": "名稱"
+    }
+  },
+  "listeners[*].obfs": {
+    "presets": [
+      {
+        "label": {
+          "en": "Salamander",
+          "zh-Hans": "Salamander",
+          "zh-Hant": "Salamander"
+        },
+        "value": "salamander"
+      },
+      {
+        "label": {
+          "en": "Gecko",
+          "zh-Hans": "Gecko",
+          "zh-Hant": "Gecko"
+        },
+        "value": "gecko"
+      }
+    ],
+    "summary": {
+      "en": "QUIC obfuscation; once set, standard QUIC clients can no longer connect.",
+      "zh-Hans": "QUIC 流量混淆，填了就与标准 QUIC 不兼容。",
+      "zh-Hant": "QUIC 流量混淆，填了就與標準 QUIC 不相容。"
+    },
+    "title": {
+      "en": "Obfuscation",
+      "zh-Hans": "混淆",
+      "zh-Hant": "混淆"
+    },
+    "unset": {
+      "en": "Off",
+      "zh-Hans": "关闭",
+      "zh-Hant": "關閉"
+    }
+  },
+  "listeners[*].obfs-max-packet-size": {
+    "summary": {
+      "en": "The largest packet gecko obfuscation sends, in bytes.",
+      "zh-Hans": "gecko 混淆的最大数据包大小（字节）。",
+      "zh-Hant": "gecko 混淆的最大封包大小（位元組）。"
+    },
+    "title": {
+      "en": "Max Packet Size",
+      "zh-Hans": "混淆最大包长",
+      "zh-Hant": "混淆最大封包長度"
+    }
+  },
+  "listeners[*].obfs-min-packet-size": {
+    "summary": {
+      "en": "The smallest packet gecko obfuscation sends, in bytes.",
+      "zh-Hans": "gecko 混淆的最小数据包大小（字节）。",
+      "zh-Hant": "gecko 混淆的最小封包大小（位元組）。"
+    },
+    "title": {
+      "en": "Min Packet Size",
+      "zh-Hans": "混淆最小包长",
+      "zh-Hant": "混淆最小封包長度"
+    }
+  },
+  "listeners[*].obfs-opts": {
+    "summary": {
+      "en": "Snell's traffic obfuscation; it must match the clients' settings.",
+      "zh-Hans": "Snell 的流量混淆，要和客户端的设置一致。",
+      "zh-Hant": "Snell 的流量混淆，要和用戶端的設定一致。"
+    },
+    "title": {
+      "en": "Obfuscation",
+      "zh-Hans": "混淆",
+      "zh-Hant": "混淆"
+    }
+  },
+  "listeners[*].obfs-opts.host": {
+    "example": "www.example.com",
+    "summary": {
+      "en": "The website name used while disguising traffic.",
+      "zh-Hans": "混淆时使用的网站域名。",
+      "zh-Hant": "混淆時使用的網站網域。"
+    },
+    "title": {
+      "en": "Host",
+      "zh-Hans": "域名",
+      "zh-Hant": "網域"
+    }
+  },
+  "listeners[*].obfs-opts.mode": {
+    "presets": [
+      {
+        "label": {
+          "en": "HTTP",
+          "zh-Hans": "HTTP",
+          "zh-Hant": "HTTP"
+        },
+        "value": "http"
+      },
+      {
+        "label": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "value": "tls"
+      }
+    ],
+    "summary": {
+      "en": "Disguise traffic as HTTP or TLS; it must match the connecting side. Snell 6 has none.",
+      "zh-Hans": "把流量伪装成 HTTP 或 TLS，须与连接端一致；Snell 6 不能用。",
+      "zh-Hant": "把流量偽裝成 HTTP 或 TLS，須與連線端一致；Snell 6 不能用。"
+    },
+    "title": {
+      "en": "Mode",
+      "zh-Hans": "方式",
+      "zh-Hant": "方式"
+    }
+  },
+  "listeners[*].obfs-password": {
+    "summary": {
+      "en": "The obfuscation password; it must match the connecting side.",
+      "zh-Hans": "混淆用的密码，须与连接端一致。",
+      "zh-Hant": "混淆用的密碼，須與連線端一致。"
+    },
+    "title": {
+      "en": "Obfuscation Password",
+      "zh-Hans": "混淆密码",
+      "zh-Hant": "混淆密碼"
+    }
+  },
+  "listeners[*].padding-max": {
+    "summary": {
+      "en": "The highest padding ratio, 0 to 100; not below the minimum.",
+      "zh-Hans": "最大填充比例（0–100），不小于最小填充率。",
+      "zh-Hant": "最大填充比例（0–100），不小於最小填充率。"
+    },
+    "title": {
+      "en": "Max Padding",
+      "zh-Hans": "最大填充率",
+      "zh-Hant": "最大填充率"
+    }
+  },
+  "listeners[*].padding-min": {
+    "summary": {
+      "en": "The lowest padding ratio, 0 to 100.",
+      "zh-Hans": "最小填充比例（0–100）。",
+      "zh-Hant": "最小填充比例（0–100）。"
+    },
+    "title": {
+      "en": "Min Padding",
+      "zh-Hans": "最小填充率",
+      "zh-Hant": "最小填充率"
+    }
+  },
+  "listeners[*].padding-scheme": {
+    "summary": {
+      "en": "The padding scheme AnyTLS sends to clients; usually leave it as is.",
+      "zh-Hans": "AnyTLS 下发给客户端的填充方案，一般保持默认。",
+      "zh-Hant": "AnyTLS 下發給用戶端的填充方案，一般保持預設。"
+    },
+    "title": {
+      "en": "Padding Scheme",
+      "zh-Hans": "填充方案",
+      "zh-Hant": "填充方案"
+    }
+  },
+  "listeners[*].password": {
+    "summary": {
+      "en": "The Shadowsocks password; 2022 ciphers need a Base64 key of set length.",
+      "zh-Hans": "Shadowsocks 密码，2022 系加密须填 Base64 密钥。",
+      "zh-Hant": "Shadowsocks 密碼，2022 系加密須填 Base64 金鑰。"
+    },
+    "title": {
+      "en": "Password",
+      "zh-Hans": "密码",
+      "zh-Hant": "密碼"
+    }
+  },
+  "listeners[*].path-root": {
+    "summary": {
+      "en": "The older spelling of the path prefix inside HTTP disguise settings.",
+      "zh-Hans": "旧写法，等同 httpmask 里的路径前缀。",
+      "zh-Hant": "舊寫法，等同 httpmask 裡的路徑前綴。"
+    },
+    "title": {
+      "en": "Path Prefix",
+      "zh-Hans": "路径前缀",
+      "zh-Hant": "路徑前綴"
+    }
+  },
+  "listeners[*].port": {
+    "example": "7890",
+    "summary": {
+      "en": "The port to listen on; several ports or ranges also work, like 200,401-429.",
+      "zh-Hans": "监听的端口，也可写多个或范围，如 200,401-429。",
+      "zh-Hant": "監聽的連接埠，也可寫多個或範圍，如 200,401-429。"
+    },
+    "title": {
+      "en": "Port",
+      "zh-Hans": "端口",
+      "zh-Hant": "連接埠"
+    }
+  },
+  "listeners[*].private-key": {
+    "example": "./server.key",
+    "summary": {
+      "en": "The certificate's private key, as PEM text or a file path.",
+      "zh-Hans": "证书对应的私钥，填 PEM 内容或文件路径。",
+      "zh-Hant": "憑證對應的私鑰，填 PEM 內容或檔案路徑。"
+    },
+    "title": {
+      "en": "Private Key",
+      "zh-Hans": "私钥",
+      "zh-Hant": "私鑰"
+    }
+  },
+  "listeners[*].processors-per-channel": {
+    "summary": {
+      "en": "An internal gVisor tuning value; usually leave it empty.",
+      "zh-Hans": "gVisor 协议栈的内部调优项，一般不填。",
+      "zh-Hant": "gVisor 協定堆疊的內部調校項目，一般不填。"
+    },
+    "title": {
+      "en": "Processors per Channel",
+      "zh-Hans": "每通道处理器数",
+      "zh-Hant": "每通道處理器數"
+    }
+  },
+  "listeners[*].proxy": {
+    "summary": {
+      "en": "Send everything from this inbound to this proxy or group, skipping the rules.",
+      "zh-Hans": "这个入站的流量全部交给它处理，不走规则。",
+      "zh-Hant": "這個入站的流量全部交給它處理，不走規則。"
+    },
+    "title": {
+      "en": "Send All To",
+      "zh-Hans": "全部交给",
+      "zh-Hant": "全部交給"
+    },
+    "unset": {
+      "en": "Follow the rules",
+      "zh-Hans": "按规则分流",
+      "zh-Hant": "依規則分流"
+    }
+  },
+  "listeners[*].psk": {
+    "summary": {
+      "en": "The Snell password; it must match the connecting side.",
+      "zh-Hans": "Snell 的密码，须与连接端一致。",
+      "zh-Hant": "Snell 的密碼，須與連線端一致。"
+    },
+    "title": {
+      "en": "Pre-Shared Key",
+      "zh-Hans": "预共享密钥",
+      "zh-Hant": "預共享金鑰"
+    }
+  },
+  "listeners[*].quic-versions": {
+    "presets": [
+      {
+        "label": {
+          "en": "QUIC v1",
+          "zh-Hans": "QUIC v1",
+          "zh-Hant": "QUIC v1"
+        },
+        "value": "v1"
+      },
+      {
+        "label": {
+          "en": "QUIC v2",
+          "zh-Hans": "QUIC v2",
+          "zh-Hant": "QUIC v2"
+        },
+        "value": "v2"
+      }
+    ],
+    "summary": {
+      "en": "The QUIC versions this inbound supports.",
+      "zh-Hans": "这个入站支持的 QUIC 版本。",
+      "zh-Hant": "這個入站支援的 QUIC 版本。"
+    },
+    "title": {
+      "en": "QUIC Versions",
+      "zh-Hans": "QUIC 版本",
+      "zh-Hant": "QUIC 版本"
+    }
+  },
+  "listeners[*].reality-config": {
+    "summary": {
+      "en": "Use Reality instead of a certificate, borrowing a real site's handshake.",
+      "zh-Hans": "用 Reality 代替证书，借用真实网站的握手。",
+      "zh-Hant": "用 Reality 代替憑證，借用真實網站的交握。"
+    },
+    "title": {
+      "en": "Reality",
+      "zh-Hans": "Reality",
+      "zh-Hant": "Reality"
+    }
+  },
+  "listeners[*].reality-config.dest": {
+    "example": "www.example.com:443",
+    "summary": {
+      "en": "The real website whose TLS handshake Reality borrows, as host:port.",
+      "zh-Hans": "Reality 借用握手的真实网站，写成 域名:端口。",
+      "zh-Hant": "Reality 借用交握的真實網站，寫成 網域:連接埠。"
+    },
+    "title": {
+      "en": "Target Site",
+      "zh-Hans": "目标网站",
+      "zh-Hant": "目標網站"
+    }
+  },
+  "listeners[*].reality-config.limit-fallback-download": {
+    "summary": {
+      "en": "Limits download speed for connections that fail verification; not recommended.",
+      "zh-Hans": "限制未通过验证的连接的下载速度，不建议启用。",
+      "zh-Hant": "限制未通過驗證的連線的下載速度，不建議啟用。"
+    },
+    "title": {
+      "en": "Unverified Download Limit",
+      "zh-Hans": "未验证连接下载限速",
+      "zh-Hant": "未驗證連線下載限速"
+    }
+  },
+  "listeners[*].reality-config.limit-fallback-download.after-bytes": {
+    "summary": {
+      "en": "Unverified connections are limited after this many bytes; not recommended.",
+      "zh-Hans": "未通过验证的连接下载这么多字节后开始限速，不建议启用。",
+      "zh-Hant": "未通過驗證的連線下載這麼多位元組後開始限速，不建議啟用。"
+    },
+    "title": {
+      "en": "Starts After",
+      "zh-Hans": "限速起点",
+      "zh-Hant": "限速起點"
+    }
+  },
+  "listeners[*].reality-config.limit-fallback-download.burst-bytes-per-sec": {
+    "summary": {
+      "en": "A short burst rate allowed above the download limit.",
+      "zh-Hans": "允许短时超过下载限速的突发速率。",
+      "zh-Hant": "允許短時超過下載限速的突發速率。"
+    },
+    "title": {
+      "en": "Burst Rate",
+      "zh-Hans": "突发速率",
+      "zh-Hant": "突發速率"
+    },
+    "unset": {
+      "en": "Same as the download limit",
+      "zh-Hans": "与下载限速相同",
+      "zh-Hant": "與下載限速相同"
+    }
+  },
+  "listeners[*].reality-config.limit-fallback-download.bytes-per-sec": {
+    "summary": {
+      "en": "Download speed limit for unverified connections, bytes per second; 0 is off.",
+      "zh-Hans": "未通过验证的连接的下载限速（字节/秒），0 为不限速。",
+      "zh-Hant": "未通過驗證的連線的下載限速（位元組/秒），0 為不限速。"
+    },
+    "title": {
+      "en": "Rate Limit",
+      "zh-Hans": "速率上限",
+      "zh-Hant": "速率上限"
+    },
+    "unset": {
+      "en": "No limit",
+      "zh-Hans": "不限速",
+      "zh-Hant": "不限速"
+    }
+  },
+  "listeners[*].reality-config.limit-fallback-upload": {
+    "summary": {
+      "en": "Limits upload speed for connections that fail verification; not recommended.",
+      "zh-Hans": "限制未通过验证的连接的上传速度，不建议启用。",
+      "zh-Hant": "限制未通過驗證的連線的上傳速度，不建議啟用。"
+    },
+    "title": {
+      "en": "Unverified Upload Limit",
+      "zh-Hans": "未验证连接上传限速",
+      "zh-Hant": "未驗證連線上傳限速"
+    }
+  },
+  "listeners[*].reality-config.limit-fallback-upload.after-bytes": {
+    "summary": {
+      "en": "Unverified connections are limited after this many bytes; not recommended.",
+      "zh-Hans": "未通过验证的连接上传这么多字节后开始限速，不建议启用。",
+      "zh-Hant": "未通過驗證的連線上傳這麼多位元組後開始限速，不建議啟用。"
+    },
+    "title": {
+      "en": "Starts After",
+      "zh-Hans": "限速起点",
+      "zh-Hant": "限速起點"
+    }
+  },
+  "listeners[*].reality-config.limit-fallback-upload.burst-bytes-per-sec": {
+    "summary": {
+      "en": "A short burst rate allowed above the upload limit.",
+      "zh-Hans": "允许短时超过上传限速的突发速率。",
+      "zh-Hant": "允許短時超過上傳限速的突發速率。"
+    },
+    "title": {
+      "en": "Burst Rate",
+      "zh-Hans": "突发速率",
+      "zh-Hant": "突發速率"
+    },
+    "unset": {
+      "en": "Same as the upload limit",
+      "zh-Hans": "与上传限速相同",
+      "zh-Hant": "與上傳限速相同"
+    }
+  },
+  "listeners[*].reality-config.limit-fallback-upload.bytes-per-sec": {
+    "summary": {
+      "en": "Upload speed limit for unverified connections, bytes per second; 0 is off.",
+      "zh-Hans": "未通过验证的连接的上传限速（字节/秒），0 为不限速。",
+      "zh-Hant": "未通過驗證的連線的上傳限速（位元組/秒），0 為不限速。"
+    },
+    "title": {
+      "en": "Rate Limit",
+      "zh-Hans": "速率上限",
+      "zh-Hant": "速率上限"
+    },
+    "unset": {
+      "en": "No limit",
+      "zh-Hans": "不限速",
+      "zh-Hant": "不限速"
+    }
+  },
+  "listeners[*].reality-config.max-time-difference": {
+    "summary": {
+      "en": "How far a client's clock may drift, in microseconds; 0 skips the check.",
+      "zh-Hans": "允许连接端与服务端的时钟差，单位微秒，0 为不检查。",
+      "zh-Hant": "允許連線端與伺服器端的時鐘差，單位微秒，0 為不檢查。"
+    },
+    "title": {
+      "en": "Max Clock Difference",
+      "zh-Hans": "最大时间差",
+      "zh-Hant": "最大時間差"
+    },
+    "unset": {
+      "en": "Not checked",
+      "zh-Hans": "不检查",
+      "zh-Hant": "不檢查"
+    }
+  },
+  "listeners[*].reality-config.private-key": {
+    "summary": {
+      "en": "The server's Reality private key; mihomo can generate the key pair.",
+      "zh-Hans": "服务端的 Reality 私钥，可用 mihomo 生成密钥对。",
+      "zh-Hant": "伺服器端的 Reality 私鑰，可用 mihomo 產生金鑰對。"
+    },
+    "title": {
+      "en": "Private Key",
+      "zh-Hans": "私钥",
+      "zh-Hant": "私鑰"
+    }
+  },
+  "listeners[*].reality-config.proxy": {
+    "summary": {
+      "en": "The proxy used to reach the Reality target.",
+      "zh-Hans": "连接 Reality 目标网站时使用的代理。",
+      "zh-Hant": "連線 Reality 目標網站時使用的代理。"
+    },
+    "title": {
+      "en": "Proxy to Target",
+      "zh-Hans": "连接目标所用代理",
+      "zh-Hant": "連線目標所用代理"
+    }
+  },
+  "listeners[*].reality-config.server-names": {
+    "example": "www.example.com",
+    "summary": {
+      "en": "The SNI names a client may present, usually the target site's domain.",
+      "zh-Hans": "连接端可以使用的 SNI，一般填目标网站的域名。",
+      "zh-Hant": "連線端可以使用的 SNI，一般填目標網站的網域。"
+    },
+    "title": {
+      "en": "Server Names",
+      "zh-Hans": "允许的域名",
+      "zh-Hant": "允許的網域"
+    }
+  },
+  "listeners[*].reality-config.short-id": {
+    "example": "0123456789abcdef",
+    "summary": {
+      "en": "IDs a client may use, one each, up to 16 hex digits.",
+      "zh-Hans": "允许的 short id，连接端任选一个，最多 16 位十六进制。",
+      "zh-Hant": "允許的 short id，連線端任選一個，最多 16 位十六進位。"
+    },
+    "title": {
+      "en": "Short IDs",
+      "zh-Hans": "Short ID",
+      "zh-Hant": "Short ID"
+    }
+  },
+  "listeners[*].realm-name-pattern": {
+    "summary": {
+      "en": "A regular expression every realm name must match.",
+      "zh-Hans": "Realm 名称必须匹配的正则表达式。",
+      "zh-Hant": "Realm 名稱必須符合的規則運算式。"
+    },
+    "title": {
+      "en": "Realm Name Rule",
+      "zh-Hans": "Realm 名称规则",
+      "zh-Hant": "Realm 名稱規則"
+    }
+  },
+  "listeners[*].realm-opts": {
+    "summary": {
+      "en": "Lets a server without a public IP be reached through a Realm service.",
+      "zh-Hans": "借助 Realm 服务打洞，让没有公网 IP 的服务端被连上。",
+      "zh-Hant": "借助 Realm 服務打洞，讓沒有公網 IP 的伺服器端被連上。"
+    },
+    "title": {
+      "en": "Realm",
+      "zh-Hans": "Realm",
+      "zh-Hant": "Realm"
+    }
+  },
+  "listeners[*].realm-opts.alpn": {
+    "summary": {
+      "en": "Application protocols offered when connecting to the Realm server.",
+      "zh-Hans": "连接 Realm 服务时协商的应用层协议。",
+      "zh-Hant": "連線 Realm 服務時協商的應用層協定。"
+    },
+    "title": {
+      "en": "ALPN",
+      "zh-Hans": "ALPN",
+      "zh-Hant": "ALPN"
+    }
+  },
+  "listeners[*].realm-opts.certificate": {
+    "summary": {
+      "en": "A client certificate for the Realm server (mutual TLS).",
+      "zh-Hans": "连接 Realm 服务用的客户端证书（双向 TLS）。",
+      "zh-Hant": "連線 Realm 服務用的用戶端憑證（雙向 TLS）。"
+    },
+    "title": {
+      "en": "Client Certificate",
+      "zh-Hans": "客户端证书",
+      "zh-Hant": "用戶端憑證"
+    }
+  },
+  "listeners[*].realm-opts.enable": {
+    "summary": {
+      "en": "Use a Realm service so a server without a public IP can still be reached.",
+      "zh-Hans": "借助 Realm 服务打洞，让没有公网 IP 的服务端也能被连上。",
+      "zh-Hant": "借助 Realm 服務打洞，讓沒有公網 IP 的伺服器端也能被連上。"
+    },
+    "title": {
+      "en": "Turn On Realm",
+      "zh-Hans": "启用 Realm",
+      "zh-Hant": "啟用 Realm"
+    }
+  },
+  "listeners[*].realm-opts.fingerprint": {
+    "summary": {
+      "en": "Trust only a Realm server certificate with this fingerprint.",
+      "zh-Hans": "只信任指纹相符的 Realm 服务器证书。",
+      "zh-Hant": "只信任指紋相符的 Realm 伺服器憑證。"
+    },
+    "title": {
+      "en": "Certificate Fingerprint",
+      "zh-Hans": "证书指纹",
+      "zh-Hant": "憑證指紋"
+    }
+  },
+  "listeners[*].realm-opts.name-cert-verify": {
+    "summary": {
+      "en": "The name checked in the certificate, without changing the SNI.",
+      "zh-Hans": "只改证书校验时对照的域名，不改 SNI。",
+      "zh-Hant": "只改憑證驗證時對照的網域，不改 SNI。"
+    },
+    "title": {
+      "en": "Certificate Name",
+      "zh-Hans": "证书校验域名",
+      "zh-Hant": "憑證驗證網域"
+    }
+  },
+  "listeners[*].realm-opts.private-key": {
+    "summary": {
+      "en": "The private key of the client certificate above.",
+      "zh-Hans": "上面客户端证书对应的私钥。",
+      "zh-Hant": "上面用戶端憑證對應的私鑰。"
+    },
+    "title": {
+      "en": "Client Private Key",
+      "zh-Hans": "客户端私钥",
+      "zh-Hant": "用戶端私鑰"
+    }
+  },
+  "listeners[*].realm-opts.proxy": {
+    "summary": {
+      "en": "The proxy used to reach the Realm server.",
+      "zh-Hans": "连接 Realm 服务时使用的代理。",
+      "zh-Hant": "連線 Realm 服務時使用的代理。"
+    },
+    "title": {
+      "en": "Proxy Used",
+      "zh-Hans": "所用代理",
+      "zh-Hant": "所用代理"
+    }
+  },
+  "listeners[*].realm-opts.realm-id": {
+    "summary": {
+      "en": "This server's name on the Realm; clients find it by this name.",
+      "zh-Hans": "本服务端在 Realm 上的名字，连接端靠它找到这里。",
+      "zh-Hant": "本伺服器端在 Realm 上的名稱，連線端靠它找到這裡。"
+    },
+    "title": {
+      "en": "ID",
+      "zh-Hans": "ID",
+      "zh-Hant": "ID"
+    }
+  },
+  "listeners[*].realm-opts.server-url": {
+    "example": "https://realm.example.com",
+    "summary": {
+      "en": "The address of the Realm server used for hole punching.",
+      "zh-Hans": "用于打洞的 Realm 服务器地址。",
+      "zh-Hant": "用於打洞的 Realm 伺服器位址。"
+    },
+    "title": {
+      "en": "Server",
+      "zh-Hans": "服务地址",
+      "zh-Hant": "服務位址"
+    }
+  },
+  "listeners[*].realm-opts.skip-cert-verify": {
+    "summary": {
+      "en": "Don't check the Realm server's certificate; this is unsafe.",
+      "zh-Hans": "连接 Realm 服务时不验证证书，有安全风险。",
+      "zh-Hant": "連線 Realm 服務時不驗證憑證，有安全風險。"
+    },
+    "title": {
+      "en": "Skip Certificate Check",
+      "zh-Hans": "跳过证书验证",
+      "zh-Hant": "略過憑證驗證"
+    }
+  },
+  "listeners[*].realm-opts.sni": {
+    "summary": {
+      "en": "The SNI used when connecting to the Realm server.",
+      "zh-Hans": "连接 Realm 服务时使用的 SNI。",
+      "zh-Hant": "連線 Realm 服務時使用的 SNI。"
+    },
+    "title": {
+      "en": "SNI",
+      "zh-Hans": "SNI",
+      "zh-Hant": "SNI"
+    }
+  },
+  "listeners[*].realm-opts.stun-servers": {
+    "summary": {
+      "en": "STUN servers used to discover this server's public address.",
+      "zh-Hans": "用于探测公网地址的 STUN 服务器。",
+      "zh-Hant": "用於探測公網位址的 STUN 伺服器。"
+    },
+    "title": {
+      "en": "STUN Servers",
+      "zh-Hans": "STUN 服务器",
+      "zh-Hant": "STUN 伺服器"
+    }
+  },
+  "listeners[*].realm-opts.token": {
+    "summary": {
+      "en": "The token for signing in to the Realm server.",
+      "zh-Hans": "访问 Realm 服务用的令牌。",
+      "zh-Hant": "存取 Realm 服務用的權杖。"
+    },
+    "title": {
+      "en": "Token",
+      "zh-Hans": "令牌",
+      "zh-Hant": "權杖"
+    }
+  },
+  "listeners[*].recv-window": {
+    "summary": {
+      "en": "The per-connection receive window; 0 uses the built-in default.",
+      "zh-Hans": "连接级接收窗口大小，0 为使用内部默认值。",
+      "zh-Hant": "連線層級接收視窗大小，0 為使用內部預設值。"
+    },
+    "title": {
+      "en": "Connection Receive Window",
+      "zh-Hans": "连接接收窗口",
+      "zh-Hant": "連線接收視窗"
+    }
+  },
+  "listeners[*].recv-window-conn": {
+    "summary": {
+      "en": "The per-stream receive window; 0 uses the built-in default.",
+      "zh-Hans": "流级接收窗口大小，0 为使用内部默认值。",
+      "zh-Hant": "串流層級接收視窗大小，0 為使用內部預設值。"
+    },
+    "title": {
+      "en": "Stream Receive Window",
+      "zh-Hans": "流接收窗口",
+      "zh-Hant": "串流接收視窗"
+    }
+  },
+  "listeners[*].recvmsgx": {
+    "summary": {
+      "en": "Read packets in batches on Apple systems; experimental.",
+      "zh-Hans": "在 Apple 系统上批量读取数据包，属实验功能。",
+      "zh-Hant": "在 Apple 系統上批次讀取封包，屬實驗功能。"
+    },
+    "title": {
+      "en": "Batch Receive",
+      "zh-Hans": "批量接收",
+      "zh-Hant": "批次接收"
+    }
+  },
+  "listeners[*].res-tls": {
+    "summary": {
+      "en": "Imitates a real website's TLS traffic.",
+      "zh-Hans": "模仿真实网站的 TLS 流量。",
+      "zh-Hant": "模仿真實網站的 TLS 流量。"
+    },
+    "title": {
+      "en": "Restls",
+      "zh-Hans": "Restls",
+      "zh-Hant": "Restls"
+    }
+  },
+  "listeners[*].res-tls.dest": {
+    "summary": {
+      "en": "The real TLS website Restls imitates.",
+      "zh-Hans": "Restls 模仿的真实网站。",
+      "zh-Hant": "Restls 模仿的真實網站。"
+    },
+    "title": {
+      "en": "Target Site",
+      "zh-Hans": "目标网站",
+      "zh-Hant": "目標網站"
+    }
+  },
+  "listeners[*].res-tls.enable": {
+    "summary": {
+      "en": "Wrap this inbound in Restls, which imitates a real website's TLS traffic.",
+      "zh-Hans": "用 Restls 包装，模仿真实网站的 TLS 流量。",
+      "zh-Hant": "用 Restls 包裝，模仿真實網站的 TLS 流量。"
+    },
+    "title": {
+      "en": "Turn On Restls",
+      "zh-Hans": "启用 Restls",
+      "zh-Hant": "啟用 Restls"
+    }
+  },
+  "listeners[*].res-tls.min-record-len": {
+    "summary": {
+      "en": "The smallest TLS record to send, in bytes; usually leave it as is.",
+      "zh-Hans": "发送的 TLS 记录最小长度（字节），一般保持默认。",
+      "zh-Hant": "送出的 TLS 記錄最小長度（位元組），一般保持預設。"
+    },
+    "title": {
+      "en": "Min Record Length",
+      "zh-Hans": "最小记录长度",
+      "zh-Hant": "最小記錄長度"
+    }
+  },
+  "listeners[*].res-tls.password": {
+    "summary": {
+      "en": "The Restls password; it must match the connecting side.",
+      "zh-Hans": "Restls 的密码，须与连接端一致。",
+      "zh-Hant": "Restls 的密碼，須與連線端一致。"
+    },
+    "title": {
+      "en": "Password",
+      "zh-Hans": "密码",
+      "zh-Hant": "密碼"
+    }
+  },
+  "listeners[*].res-tls.proxy": {
+    "summary": {
+      "en": "The proxy used to reach the Restls target.",
+      "zh-Hans": "连接 Restls 目标网站时使用的代理。",
+      "zh-Hant": "連線 Restls 目標網站時使用的代理。"
+    },
+    "title": {
+      "en": "Proxy to Site",
+      "zh-Hans": "连接网站所用代理",
+      "zh-Hant": "連線網站所用代理"
+    }
+  },
+  "listeners[*].res-tls.rate-limit": {
+    "summary": {
+      "en": "Speed limit for unverified connections passed to the real site, bits/s; 0 is off.",
+      "zh-Hans": "转给真实网站的未验证连接限速（bit/s），0 为不限速。",
+      "zh-Hant": "轉給真實網站的未驗證連線限速（bit/s），0 為不限速。"
+    },
+    "title": {
+      "en": "Unverified Speed Limit",
+      "zh-Hans": "未验证连接限速",
+      "zh-Hant": "未驗證連線限速"
+    },
+    "unset": {
+      "en": "No limit",
+      "zh-Hans": "不限速",
+      "zh-Hant": "不限速"
+    }
+  },
+  "listeners[*].res-tls.restls-script": {
+    "summary": {
+      "en": "Shapes the traffic after the handshake; usually leave it as is.",
+      "zh-Hans": "控制握手后流量的节奏，一般保持默认。",
+      "zh-Hant": "控制交握後流量的節奏，一般保持預設。"
+    },
+    "title": {
+      "en": "Traffic Script",
+      "zh-Hans": "流量脚本",
+      "zh-Hant": "流量腳本"
+    }
+  },
+  "listeners[*].route-address": {
+    "example": "0.0.0.0/1",
+    "summary": {
+      "en": "Send only these networks into the TUN instead of all traffic.",
+      "zh-Hans": "只把这些网段导入 TUN，而不是全部流量。",
+      "zh-Hant": "只把這些網段導入 TUN，而不是全部流量。"
+    },
+    "title": {
+      "en": "Routed Networks",
+      "zh-Hans": "路由网段",
+      "zh-Hant": "路由網段"
+    }
+  },
+  "listeners[*].route-address-set": {
+    "summary": {
+      "en": "Send only the IPs in these rule sets into the TUN; Linux only.",
+      "zh-Hans": "只让规则集合里的 IP 走 TUN，其余绕过，仅 Linux。",
+      "zh-Hant": "只讓規則集合裡的 IP 走 TUN，其餘繞過，僅 Linux。"
+    },
+    "title": {
+      "en": "Routed Rule Sets",
+      "zh-Hans": "路由规则集合",
+      "zh-Hant": "路由規則集合"
+    }
+  },
+  "listeners[*].route-exclude-address": {
+    "example": "192.168.0.0/16",
+    "summary": {
+      "en": "These networks bypass the TUN.",
+      "zh-Hans": "这些网段不走 TUN。",
+      "zh-Hant": "這些網段不走 TUN。"
+    },
+    "title": {
+      "en": "Excluded Networks",
+      "zh-Hans": "排除网段",
+      "zh-Hant": "排除網段"
+    }
+  },
+  "listeners[*].route-exclude-address-set": {
+    "summary": {
+      "en": "The IPs in these rule sets bypass the TUN; Linux only.",
+      "zh-Hans": "规则集合里的 IP 不走 TUN，仅 Linux。",
+      "zh-Hant": "規則集合裡的 IP 不走 TUN，僅 Linux。"
+    },
+    "title": {
+      "en": "Excluded Rule Sets",
+      "zh-Hans": "排除规则集合",
+      "zh-Hant": "排除規則集合"
+    }
+  },
+  "listeners[*].routing-mark": {
+    "summary": {
+      "en": "A routing mark on the listening socket; Linux only.",
+      "zh-Hans": "给监听连接加的路由标记，仅在 Linux 上有效。",
+      "zh-Hant": "為監聽連線加上的路由標記，僅在 Linux 上有效。"
+    },
+    "title": {
+      "en": "Routing Mark",
+      "zh-Hans": "路由标记",
+      "zh-Hant": "路由標記"
+    }
+  },
+  "listeners[*].rule": {
+    "summary": {
+      "en": "Route this inbound's traffic with a sub-rule instead of the main rules.",
+      "zh-Hans": "用指定的子规则给这个入站分流，不填用主规则。",
+      "zh-Hant": "用指定的子規則為這個入站分流，不填用主規則。"
+    },
+    "title": {
+      "en": "Sub-Rule",
+      "zh-Hans": "子规则",
+      "zh-Hant": "子規則"
+    },
+    "unset": {
+      "en": "Main rules",
+      "zh-Hans": "主规则",
+      "zh-Hant": "主規則"
+    }
+  },
+  "listeners[*].sendmsgx": {
+    "summary": {
+      "en": "Write packets in batches on Apple systems; experimental.",
+      "zh-Hans": "在 Apple 系统上批量写出数据包，属实验功能。",
+      "zh-Hant": "在 Apple 系統上批次寫出封包，屬實驗功能。"
+    },
+    "title": {
+      "en": "Batch Send",
+      "zh-Hans": "批量发送",
+      "zh-Hant": "批次傳送"
+    }
+  },
+  "listeners[*].shadow-tls": {
+    "summary": {
+      "en": "Makes traffic look like visiting a normal website.",
+      "zh-Hans": "把流量伪装成访问普通网站。",
+      "zh-Hant": "把流量偽裝成瀏覽一般網站。"
+    },
+    "title": {
+      "en": "ShadowTLS",
+      "zh-Hans": "ShadowTLS",
+      "zh-Hant": "ShadowTLS"
+    }
+  },
+  "listeners[*].shadow-tls.enable": {
+    "summary": {
+      "en": "Wrap this inbound in ShadowTLS so it looks like visiting a normal website.",
+      "zh-Hans": "用 ShadowTLS 包装，让流量看起来像访问普通网站。",
+      "zh-Hant": "用 ShadowTLS 包裝，讓流量看起來像瀏覽一般網站。"
+    },
+    "title": {
+      "en": "Turn On ShadowTLS",
+      "zh-Hans": "启用 ShadowTLS",
+      "zh-Hant": "啟用 ShadowTLS"
+    }
+  },
+  "listeners[*].shadow-tls.handshake": {
+    "summary": {
+      "en": "The real website ShadowTLS borrows its handshake from.",
+      "zh-Hans": "ShadowTLS 借用握手的真实网站。",
+      "zh-Hant": "ShadowTLS 借用交握的真實網站。"
+    },
+    "title": {
+      "en": "Handshake Site",
+      "zh-Hans": "握手网站",
+      "zh-Hant": "交握網站"
+    }
+  },
+  "listeners[*].shadow-tls.handshake-for-server-name": {
+    "summary": {
+      "en": "A different handshake site for each SNI name a client presents.",
+      "zh-Hans": "按连接端出示的 SNI，分别指定借用握手的网站。",
+      "zh-Hant": "依連線端出示的 SNI，分別指定借用交握的網站。"
+    },
+    "title": {
+      "en": "Handshake Sites by Name",
+      "zh-Hans": "按域名的握手网站",
+      "zh-Hant": "依網域的交握網站"
+    }
+  },
+  "listeners[*].shadow-tls.handshake-for-server-name.*.dest": {
+    "example": "www.example.com:443",
+    "summary": {
+      "en": "The website whose handshake is borrowed for this name, as host:port.",
+      "zh-Hans": "这个 SNI 借用握手的网站，写成 域名:端口。",
+      "zh-Hant": "這個 SNI 借用交握的網站，寫成 網域:連接埠。"
+    },
+    "title": {
+      "en": "Handshake Site",
+      "zh-Hans": "握手网站",
+      "zh-Hant": "交握網站"
+    }
+  },
+  "listeners[*].shadow-tls.handshake-for-server-name.*.proxy": {
+    "summary": {
+      "en": "The proxy used to reach this name's handshake site.",
+      "zh-Hans": "连接这个握手网站时使用的代理。",
+      "zh-Hant": "連線這個交握網站時使用的代理。"
+    },
+    "title": {
+      "en": "Proxy to Site",
+      "zh-Hans": "连接网站所用代理",
+      "zh-Hant": "連線網站所用代理"
+    }
+  },
+  "listeners[*].shadow-tls.handshake.dest": {
+    "example": "www.example.com:443",
+    "summary": {
+      "en": "The real TLS website whose handshake ShadowTLS borrows, as host:port.",
+      "zh-Hans": "ShadowTLS 借用握手的真实网站，写成 域名:端口。",
+      "zh-Hant": "ShadowTLS 借用交握的真實網站，寫成 網域:連接埠。"
+    },
+    "title": {
+      "en": "Address",
+      "zh-Hans": "地址",
+      "zh-Hant": "位址"
+    }
+  },
+  "listeners[*].shadow-tls.handshake.proxy": {
+    "summary": {
+      "en": "The proxy used to reach the handshake site.",
+      "zh-Hans": "连接握手网站时使用的代理。",
+      "zh-Hant": "連線交握網站時使用的代理。"
+    },
+    "title": {
+      "en": "Proxy Used",
+      "zh-Hans": "所用代理",
+      "zh-Hant": "所用代理"
+    }
+  },
+  "listeners[*].shadow-tls.password": {
+    "summary": {
+      "en": "The shared password for ShadowTLS version 2.",
+      "zh-Hans": "ShadowTLS 第 2 版使用的密码。",
+      "zh-Hant": "ShadowTLS 第 2 版使用的密碼。"
+    },
+    "title": {
+      "en": "Password",
+      "zh-Hans": "密码",
+      "zh-Hant": "密碼"
+    }
+  },
+  "listeners[*].shadow-tls.strict-mode": {
+    "summary": {
+      "en": "If the handshake site lacks TLS 1.3, only pass the connection to it.",
+      "zh-Hans": "握手网站不支持 TLS 1.3 时不代理，只转给该网站。",
+      "zh-Hant": "交握網站不支援 TLS 1.3 時不代理，只轉給該網站。"
+    },
+    "title": {
+      "en": "Strict Mode",
+      "zh-Hans": "严格模式",
+      "zh-Hant": "嚴格模式"
+    }
+  },
+  "listeners[*].shadow-tls.users": {
+    "summary": {
+      "en": "Users and passwords for ShadowTLS version 3.",
+      "zh-Hans": "ShadowTLS 第 3 版的用户和密码。",
+      "zh-Hant": "ShadowTLS 第 3 版的使用者和密碼。"
+    },
+    "title": {
+      "en": "Users",
+      "zh-Hans": "用户",
+      "zh-Hant": "帳號"
+    }
+  },
+  "listeners[*].shadow-tls.users[].name": {
+    "summary": {
+      "en": "A ShadowTLS version 3 user's name.",
+      "zh-Hans": "ShadowTLS 第 3 版的用户名。",
+      "zh-Hant": "ShadowTLS 第 3 版的使用者名稱。"
+    },
+    "title": {
+      "en": "Username",
+      "zh-Hans": "用户名",
+      "zh-Hant": "使用者名稱"
+    }
+  },
+  "listeners[*].shadow-tls.users[].password": {
+    "summary": {
+      "en": "This ShadowTLS user's password; it must match the connecting side.",
+      "zh-Hans": "这个 ShadowTLS 用户的密码，须与连接端一致。",
+      "zh-Hant": "這個 ShadowTLS 使用者的密碼，須與連線端一致。"
+    },
+    "title": {
+      "en": "Password",
+      "zh-Hans": "密码",
+      "zh-Hant": "密碼"
+    }
+  },
+  "listeners[*].shadow-tls.version": {
+    "presets": [
+      {
+        "label": {
+          "en": "v1",
+          "zh-Hans": "v1",
+          "zh-Hant": "v1"
+        },
+        "value": "1"
+      },
+      {
+        "label": {
+          "en": "v2",
+          "zh-Hans": "v2",
+          "zh-Hant": "v2"
+        },
+        "value": "2"
+      },
+      {
+        "label": {
+          "en": "v3",
+          "zh-Hans": "v3",
+          "zh-Hant": "v3"
+        },
+        "value": "3"
+      }
+    ],
+    "summary": {
+      "en": "The ShadowTLS version; it must match the connecting side.",
+      "zh-Hans": "ShadowTLS 协议版本，须与连接端一致。",
+      "zh-Hant": "ShadowTLS 協定版本，須與連線端一致。"
+    },
+    "title": {
+      "en": "Version",
+      "zh-Hans": "版本",
+      "zh-Hant": "版本"
+    }
+  },
+  "listeners[*].shadow-tls.wildcard-sni": {
+    "presets": [
+      {
+        "label": {
+          "en": "Off",
+          "zh-Hans": "关闭",
+          "zh-Hant": "關閉"
+        },
+        "value": "off"
+      },
+      {
+        "label": {
+          "en": "Verified connections",
+          "zh-Hans": "仅已验证连接",
+          "zh-Hant": "僅已驗證連線"
+        },
+        "value": "authed"
+      },
+      {
+        "label": {
+          "en": "All connections",
+          "zh-Hans": "全部连接",
+          "zh-Hant": "全部連線"
+        },
+        "value": "all"
+      }
+    ],
+    "summary": {
+      "en": "Let the handshake site follow the SNI a client presents instead of a fixed one.",
+      "zh-Hans": "让握手网站跟随连接端出示的 SNI，而不是固定网站。",
+      "zh-Hant": "讓交握網站跟隨連線端出示的 SNI，而不是固定網站。"
+    },
+    "title": {
+      "en": "Wildcard SNI",
+      "zh-Hans": "通配 SNI",
+      "zh-Hant": "萬用 SNI"
+    },
+    "unset": {
+      "en": "Off",
+      "zh-Hans": "关闭",
+      "zh-Hant": "關閉"
+    }
+  },
+  "listeners[*].simple-obfs": {
+    "summary": {
+      "en": "Disguises traffic as HTTP or TLS.",
+      "zh-Hans": "把流量伪装成 HTTP 或 TLS。",
+      "zh-Hant": "把流量偽裝成 HTTP 或 TLS。"
+    },
+    "title": {
+      "en": "simple-obfs",
+      "zh-Hans": "simple-obfs",
+      "zh-Hant": "simple-obfs"
+    }
+  },
+  "listeners[*].simple-obfs.enable": {
+    "summary": {
+      "en": "Disguise traffic as HTTP or TLS with simple-obfs.",
+      "zh-Hans": "用 simple-obfs 把流量伪装成 HTTP 或 TLS。",
+      "zh-Hant": "用 simple-obfs 把流量偽裝成 HTTP 或 TLS。"
+    },
+    "title": {
+      "en": "Turn On Obfuscation",
+      "zh-Hans": "启用混淆",
+      "zh-Hant": "啟用混淆"
+    }
+  },
+  "listeners[*].simple-obfs.mode": {
+    "presets": [
+      {
+        "label": {
+          "en": "HTTP",
+          "zh-Hans": "HTTP",
+          "zh-Hant": "HTTP"
+        },
+        "value": "http"
+      },
+      {
+        "label": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "value": "tls"
+      }
+    ],
+    "summary": {
+      "en": "Look like HTTP or TLS; it must match the connecting side.",
+      "zh-Hans": "伪装成 HTTP 还是 TLS，须与连接端一致。",
+      "zh-Hant": "偽裝成 HTTP 還是 TLS，須與連線端一致。"
+    },
+    "title": {
+      "en": "Obfuscation Mode",
+      "zh-Hans": "混淆方式",
+      "zh-Hant": "混淆方式"
+    }
+  },
+  "listeners[*].ss-option": {
+    "summary": {
+      "en": "Adds a Shadowsocks encryption layer inside Trojan; it must match the clients.",
+      "zh-Hans": "在 Trojan 里再套一层 Shadowsocks 加密，要和客户端一致。",
+      "zh-Hant": "在 Trojan 裡再套一層 Shadowsocks 加密，要和用戶端一致。"
+    },
+    "title": {
+      "en": "Shadowsocks Layer",
+      "zh-Hans": "SS 加密层",
+      "zh-Hant": "SS 加密層"
+    }
+  },
+  "listeners[*].ss-option.enabled": {
+    "summary": {
+      "en": "Add a Shadowsocks encryption layer inside Trojan, as trojan-go does.",
+      "zh-Hans": "在 Trojan 内再套一层 Shadowsocks 加密。",
+      "zh-Hant": "在 Trojan 內再套一層 Shadowsocks 加密。"
+    },
+    "title": {
+      "en": "Turn On SS Layer",
+      "zh-Hans": "启用 SS 加密层",
+      "zh-Hant": "啟用 SS 加密層"
+    }
+  },
+  "listeners[*].ss-option.method": {
+    "presets": [
+      {
+        "label": {
+          "en": "AES-128-GCM",
+          "zh-Hans": "AES-128-GCM",
+          "zh-Hant": "AES-128-GCM"
+        },
+        "value": "aes-128-gcm"
+      },
+      {
+        "label": {
+          "en": "AES-192-GCM",
+          "zh-Hans": "AES-192-GCM",
+          "zh-Hant": "AES-192-GCM"
+        },
+        "value": "aes-192-gcm"
+      },
+      {
+        "label": {
+          "en": "AES-256-GCM",
+          "zh-Hans": "AES-256-GCM",
+          "zh-Hant": "AES-256-GCM"
+        },
+        "value": "aes-256-gcm"
+      },
+      {
+        "label": {
+          "en": "ChaCha20-IETF-Poly1305",
+          "zh-Hans": "ChaCha20-IETF-Poly1305",
+          "zh-Hant": "ChaCha20-IETF-Poly1305"
+        },
+        "value": "chacha20-ietf-poly1305"
+      },
+      {
+        "label": {
+          "en": "XChaCha20-IETF-Poly1305",
+          "zh-Hans": "XChaCha20-IETF-Poly1305",
+          "zh-Hant": "XChaCha20-IETF-Poly1305"
+        },
+        "value": "xchacha20-ietf-poly1305"
+      },
+      {
+        "label": {
+          "en": "ChaCha8-IETF-Poly1305",
+          "zh-Hans": "ChaCha8-IETF-Poly1305",
+          "zh-Hant": "ChaCha8-IETF-Poly1305"
+        },
+        "value": "chacha8-ietf-poly1305"
+      },
+      {
+        "label": {
+          "en": "XChaCha8-IETF-Poly1305",
+          "zh-Hans": "XChaCha8-IETF-Poly1305",
+          "zh-Hant": "XChaCha8-IETF-Poly1305"
+        },
+        "value": "xchacha8-ietf-poly1305"
+      },
+      {
+        "label": {
+          "en": "AES-128-CCM",
+          "zh-Hans": "AES-128-CCM",
+          "zh-Hant": "AES-128-CCM"
+        },
+        "value": "aes-128-ccm"
+      },
+      {
+        "label": {
+          "en": "AES-192-CCM",
+          "zh-Hans": "AES-192-CCM",
+          "zh-Hant": "AES-192-CCM"
+        },
+        "value": "aes-192-ccm"
+      },
+      {
+        "label": {
+          "en": "AES-256-CCM",
+          "zh-Hans": "AES-256-CCM",
+          "zh-Hant": "AES-256-CCM"
+        },
+        "value": "aes-256-ccm"
+      },
+      {
+        "label": {
+          "en": "None (dummy)",
+          "zh-Hans": "不加密（dummy）",
+          "zh-Hant": "不加密（dummy）"
+        },
+        "value": "dummy"
+      },
+      {
+        "label": {
+          "en": "RC4-MD5",
+          "zh-Hans": "RC4-MD5",
+          "zh-Hant": "RC4-MD5"
+        },
+        "value": "rc4-md5"
+      },
+      {
+        "label": {
+          "en": "AES-128-CTR",
+          "zh-Hans": "AES-128-CTR",
+          "zh-Hant": "AES-128-CTR"
+        },
+        "value": "aes-128-ctr"
+      },
+      {
+        "label": {
+          "en": "AES-192-CTR",
+          "zh-Hans": "AES-192-CTR",
+          "zh-Hant": "AES-192-CTR"
+        },
+        "value": "aes-192-ctr"
+      },
+      {
+        "label": {
+          "en": "AES-256-CTR",
+          "zh-Hans": "AES-256-CTR",
+          "zh-Hant": "AES-256-CTR"
+        },
+        "value": "aes-256-ctr"
+      },
+      {
+        "label": {
+          "en": "AES-128-CFB",
+          "zh-Hans": "AES-128-CFB",
+          "zh-Hant": "AES-128-CFB"
+        },
+        "value": "aes-128-cfb"
+      },
+      {
+        "label": {
+          "en": "AES-192-CFB",
+          "zh-Hans": "AES-192-CFB",
+          "zh-Hant": "AES-192-CFB"
+        },
+        "value": "aes-192-cfb"
+      },
+      {
+        "label": {
+          "en": "AES-256-CFB",
+          "zh-Hans": "AES-256-CFB",
+          "zh-Hant": "AES-256-CFB"
+        },
+        "value": "aes-256-cfb"
+      },
+      {
+        "label": {
+          "en": "ChaCha20",
+          "zh-Hans": "ChaCha20",
+          "zh-Hant": "ChaCha20"
+        },
+        "value": "chacha20"
+      },
+      {
+        "label": {
+          "en": "ChaCha20-IETF",
+          "zh-Hans": "ChaCha20-IETF",
+          "zh-Hant": "ChaCha20-IETF"
+        },
+        "value": "chacha20-ietf"
+      },
+      {
+        "label": {
+          "en": "XChaCha20",
+          "zh-Hans": "XChaCha20",
+          "zh-Hant": "XChaCha20"
+        },
+        "value": "xchacha20"
+      }
+    ],
+    "summary": {
+      "en": "The Shadowsocks layer's cipher; it must match the connecting side.",
+      "zh-Hans": "Shadowsocks 加密层的加密方法，须与连接端一致。",
+      "zh-Hant": "Shadowsocks 加密層的加密方法，須與連線端一致。"
+    },
+    "title": {
+      "en": "Encryption",
+      "zh-Hans": "加密方式",
+      "zh-Hant": "加密方式"
+    }
+  },
+  "listeners[*].ss-option.password": {
+    "summary": {
+      "en": "The Shadowsocks layer's password; it must match the connecting side.",
+      "zh-Hans": "Shadowsocks 加密层的密码，须与连接端一致。",
+      "zh-Hant": "Shadowsocks 加密層的密碼，須與連線端一致。"
+    },
+    "title": {
+      "en": "Password",
+      "zh-Hans": "密码",
+      "zh-Hant": "密碼"
+    }
+  },
+  "listeners[*].stack": {
+    "presets": [
+      {
+        "label": {
+          "en": "System",
+          "zh-Hans": "系统",
+          "zh-Hant": "系統"
+        },
+        "value": "system"
+      },
+      {
+        "label": {
+          "en": "gVisor",
+          "zh-Hans": "gVisor",
+          "zh-Hant": "gVisor"
+        },
+        "value": "gvisor"
+      },
+      {
+        "label": {
+          "en": "Mixed",
+          "zh-Hans": "混合",
+          "zh-Hant": "混合"
+        },
+        "value": "mixed"
+      },
+      {
+        "label": {
+          "en": "mihomo stack (MIPS)",
+          "zh-Hans": "mihomo 协议栈（MIPS）",
+          "zh-Hant": "mihomo 協定堆疊（MIPS）"
+        },
+        "value": "mips"
+      }
+    ],
+    "summary": {
+      "en": "How TUN handles traffic: system, gVisor or a mix of both.",
+      "zh-Hans": "TUN 处理流量的方式：system、gvisor 或两者混合。",
+      "zh-Hant": "TUN 處理流量的方式：system、gvisor 或兩者混合。"
+    },
+    "title": {
+      "en": "Stack",
+      "zh-Hans": "协议栈",
+      "zh-Hant": "協定堆疊"
+    }
+  },
+  "listeners[*].strict-route": {
+    "summary": {
+      "en": "With auto route on, force all traffic through the TUN to stop leaks.",
+      "zh-Hans": "开启自动路由时强制所有流量走 TUN，防止泄漏。",
+      "zh-Hant": "開啟自動路由時強制所有流量走 TUN，防止洩漏。"
+    },
+    "title": {
+      "en": "Strict Route",
+      "zh-Hans": "严格路由",
+      "zh-Hant": "嚴格路由"
+    }
+  },
+  "listeners[*].table-type": {
+    "presets": [
+      {
+        "label": {
+          "en": "Prefer high entropy",
+          "zh-Hans": "偏向高熵",
+          "zh-Hant": "偏向高熵"
+        },
+        "value": "prefer_entropy"
+      },
+      {
+        "label": {
+          "en": "Prefer ASCII",
+          "zh-Hans": "偏向 ASCII",
+          "zh-Hant": "偏向 ASCII"
+        },
+        "value": "prefer_ascii"
+      },
+      {
+        "label": {
+          "en": "ASCII up, entropy down",
+          "zh-Hans": "上行 ASCII、下行高熵",
+          "zh-Hant": "上行 ASCII、下行高熵"
+        },
+        "value": "up_ascii_down_entropy"
+      },
+      {
+        "label": {
+          "en": "Entropy up, ASCII down",
+          "zh-Hans": "上行高熵、下行 ASCII",
+          "zh-Hant": "上行高熵、下行 ASCII"
+        },
+        "value": "up_entropy_down_ascii"
+      }
+    ],
+    "summary": {
+      "en": "Whether encoded data leans to ASCII or to high-entropy bytes.",
+      "zh-Hans": "数据编码偏向 ASCII 还是高熵字节。",
+      "zh-Hant": "資料編碼偏向 ASCII 還是高熵位元組。"
+    },
+    "title": {
+      "en": "Encoding Table",
+      "zh-Hans": "编码表类型",
+      "zh-Hant": "編碼表類型"
+    }
+  },
+  "listeners[*].target": {
+    "example": "www.example.com:443",
+    "summary": {
+      "en": "Everything received is forwarded to this address, as host:port.",
+      "zh-Hans": "收到的流量都转发到这个地址，写成 地址:端口。",
+      "zh-Hant": "收到的流量都轉送到這個位址，寫成 位址:連接埠。"
+    },
+    "title": {
+      "en": "Forward Target",
+      "zh-Hans": "转发目标",
+      "zh-Hant": "轉送目標"
+    }
+  },
+  "listeners[*].tlsmirror-config": {
+    "summary": {
+      "en": "Imitates a real website's TLS; can't be used with a certificate.",
+      "zh-Hans": "模仿真实网站的 TLS，不能与证书同时使用。",
+      "zh-Hant": "模仿真實網站的 TLS，不能與憑證同時使用。"
+    },
+    "title": {
+      "en": "TLSMirror",
+      "zh-Hans": "TLSMirror",
+      "zh-Hant": "TLSMirror"
+    }
+  },
+  "listeners[*].tlsmirror-config.connection-enrolment": {
+    "summary": {
+      "en": "v2ray-compatible connection enrolment; leave it empty if you don't use it.",
+      "zh-Hans": "与 v2ray 兼容的连接登记确认，不用就留空。",
+      "zh-Hant": "與 v2ray 相容的連線登記確認，不用就留空。"
+    },
+    "title": {
+      "en": "Connection Enrolment",
+      "zh-Hans": "连接登记",
+      "zh-Hant": "連線登記"
+    }
+  },
+  "listeners[*].tlsmirror-config.connection-enrolment.primary-egress-outbound": {
+    "summary": {
+      "en": "The outbound-side enrolment tag; mihomo normally leaves it empty.",
+      "zh-Hans": "出站侧的连接登记标识，mihomo 一般留空。",
+      "zh-Hant": "出站側的連線登記標識，mihomo 一般留空。"
+    },
+    "title": {
+      "en": "Egress Tag",
+      "zh-Hans": "出站标识",
+      "zh-Hant": "出站標識"
+    }
+  },
+  "listeners[*].tlsmirror-config.connection-enrolment.primary-ingress-outbound": {
+    "summary": {
+      "en": "v2ray-style enrolment tag; match the peer's control outbound tag.",
+      "zh-Hans": "v2ray 兼容的连接登记标识，与对端控制出站的 tag 一致。",
+      "zh-Hant": "v2ray 相容的連線登記標識，與對端控制出站的 tag 一致。"
+    },
+    "title": {
+      "en": "Ingress Tag",
+      "zh-Hans": "入站标识",
+      "zh-Hant": "入站標識"
+    }
+  },
+  "listeners[*].tlsmirror-config.defer-instance-derived-write-time": {
+    "title": {
+      "en": "First Write Delay",
+      "zh-Hans": "首次写入延迟",
+      "zh-Hant": "首次寫入延遲"
+    }
+  },
+  "listeners[*].tlsmirror-config.defer-instance-derived-write-time.base-nanoseconds": {
+    "summary": {
+      "en": "A fixed delay before the first data is sent, in nanoseconds.",
+      "zh-Hans": "首次发送数据前的固定延迟，单位纳秒。",
+      "zh-Hant": "首次傳送資料前的固定延遲，單位奈秒。"
+    },
+    "title": {
+      "en": "Base Time",
+      "zh-Hans": "基础延迟",
+      "zh-Hant": "基礎延遲"
+    }
+  },
+  "listeners[*].tlsmirror-config.defer-instance-derived-write-time.uniform-random-multiplier-nanoseconds": {
+    "summary": {
+      "en": "The most random delay added before the first send, in nanoseconds.",
+      "zh-Hans": "首次发送前再加的随机延迟上限，单位纳秒。",
+      "zh-Hant": "首次傳送前再加的隨機延遲上限，單位奈秒。"
+    },
+    "title": {
+      "en": "Random Extra Time",
+      "zh-Hans": "额外随机延迟",
+      "zh-Hant": "額外隨機延遲"
+    }
+  },
+  "listeners[*].tlsmirror-config.dest": {
+    "example": "www.example.com:443",
+    "summary": {
+      "en": "The real website TLSMirror imitates, as host:port.",
+      "zh-Hans": "TLSMirror 模仿的真实网站，写成 域名:端口。",
+      "zh-Hant": "TLSMirror 模仿的真實網站，寫成 網域:連接埠。"
+    },
+    "title": {
+      "en": "Target Site",
+      "zh-Hans": "目标网站",
+      "zh-Hant": "目標網站"
+    }
+  },
+  "listeners[*].tlsmirror-config.explicit-nonce-ciphersuites": {
+    "summary": {
+      "en": "TLS 1.2 cipher suites that carry an explicit nonce; usually leave as is.",
+      "zh-Hans": "TLS 1.2 载体使用显式 nonce 的套件，一般保持默认。",
+      "zh-Hant": "TLS 1.2 載體使用顯式 nonce 的套件，一般保持預設。"
+    },
+    "title": {
+      "en": "Explicit Nonce Suites",
+      "zh-Hans": "显式 nonce 套件",
+      "zh-Hant": "顯式 nonce 套件"
+    }
+  },
+  "listeners[*].tlsmirror-config.primary-key": {
+    "summary": {
+      "en": "Required for TLSMirror: a 32-byte key in Base64.",
+      "zh-Hans": "启用 TLSMirror 必填，32 字节密钥的 Base64。",
+      "zh-Hant": "啟用 TLSMirror 必填，32 位元組金鑰的 Base64。"
+    },
+    "title": {
+      "en": "Key",
+      "zh-Hans": "密钥",
+      "zh-Hant": "金鑰"
+    }
+  },
+  "listeners[*].tlsmirror-config.proxy": {
+    "summary": {
+      "en": "The proxy used to reach the TLSMirror target.",
+      "zh-Hans": "连接 TLSMirror 目标网站时使用的代理。",
+      "zh-Hant": "連線 TLSMirror 目標網站時使用的代理。"
+    },
+    "title": {
+      "en": "Proxy to Target",
+      "zh-Hans": "连接目标所用代理",
+      "zh-Hant": "連線目標所用代理"
+    }
+  },
+  "listeners[*].tlsmirror-config.sequence-watermarking-enabled": {
+    "summary": {
+      "en": "Turn on TLSMirror's sequence watermarking.",
+      "zh-Hans": "启用 TLSMirror 的序列水印。",
+      "zh-Hant": "啟用 TLSMirror 的序列浮水印。"
+    },
+    "title": {
+      "en": "Sequence Watermarking",
+      "zh-Hans": "序列水印",
+      "zh-Hant": "序列浮水印"
+    }
+  },
+  "listeners[*].tlsmirror-config.transport-layer-padding": {
+    "title": {
+      "en": "Transport Padding",
+      "zh-Hans": "传输层填充",
+      "zh-Hant": "傳輸層填充"
+    }
+  },
+  "listeners[*].tlsmirror-config.transport-layer-padding.enabled": {
+    "summary": {
+      "en": "Add padding at the transport layer.",
+      "zh-Hans": "在传输层加入填充数据。",
+      "zh-Hant": "在傳輸層加入填充資料。"
+    },
+    "title": {
+      "en": "Turn On Padding",
+      "zh-Hans": "启用填充",
+      "zh-Hant": "啟用填充"
+    }
+  },
+  "listeners[*].traffic-pattern": {
+    "summary": {
+      "en": "A Base64 setting that fine-tunes network behaviour; usually empty.",
+      "zh-Hans": "微调网络行为的 Base64 配置，一般留空。",
+      "zh-Hant": "微調網路行為的 Base64 設定，一般留空。"
+    },
+    "title": {
+      "en": "Traffic Pattern",
+      "zh-Hans": "流量模式",
+      "zh-Hant": "流量模式"
+    }
+  },
+  "listeners[*].transport": {
+    "presets": [
+      {
+        "label": {
+          "en": "TCP",
+          "zh-Hans": "TCP",
+          "zh-Hant": "TCP"
+        },
+        "value": "TCP"
+      },
+      {
+        "label": {
+          "en": "UDP",
+          "zh-Hans": "UDP",
+          "zh-Hant": "UDP"
+        },
+        "value": "UDP"
+      }
+    ],
+    "summary": {
+      "en": "Mieru over TCP or UDP; it must match the connecting side.",
+      "zh-Hans": "Mieru 使用 TCP 还是 UDP，须与连接端一致。",
+      "zh-Hant": "Mieru 使用 TCP 還是 UDP，須與連線端一致。"
+    },
+    "title": {
+      "en": "Protocol",
+      "zh-Hans": "传输协议",
+      "zh-Hant": "傳輸協定"
+    }
+  },
+  "listeners[*].trusted-proxy-header": {
+    "example": "X-Forwarded-For",
+    "summary": {
+      "en": "Behind a reverse proxy, read the client's real IP from this header.",
+      "zh-Hans": "前面有反代时，从这个请求头读取客户端真实 IP。",
+      "zh-Hant": "前面有反向代理時，從這個標頭讀取用戶端真實 IP。"
+    },
+    "title": {
+      "en": "Real IP Header",
+      "zh-Hans": "真实 IP 请求头",
+      "zh-Hant": "真實 IP 標頭"
+    }
+  },
+  "listeners[*].type": {
+    "presets": [
+      {
+        "label": {
+          "en": "SOCKS",
+          "zh-Hans": "SOCKS",
+          "zh-Hant": "SOCKS"
+        },
+        "value": "socks"
+      },
+      {
+        "label": {
+          "en": "HTTP",
+          "zh-Hans": "HTTP",
+          "zh-Hant": "HTTP"
+        },
+        "value": "http"
+      },
+      {
+        "label": {
+          "en": "TProxy (transparent)",
+          "zh-Hans": "TProxy（透明代理）",
+          "zh-Hant": "TProxy（透明代理）"
+        },
+        "value": "tproxy"
+      },
+      {
+        "label": {
+          "en": "Redir (redirect)",
+          "zh-Hans": "Redir（重定向）",
+          "zh-Hant": "Redir（重新導向）"
+        },
+        "value": "redir"
+      },
+      {
+        "label": {
+          "en": "Mixed (HTTP + SOCKS)",
+          "zh-Hans": "混合（HTTP + SOCKS）",
+          "zh-Hant": "混合（HTTP + SOCKS）"
+        },
+        "value": "mixed"
+      },
+      {
+        "label": {
+          "en": "Port forward",
+          "zh-Hans": "端口转发",
+          "zh-Hant": "連接埠轉發"
+        },
+        "value": "tunnel"
+      },
+      {
+        "label": {
+          "en": "TUN (virtual network card)",
+          "zh-Hans": "TUN（虚拟网卡）",
+          "zh-Hant": "TUN（虛擬網路卡）"
+        },
+        "value": "tun"
+      },
+      {
+        "label": {
+          "en": "Shadowsocks",
+          "zh-Hans": "Shadowsocks",
+          "zh-Hant": "Shadowsocks"
+        },
+        "value": "shadowsocks"
+      },
+      {
+        "label": {
+          "en": "Snell",
+          "zh-Hans": "Snell",
+          "zh-Hant": "Snell"
+        },
+        "value": "snell"
+      },
+      {
+        "label": {
+          "en": "VMess",
+          "zh-Hans": "VMess",
+          "zh-Hant": "VMess"
+        },
+        "value": "vmess"
+      },
+      {
+        "label": {
+          "en": "VLESS",
+          "zh-Hans": "VLESS",
+          "zh-Hant": "VLESS"
+        },
+        "value": "vless"
+      },
+      {
+        "label": {
+          "en": "Trojan",
+          "zh-Hans": "Trojan",
+          "zh-Hant": "Trojan"
+        },
+        "value": "trojan"
+      },
+      {
+        "label": {
+          "en": "Hysteria 2",
+          "zh-Hans": "Hysteria 2",
+          "zh-Hant": "Hysteria 2"
+        },
+        "value": "hysteria2"
+      },
+      {
+        "label": {
+          "en": "Hysteria 2 realm server",
+          "zh-Hans": "Hysteria 2 Realm 服务器",
+          "zh-Hant": "Hysteria 2 Realm 伺服器"
+        },
+        "value": "hysteria2-realm"
+      },
+      {
+        "label": {
+          "en": "TUIC",
+          "zh-Hans": "TUIC",
+          "zh-Hant": "TUIC"
+        },
+        "value": "tuic"
+      },
+      {
+        "label": {
+          "en": "ShadowQUIC",
+          "zh-Hans": "ShadowQUIC",
+          "zh-Hant": "ShadowQUIC"
+        },
+        "value": "shadowquic"
+      },
+      {
+        "label": {
+          "en": "AnyTLS",
+          "zh-Hans": "AnyTLS",
+          "zh-Hant": "AnyTLS"
+        },
+        "value": "anytls"
+      },
+      {
+        "label": {
+          "en": "Mieru",
+          "zh-Hans": "Mieru",
+          "zh-Hant": "Mieru"
+        },
+        "value": "mieru"
+      },
+      {
+        "label": {
+          "en": "Sudoku",
+          "zh-Hans": "Sudoku",
+          "zh-Hant": "Sudoku"
+        },
+        "value": "sudoku"
+      },
+      {
+        "label": {
+          "en": "TrustTunnel",
+          "zh-Hans": "TrustTunnel",
+          "zh-Hant": "TrustTunnel"
+        },
+        "value": "trusttunnel"
+      },
+      {
+        "value": "mtproto",
+        "label": {
+          "en": "MTProto",
+          "zh-Hans": "MTProto",
+          "zh-Hant": "MTProto"
+        }
+      }
+    ],
+    "summary": {
+      "en": "The protocol this inbound speaks; the connecting side must use the same one.",
+      "zh-Hans": "这个入站使用的协议，连接它的一端要用同一种。",
+      "zh-Hant": "這個入站使用的協定，連線它的一端要用同一種。"
+    },
+    "title": {
+      "en": "Type",
+      "zh-Hans": "类型",
+      "zh-Hant": "類型"
+    }
+  },
+  "listeners[*].udp": {
+    "summary": {
+      "en": "Whether this inbound also carries UDP, used by games and calls.",
+      "zh-Hans": "是否同时转发 UDP 流量，如游戏和语音通话。",
+      "zh-Hant": "是否同時轉送 UDP 流量，如遊戲和語音通話。"
+    },
+    "title": {
+      "en": "Accept UDP",
+      "zh-Hans": "处理 UDP",
+      "zh-Hant": "處理 UDP"
+    }
+  },
+  "listeners[*].udp-mtu": {
+    "summary": {
+      "en": "The largest UDP packet relayed, in bytes; usually leave it as is.",
+      "zh-Hans": "转发 UDP 时单个包的最大大小，一般保持默认。",
+      "zh-Hant": "轉送 UDP 時單個封包的最大大小，一般保持預設。"
+    },
+    "title": {
+      "en": "UDP Packet Size",
+      "zh-Hans": "UDP 包大小",
+      "zh-Hant": "UDP 封包大小"
+    }
+  },
+  "listeners[*].udp-timeout": {
+    "summary": {
+      "en": "Close an idle UDP session after this long.",
+      "zh-Hans": "UDP 会话空闲多久后关闭。",
+      "zh-Hant": "UDP 工作階段閒置多久後關閉。"
+    },
+    "title": {
+      "en": "UDP Timeout",
+      "zh-Hans": "UDP 超时",
+      "zh-Hant": "UDP 逾時"
+    },
+    "unset": {
+      "en": "5 minutes",
+      "zh-Hans": "5 分钟",
+      "zh-Hant": "5 分鐘"
+    }
+  },
+  "listeners[*].up": {
+    "example": "100",
+    "summary": {
+      "en": "The server's upload (the client's download) speed limit, in Mbps.",
+      "zh-Hans": "服务端上传（即客户端下载）的速度上限，单位 Mbps。",
+      "zh-Hant": "伺服器端上傳（即用戶端下載）的速度上限，單位 Mbps。"
+    },
+    "title": {
+      "en": "Upload Bandwidth",
+      "zh-Hans": "上传带宽",
+      "zh-Hant": "上傳頻寬"
+    }
+  },
+  "listeners[*].user-hint-is-mandatory": {
+    "summary": {
+      "en": "Refuse connections that don't send a user hint.",
+      "zh-Hans": "开启后，未发送用户提示的连接会被拒绝。",
+      "zh-Hant": "開啟後，未傳送使用者提示的連線會被拒絕。"
+    },
+    "title": {
+      "en": "Require User Hint",
+      "zh-Hans": "要求用户提示",
+      "zh-Hant": "要求使用者提示"
+    }
+  },
+  "listeners[*].users": {
+    "summary": {
+      "en": "The users allowed to connect, with their passwords or UUIDs.",
+      "zh-Hans": "允许连接的用户及其密码或 UUID。",
+      "zh-Hant": "允許連線的使用者及其密碼或 UUID。"
+    },
+    "title": {
+      "en": "Users",
+      "zh-Hans": "用户",
+      "zh-Hant": "使用者"
+    }
+  },
+  "listeners[*].users[].alterId": {
+    "summary": {
+      "en": "VMess alterId; 0 is right for current clients.",
+      "zh-Hans": "VMess 的 alterId，现在一般填 0。",
+      "zh-Hant": "VMess 的 alterId，現在一般填 0。"
+    },
+    "title": {
+      "en": "Alter ID",
+      "zh-Hans": "额外 ID",
+      "zh-Hant": "額外 ID"
+    },
+    "unset": {
+      "en": "0",
+      "zh-Hans": "0",
+      "zh-Hant": "0"
+    }
+  },
+  "listeners[*].users[].flow": {
+    "presets": [
+      {
+        "label": {
+          "en": "XTLS Vision",
+          "zh-Hans": "XTLS Vision",
+          "zh-Hant": "XTLS Vision"
+        },
+        "value": "xtls-rprx-vision"
+      }
+    ],
+    "summary": {
+      "en": "VLESS flow control, usually xtls-rprx-vision; must match the connecting side.",
+      "zh-Hans": "VLESS 流控，常用 xtls-rprx-vision，须与连接端一致。",
+      "zh-Hant": "VLESS 流量控制，常用 xtls-rprx-vision，須與連線端一致。"
+    },
+    "title": {
+      "en": "Flow",
+      "zh-Hans": "流控",
+      "zh-Hant": "流量控制"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    }
+  },
+  "listeners[*].users[].password": {
+    "summary": {
+      "en": "This user's password; the connecting side must use the same one.",
+      "zh-Hans": "这个用户的密码，连接端要填同一个。",
+      "zh-Hant": "這個使用者的密碼，連線端要填同一個。"
+    },
+    "title": {
+      "en": "Password",
+      "zh-Hans": "密码",
+      "zh-Hant": "密碼"
+    }
+  },
+  "listeners[*].users[].username": {
+    "example": "user1",
+    "summary": {
+      "en": "The user's name; rules can also route by it with IN-USER.",
+      "zh-Hans": "用户名；规则里也可用 IN-USER 按它分流。",
+      "zh-Hant": "使用者名稱；規則裡也可用 IN-USER 依它分流。"
+    },
+    "title": {
+      "en": "Username",
+      "zh-Hans": "用户名",
+      "zh-Hant": "使用者名稱"
+    }
+  },
+  "listeners[*].users[].uuid": {
+    "summary": {
+      "en": "This user's UUID; the connecting side must use the same one.",
+      "zh-Hans": "这个用户的 UUID，连接端要填同一个。",
+      "zh-Hant": "這個使用者的 UUID，連線端要填同一個。"
+    },
+    "title": {
+      "en": "UUID",
+      "zh-Hans": "UUID",
+      "zh-Hant": "UUID"
+    }
+  },
+  "listeners[*].version": {
+    "presets": [
+      {
+        "label": {
+          "en": "v1",
+          "zh-Hans": "v1",
+          "zh-Hant": "v1"
+        },
+        "value": "1"
+      },
+      {
+        "label": {
+          "en": "v2",
+          "zh-Hans": "v2",
+          "zh-Hant": "v2"
+        },
+        "value": "2"
+      },
+      {
+        "label": {
+          "en": "v3",
+          "zh-Hans": "v3",
+          "zh-Hant": "v3"
+        },
+        "value": "3"
+      },
+      {
+        "label": {
+          "en": "v4",
+          "zh-Hans": "v4",
+          "zh-Hant": "v4"
+        },
+        "value": "4"
+      },
+      {
+        "label": {
+          "en": "v5",
+          "zh-Hans": "v5",
+          "zh-Hant": "v5"
+        },
+        "value": "5"
+      },
+      {
+        "label": {
+          "en": "v6",
+          "zh-Hans": "v6",
+          "zh-Hant": "v6"
+        },
+        "value": "6"
+      }
+    ],
+    "summary": {
+      "en": "The Snell protocol version; it must match the connecting side.",
+      "zh-Hans": "Snell 协议版本，须与连接端一致。",
+      "zh-Hant": "Snell 協定版本，須與連線端一致。"
+    },
+    "title": {
+      "en": "Snell Version",
+      "zh-Hans": "Snell 版本",
+      "zh-Hant": "Snell 版本"
+    }
+  },
+  "listeners[*].ws-path": {
+    "example": "/",
+    "summary": {
+      "en": "Setting a path turns on WebSocket; it must match the connecting side.",
+      "zh-Hans": "填写后启用 WebSocket 传输，路径须与连接端一致。",
+      "zh-Hant": "填寫後啟用 WebSocket 傳輸，路徑須與連線端一致。"
+    },
+    "title": {
+      "en": "WebSocket Path",
+      "zh-Hans": "WebSocket 路径",
+      "zh-Hant": "WebSocket 路徑"
+    }
+  },
+  "listeners[*].xhttp-config": {
+    "summary": {
+      "en": "Filling this in turns on the XHTTP transport.",
+      "zh-Hans": "填写后启用 XHTTP 传输。",
+      "zh-Hant": "填寫後啟用 XHTTP 傳輸。"
+    },
+    "title": {
+      "en": "XHTTP",
+      "zh-Hans": "XHTTP",
+      "zh-Hant": "XHTTP"
+    }
+  },
+  "listeners[*].xhttp-config.host": {
+    "example": "www.example.com",
+    "summary": {
+      "en": "The host name XHTTP uses; it must match the connecting side.",
+      "zh-Hans": "XHTTP 使用的主机名，须与连接端一致。",
+      "zh-Hant": "XHTTP 使用的主機名稱，須與連線端一致。"
+    },
+    "title": {
+      "en": "Host",
+      "zh-Hans": "主机名",
+      "zh-Hant": "主機名稱"
+    }
+  },
+  "listeners[*].xhttp-config.mode": {
+    "presets": [
+      {
+        "label": {
+          "en": "Auto",
+          "zh-Hans": "自动",
+          "zh-Hant": "自動"
+        },
+        "value": "auto"
+      },
+      {
+        "label": {
+          "en": "Stream upload (stream-up)",
+          "zh-Hans": "流式上传（stream-up）",
+          "zh-Hant": "串流上傳（stream-up）"
+        },
+        "value": "stream-up"
+      },
+      {
+        "label": {
+          "en": "One request both ways (stream-one)",
+          "zh-Hans": "单请求双向（stream-one）",
+          "zh-Hant": "單一請求雙向（stream-one）"
+        },
+        "value": "stream-one"
+      },
+      {
+        "label": {
+          "en": "Packet upload (packet-up)",
+          "zh-Hans": "分包上传（packet-up）",
+          "zh-Hant": "分包上傳（packet-up）"
+        },
+        "value": "packet-up"
+      }
+    ],
+    "summary": {
+      "en": "How XHTTP carries data; auto picks one for you.",
+      "zh-Hans": "XHTTP 的传输模式，auto 会自动选择。",
+      "zh-Hant": "XHTTP 的傳輸模式，auto 會自動選擇。"
+    },
+    "title": {
+      "en": "Mode",
+      "zh-Hans": "模式",
+      "zh-Hant": "模式"
+    },
+    "unset": {
+      "en": "Auto",
+      "zh-Hans": "自动",
+      "zh-Hant": "自動"
+    }
+  },
+  "listeners[*].xhttp-config.no-sse-header": {
+    "summary": {
+      "en": "Leave out the text/event-stream header in responses.",
+      "zh-Hans": "响应里不加 text/event-stream 头。",
+      "zh-Hant": "回應裡不加 text/event-stream 標頭。"
+    },
+    "title": {
+      "en": "No SSE Header",
+      "zh-Hans": "不发 SSE 头",
+      "zh-Hant": "不送 SSE 標頭"
+    }
+  },
+  "listeners[*].xhttp-config.path": {
+    "example": "/",
+    "summary": {
+      "en": "The XHTTP request path; it must match the connecting side.",
+      "zh-Hans": "XHTTP 请求路径，须与连接端一致。",
+      "zh-Hant": "XHTTP 請求路徑，須與連線端一致。"
+    },
+    "title": {
+      "en": "Path",
+      "zh-Hans": "路径",
+      "zh-Hant": "路徑"
+    },
+    "unset": {
+      "en": "/",
+      "zh-Hans": "/",
+      "zh-Hant": "/"
+    }
+  },
+  "listeners[*].xhttp-config.sc-max-buffered-posts": {
+    "summary": {
+      "en": "In packet-up mode, the most POST requests the server holds.",
+      "zh-Hans": "packet-up 模式下服务端最多缓存的 POST 数。",
+      "zh-Hant": "packet-up 模式下伺服器端最多快取的 POST 數。"
+    },
+    "title": {
+      "en": "Max Buffered Posts",
+      "zh-Hans": "最多缓存请求数",
+      "zh-Hant": "最多快取請求數"
+    },
+    "unset": {
+      "en": "30",
+      "zh-Hans": "30",
+      "zh-Hant": "30"
+    }
+  },
+  "listeners[*].xhttp-config.sc-max-each-post-bytes": {
+    "summary": {
+      "en": "The most bytes one POST may carry; larger ones are refused.",
+      "zh-Hans": "每个 POST 最多携带的字节数，超过会被拒绝。",
+      "zh-Hant": "每個 POST 最多攜帶的位元組數，超過會被拒絕。"
+    },
+    "title": {
+      "en": "Max POST Size",
+      "zh-Hans": "单个请求上限",
+      "zh-Hant": "單個請求上限"
+    },
+    "unset": {
+      "en": "1 MB",
+      "zh-Hans": "1 MB",
+      "zh-Hant": "1 MB"
+    }
+  },
+  "listeners[*].xhttp-config.sc-stream-up-server-secs": {
+    "summary": {
+      "en": "In stream-up mode, how often the server sends keepalive data.",
+      "zh-Hans": "stream-up 模式下服务端多久发一次保活数据。",
+      "zh-Hant": "stream-up 模式下伺服器端多久送一次保持連線資料。"
+    },
+    "title": {
+      "en": "Stream-Up Keepalive",
+      "zh-Hans": "上行保活间隔",
+      "zh-Hant": "上行保持連線間隔"
+    },
+    "unset": {
+      "en": "20–80 s",
+      "zh-Hans": "20–80 秒",
+      "zh-Hant": "20–80 秒"
+    }
+  },
+  "listeners[*].xhttp-config.seq-key": {
+    "summary": {
+      "en": "The key name for the sequence number; not needed when it is in the path.",
+      "zh-Hans": "序号的键名，位置为路径时不用填。",
+      "zh-Hant": "序號的鍵名，位置為路徑時不用填。"
+    },
+    "title": {
+      "en": "Sequence Key",
+      "zh-Hans": "序号键名",
+      "zh-Hant": "序號鍵名"
+    },
+    "unset": {
+      "en": "X-Seq in a header, x_seq in a cookie or query",
+      "zh-Hans": "请求头里为 X-Seq，Cookie 或查询参数里为 x_seq",
+      "zh-Hant": "請求標頭裡為 X-Seq，Cookie 或查詢參數裡為 x_seq"
+    }
+  },
+  "listeners[*].xhttp-config.seq-placement": {
+    "presets": [
+      {
+        "label": {
+          "en": "Path",
+          "zh-Hans": "路径",
+          "zh-Hant": "路徑"
+        },
+        "value": "path"
+      },
+      {
+        "label": {
+          "en": "URL query",
+          "zh-Hans": "网址参数",
+          "zh-Hant": "網址參數"
+        },
+        "value": "query"
+      },
+      {
+        "label": {
+          "en": "Header",
+          "zh-Hans": "请求头",
+          "zh-Hant": "請求標頭"
+        },
+        "value": "header"
+      },
+      {
+        "label": {
+          "en": "Cookie",
+          "zh-Hans": "Cookie",
+          "zh-Hant": "Cookie"
+        },
+        "value": "cookie"
+      }
+    ],
+    "summary": {
+      "en": "Where the sequence number goes; it must be the path when the session ID is.",
+      "zh-Hans": "序号放在哪里；会话 ID 在路径时它也须在路径。",
+      "zh-Hant": "序號放在哪裡；工作階段 ID 在路徑時它也須在路徑。"
+    },
+    "title": {
+      "en": "Sequence Placement",
+      "zh-Hans": "序号位置",
+      "zh-Hant": "序號位置"
+    }
+  },
+  "listeners[*].xhttp-config.session-key": {
+    "summary": {
+      "en": "The key name for the session ID; not needed when it is in the path.",
+      "zh-Hans": "会话 ID 的键名，位置为路径时不用填。",
+      "zh-Hant": "工作階段 ID 的鍵名，位置為路徑時不用填。"
+    },
+    "title": {
+      "en": "Session ID Key",
+      "zh-Hans": "会话 ID 键名",
+      "zh-Hant": "工作階段 ID 鍵名"
+    },
+    "unset": {
+      "en": "X-Session in a header, x_session in a cookie or query",
+      "zh-Hans": "请求头里为 X-Session，Cookie 或查询参数里为 x_session",
+      "zh-Hant": "請求標頭裡為 X-Session，Cookie 或查詢參數裡為 x_session"
+    }
+  },
+  "listeners[*].xhttp-config.session-placement": {
+    "presets": [
+      {
+        "label": {
+          "en": "Path",
+          "zh-Hans": "路径",
+          "zh-Hant": "路徑"
+        },
+        "value": "path"
+      },
+      {
+        "label": {
+          "en": "URL query",
+          "zh-Hans": "网址参数",
+          "zh-Hant": "網址參數"
+        },
+        "value": "query"
+      },
+      {
+        "label": {
+          "en": "Header",
+          "zh-Hans": "请求头",
+          "zh-Hant": "請求標頭"
+        },
+        "value": "header"
+      },
+      {
+        "label": {
+          "en": "Cookie",
+          "zh-Hans": "Cookie",
+          "zh-Hant": "Cookie"
+        },
+        "value": "cookie"
+      }
+    ],
+    "summary": {
+      "en": "Where the session ID goes: path, query, cookie or header.",
+      "zh-Hans": "会话 ID 放在路径、参数、Cookie 还是请求头。",
+      "zh-Hant": "工作階段 ID 放在路徑、參數、Cookie 還是標頭。"
+    },
+    "title": {
+      "en": "Session ID Placement",
+      "zh-Hans": "会话 ID 位置",
+      "zh-Hant": "工作階段 ID 位置"
+    }
+  },
+  "listeners[*].xhttp-config.uplink-chunk-size": {
+    "summary": {
+      "en": "The largest upload piece, in bytes, when data is not in the body.",
+      "zh-Hans": "上行数据块的最大字节数，数据不放请求体时有效。",
+      "zh-Hant": "上行資料塊的最大位元組數，資料不放請求本文時有效。"
+    },
+    "title": {
+      "en": "Upload Chunk Size",
+      "zh-Hans": "上行分块大小",
+      "zh-Hant": "上行分塊大小"
+    }
+  },
+  "listeners[*].xhttp-config.uplink-data-key": {
+    "summary": {
+      "en": "The base key name for upload data pieces.",
+      "zh-Hans": "传递上行数据片段所用的键名。",
+      "zh-Hant": "傳遞上行資料片段所用的鍵名。"
+    },
+    "title": {
+      "en": "Upload Data Key",
+      "zh-Hans": "上行数据键名",
+      "zh-Hant": "上行資料鍵名"
+    }
+  },
+  "listeners[*].xhttp-config.uplink-data-placement": {
+    "presets": [
+      {
+        "label": {
+          "en": "Body",
+          "zh-Hans": "请求体",
+          "zh-Hant": "請求內容"
+        },
+        "value": "body"
+      },
+      {
+        "label": {
+          "en": "Header",
+          "zh-Hans": "请求头",
+          "zh-Hant": "請求標頭"
+        },
+        "value": "header"
+      },
+      {
+        "label": {
+          "en": "Cookie",
+          "zh-Hans": "Cookie",
+          "zh-Hant": "Cookie"
+        },
+        "value": "cookie"
+      },
+      {
+        "label": {
+          "en": "Auto",
+          "zh-Hans": "自动",
+          "zh-Hant": "自動"
+        },
+        "value": "auto"
+      }
+    ],
+    "summary": {
+      "en": "Where split upload data goes in packet-up mode.",
+      "zh-Hans": "packet-up 模式下拆分的上行数据放在哪里。",
+      "zh-Hant": "packet-up 模式下拆分的上行資料放在哪裡。"
+    },
+    "title": {
+      "en": "Upload Data Placement",
+      "zh-Hans": "上行数据位置",
+      "zh-Hant": "上行資料位置"
+    }
+  },
+  "listeners[*].xhttp-config.uplink-http-method": {
+    "example": "POST",
+    "summary": {
+      "en": "The HTTP method for upload data; your CDN must allow it.",
+      "zh-Hans": "上行数据用的 HTTP 方法，需 CDN 允许。",
+      "zh-Hant": "上行資料用的 HTTP 方法，需 CDN 允許。"
+    },
+    "title": {
+      "en": "Upload Method",
+      "zh-Hans": "上行方法",
+      "zh-Hant": "上行方法"
+    },
+    "unset": {
+      "en": "POST",
+      "zh-Hans": "POST",
+      "zh-Hant": "POST"
+    }
+  },
+  "listeners[*].xhttp-config.x-padding-bytes": {
+    "example": "100-1000",
+    "summary": {
+      "en": "The random padding length range added to each request, in bytes.",
+      "zh-Hans": "每个请求随机填充的长度范围（字节）。",
+      "zh-Hant": "每個請求隨機填充的長度範圍（位元組）。"
+    },
+    "title": {
+      "en": "Padding Length",
+      "zh-Hans": "填充长度",
+      "zh-Hant": "填充長度"
+    },
+    "unset": {
+      "en": "100–1000",
+      "zh-Hans": "100–1000",
+      "zh-Hant": "100–1000"
+    }
+  },
+  "listeners[*].xhttp-config.x-padding-header": {
+    "example": "Referer",
+    "summary": {
+      "en": "The HTTP header that carries the padding.",
+      "zh-Hans": "放填充值的 HTTP 请求头名称。",
+      "zh-Hant": "放填充值的 HTTP 標頭名稱。"
+    },
+    "title": {
+      "en": "Padding Header",
+      "zh-Hans": "填充头名称",
+      "zh-Hant": "填充標頭名稱"
+    }
+  },
+  "listeners[*].xhttp-config.x-padding-key": {
+    "summary": {
+      "en": "The key that holds the padding; its meaning follows the padding placement.",
+      "zh-Hans": "存放填充值的键名，含义取决于填充位置。",
+      "zh-Hant": "存放填充值的鍵名，含義取決於填充位置。"
+    },
+    "title": {
+      "en": "Padding Key",
+      "zh-Hans": "填充键名",
+      "zh-Hant": "填充鍵名"
+    }
+  },
+  "listeners[*].xhttp-config.x-padding-method": {
+    "presets": [
+      {
+        "label": {
+          "en": "Repeated X characters",
+          "zh-Hans": "重复的 X 字符",
+          "zh-Hant": "重複的 X 字元"
+        },
+        "value": "repeat-x"
+      },
+      {
+        "label": {
+          "en": "Random Base62 token",
+          "zh-Hans": "随机 Base62 标记",
+          "zh-Hant": "隨機 Base62 標記"
+        },
+        "value": "tokenish"
+      }
+    ],
+    "summary": {
+      "en": "How padding is made: repeated characters or a random token.",
+      "zh-Hans": "填充值的生成方式：重复字符或随机串。",
+      "zh-Hant": "填充值的產生方式：重複字元或隨機字串。"
+    },
+    "title": {
+      "en": "Padding Method",
+      "zh-Hans": "填充方式",
+      "zh-Hant": "填充方式"
+    }
+  },
+  "listeners[*].xhttp-config.x-padding-obfs-mode": {
+    "summary": {
+      "en": "Turn on padding obfuscation; off by default for older clients.",
+      "zh-Hans": "启用填充混淆，默认关闭以兼容旧版。",
+      "zh-Hant": "啟用填充混淆，預設關閉以相容舊版。"
+    },
+    "title": {
+      "en": "Padding Obfuscation",
+      "zh-Hans": "填充混淆",
+      "zh-Hant": "填充混淆"
+    }
+  },
+  "listeners[*].xhttp-config.x-padding-placement": {
+    "presets": [
+      {
+        "label": {
+          "en": "Header",
+          "zh-Hans": "请求头",
+          "zh-Hant": "請求標頭"
+        },
+        "value": "header"
+      },
+      {
+        "label": {
+          "en": "URL query in a header",
+          "zh-Hans": "请求头里的网址参数",
+          "zh-Hant": "請求標頭裡的網址參數"
+        },
+        "value": "queryInHeader"
+      },
+      {
+        "label": {
+          "en": "Cookie",
+          "zh-Hans": "Cookie",
+          "zh-Hant": "Cookie"
+        },
+        "value": "cookie"
+      },
+      {
+        "label": {
+          "en": "URL query",
+          "zh-Hans": "网址参数",
+          "zh-Hant": "網址參數"
+        },
+        "value": "query"
+      }
+    ],
+    "summary": {
+      "en": "Where the padding goes; only with padding obfuscation on.",
+      "zh-Hans": "填充值放在哪里，仅开启填充混淆时有效。",
+      "zh-Hant": "填充值放在哪裡，僅開啟填充混淆時有效。"
+    },
+    "title": {
+      "en": "Padding Placement",
+      "zh-Hans": "填充位置",
+      "zh-Hant": "填充位置"
+    }
+  },
+  "listeners[*].zero-rtt": {
+    "summary": {
+      "en": "Allow 0-RTT so reconnecting is faster.",
+      "zh-Hans": "允许 0-RTT，让重新连接更快。",
+      "zh-Hant": "允許 0-RTT，讓重新連線更快。"
+    },
+    "title": {
+      "en": "0-RTT",
+      "zh-Hans": "0-RTT",
+      "zh-Hant": "0-RTT"
+    }
+  },
+  "listeners[http].users": {
+    "summary": {
+      "en": "Who may log in; empty follows the global login, an empty list skips it.",
+      "zh-Hans": "可登录的用户；不填沿用全局验证，写空列表则免验证。",
+      "zh-Hant": "可登入的使用者；不填沿用全域驗證，寫空列表則免驗證。"
+    },
+    "title": {
+      "en": "Users",
+      "zh-Hans": "用户",
+      "zh-Hant": "使用者"
+    },
+    "unset": {
+      "en": "Global login",
+      "zh-Hans": "沿用全局验证",
+      "zh-Hant": "沿用全域驗證"
+    }
+  },
+  "listeners[hysteria2-realm].token": {
+    "summary": {
+      "en": "The bearer token Hysteria2 servers and clients use to reach this Realm.",
+      "zh-Hans": "Hysteria2 两端访问这个 Realm 服务用的令牌。",
+      "zh-Hant": "Hysteria2 兩端存取這個 Realm 服務用的權杖。"
+    },
+    "title": {
+      "en": "Access Token",
+      "zh-Hans": "访问令牌",
+      "zh-Hant": "存取權杖"
+    }
+  },
+  "listeners[mixed].users": {
+    "summary": {
+      "en": "Who may log in; empty follows the global login, an empty list skips it.",
+      "zh-Hans": "可登录的用户；不填沿用全局验证，写空列表则免验证。",
+      "zh-Hant": "可登入的使用者；不填沿用全域驗證，寫空列表則免驗證。"
+    },
+    "title": {
+      "en": "Users",
+      "zh-Hans": "用户",
+      "zh-Hant": "使用者"
+    },
+    "unset": {
+      "en": "Global login",
+      "zh-Hans": "沿用全局验证",
+      "zh-Hant": "沿用全域驗證"
+    }
+  },
+  "listeners[socks].users": {
+    "summary": {
+      "en": "Who may log in; empty follows the global login, an empty list skips it.",
+      "zh-Hans": "可登录的用户；不填沿用全局验证，写空列表则免验证。",
+      "zh-Hant": "可登入的使用者；不填沿用全域驗證，寫空列表則免驗證。"
+    },
+    "title": {
+      "en": "Users",
+      "zh-Hans": "用户",
+      "zh-Hant": "使用者"
+    },
+    "unset": {
+      "en": "Global login",
+      "zh-Hans": "沿用全局验证",
+      "zh-Hant": "沿用全域驗證"
+    }
+  },
+  "listeners[trusttunnel].network": {
+    "presets": [
+      {
+        "label": {
+          "en": "TCP",
+          "zh-Hans": "TCP",
+          "zh-Hant": "TCP"
+        },
+        "value": "tcp"
+      },
+      {
+        "label": {
+          "en": "UDP",
+          "zh-Hans": "UDP",
+          "zh-Hant": "UDP"
+        },
+        "value": "udp"
+      }
+    ],
+    "summary": {
+      "en": "tcp alone gives HTTP/2; adding udp turns on HTTP/3.",
+      "zh-Hans": "只含 tcp 为 HTTP/2，加上 udp 则开启 HTTP/3。",
+      "zh-Hant": "只含 tcp 為 HTTP/2，加上 udp 則開啟 HTTP/3。"
+    },
+    "title": {
+      "en": "Network",
+      "zh-Hans": "网络",
+      "zh-Hant": "網路"
+    }
+  },
+  "listeners[tuic].token": {
+    "summary": {
+      "en": "TUIC version 4 sign-in tokens; can't be used together with users.",
+      "zh-Hans": "TUIC v4 的认证令牌，不能与用户同时填写。",
+      "zh-Hant": "TUIC v4 的驗證權杖，不能與使用者同時填寫。"
+    },
+    "title": {
+      "en": "TUIC v4 Tokens",
+      "zh-Hans": "TUIC v4 令牌",
+      "zh-Hant": "TUIC v4 權杖"
+    }
+  },
+  "listeners[tunnel].network": {
+    "presets": [
+      {
+        "label": {
+          "en": "TCP",
+          "zh-Hans": "TCP",
+          "zh-Hant": "TCP"
+        },
+        "value": "tcp"
+      },
+      {
+        "label": {
+          "en": "UDP",
+          "zh-Hans": "UDP",
+          "zh-Hant": "UDP"
+        },
+        "value": "udp"
+      }
+    ],
+    "summary": {
+      "en": "Whether to forward TCP, UDP or both.",
+      "zh-Hans": "要转发 TCP、UDP 还是都转发。",
+      "zh-Hant": "要轉送 TCP、UDP 還是都轉送。"
+    },
+    "title": {
+      "en": "Forward Protocols",
+      "zh-Hans": "转发的协议",
+      "zh-Hant": "轉送的協定"
+    }
+  },
+  "listeners[mtproto].secret": {
+    "title": {
+      "en": "Secret",
+      "zh-Hans": "密钥",
+      "zh-Hant": "金鑰"
+    },
+    "summary": {
+      "en": "The MTProto secret clients enter to connect in: 32 hexadecimal characters, optionally after dd.",
+      "zh-Hans": "连进来的客户端要填的 MTProto 密钥：32 位十六进制字符，前面可加 dd。",
+      "zh-Hant": "連進來的用戶端要填的 MTProto 金鑰：32 位十六進位制字元，前面可加 dd。"
+    },
+    "example": "0123456789abcdef0123456789abcdef"
+  },
+  "tuic-server": {
+    "summary": {
+      "en": "A quick way to add a TUIC inbound, the same as a tuic listener.",
+      "zh-Hans": "快捷创建一个 TUIC 入站，等同 listeners 里的 tuic。",
+      "zh-Hant": "快捷建立一個 TUIC 入站，等同 listeners 裡的 tuic。"
+    },
+    "title": {
+      "en": "TUIC Server (Shortcut)",
+      "zh-Hans": "TUIC 服务（快捷）",
+      "zh-Hant": "TUIC 服務（快捷）"
+    }
+  },
+  "tuic-server.alpn": {
+    "example": "h3",
+    "summary": {
+      "en": "TLS application protocols; the connecting side must use one of them.",
+      "zh-Hans": "TLS 应用层协议列表，连接端须用其中之一。",
+      "zh-Hant": "TLS 應用層協定列表，連線端須用其中之一。"
+    },
+    "title": {
+      "en": "ALPN",
+      "zh-Hans": "ALPN",
+      "zh-Hant": "ALPN"
+    },
+    "unset": {
+      "en": "h3",
+      "zh-Hans": "h3",
+      "zh-Hant": "h3"
+    }
+  },
+  "tuic-server.authentication-timeout": {
+    "summary": {
+      "en": "How long a client has to authenticate.",
+      "zh-Hans": "客户端须在多长时间内完成认证。",
+      "zh-Hant": "用戶端須在多長時間內完成驗證。"
+    },
+    "title": {
+      "en": "Sign-In Timeout",
+      "zh-Hans": "认证超时",
+      "zh-Hant": "驗證逾時"
+    },
+    "unset": {
+      "en": "1 second",
+      "zh-Hans": "1 秒",
+      "zh-Hant": "1 秒"
+    }
+  },
+  "tuic-server.certificate": {
+    "example": "./server.crt",
+    "summary": {
+      "en": "The TLS certificate as PEM text or a file path.",
+      "zh-Hans": "TLS 证书，填 PEM 内容或文件路径。",
+      "zh-Hant": "TLS 憑證，填 PEM 內容或檔案路徑。"
+    },
+    "title": {
+      "en": "Certificate",
+      "zh-Hans": "证书",
+      "zh-Hant": "憑證"
+    }
+  },
+  "tuic-server.congestion-controller": {
+    "presets": [
+      {
+        "label": {
+          "en": "CUBIC",
+          "zh-Hans": "CUBIC",
+          "zh-Hant": "CUBIC"
+        },
+        "value": "cubic"
+      },
+      {
+        "label": {
+          "en": "NewReno",
+          "zh-Hans": "NewReno",
+          "zh-Hant": "NewReno"
+        },
+        "value": "new_reno"
+      },
+      {
+        "label": {
+          "en": "BBR",
+          "zh-Hans": "BBR",
+          "zh-Hant": "BBR"
+        },
+        "value": "bbr"
+      },
+      {
+        "label": {
+          "en": "BBR (Meta v1)",
+          "zh-Hans": "BBR（Meta v1）",
+          "zh-Hant": "BBR（Meta v1）"
+        },
+        "value": "bbr_meta_v1"
+      },
+      {
+        "label": {
+          "en": "BBR (Meta v2)",
+          "zh-Hans": "BBR（Meta v2）",
+          "zh-Hant": "BBR（Meta v2）"
+        },
+        "value": "bbr_meta_v2"
+      }
+    ],
+    "summary": {
+      "en": "The congestion control algorithm QUIC uses.",
+      "zh-Hans": "QUIC 使用的拥塞控制算法。",
+      "zh-Hant": "QUIC 使用的壅塞控制演算法。"
+    },
+    "title": {
+      "en": "Congestion Control",
+      "zh-Hans": "拥塞控制",
+      "zh-Hant": "壅塞控制"
+    }
+  },
+  "tuic-server.cwnd": {
+    "summary": {
+      "en": "The congestion window a connection starts with; usually leave it as is.",
+      "zh-Hans": "连接开始时的拥塞窗口大小，一般保持默认。",
+      "zh-Hant": "連線開始時的壅塞視窗大小，一般保持預設。"
+    },
+    "title": {
+      "en": "Initial Congestion Window",
+      "zh-Hans": "初始拥塞窗口",
+      "zh-Hant": "初始壅塞視窗"
+    }
+  },
+  "tuic-server.enable": {
+    "summary": {
+      "en": "Turn on a TUIC inbound; a shortcut for a tuic listener.",
+      "zh-Hans": "开启 TUIC 入站，是 listeners 里 tuic 的快捷写法。",
+      "zh-Hant": "開啟 TUIC 入站，是 listeners 裡 tuic 的快捷寫法。"
+    },
+    "title": {
+      "en": "Turn On TUIC Server",
+      "zh-Hans": "启用 TUIC 服务",
+      "zh-Hant": "啟用 TUIC 服務"
+    }
+  },
+  "tuic-server.listen": {
+    "example": "0.0.0.0:10443",
+    "summary": {
+      "en": "The address and port the TUIC inbound listens on.",
+      "zh-Hans": "TUIC 入站监听的 地址:端口。",
+      "zh-Hant": "TUIC 入站監聽的 位址:連接埠。"
+    },
+    "title": {
+      "en": "Listen Address",
+      "zh-Hans": "监听地址",
+      "zh-Hant": "監聽位址"
+    }
+  },
+  "tuic-server.max-idle-time": {
+    "summary": {
+      "en": "Close a connection after it has been idle this long.",
+      "zh-Hans": "连接空闲多久后断开。",
+      "zh-Hant": "連線閒置多久後中斷。"
+    },
+    "title": {
+      "en": "Idle Timeout",
+      "zh-Hans": "空闲超时",
+      "zh-Hant": "閒置逾時"
+    },
+    "unset": {
+      "en": "15 seconds",
+      "zh-Hans": "15 秒",
+      "zh-Hant": "15 秒"
+    }
+  },
+  "tuic-server.max-udp-relay-packet-size": {
+    "summary": {
+      "en": "The largest UDP packet relayed, in bytes.",
+      "zh-Hans": "转发 UDP 时单个包的最大字节数。",
+      "zh-Hant": "轉送 UDP 時單個封包的最大位元組數。"
+    },
+    "title": {
+      "en": "Max UDP Packet",
+      "zh-Hans": "UDP 最大包长",
+      "zh-Hant": "UDP 最大封包長度"
+    },
+    "unset": {
+      "en": "1500 bytes",
+      "zh-Hans": "1500 字节",
+      "zh-Hant": "1500 位元組"
+    }
+  },
+  "tuic-server.private-key": {
+    "example": "./server.key",
+    "summary": {
+      "en": "The certificate's private key, as PEM text or a file path.",
+      "zh-Hans": "证书对应的私钥，填 PEM 内容或文件路径。",
+      "zh-Hant": "憑證對應的私鑰，填 PEM 內容或檔案路徑。"
+    },
+    "title": {
+      "en": "Private Key",
+      "zh-Hans": "私钥",
+      "zh-Hant": "私鑰"
+    }
+  },
+  "tuic-server.token": {
+    "summary": {
+      "en": "TUIC version 4 sign-in tokens; can't be used together with users.",
+      "zh-Hans": "TUIC v4 的认证令牌，不能与用户同时填写。",
+      "zh-Hant": "TUIC v4 的驗證權杖，不能與使用者同時填寫。"
+    },
+    "title": {
+      "en": "TUIC v4 Tokens",
+      "zh-Hans": "TUIC v4 令牌",
+      "zh-Hant": "TUIC v4 權杖"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    }
+  },
+  "tuic-server.users": {
+    "summary": {
+      "en": "TUIC version 5 UUIDs and passwords; can't be used together with tokens.",
+      "zh-Hans": "TUIC v5 的 UUID 与密码，不能与令牌同时填写。",
+      "zh-Hant": "TUIC v5 的 UUID 與密碼，不能與權杖同時填寫。"
+    },
+    "title": {
+      "en": "TUIC v5 Users",
+      "zh-Hans": "TUIC v5 用户",
+      "zh-Hant": "TUIC v5 使用者"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    }
+  }
+}

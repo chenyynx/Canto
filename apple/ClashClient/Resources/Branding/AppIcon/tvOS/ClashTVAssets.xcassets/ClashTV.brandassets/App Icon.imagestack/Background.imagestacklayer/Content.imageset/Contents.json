@@ -1,0 +1,7 @@
+{
+  "images" : [
+    { "filename" : "ClashTVBackground.png", "idiom" : "tv", "scale" : "1x" },
+    { "filename" : "ClashTVBackground@2x.png", "idiom" : "tv", "scale" : "2x" }
+  ],
+  "info" : { "author" : "com.clash.network", "version" : 1 }
+}

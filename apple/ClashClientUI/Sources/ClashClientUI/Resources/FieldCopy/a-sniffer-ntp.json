@@ -1,0 +1,158 @@
+{
+  "sniffer": {
+    "title": {"en": "Domain Sniffing", "zh-Hans": "域名嗅探", "zh-Hant": "網域嗅探"},
+    "summary": {"en": "Reads the real domain from a connection's content.",
+                "zh-Hans": "从连接内容里识别真实域名。",
+                "zh-Hant": "從連線內容裡識別真實網域。"}
+  },
+  "ntp": {
+    "title": {"en": "NTP", "zh-Hans": "NTP 校时", "zh-Hant": "NTP 校時"},
+    "summary": {"en": "Keeps the core's clock accurate.",
+                "zh-Hans": "让内核的时间保持准确。",
+                "zh-Hant": "讓核心的時間保持準確。"}
+  },
+  "sniffer.enable": {
+    "title": {"en": "Domain Sniffing", "zh-Hans": "启用域名嗅探", "zh-Hant": "啟用網域嗅探"},
+    "summary": {"en": "Reads the real domain from a connection, so domain rules also apply to connections made by IP.",
+                "zh-Hans": "从连接内容里识别真实域名，让域名规则对 IP 连接也生效。",
+                "zh-Hant": "從連線內容裡識別真實網域，讓網域規則對 IP 連線也生效。"}
+  },
+  "sniffer.override-destination": {
+    "title": {"en": "Connect by Sniffed Domain", "zh-Hans": "用嗅探结果连接", "zh-Hant": "用嗅探結果連線"},
+    "summary": {"en": "Connects to the sniffed domain in place of the original destination.",
+                "zh-Hans": "用嗅探到的域名替换原来的目标去连接。",
+                "zh-Hant": "用嗅探到的網域取代原來的目標去連線。"}
+  },
+  "sniffer.sniffing": {
+    "title": {"en": "Sniffed Protocols (Old)", "zh-Hans": "嗅探协议（旧）", "zh-Hant": "嗅探協定（舊）"},
+    "summary": {"en": "The old spelling; use Sniff by Protocol instead.",
+                "zh-Hans": "旧写法，请改用「按协议嗅探」。",
+                "zh-Hant": "舊寫法，請改用「依協定嗅探」。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "presets": [
+      {"value": "TLS", "label": {"en": "TLS", "zh-Hans": "TLS", "zh-Hant": "TLS"}},
+      {"value": "HTTP", "label": {"en": "HTTP", "zh-Hans": "HTTP", "zh-Hant": "HTTP"}},
+      {"value": "QUIC", "label": {"en": "QUIC", "zh-Hans": "QUIC", "zh-Hant": "QUIC"}}
+    ]
+  },
+  "sniffer.force-domain": {
+    "title": {"en": "Always Sniff", "zh-Hans": "强制嗅探的域名", "zh-Hant": "強制嗅探的網域"},
+    "summary": {"en": "Connections to these domains are always sniffed.",
+                "zh-Hans": "这些域名的连接总是进行嗅探。",
+                "zh-Hant": "這些網域的連線總是進行嗅探。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "+.v2ex.com"
+  },
+  "sniffer.skip-src-address": {
+    "title": {"en": "Skip Sources", "zh-Hans": "跳过的来源 IP", "zh-Hant": "略過的來源 IP"},
+    "summary": {"en": "Connections from these ranges aren't sniffed.",
+                "zh-Hans": "来自这些网段的连接不进行嗅探。",
+                "zh-Hant": "來自這些網段的連線不進行嗅探。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "192.168.0.3/32"
+  },
+  "sniffer.skip-dst-address": {
+    "title": {"en": "Skip Destinations", "zh-Hans": "跳过的目标 IP", "zh-Hant": "略過的目標 IP"},
+    "summary": {"en": "Connections to these ranges aren't sniffed.",
+                "zh-Hans": "发往这些网段的连接不进行嗅探。",
+                "zh-Hant": "送往這些網段的連線不進行嗅探。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "192.168.0.3/32"
+  },
+  "sniffer.skip-domain": {
+    "title": {"en": "Skip Domains", "zh-Hans": "跳过的域名", "zh-Hant": "略過的網域"},
+    "summary": {"en": "These domains aren't sniffed.",
+                "zh-Hans": "这些域名不进行嗅探。",
+                "zh-Hant": "這些網域不進行嗅探。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "+.push.apple.com"
+  },
+  "sniffer.port-whitelist": {
+    "title": {"en": "Sniffed Ports (Old)", "zh-Hans": "嗅探端口（旧）", "zh-Hant": "嗅探埠（舊）"},
+    "summary": {"en": "The old spelling; set the ports under Sniff by Protocol instead.",
+                "zh-Hans": "旧写法，请改在「按协议嗅探」里设端口。",
+                "zh-Hant": "舊寫法，請改在「依協定嗅探」裡設定埠。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "443"
+  },
+  "sniffer.force-dns-mapping": {
+    "title": {"en": "Sniff Mapped Traffic", "zh-Hans": "嗅探映射的流量", "zh-Hant": "嗅探對應的流量"},
+    "summary": {"en": "Also sniffs traffic whose domain came from a real-IP DNS mapping.",
+                "zh-Hans": "对通过真实 IP 映射识别出域名的流量也进行嗅探。",
+                "zh-Hant": "對透過真實 IP 對應識別出網域的流量也進行嗅探。"}
+  },
+  "sniffer.parse-pure-ip": {
+    "title": {"en": "Sniff IP-Only Traffic", "zh-Hans": "嗅探纯 IP 连接", "zh-Hant": "嗅探純 IP 連線"},
+    "summary": {"en": "Also sniffs connections that arrive with no domain at all.",
+                "zh-Hans": "对没有域名的连接也进行嗅探。",
+                "zh-Hant": "對沒有網域的連線也進行嗅探。"}
+  },
+  "sniffer.sniff": {
+    "title": {"en": "Sniff by Protocol", "zh-Hans": "按协议嗅探", "zh-Hant": "依協定嗅探"},
+    "summary": {"en": "Sets which ports are sniffed for TLS, HTTP and QUIC.",
+                "zh-Hans": "分别设置 TLS、HTTP、QUIC 在哪些端口上嗅探。",
+                "zh-Hant": "分別設定 TLS、HTTP、QUIC 在哪些埠上嗅探。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"}
+  },
+  "sniffer.sniff.*.ports": {
+    "title": {"en": "Ports", "zh-Hans": "嗅探端口", "zh-Hant": "嗅探埠"},
+    "summary": {"en": "Only connections on these ports are sniffed for this protocol.",
+                "zh-Hans": "这个协议只在这些端口上嗅探。",
+                "zh-Hant": "這個協定只在這些埠上嗅探。"},
+    "unset": {"en": "None", "zh-Hans": "无", "zh-Hant": "無"},
+    "example": "8080-8880"
+  },
+  "sniffer.sniff.*.override-destination": {
+    "title": {"en": "Connect by Sniffed Domain", "zh-Hans": "用嗅探结果连接", "zh-Hant": "用嗅探結果連線"},
+    "summary": {"en": "Decides for this protocol alone whether the sniffed domain replaces the destination.",
+                "zh-Hans": "单独为这个协议决定是否用嗅探结果替换目标。",
+                "zh-Hant": "單獨為這個協定決定是否用嗅探結果取代目標。"},
+    "unset": {"en": "Same as the main setting", "zh-Hans": "跟随总设置", "zh-Hant": "跟隨總設定"}
+  },
+  "ntp.enable": {
+    "title": {"en": "NTP Time Sync", "zh-Hans": "启用 NTP 校时", "zh-Hant": "啟用 NTP 校時"},
+    "summary": {"en": "The core keeps its own time in sync, so a wrong device clock doesn't break connections.",
+                "zh-Hans": "内核自己同步时间，避免设备时钟不准导致连接失败。",
+                "zh-Hant": "核心自己同步時間，避免裝置時鐘不準導致連線失敗。"}
+  },
+  "ntp.server": {
+    "title": {"en": "Server", "zh-Hans": "服务器", "zh-Hant": "伺服器"},
+    "summary": {"en": "The server the time is synced from.",
+                "zh-Hans": "用来校时的服务器。",
+                "zh-Hant": "用來校時的伺服器。"},
+    "example": "time.apple.com",
+    "presets": [
+      {"value": "time.apple.com", "label": {"en": "Apple", "zh-Hans": "Apple", "zh-Hant": "Apple"}},
+      {"value": "ntp.aliyun.com", "label": {"en": "Alibaba Cloud", "zh-Hans": "阿里云", "zh-Hant": "阿里雲"}},
+      {"value": "time.cloudflare.com", "label": {"en": "Cloudflare", "zh-Hans": "Cloudflare", "zh-Hant": "Cloudflare"}}
+    ]
+  },
+  "ntp.port": {
+    "title": {"en": "Port", "zh-Hans": "端口", "zh-Hant": "連接埠"},
+    "summary": {"en": "The NTP server's port.",
+                "zh-Hans": "NTP 服务器的端口。",
+                "zh-Hant": "NTP 伺服器的埠。"},
+    "unset": {"en": "123", "zh-Hans": "123", "zh-Hant": "123"}
+  },
+  "ntp.interval": {
+    "title": {"en": "Sync Interval", "zh-Hans": "校时间隔", "zh-Hant": "校時間隔"},
+    "summary": {"en": "How often the time is synced.",
+                "zh-Hans": "多久同步一次时间。",
+                "zh-Hant": "多久同步一次時間。"},
+    "unset": {"en": "30 minutes", "zh-Hans": "30 分钟", "zh-Hant": "30 分鐘"}
+  },
+  "ntp.dialer-proxy": {
+    "title": {"en": "Sync Through", "zh-Hans": "校时经过的代理", "zh-Hant": "校時經過的代理"},
+    "summary": {"en": "The proxy the time requests go through; left empty, they connect directly.",
+                "zh-Hans": "校时请求经哪个代理发出；不选则直接连接。",
+                "zh-Hant": "校時請求經哪個代理送出；不選則直接連線。"},
+    "unset": {"en": "Direct", "zh-Hans": "直连", "zh-Hant": "直連"}
+  },
+  "ntp.write-to-system": {
+    "title": {"en": "Set System Clock", "zh-Hans": "写入系统时间", "zh-Hant": "寫入系統時間"},
+    "summary": {"en": "Writes the synced time to the system clock; needs administrator rights.",
+                "zh-Hans": "把同步到的时间写入系统时钟，需要管理员权限。",
+                "zh-Hant": "把同步到的時間寫入系統時鐘，需要管理員權限。"},
+    "platform": {"en": "Off here: the device keeps its own clock; Clash only corrects the time it uses.", "zh-Hans": "这里固定关闭：设备时间由系统管理，Clash 只校准自己用的时间。", "zh-Hant": "這裡固定關閉：裝置時間由系統管理，Clash 只校準自己用的時間。"}
+  }
+}

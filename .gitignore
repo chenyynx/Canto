@@ -2,12 +2,12 @@
 .build/
 .swiftpm/
 Vendor/
-Hako.xcframework
+Clash.xcframework
 *.xcodeproj/
 *.xcworkspace/
 xcuserdata/
 # Generated from project.yml by XcodeGen.
-apple/HakoClient/**/*.plist
-apple/HakoClient/**/*.entitlements
-apple/HakoClient/Info.plist
-apple/HakoClient/HakoClient.entitlements
+apple/ClashClient/**/*.plist
+apple/ClashClient/**/*.entitlements
+apple/ClashClient/Info.plist
+apple/ClashClient/ClashClient.entitlements

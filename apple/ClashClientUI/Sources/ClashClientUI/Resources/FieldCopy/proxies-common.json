@@ -1,0 +1,2348 @@
+{
+  "proxies[*].alpn": {
+    "title": {
+      "en": "ALPN",
+      "zh-Hans": "ALPN",
+      "zh-Hant": "ALPN"
+    },
+    "summary": {
+      "en": "Application protocols offered in the TLS handshake, in order of preference.",
+      "zh-Hans": "TLS 握手时提供的应用层协议，按优先顺序。",
+      "zh-Hant": "TLS 交握時提供的應用層協定，依優先順序。"
+    },
+    "presets": [
+      {
+        "value": "h2",
+        "label": {
+          "en": "HTTP/2",
+          "zh-Hans": "HTTP/2",
+          "zh-Hant": "HTTP/2"
+        }
+      },
+      {
+        "value": "http/1.1",
+        "label": {
+          "en": "HTTP/1.1",
+          "zh-Hans": "HTTP/1.1",
+          "zh-Hant": "HTTP/1.1"
+        }
+      },
+      {
+        "value": "h3",
+        "label": {
+          "en": "HTTP/3",
+          "zh-Hans": "HTTP/3",
+          "zh-Hant": "HTTP/3"
+        }
+      }
+    ]
+  },
+  "proxies[*].certificate": {
+    "title": {
+      "en": "Client Certificate",
+      "zh-Hans": "客户端证书",
+      "zh-Hant": "用戶端憑證"
+    },
+    "summary": {
+      "en": "Your certificate, in PEM, for servers that require mutual TLS. Use it with the private key.",
+      "zh-Hans": "服务器要求双向 TLS 时用的证书（PEM），与私钥一起填。",
+      "zh-Hant": "伺服器要求雙向 TLS 時用的憑證（PEM），與私密金鑰一起填。"
+    },
+    "example": "-----BEGIN CERTIFICATE-----"
+  },
+  "proxies[*].cipher": {
+    "title": {
+      "en": "Encryption",
+      "zh-Hans": "加密方式",
+      "zh-Hant": "加密方式"
+    },
+    "summary": {
+      "en": "How traffic is encrypted. It must match the server.",
+      "zh-Hans": "流量的加密方式，须与服务器一致。",
+      "zh-Hant": "流量的加密方式，須與伺服器一致。"
+    },
+    "presets": [
+      {
+        "value": "none",
+        "label": {
+          "en": "None (no encryption)",
+          "zh-Hans": "不加密",
+          "zh-Hant": "不加密"
+        }
+      },
+      {
+        "value": "aes-128-gcm",
+        "label": {
+          "en": "AES-128-GCM",
+          "zh-Hans": "AES-128-GCM",
+          "zh-Hant": "AES-128-GCM"
+        }
+      },
+      {
+        "value": "aes-192-gcm",
+        "label": {
+          "en": "AES-192-GCM",
+          "zh-Hans": "AES-192-GCM",
+          "zh-Hant": "AES-192-GCM"
+        }
+      },
+      {
+        "value": "aes-256-gcm",
+        "label": {
+          "en": "AES-256-GCM",
+          "zh-Hans": "AES-256-GCM",
+          "zh-Hant": "AES-256-GCM"
+        }
+      },
+      {
+        "value": "chacha20-ietf-poly1305",
+        "label": {
+          "en": "ChaCha20-IETF-Poly1305",
+          "zh-Hans": "ChaCha20-IETF-Poly1305",
+          "zh-Hant": "ChaCha20-IETF-Poly1305"
+        }
+      },
+      {
+        "value": "xchacha20-ietf-poly1305",
+        "label": {
+          "en": "XChaCha20-IETF-Poly1305",
+          "zh-Hans": "XChaCha20-IETF-Poly1305",
+          "zh-Hant": "XChaCha20-IETF-Poly1305"
+        }
+      },
+      {
+        "value": "2022-blake3-aes-128-gcm",
+        "label": {
+          "en": "2022-BLAKE3-AES-128-GCM",
+          "zh-Hans": "2022-BLAKE3-AES-128-GCM",
+          "zh-Hant": "2022-BLAKE3-AES-128-GCM"
+        }
+      },
+      {
+        "value": "2022-blake3-aes-256-gcm",
+        "label": {
+          "en": "2022-BLAKE3-AES-256-GCM",
+          "zh-Hans": "2022-BLAKE3-AES-256-GCM",
+          "zh-Hant": "2022-BLAKE3-AES-256-GCM"
+        }
+      },
+      {
+        "value": "2022-blake3-chacha20-poly1305",
+        "label": {
+          "en": "2022-BLAKE3-ChaCha20-Poly1305",
+          "zh-Hans": "2022-BLAKE3-ChaCha20-Poly1305",
+          "zh-Hant": "2022-BLAKE3-ChaCha20-Poly1305"
+        }
+      },
+      {
+        "value": "aes-128-ctr",
+        "label": {
+          "en": "AES-128-CTR",
+          "zh-Hans": "AES-128-CTR",
+          "zh-Hant": "AES-128-CTR"
+        }
+      },
+      {
+        "value": "aes-192-ctr",
+        "label": {
+          "en": "AES-192-CTR",
+          "zh-Hans": "AES-192-CTR",
+          "zh-Hant": "AES-192-CTR"
+        }
+      },
+      {
+        "value": "aes-256-ctr",
+        "label": {
+          "en": "AES-256-CTR",
+          "zh-Hans": "AES-256-CTR",
+          "zh-Hant": "AES-256-CTR"
+        }
+      },
+      {
+        "value": "aes-128-cfb",
+        "label": {
+          "en": "AES-128-CFB",
+          "zh-Hans": "AES-128-CFB",
+          "zh-Hant": "AES-128-CFB"
+        }
+      },
+      {
+        "value": "aes-192-cfb",
+        "label": {
+          "en": "AES-192-CFB",
+          "zh-Hans": "AES-192-CFB",
+          "zh-Hant": "AES-192-CFB"
+        }
+      },
+      {
+        "value": "aes-256-cfb",
+        "label": {
+          "en": "AES-256-CFB",
+          "zh-Hans": "AES-256-CFB",
+          "zh-Hant": "AES-256-CFB"
+        }
+      },
+      {
+        "value": "rc4-md5",
+        "label": {
+          "en": "RC4-MD5",
+          "zh-Hans": "RC4-MD5",
+          "zh-Hant": "RC4-MD5"
+        }
+      },
+      {
+        "value": "chacha20-ietf",
+        "label": {
+          "en": "ChaCha20-IETF",
+          "zh-Hans": "ChaCha20-IETF",
+          "zh-Hant": "ChaCha20-IETF"
+        }
+      },
+      {
+        "value": "xchacha20",
+        "label": {
+          "en": "XChaCha20",
+          "zh-Hans": "XChaCha20",
+          "zh-Hant": "XChaCha20"
+        }
+      },
+      {
+        "value": "chacha20",
+        "label": {
+          "en": "ChaCha20",
+          "zh-Hans": "ChaCha20",
+          "zh-Hant": "ChaCha20"
+        }
+      },
+      {
+        "value": "chacha8-ietf-poly1305",
+        "label": {
+          "en": "ChaCha8-IETF-Poly1305",
+          "zh-Hans": "ChaCha8-IETF-Poly1305",
+          "zh-Hant": "ChaCha8-IETF-Poly1305"
+        }
+      },
+      {
+        "value": "xchacha8-ietf-poly1305",
+        "label": {
+          "en": "XChaCha8-IETF-Poly1305",
+          "zh-Hans": "XChaCha8-IETF-Poly1305",
+          "zh-Hant": "XChaCha8-IETF-Poly1305"
+        }
+      },
+      {
+        "value": "rabbit128-poly1305",
+        "label": {
+          "en": "Rabbit128-Poly1305",
+          "zh-Hans": "Rabbit128-Poly1305",
+          "zh-Hant": "Rabbit128-Poly1305"
+        }
+      },
+      {
+        "value": "aes-128-ccm",
+        "label": {
+          "en": "AES-128-CCM",
+          "zh-Hans": "AES-128-CCM",
+          "zh-Hant": "AES-128-CCM"
+        }
+      },
+      {
+        "value": "aes-192-ccm",
+        "label": {
+          "en": "AES-192-CCM",
+          "zh-Hans": "AES-192-CCM",
+          "zh-Hant": "AES-192-CCM"
+        }
+      },
+      {
+        "value": "aes-256-ccm",
+        "label": {
+          "en": "AES-256-CCM",
+          "zh-Hans": "AES-256-CCM",
+          "zh-Hant": "AES-256-CCM"
+        }
+      },
+      {
+        "value": "aes-128-gcm-siv",
+        "label": {
+          "en": "AES-128-GCM-SIV",
+          "zh-Hans": "AES-128-GCM-SIV",
+          "zh-Hant": "AES-128-GCM-SIV"
+        }
+      },
+      {
+        "value": "aes-256-gcm-siv",
+        "label": {
+          "en": "AES-256-GCM-SIV",
+          "zh-Hans": "AES-256-GCM-SIV",
+          "zh-Hant": "AES-256-GCM-SIV"
+        }
+      },
+      {
+        "value": "aegis-128l",
+        "label": {
+          "en": "AEGIS-128L",
+          "zh-Hans": "AEGIS-128L",
+          "zh-Hant": "AEGIS-128L"
+        }
+      },
+      {
+        "value": "aegis-256",
+        "label": {
+          "en": "AEGIS-256",
+          "zh-Hans": "AEGIS-256",
+          "zh-Hant": "AEGIS-256"
+        }
+      },
+      {
+        "value": "aez-384",
+        "label": {
+          "en": "AEZ-384",
+          "zh-Hans": "AEZ-384",
+          "zh-Hant": "AEZ-384"
+        }
+      },
+      {
+        "value": "deoxys-ii-256-128",
+        "label": {
+          "en": "Deoxys-II-256-128",
+          "zh-Hans": "Deoxys-II-256-128",
+          "zh-Hant": "Deoxys-II-256-128"
+        }
+      },
+      {
+        "value": "lea-128-gcm",
+        "label": {
+          "en": "LEA-128-GCM",
+          "zh-Hans": "LEA-128-GCM",
+          "zh-Hant": "LEA-128-GCM"
+        }
+      },
+      {
+        "value": "lea-192-gcm",
+        "label": {
+          "en": "LEA-192-GCM",
+          "zh-Hans": "LEA-192-GCM",
+          "zh-Hant": "LEA-192-GCM"
+        }
+      },
+      {
+        "value": "lea-256-gcm",
+        "label": {
+          "en": "LEA-256-GCM",
+          "zh-Hans": "LEA-256-GCM",
+          "zh-Hant": "LEA-256-GCM"
+        }
+      },
+      {
+        "value": "ascon128",
+        "label": {
+          "en": "Ascon-128",
+          "zh-Hans": "Ascon-128",
+          "zh-Hant": "Ascon-128"
+        }
+      },
+      {
+        "value": "ascon128a",
+        "label": {
+          "en": "Ascon-128a",
+          "zh-Hans": "Ascon-128a",
+          "zh-Hant": "Ascon-128a"
+        }
+      },
+      {
+        "value": "2022-blake3-chacha8-poly1305",
+        "label": {
+          "en": "2022-BLAKE3-ChaCha8-Poly1305",
+          "zh-Hans": "2022-BLAKE3-ChaCha8-Poly1305",
+          "zh-Hant": "2022-BLAKE3-ChaCha8-Poly1305"
+        }
+      },
+      {
+        "value": "2022-blake3-aes-128-ccm",
+        "label": {
+          "en": "2022-BLAKE3-AES-128-CCM",
+          "zh-Hans": "2022-BLAKE3-AES-128-CCM",
+          "zh-Hant": "2022-BLAKE3-AES-128-CCM"
+        }
+      },
+      {
+        "value": "2022-blake3-aes-256-ccm",
+        "label": {
+          "en": "2022-BLAKE3-AES-256-CCM",
+          "zh-Hans": "2022-BLAKE3-AES-256-CCM",
+          "zh-Hant": "2022-BLAKE3-AES-256-CCM"
+        }
+      },
+      {
+        "value": "dummy",
+        "label": {
+          "en": "None (dummy)",
+          "zh-Hans": "不加密（dummy）",
+          "zh-Hant": "不加密（dummy）"
+        }
+      },
+      {
+        "value": "auto",
+        "label": {
+          "en": "Auto",
+          "zh-Hans": "自动",
+          "zh-Hant": "自動"
+        }
+      },
+      {
+        "value": "zero",
+        "label": {
+          "en": "Zero (no encryption, no check)",
+          "zh-Hans": "不加密不校验（zero）",
+          "zh-Hant": "不加密不驗證（zero）"
+        }
+      },
+      {
+        "value": "chacha20-poly1305",
+        "label": {
+          "en": "ChaCha20-Poly1305",
+          "zh-Hans": "ChaCha20-Poly1305",
+          "zh-Hant": "ChaCha20-Poly1305"
+        }
+      }
+    ]
+  },
+  "proxies[*].client-fingerprint": {
+    "title": {
+      "en": "Client Fingerprint",
+      "zh-Hans": "客户端指纹",
+      "zh-Hant": "用戶端指紋"
+    },
+    "summary": {
+      "en": "Makes the TLS handshake look like the chosen browser's.",
+      "zh-Hans": "让 TLS 握手看起来像所选浏览器发出的。",
+      "zh-Hant": "讓 TLS 交握看起來像所選瀏覽器發出的。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "不伪装",
+      "zh-Hant": "不偽裝"
+    },
+    "presets": [
+      {
+        "value": "chrome",
+        "label": {
+          "en": "Chrome",
+          "zh-Hans": "Chrome",
+          "zh-Hant": "Chrome"
+        }
+      },
+      {
+        "value": "firefox",
+        "label": {
+          "en": "Firefox",
+          "zh-Hans": "Firefox",
+          "zh-Hant": "Firefox"
+        }
+      },
+      {
+        "value": "safari",
+        "label": {
+          "en": "Safari",
+          "zh-Hans": "Safari",
+          "zh-Hant": "Safari"
+        }
+      },
+      {
+        "value": "ios",
+        "label": {
+          "en": "iOS",
+          "zh-Hans": "iOS",
+          "zh-Hant": "iOS"
+        }
+      },
+      {
+        "value": "android",
+        "label": {
+          "en": "Android (OkHttp)",
+          "zh-Hans": "Android（OkHttp）",
+          "zh-Hant": "Android（OkHttp）"
+        }
+      },
+      {
+        "value": "edge",
+        "label": {
+          "en": "Edge",
+          "zh-Hans": "Edge",
+          "zh-Hant": "Edge"
+        }
+      },
+      {
+        "value": "360",
+        "label": {
+          "en": "360 Browser",
+          "zh-Hans": "360 浏览器",
+          "zh-Hant": "360 瀏覽器"
+        }
+      },
+      {
+        "value": "qq",
+        "label": {
+          "en": "QQ Browser",
+          "zh-Hans": "QQ 浏览器",
+          "zh-Hant": "QQ 瀏覽器"
+        }
+      },
+      {
+        "value": "random",
+        "label": {
+          "en": "Random (picked at start)",
+          "zh-Hans": "随机（启动时选定）",
+          "zh-Hant": "隨機（啟動時選定）"
+        }
+      },
+      {
+        "value": "randomized",
+        "label": {
+          "en": "Fully randomized",
+          "zh-Hans": "完全随机",
+          "zh-Hant": "完全隨機"
+        }
+      },
+      {
+        "value": "chrome120",
+        "label": {
+          "en": "Chrome 120",
+          "zh-Hans": "Chrome 120",
+          "zh-Hant": "Chrome 120"
+        }
+      },
+      {
+        "value": "firefox120",
+        "label": {
+          "en": "Firefox 120",
+          "zh-Hans": "Firefox 120",
+          "zh-Hant": "Firefox 120"
+        }
+      },
+      {
+        "value": "safari16",
+        "label": {
+          "en": "Safari 16",
+          "zh-Hans": "Safari 16",
+          "zh-Hant": "Safari 16"
+        }
+      },
+      {
+        "value": "chrome_psk",
+        "label": {
+          "en": "Chrome PSK (old)",
+          "zh-Hans": "Chrome PSK（旧）",
+          "zh-Hant": "Chrome PSK（舊）"
+        }
+      },
+      {
+        "value": "chrome_psk_shuffle",
+        "label": {
+          "en": "Chrome PSK shuffled (old)",
+          "zh-Hans": "Chrome PSK 乱序（旧）",
+          "zh-Hant": "Chrome PSK 亂序（舊）"
+        }
+      },
+      {
+        "value": "chrome_padding_psk_shuffle",
+        "label": {
+          "en": "Chrome padded PSK shuffled (old)",
+          "zh-Hans": "Chrome 填充 PSK 乱序（旧）",
+          "zh-Hant": "Chrome 填充 PSK 亂序（舊）"
+        }
+      },
+      {
+        "value": "chrome_pq",
+        "label": {
+          "en": "Chrome post-quantum (old)",
+          "zh-Hans": "Chrome 后量子（旧）",
+          "zh-Hant": "Chrome 後量子（舊）"
+        }
+      },
+      {
+        "value": "chrome_pq_psk",
+        "label": {
+          "en": "Chrome post-quantum PSK (old)",
+          "zh-Hans": "Chrome 后量子 PSK（旧）",
+          "zh-Hant": "Chrome 後量子 PSK（舊）"
+        }
+      },
+      {
+        "value": "none",
+        "label": {
+          "en": "None",
+          "zh-Hans": "不伪装",
+          "zh-Hant": "不偽裝"
+        }
+      }
+    ]
+  },
+  "proxies[*].dialer-proxy": {
+    "title": {
+      "en": "Connect Through",
+      "zh-Hans": "前置代理",
+      "zh-Hant": "前置代理"
+    },
+    "summary": {
+      "en": "Reaches this node through another node or group first, as a proxy chain.",
+      "zh-Hans": "先经过另一个节点或分组，再连到这个节点（链式代理）。",
+      "zh-Hant": "先經過另一個節點或群組，再連到這個節點（鏈式代理）。"
+    },
+    "unset": {
+      "en": "Direct",
+      "zh-Hans": "直接连接",
+      "zh-Hant": "直接連線"
+    }
+  },
+  "proxies[*].ech-opts": {
+    "title": {
+      "en": "ECH",
+      "zh-Hans": "ECH",
+      "zh-Hant": "ECH"
+    },
+    "summary": {
+      "en": "Encrypted Client Hello: hides the domain name in the TLS handshake.",
+      "zh-Hans": "加密 Client Hello，隐藏 TLS 握手里的域名。",
+      "zh-Hant": "加密 Client Hello，隱藏 TLS 交握中的網域名稱。"
+    }
+  },
+  "proxies[*].ech-opts.config": {
+    "title": {
+      "en": "Config",
+      "zh-Hans": "配置",
+      "zh-Hant": "設定"
+    },
+    "summary": {
+      "en": "The server's ECH config in base64. Leave it empty to look it up in DNS.",
+      "zh-Hans": "服务器的 ECH 配置（base64），留空则从 DNS 查询。",
+      "zh-Hant": "伺服器的 ECH 設定（base64），留空則從 DNS 查詢。"
+    },
+    "unset": {
+      "en": "From DNS",
+      "zh-Hans": "从 DNS 获取",
+      "zh-Hant": "從 DNS 取得"
+    },
+    "example": "AEn+DQBFKwAgACABWIHUGj4u+PIggYXcR5JF0gYk3dCRioBW8uJq9H4mKAAIAAEAAQABAANAEnB1YmxpYy50bHMtZWNoLmRldgAA"
+  },
+  "proxies[*].ech-opts.enable": {
+    "title": {
+      "en": "Encrypted Client Hello",
+      "zh-Hans": "ECH（加密握手）",
+      "zh-Hant": "ECH（加密交握）"
+    },
+    "summary": {
+      "en": "Hides the domain name in the TLS handshake with ECH. The server must support it.",
+      "zh-Hans": "用 ECH 隐藏 TLS 握手里的域名，需服务器支持。",
+      "zh-Hant": "用 ECH 隱藏 TLS 交握中的網域名稱，需伺服器支援。"
+    }
+  },
+  "proxies[*].ech-opts.query-server-name": {
+    "title": {
+      "en": "Lookup Domain",
+      "zh-Hans": "查询域名",
+      "zh-Hant": "查詢網域"
+    },
+    "summary": {
+      "en": "The domain to look up the ECH config for. Leave it empty to use the SNI.",
+      "zh-Hans": "查询 ECH 配置时用的域名，留空则用 SNI。",
+      "zh-Hant": "查詢 ECH 設定時用的網域，留空則用 SNI。"
+    },
+    "unset": {
+      "en": "SNI",
+      "zh-Hans": "同 SNI",
+      "zh-Hant": "同 SNI"
+    },
+    "example": "example.com"
+  },
+  "proxies[*].fingerprint": {
+    "title": {
+      "en": "Certificate Fingerprint",
+      "zh-Hans": "证书指纹",
+      "zh-Hant": "憑證指紋"
+    },
+    "summary": {
+      "en": "Trusts only the certificate with this SHA-256 fingerprint, as with a self-signed server.",
+      "zh-Hans": "只信任这个 SHA-256 指纹的证书，自签证书时用。",
+      "zh-Hant": "只信任這個 SHA-256 指紋的憑證，自簽憑證時使用。"
+    },
+    "example": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "proxies[*].grpc-opts": {
+    "title": {
+      "en": "gRPC Settings",
+      "zh-Hans": "gRPC 设置",
+      "zh-Hant": "gRPC 設定"
+    },
+    "summary": {
+      "en": "Takes effect only when the transport is gRPC; it must match the server.",
+      "zh-Hans": "传输方式选 gRPC 时才生效，要和服务器一致。",
+      "zh-Hant": "傳輸方式選 gRPC 時才生效，要和伺服器一致。"
+    }
+  },
+  "proxies[*].grpc-opts.grpc-service-name": {
+    "title": {
+      "en": "Service Name",
+      "zh-Hans": "服务名",
+      "zh-Hant": "服務名稱"
+    },
+    "summary": {
+      "en": "The gRPC service name on the server. It must match the server.",
+      "zh-Hans": "服务器上的 gRPC 服务名，须与服务器一致。",
+      "zh-Hant": "伺服器上的 gRPC 服務名稱，須與伺服器一致。"
+    },
+    "example": "grpc"
+  },
+  "proxies[*].grpc-opts.grpc-user-agent": {
+    "title": {
+      "en": "User-Agent",
+      "zh-Hans": "客户端标识",
+      "zh-Hant": "用戶端標識"
+    },
+    "summary": {
+      "en": "The User-Agent sent with gRPC requests.",
+      "zh-Hans": "gRPC 请求携带的 User-Agent。",
+      "zh-Hant": "gRPC 請求攜帶的 User-Agent。"
+    },
+    "example": "Mozilla/5.0"
+  },
+  "proxies[*].grpc-opts.max-connections": {
+    "title": {
+      "en": "Max Connections",
+      "zh-Hans": "最大连接数",
+      "zh-Hant": "最大連線數"
+    },
+    "summary": {
+      "en": "The most gRPC connections to open. Don't set it together with Max Streams.",
+      "zh-Hans": "最多打开几条 gRPC 连接，不能与最大流数同时设。",
+      "zh-Hant": "最多開啟幾條 gRPC 連線，不能與最大串流數同時設定。"
+    },
+    "unset": {
+      "en": "1",
+      "zh-Hans": "1 条",
+      "zh-Hant": "1 條"
+    }
+  },
+  "proxies[*].grpc-opts.max-streams": {
+    "title": {
+      "en": "Max Streams",
+      "zh-Hans": "最大流数",
+      "zh-Hant": "最大串流數"
+    },
+    "summary": {
+      "en": "The most streams per connection before a new one opens. Don't set it with the other two limits.",
+      "zh-Hans": "每条连接最多承载的流数，满了开新连接，不能与另两项同设。",
+      "zh-Hant": "每條連線最多承載的串流數，滿了開新連線，不能與另兩項同設。"
+    }
+  },
+  "proxies[*].grpc-opts.min-streams": {
+    "title": {
+      "en": "Min Streams",
+      "zh-Hans": "最少流数",
+      "zh-Hant": "最少串流數"
+    },
+    "summary": {
+      "en": "Streams a connection carries before another one opens. Don't set it together with Max Streams.",
+      "zh-Hans": "一条连接先承载这么多流再开新连接，不能与最大流数同设。",
+      "zh-Hant": "一條連線先承載這麼多串流再開新連線，不能與最大串流數同設。"
+    }
+  },
+  "proxies[*].grpc-opts.ping-interval": {
+    "title": {
+      "en": "Keepalive",
+      "zh-Hans": "心跳间隔",
+      "zh-Hant": "心跳間隔"
+    },
+    "summary": {
+      "en": "How often gRPC keepalive pings are sent. 0 turns them off.",
+      "zh-Hans": "gRPC 心跳包间隔，0 为关闭。",
+      "zh-Hant": "gRPC 心跳封包間隔，0 為關閉。"
+    },
+    "unset": {
+      "en": "Off",
+      "zh-Hans": "关闭",
+      "zh-Hant": "關閉"
+    }
+  },
+  "proxies[*].h2-opts": {
+    "title": {
+      "en": "HTTP/2 Settings",
+      "zh-Hans": "HTTP/2 设置",
+      "zh-Hant": "HTTP/2 設定"
+    },
+    "summary": {
+      "en": "Takes effect only when the transport is HTTP/2; it must match the server.",
+      "zh-Hans": "传输方式选 HTTP/2 时才生效，要和服务器一致。",
+      "zh-Hant": "傳輸方式選 HTTP/2 時才生效，要和伺服器一致。"
+    }
+  },
+  "proxies[*].h2-opts.host": {
+    "title": {
+      "en": "Hosts",
+      "zh-Hans": "域名",
+      "zh-Hant": "網域"
+    },
+    "summary": {
+      "en": "Domain names to present; one is picked at random and the server checks it.",
+      "zh-Hans": "伪装用的域名，每次随机选一个，服务器会校验。",
+      "zh-Hant": "偽裝用的網域，每次隨機選一個，伺服器會驗證。"
+    },
+    "example": "example.com",
+    "unset": {
+      "en": "www.example.com",
+      "zh-Hans": "www.example.com",
+      "zh-Hant": "www.example.com"
+    }
+  },
+  "proxies[*].h2-opts.path": {
+    "title": {
+      "en": "Path",
+      "zh-Hans": "路径",
+      "zh-Hant": "路徑"
+    },
+    "summary": {
+      "en": "The request path. It must match the server.",
+      "zh-Hans": "请求路径，须与服务器一致。",
+      "zh-Hant": "請求路徑，須與伺服器一致。"
+    },
+    "example": "/"
+  },
+  "proxies[*].headers": {
+    "title": {
+      "en": "Request Headers",
+      "zh-Hans": "请求头",
+      "zh-Hant": "請求標頭"
+    },
+    "summary": {
+      "en": "Extra headers added to the proxy request, for servers that require them.",
+      "zh-Hans": "加在代理请求上的额外请求头，部分服务器需要。",
+      "zh-Hant": "加在代理請求上的額外標頭，部分伺服器需要。"
+    }
+  },
+  "proxies[*].http-opts": {
+    "title": {
+      "en": "HTTP Settings",
+      "zh-Hans": "HTTP 设置",
+      "zh-Hant": "HTTP 設定"
+    },
+    "summary": {
+      "en": "Takes effect only when the transport is HTTP; it must match the server.",
+      "zh-Hans": "传输方式选 HTTP 时才生效，要和服务器一致。",
+      "zh-Hant": "傳輸方式選 HTTP 時才生效，要和伺服器一致。"
+    }
+  },
+  "proxies[*].http-opts.headers": {
+    "title": {
+      "en": "Headers",
+      "zh-Hans": "请求头",
+      "zh-Hant": "標頭"
+    },
+    "summary": {
+      "en": "Request headers used to disguise traffic, such as Host.",
+      "zh-Hans": "伪装时附带的请求头，如 Host。",
+      "zh-Hant": "偽裝時附帶的標頭，如 Host。"
+    }
+  },
+  "proxies[*].http-opts.method": {
+    "title": {
+      "en": "Method",
+      "zh-Hans": "请求方法",
+      "zh-Hant": "請求方法"
+    },
+    "summary": {
+      "en": "The HTTP method used to disguise traffic.",
+      "zh-Hans": "伪装时使用的 HTTP 方法。",
+      "zh-Hant": "偽裝時使用的 HTTP 方法。"
+    },
+    "example": "GET",
+    "presets": [
+      {
+        "value": "GET",
+        "label": {
+          "en": "GET",
+          "zh-Hans": "GET",
+          "zh-Hant": "GET"
+        }
+      },
+      {
+        "value": "POST",
+        "label": {
+          "en": "POST",
+          "zh-Hans": "POST",
+          "zh-Hant": "POST"
+        }
+      },
+      {
+        "value": "PUT",
+        "label": {
+          "en": "PUT",
+          "zh-Hans": "PUT",
+          "zh-Hant": "PUT"
+        }
+      },
+      {
+        "value": "HEAD",
+        "label": {
+          "en": "HEAD",
+          "zh-Hans": "HEAD",
+          "zh-Hant": "HEAD"
+        }
+      }
+    ]
+  },
+  "proxies[*].http-opts.path": {
+    "title": {
+      "en": "Paths",
+      "zh-Hans": "路径",
+      "zh-Hant": "路徑"
+    },
+    "summary": {
+      "en": "Request paths to present; one is picked at random.",
+      "zh-Hans": "伪装用的请求路径，每次随机选一个。",
+      "zh-Hant": "偽裝用的請求路徑，每次隨機選一個。"
+    },
+    "example": "/",
+    "unset": {
+      "en": "/",
+      "zh-Hans": "/",
+      "zh-Hant": "/"
+    }
+  },
+  "proxies[*].interface-name": {
+    "title": {
+      "en": "Network Interface",
+      "zh-Hans": "出口网络接口",
+      "zh-Hant": "出口網路介面"
+    },
+    "summary": {
+      "en": "Sends this node's connections out through the named interface. Usually left empty.",
+      "zh-Hans": "从指定的网络接口发出连接，一般不用填。",
+      "zh-Hant": "從指定的網路介面發出連線，一般不用填。"
+    },
+    "unset": {
+      "en": "Automatic",
+      "zh-Hans": "自动",
+      "zh-Hant": "自動"
+    },
+    "example": "en0"
+  },
+  "proxies[*].ip-version": {
+    "title": {
+      "en": "IP Version",
+      "zh-Hans": "IP 版本",
+      "zh-Hant": "IP 版本"
+    },
+    "summary": {
+      "en": "Whether to use IPv4 or IPv6 when the address is a domain name.",
+      "zh-Hans": "地址是域名时，用 IPv4 还是 IPv6 连接。",
+      "zh-Hant": "位址是網域名稱時，用 IPv4 還是 IPv6 連線。"
+    },
+    "presets": [
+      {
+        "value": "dual",
+        "label": {
+          "en": "Dual stack",
+          "zh-Hans": "双栈",
+          "zh-Hant": "雙堆疊"
+        }
+      },
+      {
+        "value": "ipv4",
+        "label": {
+          "en": "IPv4 only",
+          "zh-Hans": "仅 IPv4",
+          "zh-Hant": "僅 IPv4"
+        }
+      },
+      {
+        "value": "ipv6",
+        "label": {
+          "en": "IPv6 only",
+          "zh-Hans": "仅 IPv6",
+          "zh-Hant": "僅 IPv6"
+        }
+      },
+      {
+        "value": "ipv4-prefer",
+        "label": {
+          "en": "Prefer IPv4",
+          "zh-Hans": "优先 IPv4",
+          "zh-Hant": "優先 IPv4"
+        }
+      },
+      {
+        "value": "ipv6-prefer",
+        "label": {
+          "en": "Prefer IPv6",
+          "zh-Hans": "优先 IPv6",
+          "zh-Hant": "優先 IPv6"
+        }
+      }
+    ]
+  },
+  "proxies[*].jls-opts": {
+    "title": {
+      "en": "JLS",
+      "zh-Hans": "JLS",
+      "zh-Hant": "JLS"
+    },
+    "summary": {
+      "en": "A TLS disguise. Needs TLS on.",
+      "zh-Hans": "一种 TLS 伪装，需开启 TLS。",
+      "zh-Hant": "一種 TLS 偽裝，需開啟 TLS。"
+    }
+  },
+  "proxies[*].jls-opts.password": {
+    "title": {
+      "en": "Password",
+      "zh-Hans": "密码",
+      "zh-Hant": "密碼"
+    },
+    "summary": {
+      "en": "The JLS password the server gave you.",
+      "zh-Hans": "服务器提供的 JLS 密码。",
+      "zh-Hant": "伺服器提供的 JLS 密碼。"
+    },
+    "example": "your-password"
+  },
+  "proxies[*].jls-opts.username": {
+    "title": {
+      "en": "Username",
+      "zh-Hans": "用户名",
+      "zh-Hant": "使用者名稱"
+    },
+    "summary": {
+      "en": "The JLS username. Needs TLS on; the SNI is the handshake domain.",
+      "zh-Hans": "JLS 用户名，需开启 TLS，握手域名用 SNI。",
+      "zh-Hant": "JLS 使用者名稱，需開啟 TLS，交握網域用 SNI。"
+    },
+    "example": "jls-user"
+  },
+  "proxies[*].mekya-opts": {
+    "title": {
+      "en": "Mekya Settings",
+      "zh-Hans": "Mekya 设置",
+      "zh-Hant": "Mekya 設定"
+    },
+    "summary": {
+      "en": "Used when the transport is Mekya (VMess only).",
+      "zh-Hans": "传输方式为 Mekya 时生效（仅 VMess）。",
+      "zh-Hant": "傳輸方式為 Mekya 時生效（僅 VMess）。"
+    }
+  },
+  "proxies[*].mekya-opts.kcp": {
+    "title": {
+      "en": "Inner KCP",
+      "zh-Hans": "内部 KCP",
+      "zh-Hant": "內部 KCP"
+    },
+    "summary": {
+      "en": "Mekya's inner KCP; the fields mean what they do in mKCP.",
+      "zh-Hans": "Mekya 内部的 KCP，字段含义同 mKCP。",
+      "zh-Hant": "Mekya 內部的 KCP，欄位含義同 mKCP。"
+    }
+  },
+  "proxies[*].mkcp-opts": {
+    "title": {
+      "en": "mKCP Settings",
+      "zh-Hans": "mKCP 设置",
+      "zh-Hant": "mKCP 設定"
+    },
+    "summary": {
+      "en": "Used when the transport is mKCP (VMess only).",
+      "zh-Hans": "传输方式为 mKCP 时生效（仅 VMess）。",
+      "zh-Hant": "傳輸方式為 mKCP 時生效（僅 VMess）。"
+    }
+  },
+  "proxies[*].mptcp": {
+    "title": {
+      "en": "Multipath TCP",
+      "zh-Hans": "多路径 TCP",
+      "zh-Hant": "多路徑 TCP"
+    },
+    "summary": {
+      "en": "Spreads one TCP connection across several network paths. Works only on Linux.",
+      "zh-Hans": "一条 TCP 连接同时走多条网络路径，仅 Linux 支持。",
+      "zh-Hant": "一條 TCP 連線同時走多條網路路徑，僅 Linux 支援。"
+    }
+  },
+  "proxies[*].name": {
+    "title": {
+      "en": "Name",
+      "zh-Hans": "名称",
+      "zh-Hant": "名稱"
+    },
+    "summary": {
+      "en": "The node's name. Groups and rules refer to it, so it must be unique.",
+      "zh-Hans": "节点的名字，分组和规则靠它引用，不能重复。",
+      "zh-Hant": "節點的名稱，群組和規則靠它引用，不能重複。"
+    },
+    "example": "Node 1"
+  },
+  "proxies[*].name-cert-verify": {
+    "title": {
+      "en": "Verify Certificate As",
+      "zh-Hans": "证书校验域名",
+      "zh-Hant": "憑證驗證網域"
+    },
+    "summary": {
+      "en": "Checks the certificate against this domain instead of the SNI. The SNI itself doesn't change.",
+      "zh-Hans": "用这个域名校验证书，SNI 本身不变。",
+      "zh-Hant": "用這個網域驗證憑證，SNI 本身不變。"
+    },
+    "example": "example.com"
+  },
+  "proxies[*].network": {
+    "title": {
+      "en": "Type",
+      "zh-Hans": "传输方式",
+      "zh-Hant": "傳輸方式"
+    },
+    "summary": {
+      "en": "How traffic travels to the server, such as TCP, WebSocket or gRPC. It must match the server.",
+      "zh-Hans": "流量怎样传到服务器（如 TCP、WebSocket、gRPC），须与服务器一致。",
+      "zh-Hant": "流量怎樣傳到伺服器（如 TCP、WebSocket、gRPC），須與伺服器一致。"
+    },
+    "presets": [
+      {
+        "value": "tcp",
+        "label": {
+          "en": "TCP",
+          "zh-Hans": "TCP",
+          "zh-Hant": "TCP"
+        }
+      },
+      {
+        "value": "ws",
+        "label": {
+          "en": "WebSocket",
+          "zh-Hans": "WebSocket",
+          "zh-Hant": "WebSocket"
+        }
+      },
+      {
+        "value": "http",
+        "label": {
+          "en": "HTTP",
+          "zh-Hans": "HTTP",
+          "zh-Hant": "HTTP"
+        }
+      },
+      {
+        "value": "h2",
+        "label": {
+          "en": "HTTP/2",
+          "zh-Hans": "HTTP/2",
+          "zh-Hant": "HTTP/2"
+        }
+      },
+      {
+        "value": "grpc",
+        "label": {
+          "en": "gRPC",
+          "zh-Hans": "gRPC",
+          "zh-Hant": "gRPC"
+        }
+      },
+      {
+        "value": "mekya",
+        "label": {
+          "en": "Mekya",
+          "zh-Hans": "Mekya",
+          "zh-Hant": "Mekya"
+        }
+      },
+      {
+        "value": "mkcp",
+        "label": {
+          "en": "mKCP",
+          "zh-Hans": "mKCP",
+          "zh-Hant": "mKCP"
+        }
+      },
+      {
+        "value": "kcp",
+        "label": {
+          "en": "KCP",
+          "zh-Hans": "KCP",
+          "zh-Hant": "KCP"
+        }
+      },
+      {
+        "value": "xhttp",
+        "label": {
+          "en": "XHTTP",
+          "zh-Hans": "XHTTP",
+          "zh-Hant": "XHTTP"
+        }
+      }
+    ]
+  },
+  "proxies[*].obfs": {
+    "title": {
+      "en": "Obfuscation",
+      "zh-Hans": "混淆",
+      "zh-Hant": "混淆"
+    },
+    "summary": {
+      "en": "How the traffic is disguised. It must match the server.",
+      "zh-Hans": "伪装流量的混淆方式，须与服务器一致。",
+      "zh-Hant": "偽裝流量的混淆方式，須與伺服器一致。"
+    },
+    "presets": [
+      {
+        "value": "plain",
+        "label": {
+          "en": "Plain (no obfuscation)",
+          "zh-Hans": "不混淆（plain）",
+          "zh-Hant": "不混淆（plain）"
+        }
+      },
+      {
+        "value": "http_simple",
+        "label": {
+          "en": "http_simple",
+          "zh-Hans": "http_simple",
+          "zh-Hant": "http_simple"
+        }
+      },
+      {
+        "value": "http_post",
+        "label": {
+          "en": "http_post",
+          "zh-Hans": "http_post",
+          "zh-Hant": "http_post"
+        }
+      },
+      {
+        "value": "random_head",
+        "label": {
+          "en": "random_head",
+          "zh-Hans": "random_head",
+          "zh-Hant": "random_head"
+        }
+      },
+      {
+        "value": "tls1.2_ticket_auth",
+        "label": {
+          "en": "tls1.2_ticket_auth",
+          "zh-Hans": "tls1.2_ticket_auth",
+          "zh-Hant": "tls1.2_ticket_auth"
+        }
+      },
+      {
+        "value": "tls1.2_ticket_fastauth",
+        "label": {
+          "en": "tls1.2_ticket_fastauth",
+          "zh-Hans": "tls1.2_ticket_fastauth",
+          "zh-Hant": "tls1.2_ticket_fastauth"
+        }
+      }
+    ]
+  },
+  "proxies[*].obfs-opts": {
+    "title": {
+      "en": "Obfuscation",
+      "zh-Hans": "混淆设置",
+      "zh-Hant": "混淆設定"
+    },
+    "summary": {
+      "en": "How Snell disguises its traffic.",
+      "zh-Hans": "Snell 流量的伪装方式。",
+      "zh-Hant": "Snell 流量的偽裝方式。"
+    }
+  },
+  "proxies[*].password": {
+    "title": {
+      "en": "Password",
+      "zh-Hans": "密码",
+      "zh-Hant": "密碼"
+    },
+    "summary": {
+      "en": "The password the server gave you.",
+      "zh-Hans": "服务器提供的密码。",
+      "zh-Hant": "伺服器提供的密碼。"
+    },
+    "example": "your-password"
+  },
+  "proxies[*].plugin-opts": {
+    "title": {
+      "en": "Plugin Settings",
+      "zh-Hans": "插件设置",
+      "zh-Hant": "外掛設定"
+    },
+    "summary": {
+      "en": "Settings for the chosen Shadowsocks plugin.",
+      "zh-Hans": "所选 Shadowsocks 插件的设置。",
+      "zh-Hant": "所選 Shadowsocks 外掛的設定。"
+    }
+  },
+  "proxies[*].plugin-opts[*].ech-opts": {
+    "title": {
+      "en": "ECH",
+      "zh-Hans": "ECH",
+      "zh-Hant": "ECH"
+    },
+    "summary": {
+      "en": "Adds ECH to the plugin's TLS, hiding the domain name in the handshake.",
+      "zh-Hans": "给插件的 TLS 加上 ECH，隐藏握手里的域名。",
+      "zh-Hant": "給外掛的 TLS 加上 ECH，隱藏交握裡的網域。"
+    }
+  },
+  "proxies[*].port": {
+    "title": {
+      "en": "Port",
+      "zh-Hans": "端口",
+      "zh-Hant": "埠號"
+    },
+    "summary": {
+      "en": "The port the server listens on.",
+      "zh-Hans": "服务器监听的端口。",
+      "zh-Hant": "伺服器監聽的埠號。"
+    }
+  },
+  "proxies[*].private-key": {
+    "title": {
+      "en": "Client Private Key",
+      "zh-Hans": "客户端私钥",
+      "zh-Hant": "用戶端私密金鑰"
+    },
+    "summary": {
+      "en": "The private key for your client certificate, in PEM.",
+      "zh-Hans": "客户端证书对应的私钥（PEM）。",
+      "zh-Hant": "用戶端憑證對應的私密金鑰（PEM）。"
+    },
+    "example": "PRIVATE_KEY_PEM"
+  },
+  "proxies[*].protocol": {
+    "title": {
+      "en": "Protocol Mode",
+      "zh-Hans": "协议模式",
+      "zh-Hant": "協定模式"
+    },
+    "summary": {
+      "en": "The protocol variant the server expects. It must match the server.",
+      "zh-Hans": "服务器要求的协议形式，须与服务器一致。",
+      "zh-Hant": "伺服器要求的協定形式，須與伺服器一致。"
+    }
+  },
+  "proxies[*].reality-opts": {
+    "title": {
+      "en": "REALITY",
+      "zh-Hans": "REALITY",
+      "zh-Hant": "REALITY"
+    },
+    "summary": {
+      "en": "Filling in the server's public key turns it on; it borrows a real site's handshake as cover.",
+      "zh-Hans": "填写服务器给的公钥即启用，借真实网站的握手来伪装。",
+      "zh-Hant": "填寫伺服器給的公鑰即啟用，借真實網站的交握來偽裝。"
+    }
+  },
+  "proxies[*].reality-opts.public-key": {
+    "title": {
+      "en": "Public Key",
+      "zh-Hans": "公钥",
+      "zh-Hant": "公鑰"
+    },
+    "summary": {
+      "en": "The server's REALITY public key. Filling it in turns REALITY on.",
+      "zh-Hans": "服务器的 REALITY 公钥，填写即启用 REALITY。",
+      "zh-Hant": "伺服器的 REALITY 公鑰，填寫即啟用 REALITY。"
+    },
+    "example": "jNXHt1yRo0vDuSEc2SCyhQa4Q0VmSMsyVk8EZgBLqQA"
+  },
+  "proxies[*].reality-opts.short-id": {
+    "title": {
+      "en": "Short ID",
+      "zh-Hans": "短 ID",
+      "zh-Hant": "短 ID"
+    },
+    "summary": {
+      "en": "One of the server's REALITY short IDs, in hex.",
+      "zh-Hans": "服务器的 REALITY 短 ID 之一（十六进制）。",
+      "zh-Hant": "伺服器的 REALITY 短 ID 之一（十六進位）。"
+    },
+    "example": "6ba85179e30d4fc2"
+  },
+  "proxies[*].reality-opts.support-x25519mlkem768": {
+    "title": {
+      "en": "Post-Quantum Key Exchange",
+      "zh-Hans": "抗量子密钥交换",
+      "zh-Hant": "抗量子金鑰交換"
+    },
+    "summary": {
+      "en": "Offers X25519MLKEM768 key exchange. Turn it on only if the server supports it.",
+      "zh-Hans": "启用 X25519MLKEM768 密钥交换，服务器支持才开。",
+      "zh-Hant": "啟用 X25519MLKEM768 金鑰交換，伺服器支援才開。"
+    }
+  },
+  "proxies[*].restls-opts": {
+    "title": {
+      "en": "Restls",
+      "zh-Hans": "Restls",
+      "zh-Hant": "Restls"
+    },
+    "summary": {
+      "en": "A TLS disguise that imitates a real site. Needs TLS on.",
+      "zh-Hans": "模仿真实网站的 TLS 伪装，需开启 TLS。",
+      "zh-Hant": "模仿真實網站的 TLS 偽裝，需開啟 TLS。"
+    }
+  },
+  "proxies[*].restls-opts.password": {
+    "title": {
+      "en": "Password",
+      "zh-Hans": "密码",
+      "zh-Hant": "密碼"
+    },
+    "summary": {
+      "en": "The Restls password. Needs TLS on; the SNI is the handshake domain.",
+      "zh-Hans": "Restls 密码，需开启 TLS，握手域名用 SNI。",
+      "zh-Hant": "Restls 密碼，需開啟 TLS，交握網域用 SNI。"
+    },
+    "example": "your-password"
+  },
+  "proxies[*].restls-opts.restls-script": {
+    "title": {
+      "en": "Script",
+      "zh-Hans": "脚本",
+      "zh-Hant": "腳本"
+    },
+    "summary": {
+      "en": "Shapes traffic after the handshake to hide proxy patterns. Optional.",
+      "zh-Hans": "握手后按脚本调整流量，隐藏代理特征，可不填。",
+      "zh-Hant": "交握後依腳本調整流量，隱藏代理特徵，可不填。"
+    },
+    "example": "300?100<1,400~100,350~100,600~100,300~200,300~100"
+  },
+  "proxies[*].restls-opts.version-hint": {
+    "title": {
+      "en": "TLS Version",
+      "zh-Hans": "TLS 版本",
+      "zh-Hant": "TLS 版本"
+    },
+    "summary": {
+      "en": "The TLS version of the site Restls imitates.",
+      "zh-Hans": "Restls 伪装的网站所用的 TLS 版本。",
+      "zh-Hant": "Restls 偽裝的網站所用的 TLS 版本。"
+    },
+    "presets": [
+      {
+        "value": "tls12",
+        "label": {
+          "en": "TLS 1.2",
+          "zh-Hans": "TLS 1.2",
+          "zh-Hant": "TLS 1.2"
+        }
+      },
+      {
+        "value": "tls13",
+        "label": {
+          "en": "TLS 1.3",
+          "zh-Hans": "TLS 1.3",
+          "zh-Hant": "TLS 1.3"
+        }
+      }
+    ]
+  },
+  "proxies[*].routing-mark": {
+    "title": {
+      "en": "Routing Mark",
+      "zh-Hans": "路由标记",
+      "zh-Hant": "路由標記"
+    },
+    "summary": {
+      "en": "Tags connections with a routing mark (fwmark) for policy routing. Works only on Linux.",
+      "zh-Hans": "给连接打上路由标记（fwmark），仅 Linux 生效。",
+      "zh-Hant": "給連線加上路由標記（fwmark），僅 Linux 生效。"
+    }
+  },
+  "proxies[*].server": {
+    "title": {
+      "en": "Server",
+      "zh-Hans": "服务器地址",
+      "zh-Hant": "伺服器位址"
+    },
+    "summary": {
+      "en": "The server's domain name or IP address.",
+      "zh-Hans": "服务器的域名或 IP 地址。",
+      "zh-Hant": "伺服器的網域名稱或 IP 位址。"
+    },
+    "example": "example.com"
+  },
+  "proxies[*].servername": {
+    "title": {
+      "en": "Server Name (SNI)",
+      "zh-Hans": "SNI 域名",
+      "zh-Hant": "SNI 網域"
+    },
+    "summary": {
+      "en": "The domain name sent in the TLS handshake. Leave it empty to use the server address.",
+      "zh-Hans": "TLS 握手时发送的域名，留空则用服务器地址。",
+      "zh-Hant": "TLS 交握時傳送的網域名稱，留空則用伺服器位址。"
+    },
+    "unset": {
+      "en": "Server address",
+      "zh-Hans": "同服务器地址",
+      "zh-Hant": "同伺服器位址"
+    },
+    "example": "example.com"
+  },
+  "proxies[*].shadow-tls-opts": {
+    "title": {
+      "en": "ShadowTLS",
+      "zh-Hans": "ShadowTLS",
+      "zh-Hant": "ShadowTLS"
+    },
+    "summary": {
+      "en": "Borrows a real site's TLS handshake. Needs TLS on.",
+      "zh-Hans": "借用真实网站的 TLS 握手，需开启 TLS。",
+      "zh-Hant": "借用真實網站的 TLS 交握，需開啟 TLS。"
+    }
+  },
+  "proxies[*].shadow-tls-opts.password": {
+    "title": {
+      "en": "Password",
+      "zh-Hans": "密码",
+      "zh-Hant": "密碼"
+    },
+    "summary": {
+      "en": "The ShadowTLS password. Needs TLS on; the SNI is the handshake domain.",
+      "zh-Hans": "ShadowTLS 密码，需开启 TLS，握手域名用 SNI。",
+      "zh-Hant": "ShadowTLS 密碼，需開啟 TLS，交握網域用 SNI。"
+    },
+    "example": "your-password"
+  },
+  "proxies[*].shadow-tls-opts.version": {
+    "title": {
+      "en": "Version",
+      "zh-Hans": "版本",
+      "zh-Hant": "版本"
+    },
+    "summary": {
+      "en": "The ShadowTLS version the server runs.",
+      "zh-Hans": "服务器运行的 ShadowTLS 版本。",
+      "zh-Hant": "伺服器執行的 ShadowTLS 版本。"
+    },
+    "presets": [
+      {
+        "value": "1",
+        "label": {
+          "en": "v1",
+          "zh-Hans": "v1",
+          "zh-Hant": "v1"
+        }
+      },
+      {
+        "value": "2",
+        "label": {
+          "en": "v2",
+          "zh-Hans": "v2",
+          "zh-Hant": "v2"
+        }
+      },
+      {
+        "value": "3",
+        "label": {
+          "en": "v3",
+          "zh-Hans": "v3",
+          "zh-Hant": "v3"
+        }
+      }
+    ]
+  },
+  "proxies[*].skip-cert-verify": {
+    "title": {
+      "en": "Skip Certificate Check",
+      "zh-Hans": "跳过证书验证",
+      "zh-Hant": "略過憑證驗證"
+    },
+    "summary": {
+      "en": "Accepts any certificate. Unsafe: use it only for testing or a self-signed server.",
+      "zh-Hans": "不检查服务器证书。不安全，仅在测试或自签证书时用。",
+      "zh-Hant": "不檢查伺服器憑證。不安全，僅在測試或自簽憑證時使用。"
+    }
+  },
+  "proxies[*].smux": {
+    "title": {
+      "en": "sing-mux",
+      "zh-Hans": "sing-mux",
+      "zh-Hant": "sing-mux"
+    },
+    "summary": {
+      "en": "sing-mux multiplexing: only for protocols over TCP, and the server must support it.",
+      "zh-Hans": "sing-mux 多路复用，只对走 TCP 的协议有效，服务器也要支持。",
+      "zh-Hant": "sing-mux 多工，只對走 TCP 的協定有效，伺服器也要支援。"
+    }
+  },
+  "proxies[*].smux.brutal-opts": {
+    "title": {
+      "en": "TCP Brutal",
+      "zh-Hans": "TCP Brutal",
+      "zh-Hant": "TCP Brutal"
+    },
+    "summary": {
+      "en": "Fixed-rate congestion control. The server must support it.",
+      "zh-Hans": "固定速率的拥塞控制，需服务器支持。",
+      "zh-Hant": "固定速率的壅塞控制，需伺服器支援。"
+    }
+  },
+  "proxies[*].smux.brutal-opts.down": {
+    "title": {
+      "en": "Download Speed",
+      "zh-Hans": "下载速率",
+      "zh-Hant": "下載速率"
+    },
+    "summary": {
+      "en": "Your real download bandwidth, in Mbps.",
+      "zh-Hans": "你实际的下载带宽，单位 Mbps。",
+      "zh-Hant": "你實際的下載頻寬，單位 Mbps。"
+    },
+    "example": "100"
+  },
+  "proxies[*].smux.brutal-opts.enabled": {
+    "title": {
+      "en": "TCP Brutal",
+      "zh-Hans": "TCP Brutal",
+      "zh-Hant": "TCP Brutal"
+    },
+    "summary": {
+      "en": "Sends at a fixed rate with TCP Brutal congestion control. The server must support it.",
+      "zh-Hans": "用 TCP Brutal 拥塞控制按固定速率发送，需服务器支持。",
+      "zh-Hant": "用 TCP Brutal 壅塞控制依固定速率傳送，需伺服器支援。"
+    }
+  },
+  "proxies[*].smux.brutal-opts.up": {
+    "title": {
+      "en": "Upload Speed",
+      "zh-Hans": "上传速率",
+      "zh-Hant": "上傳速率"
+    },
+    "summary": {
+      "en": "Your real upload bandwidth, in Mbps.",
+      "zh-Hans": "你实际的上传带宽，单位 Mbps。",
+      "zh-Hant": "你實際的上傳頻寬，單位 Mbps。"
+    },
+    "example": "50"
+  },
+  "proxies[*].smux.enabled": {
+    "title": {
+      "en": "Turn On sing-mux",
+      "zh-Hans": "启用 sing-mux",
+      "zh-Hant": "啟用 sing-mux"
+    },
+    "summary": {
+      "en": "Carries many connections inside one (sing-mux). The server must support it.",
+      "zh-Hans": "把多条连接合在一条里传（sing-mux），需服务器支持。",
+      "zh-Hant": "把多條連線合併在一條裡傳（sing-mux），需伺服器支援。"
+    }
+  },
+  "proxies[*].smux.max-connections": {
+    "title": {
+      "en": "Max Connections",
+      "zh-Hans": "最大连接数",
+      "zh-Hant": "最大連線數"
+    },
+    "summary": {
+      "en": "The most underlying connections to open. Don't set it together with Max Streams.",
+      "zh-Hans": "最多打开几条底层连接，不能与最大流数同时设。",
+      "zh-Hant": "最多開啟幾條底層連線，不能與最大串流數同時設定。"
+    }
+  },
+  "proxies[*].smux.max-streams": {
+    "title": {
+      "en": "Max Streams",
+      "zh-Hans": "最大流数",
+      "zh-Hant": "最大串流數"
+    },
+    "summary": {
+      "en": "The most streams per connection before a new one opens. Don't set it with the other two limits.",
+      "zh-Hans": "每条连接最多承载的流数，满了开新连接，不能与另两项同设。",
+      "zh-Hant": "每條連線最多承載的串流數，滿了開新連線，不能與另兩項同設。"
+    }
+  },
+  "proxies[*].smux.min-streams": {
+    "title": {
+      "en": "Min Streams",
+      "zh-Hans": "最少流数",
+      "zh-Hant": "最少串流數"
+    },
+    "summary": {
+      "en": "Streams a connection carries before another one opens. Don't set it together with Max Streams.",
+      "zh-Hans": "一条连接先承载这么多流再开新连接，不能与最大流数同设。",
+      "zh-Hant": "一條連線先承載這麼多串流再開新連線，不能與最大串流數同設。"
+    },
+    "unset": {
+      "en": "Automatic",
+      "zh-Hans": "自动",
+      "zh-Hant": "自動"
+    }
+  },
+  "proxies[*].smux.only-tcp": {
+    "title": {
+      "en": "TCP Only",
+      "zh-Hans": "仅 TCP",
+      "zh-Hant": "僅 TCP"
+    },
+    "summary": {
+      "en": "Multiplexes TCP only; UDP uses the node's own UDP method.",
+      "zh-Hans": "只对 TCP 多路复用，UDP 走节点自己的方式。",
+      "zh-Hant": "只對 TCP 多工，UDP 走節點自己的方式。"
+    }
+  },
+  "proxies[*].smux.padding": {
+    "title": {
+      "en": "Padding",
+      "zh-Hans": "填充",
+      "zh-Hant": "填充"
+    },
+    "summary": {
+      "en": "Adds padding to hide traffic patterns. The server must support it.",
+      "zh-Hans": "加入填充数据以隐藏流量特征，需服务器支持。",
+      "zh-Hant": "加入填充資料以隱藏流量特徵，需伺服器支援。"
+    }
+  },
+  "proxies[*].smux.protocol": {
+    "title": {
+      "en": "Protocol",
+      "zh-Hans": "协议",
+      "zh-Hant": "協定"
+    },
+    "summary": {
+      "en": "The multiplexing protocol. It must match the server.",
+      "zh-Hans": "多路复用使用的协议，须与服务器一致。",
+      "zh-Hant": "多工使用的協定，須與伺服器一致。"
+    },
+    "presets": [
+      {
+        "value": "h2mux",
+        "label": {
+          "en": "h2mux",
+          "zh-Hans": "h2mux",
+          "zh-Hant": "h2mux"
+        }
+      },
+      {
+        "value": "smux",
+        "label": {
+          "en": "smux",
+          "zh-Hans": "smux",
+          "zh-Hant": "smux"
+        }
+      },
+      {
+        "value": "yamux",
+        "label": {
+          "en": "yamux",
+          "zh-Hans": "yamux",
+          "zh-Hant": "yamux"
+        }
+      }
+    ]
+  },
+  "proxies[*].smux.statistic": {
+    "title": {
+      "en": "Show Underlying Connections",
+      "zh-Hans": "显示底层连接",
+      "zh-Hant": "顯示底層連線"
+    },
+    "summary": {
+      "en": "Lists the underlying connections on the connections page so you can close them.",
+      "zh-Hans": "在连接列表里显示底层连接，便于手动断开。",
+      "zh-Hant": "在連線列表中顯示底層連線，方便手動中斷。"
+    }
+  },
+  "proxies[*].sni": {
+    "title": {
+      "en": "SNI",
+      "zh-Hans": "SNI 域名",
+      "zh-Hant": "SNI 網域"
+    },
+    "summary": {
+      "en": "The domain name sent in the TLS handshake. Leave it empty to use the server address.",
+      "zh-Hans": "TLS 握手时发送的域名，留空则用服务器地址。",
+      "zh-Hant": "TLS 交握時傳送的網域名稱，留空則用伺服器位址。"
+    },
+    "unset": {
+      "en": "Server address",
+      "zh-Hans": "同服务器地址",
+      "zh-Hant": "同伺服器位址"
+    },
+    "example": "example.com"
+  },
+  "proxies[*].ss-opts": {
+    "title": {
+      "en": "trojan-go Shadowsocks",
+      "zh-Hans": "SS 加密层",
+      "zh-Hant": "SS 加密層"
+    },
+    "summary": {
+      "en": "trojan-go's extra Shadowsocks AEAD encryption.",
+      "zh-Hans": "trojan-go 额外的 SS AEAD 加密。",
+      "zh-Hant": "trojan-go 額外的 SS AEAD 加密。"
+    }
+  },
+  "proxies[*].tfo": {
+    "title": {
+      "en": "TCP Fast Open",
+      "zh-Hans": "TCP 快速打开",
+      "zh-Hant": "TCP 快速開啟"
+    },
+    "summary": {
+      "en": "Sends data with the first TCP packet to save a round trip. The server must support it.",
+      "zh-Hans": "首个 TCP 包就带上数据，少一次往返，需服务器支持。",
+      "zh-Hant": "第一個 TCP 封包就帶上資料，少一次往返，需伺服器支援。"
+    }
+  },
+  "proxies[*].tls": {
+    "title": {
+      "en": "Turn On TLS",
+      "zh-Hans": "启用 TLS",
+      "zh-Hant": "啟用 TLS"
+    },
+    "summary": {
+      "en": "Encrypts the connection to the server with TLS. Turn it on if the server uses TLS.",
+      "zh-Hans": "用 TLS 加密到服务器的连接，服务器用了才开。",
+      "zh-Hant": "用 TLS 加密到伺服器的連線，伺服器有用才開。"
+    }
+  },
+  "proxies[*].tlsmirror-opts": {
+    "title": {
+      "en": "TLSMirror",
+      "zh-Hans": "TLSMirror",
+      "zh-Hant": "TLSMirror"
+    },
+    "summary": {
+      "en": "Turns on TLSMirror when TLS is on and this is filled in (VMess only).",
+      "zh-Hans": "开启 TLS 并填写时启用 TLSMirror（仅 VMess）。",
+      "zh-Hant": "開啟 TLS 並填寫時啟用 TLSMirror（僅 VMess）。"
+    }
+  },
+  "proxies[*].tlsmirror-opts.connection-enrolment": {
+    "title": {
+      "en": "Connection Enrolment",
+      "zh-Hans": "连接登记",
+      "zh-Hant": "連線登記"
+    },
+    "summary": {
+      "en": "V2Ray-compatible connection enrolment. Usually left empty for mihomo.",
+      "zh-Hans": "兼容 V2Ray 的连接登记，mihomo 一般留空。",
+      "zh-Hant": "相容 V2Ray 的連線登記，mihomo 一般留空。"
+    }
+  },
+  "proxies[*].tlsmirror-opts.defer-instance-derived-write-time": {
+    "title": {
+      "en": "First Write Delay",
+      "zh-Hans": "首次写入延迟",
+      "zh-Hant": "首次寫入延遲"
+    }
+  },
+  "proxies[*].tlsmirror-opts.embedded-traffic-generator": {
+    "title": {
+      "en": "Cover Traffic",
+      "zh-Hans": "载体流量",
+      "zh-Hant": "載體流量"
+    },
+    "summary": {
+      "en": "Extra HTTP traffic that covers the proxy; its protocol follows ALPN.",
+      "zh-Hans": "额外生成的 HTTP 载体流量，协议由 ALPN 决定。",
+      "zh-Hant": "額外產生的 HTTP 載體流量，協定由 ALPN 決定。"
+    }
+  },
+  "proxies[*].tlsmirror-opts.embedded-traffic-generator.steps[].wait-time": {
+    "title": {
+      "en": "Wait After Step",
+      "zh-Hans": "步骤后等待",
+      "zh-Hant": "步驟後等待"
+    }
+  },
+  "proxies[*].tlsmirror-opts.transport-layer-padding": {
+    "title": {
+      "en": "Transport Padding",
+      "zh-Hans": "传输层填充",
+      "zh-Hant": "傳輸層填充"
+    }
+  },
+  "proxies[*].type": {
+    "title": {
+      "en": "Protocol",
+      "zh-Hans": "协议",
+      "zh-Hant": "協定"
+    },
+    "summary": {
+      "en": "The protocol the server speaks. It must match the server.",
+      "zh-Hans": "服务器使用的协议，必须与服务器一致。",
+      "zh-Hant": "伺服器使用的協定，必須與伺服器一致。"
+    },
+    "presets": [
+      {
+        "value": "ss",
+        "label": {
+          "en": "Shadowsocks",
+          "zh-Hans": "Shadowsocks",
+          "zh-Hant": "Shadowsocks"
+        }
+      },
+      {
+        "value": "ssr",
+        "label": {
+          "en": "ShadowsocksR",
+          "zh-Hans": "ShadowsocksR",
+          "zh-Hant": "ShadowsocksR"
+        }
+      },
+      {
+        "value": "socks5",
+        "label": {
+          "en": "SOCKS5",
+          "zh-Hans": "SOCKS5",
+          "zh-Hant": "SOCKS5"
+        }
+      },
+      {
+        "value": "http",
+        "label": {
+          "en": "HTTP",
+          "zh-Hans": "HTTP",
+          "zh-Hant": "HTTP"
+        }
+      },
+      {
+        "value": "vmess",
+        "label": {
+          "en": "VMess",
+          "zh-Hans": "VMess",
+          "zh-Hant": "VMess"
+        }
+      },
+      {
+        "value": "vless",
+        "label": {
+          "en": "VLESS",
+          "zh-Hans": "VLESS",
+          "zh-Hant": "VLESS"
+        }
+      },
+      {
+        "value": "snell",
+        "label": {
+          "en": "Snell",
+          "zh-Hans": "Snell",
+          "zh-Hant": "Snell"
+        }
+      },
+      {
+        "value": "trojan",
+        "label": {
+          "en": "Trojan",
+          "zh-Hans": "Trojan",
+          "zh-Hant": "Trojan"
+        }
+      },
+      {
+        "value": "hysteria",
+        "label": {
+          "en": "Hysteria",
+          "zh-Hans": "Hysteria",
+          "zh-Hant": "Hysteria"
+        }
+      },
+      {
+        "value": "hysteria2",
+        "label": {
+          "en": "Hysteria 2",
+          "zh-Hans": "Hysteria 2",
+          "zh-Hant": "Hysteria 2"
+        }
+      },
+      {
+        "value": "wireguard",
+        "label": {
+          "en": "WireGuard",
+          "zh-Hans": "WireGuard",
+          "zh-Hant": "WireGuard"
+        }
+      },
+      {
+        "value": "tuic",
+        "label": {
+          "en": "TUIC",
+          "zh-Hans": "TUIC",
+          "zh-Hant": "TUIC"
+        }
+      },
+      {
+        "value": "shadowquic",
+        "label": {
+          "en": "ShadowQUIC",
+          "zh-Hans": "ShadowQUIC",
+          "zh-Hant": "ShadowQUIC"
+        }
+      },
+      {
+        "value": "gost-relay",
+        "label": {
+          "en": "GOST Relay",
+          "zh-Hans": "GOST Relay",
+          "zh-Hant": "GOST Relay"
+        }
+      },
+      {
+        "value": "direct",
+        "label": {
+          "en": "Direct",
+          "zh-Hans": "直连",
+          "zh-Hant": "直連"
+        }
+      },
+      {
+        "value": "dns",
+        "label": {
+          "en": "DNS (to built-in DNS)",
+          "zh-Hans": "DNS（交给内置 DNS）",
+          "zh-Hant": "DNS（交給內建 DNS）"
+        }
+      },
+      {
+        "value": "reject",
+        "label": {
+          "en": "Reject",
+          "zh-Hans": "拒绝",
+          "zh-Hant": "拒絕"
+        }
+      },
+      {
+        "value": "rematch",
+        "label": {
+          "en": "Rematch",
+          "zh-Hans": "重新匹配",
+          "zh-Hant": "重新比對"
+        }
+      },
+      {
+        "value": "ssh",
+        "label": {
+          "en": "SSH",
+          "zh-Hans": "SSH",
+          "zh-Hant": "SSH"
+        }
+      },
+      {
+        "value": "mieru",
+        "label": {
+          "en": "Mieru",
+          "zh-Hans": "Mieru",
+          "zh-Hant": "Mieru"
+        }
+      },
+      {
+        "value": "anytls",
+        "label": {
+          "en": "AnyTLS",
+          "zh-Hans": "AnyTLS",
+          "zh-Hant": "AnyTLS"
+        }
+      },
+      {
+        "value": "sudoku",
+        "label": {
+          "en": "Sudoku",
+          "zh-Hans": "Sudoku",
+          "zh-Hant": "Sudoku"
+        }
+      },
+      {
+        "value": "masque",
+        "label": {
+          "en": "MASQUE",
+          "zh-Hans": "MASQUE",
+          "zh-Hant": "MASQUE"
+        }
+      },
+      {
+        "value": "trusttunnel",
+        "label": {
+          "en": "TrustTunnel",
+          "zh-Hans": "TrustTunnel",
+          "zh-Hant": "TrustTunnel"
+        }
+      },
+      {
+        "value": "openvpn",
+        "label": {
+          "en": "OpenVPN",
+          "zh-Hans": "OpenVPN",
+          "zh-Hant": "OpenVPN"
+        }
+      },
+      {
+        "value": "tailscale",
+        "label": {
+          "en": "Tailscale",
+          "zh-Hans": "Tailscale",
+          "zh-Hant": "Tailscale"
+        }
+      },
+      {
+        "value": "zerotier",
+        "label": {
+          "en": "ZeroTier",
+          "zh-Hans": "ZeroTier",
+          "zh-Hant": "ZeroTier"
+        }
+      },
+      {
+        "value": "easytier",
+        "label": {
+          "en": "EasyTier",
+          "zh-Hans": "EasyTier",
+          "zh-Hant": "EasyTier"
+        }
+      }
+    ]
+  },
+  "proxies[*].udp": {
+    "title": {
+      "en": "UDP Relay",
+      "zh-Hans": "UDP 转发",
+      "zh-Hant": "UDP 轉送"
+    },
+    "summary": {
+      "en": "Sends UDP traffic such as games, calls and QUIC through this node. The server must support it.",
+      "zh-Hans": "让游戏、通话、QUIC 等 UDP 流量走这个节点，需服务器支持。",
+      "zh-Hant": "讓遊戲、通話、QUIC 等 UDP 流量走這個節點，需伺服器支援。"
+    }
+  },
+  "proxies[*].username": {
+    "title": {
+      "en": "Username",
+      "zh-Hans": "用户名",
+      "zh-Hant": "使用者名稱"
+    },
+    "summary": {
+      "en": "The username the server gave you. Leave it empty if there is none.",
+      "zh-Hans": "服务器提供的用户名，没有就留空。",
+      "zh-Hant": "伺服器提供的使用者名稱，沒有就留空。"
+    },
+    "example": "user"
+  },
+  "proxies[*].uuid": {
+    "title": {
+      "en": "UUID",
+      "zh-Hans": "用户 ID",
+      "zh-Hant": "使用者 ID"
+    },
+    "summary": {
+      "en": "Your user ID on the server, in UUID form.",
+      "zh-Hans": "你在服务器上的用户 ID（UUID 格式）。",
+      "zh-Hant": "你在伺服器上的使用者 ID（UUID 格式）。"
+    },
+    "example": "123e4567-e89b-12d3-a456-426614174000"
+  },
+  "proxies[*].ws-opts": {
+    "title": {
+      "en": "WebSocket Settings",
+      "zh-Hans": "WebSocket 设置",
+      "zh-Hant": "WebSocket 設定"
+    },
+    "summary": {
+      "en": "Takes effect only when the transport is WebSocket; it must match the server.",
+      "zh-Hans": "传输方式选 WebSocket 时才生效，要和服务器一致。",
+      "zh-Hant": "傳輸方式選 WebSocket 時才生效，要和伺服器一致。"
+    }
+  },
+  "proxies[*].ws-opts.early-data-header-name": {
+    "title": {
+      "en": "Early Data Header",
+      "zh-Hans": "前置数据请求头",
+      "zh-Hant": "前置資料標頭"
+    },
+    "summary": {
+      "en": "The header that carries early data. It must match the server.",
+      "zh-Hans": "携带前置数据的请求头名，须与服务器一致。",
+      "zh-Hant": "攜帶前置資料的標頭名稱，須與伺服器一致。"
+    },
+    "example": "Sec-WebSocket-Protocol",
+    "presets": [
+      {
+        "value": "Sec-WebSocket-Protocol",
+        "label": {
+          "en": "Sec-WebSocket-Protocol",
+          "zh-Hans": "Sec-WebSocket-Protocol",
+          "zh-Hant": "Sec-WebSocket-Protocol"
+        }
+      }
+    ]
+  },
+  "proxies[*].ws-opts.headers": {
+    "title": {
+      "en": "Headers",
+      "zh-Hans": "请求头",
+      "zh-Hant": "標頭"
+    },
+    "summary": {
+      "en": "Extra request headers, usually a Host for a CDN.",
+      "zh-Hans": "额外的请求头，常用于给 CDN 指定 Host。",
+      "zh-Hant": "額外的請求標頭，常用於替 CDN 指定 Host。"
+    }
+  },
+  "proxies[*].ws-opts.max-early-data": {
+    "title": {
+      "en": "Early Data Size",
+      "zh-Hans": "前置数据长度",
+      "zh-Hant": "前置資料長度"
+    },
+    "summary": {
+      "en": "Sends up to this many bytes with the handshake to save a round trip. 0 turns it off.",
+      "zh-Hans": "握手时顺带发送的数据上限（字节），0 为关闭。",
+      "zh-Hant": "交握時順帶傳送的資料上限（位元組），0 為關閉。"
+    },
+    "unset": {
+      "en": "Off",
+      "zh-Hans": "关闭",
+      "zh-Hant": "關閉"
+    }
+  },
+  "proxies[*].ws-opts.path": {
+    "title": {
+      "en": "Path",
+      "zh-Hans": "路径",
+      "zh-Hant": "路徑"
+    },
+    "summary": {
+      "en": "The request path on the server. It must match the server.",
+      "zh-Hans": "服务器上的请求路径，须与服务器一致。",
+      "zh-Hant": "伺服器上的請求路徑，須與伺服器一致。"
+    },
+    "example": "/",
+    "presets": [
+      {
+        "value": "/",
+        "label": {
+          "en": "Root (/)",
+          "zh-Hans": "根路径（/）",
+          "zh-Hant": "根路徑（/）"
+        }
+      }
+    ]
+  },
+  "proxies[*].ws-opts.v2ray-http-upgrade": {
+    "title": {
+      "en": "HTTP Upgrade",
+      "zh-Hans": "HTTP Upgrade",
+      "zh-Hant": "HTTP Upgrade"
+    },
+    "summary": {
+      "en": "Uses V2Ray's HTTPUpgrade instead of full WebSocket. It must match the server.",
+      "zh-Hans": "改用 V2Ray 的 HTTPUpgrade 传输，须与服务器一致。",
+      "zh-Hant": "改用 V2Ray 的 HTTPUpgrade 傳輸，須與伺服器一致。"
+    }
+  },
+  "proxies[*].ws-opts.v2ray-http-upgrade-fast-open": {
+    "title": {
+      "en": "HTTP Upgrade Fast Open",
+      "zh-Hans": "Upgrade 快速打开",
+      "zh-Hant": "Upgrade 快速開啟"
+    },
+    "summary": {
+      "en": "Sends data without waiting for the upgrade reply, saving a round trip.",
+      "zh-Hans": "不等升级响应就发数据，省一次往返。",
+      "zh-Hant": "不等升級回應就傳送資料，省一次往返。"
+    }
+  },
+  "proxies[*].xhttp-opts": {
+    "title": {
+      "en": "XHTTP Settings",
+      "zh-Hans": "XHTTP 设置",
+      "zh-Hant": "XHTTP 設定"
+    },
+    "summary": {
+      "en": "Used when the transport is XHTTP (VLESS only).",
+      "zh-Hans": "传输方式为 XHTTP 时生效（仅 VLESS）。",
+      "zh-Hant": "傳輸方式為 XHTTP 時生效（僅 VLESS）。"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings": {
+    "title": {
+      "en": "Separate Download",
+      "zh-Hans": "上下行分离",
+      "zh-Hant": "上下行分離"
+    },
+    "summary": {
+      "en": "A separate path for downloads; anything left empty follows the upload side.",
+      "zh-Hans": "单独设置下行，没填的沿用上行。",
+      "zh-Hant": "單獨設定下行，沒填的沿用上行。"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.ech-opts": {
+    "title": {
+      "en": "ECH",
+      "zh-Hans": "ECH",
+      "zh-Hant": "ECH"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.jls-opts": {
+    "title": {
+      "en": "JLS",
+      "zh-Hans": "JLS",
+      "zh-Hant": "JLS"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.reality-opts": {
+    "title": {
+      "en": "REALITY",
+      "zh-Hans": "REALITY",
+      "zh-Hant": "REALITY"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.restls-opts": {
+    "title": {
+      "en": "Restls",
+      "zh-Hans": "Restls",
+      "zh-Hant": "Restls"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.reuse-settings": {
+    "title": {
+      "en": "Connection Reuse",
+      "zh-Hans": "连接复用",
+      "zh-Hant": "連線重複使用"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.shadow-tls-opts": {
+    "title": {
+      "en": "ShadowTLS",
+      "zh-Hans": "ShadowTLS",
+      "zh-Hant": "ShadowTLS"
+    }
+  },
+  "proxies[*].xhttp-opts.reuse-settings": {
+    "title": {
+      "en": "Connection Reuse",
+      "zh-Hans": "连接复用",
+      "zh-Hant": "連線重複使用"
+    },
+    "summary": {
+      "en": "Reuses connections (XMUX). Leave it empty to open a new connection each time.",
+      "zh-Hans": "复用连接（XMUX），不填则每次开新连接。",
+      "zh-Hant": "重複使用連線（XMUX），不填則每次開新連線。"
+    }
+  },
+  "proxies": {
+    "title": {
+      "en": "Proxies",
+      "zh-Hans": "出站代理",
+      "zh-Hant": "出站代理"
+    },
+    "summary": {
+      "en": "Your nodes: the servers your traffic goes out through.",
+      "zh-Hans": "你的节点，流量经由它们出去。",
+      "zh-Hant": "你的節點，流量經由它們出去。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    }
+  }
+}

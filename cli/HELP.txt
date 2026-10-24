@@ -1,0 +1,131 @@
+---
+name: Clash App 控制器
+description: 通过 Clash App 内置的 clash-cli，在 Mac 终端里实时监控和控制 Clash App（本机 Mac，或局域网里的 iPhone / iPad / Apple TV）。支持状态/连接/流量/规则查询、规则命中分析、节点与策略组切换、节点测速、DNS 查询。当用户提到 Clash App、切换节点、查看连接、实时流量、规则匹配、节点测速、外部控制器时使用。
+---
+
+# Clash App 控制器（Clash App 内置的 clash-cli）
+
+`clash-cli` 随 Clash App 内置（Mac 上在 `/Applications/Clash.app/Contents/Helpers/clash-cli`），
+封装 Clash RESTful API 与 Clash App 自己的 `/clash/v1` 接口。它**只连 Clash App**：
+连到别的程序的控制器时会以退出码 5 拒绝，不下任何命令。
+配置语法请参考官方文档，本文档只管运行态操作。
+
+## 1. 入口授权（前提检查）
+
+- **Clash App 的隧道必须开着**，并且在 App 的 **更多 › 客户端设置 › 外部控制器** 里选了「仅本机」或「局域网」。
+  选「使用配置」时用的是配置文件自己写的控制器。
+- **密钥总是必填**：在同一页复制密钥，设为环境变量 `CLASH_SECRET`。密钥错了报退出码 4。
+- 地址：
+  - 控制本机 Mac：`http://127.0.0.1:9090`（默认，即 `CLASH_API`）。
+  - 控制 iPhone / iPad / Apple TV：设备上选「局域网」档，地址写成 `https://<设备 IP>:<TLS 端口>`（页面上有完整命令可复制）。
+    第一次连接会显示对方的证书指纹，与 App 页面上的指纹核对后输入 y，之后自动记住；
+    也可以直接设 `CLASH_FINGERPRINT`（连上后同样记住）。指纹对不上时退出码 6，**此时不会发出密钥**。
+    设备重新生成证书后：重新复制 App 里的终端命令（带新指纹），或执行 `clash-cli forget <地址:端口>` 后再连。
+- 入口检查：`clash-cli status` 能返回版本、模式、内存、策略组即通过。
+
+```bash
+export CLASH_SECRET=<在 App 里复制的密钥>
+clash-cli status
+# Clash 1.19.32  meta=true  （macos，控制器 API 1）
+# mode=rule  mixed-port=7890  tun=true stack=gVisor
+# 内存 31MB  inuse=0KB
+# 流量 ↑1.2 KB/s ↓36.0 KB/s  连接 42 个（总 ↓30.5 MB ↑1.2 MB）
+# 策略组 13 个：
+#   PROXY                → AUTO
+```
+
+## 2. 状态检查（只读，随便用）
+
+| 命令 | 说明 |
+|---|---|
+| `clash-cli status` | 版本/模式/内存/流量/连接数 + 所有策略组当前选择 |
+| `clash-cli proxies` | 列全部策略组与节点 |
+| `clash-cli proxies <组>` | 查看某策略组当前选择、类型、成员列表 |
+| `clash-cli traffic [秒]` | 实时流量（瞬时速率 + 累计） |
+| `clash-cli connections [N]` | 活跃连接列表（host → 策略链 → 命中规则 → 上下行），默认前 20 |
+| `clash-cli configs` | 当前运行配置（端口/tun/dns 等） |
+| `clash-cli rules [N]` | 规则列表（默认前 10，0 = 全部） |
+| `clash-cli rule match <域名\|IP\|URL>` | **规则命中分析**：这条连接会命中哪条规则、走哪条链 |
+| `clash-cli provider list` | 节点集与规则集 |
+| `clash-cli dns query <域名> [type]` | 走内核 DNS 查询，返回 Answer 数组 |
+| `clash-cli dns explain <域名> [type]` | 解释这次查询会用哪组 DNS |
+| `clash-cli logs [秒数] [level]` | 日志（debug / info / warning / error） |
+
+流（`traffic`、`logs`、`connections -f`）：给秒数就读这么多秒；`-f` 一直读；都不给时，
+在终端里一直读（Ctrl-C 结束），**不在终端里（代理调用）默认读 3 秒就退出**。
+
+## 3. 常用任务
+
+- **查当前选中节点**：`clash-cli proxy get <组>`（如 `PROXY`）
+- **切换节点/策略**：`clash-cli proxy set <组> <节点>`（组内任意成员名，含 DIRECT）
+  ```bash
+  clash-cli proxy set PROXY DIRECT    # 直连
+  clash-cli proxy set PROXY AUTO      # 切回自动测速组
+  ```
+- **节点测速**：`clash-cli test <节点名> [url] [timeout_ms]`；对组内全部节点逐个测速
+  `clash-cli grouptest <组名> [url] [timeout_ms]`（都不改任何选择）。
+- **规则命中分析**（Clash App 独有；mihomo 本身没有这个接口）：
+  ```bash
+  clash-cli rule match www.google.com
+  clash-cli rule match https://example.com/path
+  clash-cli rule match 1.1.1.1 port=53 network=udp
+  clash-cli rule match example.com --resolve      # 允许解析域名，让 IP 类规则参与
+  ```
+  - 不建连接；默认不做 DNS 解析，IP 类规则会标「已跳过」。
+  - 没给端口按 443 算，没给来源按本机隧道地址算，输出里写明。
+  - 前面有规则缺信息时标「未定」。链路是各组当前的选择，之后可能变化。
+- **出站模式**：`clash-cli mode` 查看，`clash-cli mode rule|global|direct` 切换。
+- **日志**：`clash-cli logs [秒数] [level]`（默认 3 秒）。
+- **机器读**：任何命令加 `--json`，stdout 输出一个 `{"cli":1,"ok":true,"data":…}`；
+  失败也写 stdout：`{"cli":1,"ok":false,"error":{"code":…,"message":…}}`；流命令每行一个。
+
+## 4. 影响边界（写操作）
+
+- **写操作**：`proxy set`、`mode`、`group unfix`、`group test`、`provider update`、`conn close <id|all>`、`flush`
+  会改变运行状态，执行前先确认目标存在（`proxy get`、`proxies`、`connections`）。
+  每次写操作前，人读输出会先打印要改的是哪台设备、哪个内核版本。
+- `provider update` 让隧道向服务器检查一次，按结果报：已更新（条数前后对比）、没有变化、打开 Clash 后生效（新内容已取到，App 打开后用上；原因在 --json 的 pendingReason 里）；
+  检查失败时报集合名和内核给的原因（原样），退出码 1。检查失败或控制器报错时退出码非 0（隧道还在检查、等不及回答的 504 也算控制器报错）。
+- `conn close all` 会断开全部连接（SSH/下载会被打断）。
+- `flush fakeip` 清空 fake-ip 池，App 手里的旧假 IP 会失效，相关连接可能要重连；`flush dns` 清空 DNS 缓存。
+- `group test` 走组的测速接口，对 URLTest / Fallback 组**会先解除该组的固定选择**；只想看延迟请用 `grouptest`。
+- **`reload`、`check` 不可用**：配置由 Clash App 管理（组合、切换、检查都在 App 里），这两个命令返回退出码 5。
+  要换配置、更新订阅或检查配置文件，请在 App 里操作。
+
+## 5. 环境与安全注意事项
+
+- 拿到密钥的人可以完全控制 Clash（模式、局域网共享、选节点、断连接、清缓存）。不要把密钥贴进公开的地方；
+  在 App 里「重新生成」后旧密钥立即失效，用旧密钥打开的流也会断开。
+- 局域网档只走 TLS，并只接受局域网来源；本机档只听 127.0.0.1。
+- 环境变量：`CLASH_API`（默认 `http://127.0.0.1:9090`）、`CLASH_SECRET`、`CLASH_FINGERPRINT`、`CLASH_TIMEOUT`（默认 8 秒）。
+- 切换节点时节点名必须与策略组成员**精确匹配**（含空格/emoji/特殊字符，如「🇭🇰香港trojan1」）。
+- 退出码：0 成功；1 控制器报错；2 用法；3 连不上；4 密钥被拒；5 不是 Clash App 的控制器或不支持（含 `reload`、`check`）；
+  6 证书指纹不符或未确认。
+- 已知指纹记在 `~/.config/clash-cli/known_hosts`（App 内置版在沙盒容器里：
+  `~/Library/Containers/<App 标识>.clash-cli/Data/.config/clash-cli/known_hosts`）。
+
+## 6. 安装方式
+
+`clash-cli` 随 Clash App for Mac 内置，不需要单独下载。把它放进 PATH（任选一种）：
+
+```sh
+sudo ln -sf /Applications/Clash.app/Contents/Helpers/clash-cli /usr/local/bin/clash-cli
+# 或者
+alias clash-cli=/Applications/Clash.app/Contents/Helpers/clash-cli
+```
+
+App 的 更多 › 客户端设置 › 外部控制器 页面也给了这条命令。iPhone / iPad 上没有这个二进制：
+那里的 AI 代理直接打 `http://127.0.0.1:<端口>`（带 `Authorization: Bearer <密钥>`）。
+
+`clash-cli skill` 打印本文件，可以直接交给 AI 代理安装成技能。
+
+**验证安装**
+```sh
+clash-cli status   # 返回版本/模式/策略组即成功；
+                   # 报「连接失败」说明隧道没开或外部控制器没选本机/局域网档；报退出码 4 说明密钥不对
+```
+
+## 参考资料（来源）
+
+- mihomo（MetaCubeX）GitHub：https://github.com/MetaCubeX/mihomo
+- Clash 原始 RESTful API 文档：https://clash.gitbook.io/doc/restful-api

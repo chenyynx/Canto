@@ -1,0 +1,4604 @@
+{
+  "proxies[*].alterId": {
+    "title": {
+      "en": "Alter ID",
+      "zh-Hans": "额外 ID",
+      "zh-Hant": "額外 ID"
+    },
+    "summary": {
+      "en": "Must match the server. 0 uses the current protocol; any other value turns on the legacy one.",
+      "zh-Hans": "须与服务器一致；0 用新协议，非 0 启用旧协议。",
+      "zh-Hant": "須與伺服器一致；0 用新協定，非 0 啟用舊協定。"
+    }
+  },
+  "proxies[*].authenticated-length": {
+    "title": {
+      "en": "Authenticated Length",
+      "zh-Hans": "长度加密",
+      "zh-Hant": "長度加密"
+    },
+    "summary": {
+      "en": "Encrypts the length of each chunk. It must match the server.",
+      "zh-Hans": "对数据块长度加密，须与服务器一致。",
+      "zh-Hant": "對資料區塊長度加密，須與伺服器一致。"
+    }
+  },
+  "proxies[*].encryption": {
+    "title": {
+      "en": "VLESS Encryption",
+      "zh-Hans": "VLESS 加密",
+      "zh-Hant": "VLESS 加密"
+    },
+    "summary": {
+      "en": "The VLESS Encryption setting the server gave you. Keep none if it gave none.",
+      "zh-Hans": "服务器给的 VLESS 加密配置，没有就保持 none。",
+      "zh-Hant": "伺服器給的 VLESS 加密設定，沒有就保持 none。"
+    },
+    "unset": {
+      "en": "Off",
+      "zh-Hans": "关闭",
+      "zh-Hant": "關閉"
+    },
+    "example": "none"
+  },
+  "proxies[*].flow": {
+    "title": {
+      "en": "Flow",
+      "zh-Hans": "流控",
+      "zh-Hant": "流量控制"
+    },
+    "summary": {
+      "en": "The VLESS flow control. It must match the server.",
+      "zh-Hans": "VLESS 流控，须与服务器一致。",
+      "zh-Hant": "VLESS 流量控制，須與伺服器一致。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "不使用",
+      "zh-Hant": "不使用"
+    },
+    "presets": [
+      {
+        "value": "xtls-rprx-vision",
+        "label": {
+          "en": "XTLS Vision",
+          "zh-Hans": "XTLS Vision",
+          "zh-Hant": "XTLS Vision"
+        }
+      }
+    ]
+  },
+  "proxies[*].global-padding": {
+    "title": {
+      "en": "Global Padding",
+      "zh-Hans": "全局填充",
+      "zh-Hant": "全域填充"
+    },
+    "summary": {
+      "en": "Adds random padding, which uses some extra traffic. V2Ray always has it on.",
+      "zh-Hans": "随机加入填充，会多耗一些流量；V2Ray 始终开启。",
+      "zh-Hant": "隨機加入填充，會多耗一些流量；V2Ray 始終開啟。"
+    }
+  },
+  "proxies[*].mekya-opts.h2-pool-size": {
+    "title": {
+      "en": "HTTP/2 Pool Size",
+      "zh-Hans": "HTTP/2 连接池",
+      "zh-Hant": "HTTP/2 連線池"
+    },
+    "summary": {
+      "en": "How many HTTP/2 connections to keep.",
+      "zh-Hans": "保持的 HTTP/2 连接数。",
+      "zh-Hant": "保持的 HTTP/2 連線數。"
+    }
+  },
+  "proxies[*].mekya-opts.kcp.congestion": {
+    "title": {
+      "en": "Congestion Control",
+      "zh-Hans": "拥塞控制",
+      "zh-Hant": "壅塞控制"
+    },
+    "summary": {
+      "en": "Slows down when the network is congested.",
+      "zh-Hans": "网络拥塞时自动降低速度。",
+      "zh-Hant": "網路壅塞時自動降低速度。"
+    }
+  },
+  "proxies[*].mekya-opts.kcp.downlink-capacity": {
+    "title": {
+      "en": "Download Capacity",
+      "zh-Hans": "下行容量",
+      "zh-Hant": "下行容量"
+    },
+    "summary": {
+      "en": "Download bandwidth Mekya's inner KCP may use, in MB/s.",
+      "zh-Hans": "Mekya 内部 KCP 可用的下行带宽（MB/s）。",
+      "zh-Hant": "Mekya 內部 KCP 可用的下行頻寬（MB/s）。"
+    }
+  },
+  "proxies[*].mekya-opts.kcp.header": {
+    "title": {
+      "en": "Header Disguise",
+      "zh-Hans": "伪装包头",
+      "zh-Hant": "偽裝封包標頭"
+    },
+    "summary": {
+      "en": "Makes packets look like another protocol, such as a video call. It must match the server.",
+      "zh-Hans": "把包伪装成其他协议（如视频通话），须与服务器一致。",
+      "zh-Hant": "把封包偽裝成其他協定（如視訊通話），須與伺服器一致。"
+    },
+    "presets": [
+      {
+        "value": "none",
+        "label": {
+          "en": "None",
+          "zh-Hans": "不伪装",
+          "zh-Hant": "不偽裝"
+        }
+      },
+      {
+        "value": "srtp",
+        "label": {
+          "en": "SRTP (video call)",
+          "zh-Hans": "SRTP（视频通话）",
+          "zh-Hant": "SRTP（視訊通話）"
+        }
+      },
+      {
+        "value": "utp",
+        "label": {
+          "en": "uTP (BitTorrent)",
+          "zh-Hans": "uTP（BT 下载）",
+          "zh-Hant": "uTP（BT 下載）"
+        }
+      },
+      {
+        "value": "wechat-video",
+        "label": {
+          "en": "WeChat video call",
+          "zh-Hans": "微信视频通话",
+          "zh-Hant": "微信視訊通話"
+        }
+      },
+      {
+        "value": "dtls",
+        "label": {
+          "en": "DTLS 1.2",
+          "zh-Hans": "DTLS 1.2",
+          "zh-Hant": "DTLS 1.2"
+        }
+      },
+      {
+        "value": "wireguard",
+        "label": {
+          "en": "WireGuard",
+          "zh-Hans": "WireGuard",
+          "zh-Hant": "WireGuard"
+        }
+      }
+    ]
+  },
+  "proxies[*].mekya-opts.kcp.mtu": {
+    "title": {
+      "en": "MTU",
+      "zh-Hans": "MTU",
+      "zh-Hant": "MTU"
+    },
+    "summary": {
+      "en": "The largest packet Mekya's inner KCP sends, in bytes.",
+      "zh-Hans": "Mekya 内部 KCP 发送的最大包大小（字节）。",
+      "zh-Hant": "Mekya 內部 KCP 傳送的最大封包大小（位元組）。"
+    }
+  },
+  "proxies[*].mekya-opts.kcp.read-buffer": {
+    "title": {
+      "en": "Read Buffer",
+      "zh-Hans": "读缓冲",
+      "zh-Hant": "讀取緩衝"
+    },
+    "summary": {
+      "en": "The read buffer size, in bytes.",
+      "zh-Hans": "读缓冲区大小（字节）。",
+      "zh-Hant": "讀取緩衝區大小（位元組）。"
+    }
+  },
+  "proxies[*].mekya-opts.kcp.seed": {
+    "title": {
+      "en": "Seed",
+      "zh-Hans": "混淆种子",
+      "zh-Hant": "混淆種子"
+    },
+    "summary": {
+      "en": "Turns on AES-GCM obfuscation with this seed. It must match the server.",
+      "zh-Hans": "填写后用 AES-GCM 混淆，须与服务器一致。",
+      "zh-Hant": "填寫後用 AES-GCM 混淆，須與伺服器一致。"
+    },
+    "unset": {
+      "en": "Off",
+      "zh-Hans": "不使用",
+      "zh-Hant": "不使用"
+    },
+    "example": "your-seed"
+  },
+  "proxies[*].mekya-opts.kcp.tti": {
+    "title": {
+      "en": "Transmission Interval",
+      "zh-Hans": "发送间隔",
+      "zh-Hant": "傳送間隔"
+    },
+    "summary": {
+      "en": "How often Mekya's inner KCP sends. Lower is faster but uses more traffic.",
+      "zh-Hans": "Mekya 内部 KCP 的发送间隔，越小越快也越耗流量。",
+      "zh-Hant": "Mekya 內部 KCP 的傳送間隔，越小越快也越耗流量。"
+    }
+  },
+  "proxies[*].mekya-opts.kcp.uplink-capacity": {
+    "title": {
+      "en": "Upload Capacity",
+      "zh-Hans": "上行容量",
+      "zh-Hant": "上行容量"
+    },
+    "summary": {
+      "en": "Upload bandwidth Mekya's inner KCP may use, in MB/s.",
+      "zh-Hans": "Mekya 内部 KCP 可用的上行带宽（MB/s）。",
+      "zh-Hant": "Mekya 內部 KCP 可用的上行頻寬（MB/s）。"
+    }
+  },
+  "proxies[*].mekya-opts.kcp.write-buffer": {
+    "title": {
+      "en": "Write Buffer",
+      "zh-Hans": "写缓冲",
+      "zh-Hant": "寫入緩衝"
+    },
+    "summary": {
+      "en": "The write buffer size, in bytes.",
+      "zh-Hans": "写缓冲区大小（字节）。",
+      "zh-Hant": "寫入緩衝區大小（位元組）。"
+    }
+  },
+  "proxies[*].mekya-opts.max-request-size": {
+    "title": {
+      "en": "Max Request Size",
+      "zh-Hans": "单次请求上限",
+      "zh-Hant": "單次請求上限"
+    },
+    "summary": {
+      "en": "The largest payload per HTTP request, in bytes.",
+      "zh-Hans": "单个 HTTP 请求的最大负载（字节）。",
+      "zh-Hant": "單個 HTTP 請求的最大負載（位元組）。"
+    }
+  },
+  "proxies[*].mekya-opts.max-simultaneous-write-connection": {
+    "title": {
+      "en": "Max Parallel Writes",
+      "zh-Hans": "最大并发写入",
+      "zh-Hant": "最大並行寫入"
+    },
+    "summary": {
+      "en": "A server-side Mekya setting; this client doesn't use it.",
+      "zh-Hans": "Mekya 服务端的参数，客户端不使用。",
+      "zh-Hant": "Mekya 伺服器端的參數，用戶端不使用。"
+    }
+  },
+  "proxies[*].mekya-opts.max-write-delay": {
+    "title": {
+      "en": "Max Batching Delay",
+      "zh-Hans": "合并等待上限",
+      "zh-Hant": "合併等待上限"
+    },
+    "summary": {
+      "en": "After the first packet, how long to wait to batch more.",
+      "zh-Hans": "首包后最多等多久来合并发送。",
+      "zh-Hant": "首個封包後最多等多久來合併傳送。"
+    }
+  },
+  "proxies[*].mekya-opts.max-write-duration-ms": {
+    "title": {
+      "en": "Max Write Duration",
+      "zh-Hans": "最长写入时间",
+      "zh-Hant": "最長寫入時間"
+    },
+    "summary": {
+      "en": "A server-side Mekya setting; this client doesn't use it.",
+      "zh-Hans": "Mekya 服务端的参数，客户端不使用。",
+      "zh-Hant": "Mekya 伺服器端的參數，用戶端不使用。"
+    }
+  },
+  "proxies[*].mekya-opts.max-write-size": {
+    "title": {
+      "en": "Max Write Size",
+      "zh-Hans": "最大写入量",
+      "zh-Hant": "最大寫入量"
+    },
+    "summary": {
+      "en": "A server-side Mekya setting; this client doesn't use it.",
+      "zh-Hans": "Mekya 服务端的参数，客户端不使用。",
+      "zh-Hant": "Mekya 伺服器端的參數，用戶端不使用。"
+    }
+  },
+  "proxies[*].mekya-opts.packet-writing-buffer": {
+    "title": {
+      "en": "Packet Write Buffer",
+      "zh-Hans": "包写入缓冲",
+      "zh-Hant": "封包寫入緩衝"
+    },
+    "summary": {
+      "en": "A server-side Mekya setting; this client doesn't use it.",
+      "zh-Hans": "Mekya 服务端的参数，客户端不使用。",
+      "zh-Hant": "Mekya 伺服器端的參數，用戶端不使用。"
+    }
+  },
+  "proxies[*].mekya-opts.polling-interval-initial": {
+    "title": {
+      "en": "Polling Interval",
+      "zh-Hans": "轮询间隔",
+      "zh-Hant": "輪詢間隔"
+    },
+    "summary": {
+      "en": "How often to poll while idle.",
+      "zh-Hans": "空闲时轮询的间隔。",
+      "zh-Hant": "閒置時輪詢的間隔。"
+    }
+  },
+  "proxies[*].mekya-opts.url": {
+    "title": {
+      "en": "URL",
+      "zh-Hans": "地址",
+      "zh-Hant": "位址"
+    },
+    "summary": {
+      "en": "The Mekya server URL. Leave it empty to use https:// with the server address.",
+      "zh-Hans": "Mekya 服务端的 URL，留空则用服务器地址的 https。",
+      "zh-Hant": "Mekya 伺服器端的 URL，留空則用伺服器位址的 https。"
+    },
+    "unset": {
+      "en": "From server",
+      "zh-Hans": "由服务器地址生成",
+      "zh-Hant": "由伺服器位址產生"
+    },
+    "example": "https://example.com/mekya"
+  },
+  "proxies[*].mkcp-opts.congestion": {
+    "title": {
+      "en": "Congestion Control",
+      "zh-Hans": "拥塞控制",
+      "zh-Hant": "壅塞控制"
+    },
+    "summary": {
+      "en": "Slows down when the network is congested.",
+      "zh-Hans": "网络拥塞时自动降低速度。",
+      "zh-Hant": "網路壅塞時自動降低速度。"
+    }
+  },
+  "proxies[*].mkcp-opts.downlink-capacity": {
+    "title": {
+      "en": "Download Capacity",
+      "zh-Hans": "下行容量",
+      "zh-Hant": "下行容量"
+    },
+    "summary": {
+      "en": "Download bandwidth mKCP may use, in MB/s.",
+      "zh-Hans": "mKCP 可用的下行带宽（MB/s）。",
+      "zh-Hant": "mKCP 可用的下行頻寬（MB/s）。"
+    }
+  },
+  "proxies[*].mkcp-opts.header": {
+    "title": {
+      "en": "Header Disguise",
+      "zh-Hans": "伪装包头",
+      "zh-Hant": "偽裝封包標頭"
+    },
+    "summary": {
+      "en": "Makes packets look like another protocol, such as a video call. It must match the server.",
+      "zh-Hans": "把包伪装成其他协议（如视频通话），须与服务器一致。",
+      "zh-Hant": "把封包偽裝成其他協定（如視訊通話），須與伺服器一致。"
+    },
+    "presets": [
+      {
+        "value": "none",
+        "label": {
+          "en": "None",
+          "zh-Hans": "不伪装",
+          "zh-Hant": "不偽裝"
+        }
+      },
+      {
+        "value": "srtp",
+        "label": {
+          "en": "SRTP (video call)",
+          "zh-Hans": "SRTP（视频通话）",
+          "zh-Hant": "SRTP（視訊通話）"
+        }
+      },
+      {
+        "value": "utp",
+        "label": {
+          "en": "uTP (BitTorrent)",
+          "zh-Hans": "uTP（BT 下载）",
+          "zh-Hant": "uTP（BT 下載）"
+        }
+      },
+      {
+        "value": "wechat-video",
+        "label": {
+          "en": "WeChat video call",
+          "zh-Hans": "微信视频通话",
+          "zh-Hant": "微信視訊通話"
+        }
+      },
+      {
+        "value": "dtls",
+        "label": {
+          "en": "DTLS 1.2",
+          "zh-Hans": "DTLS 1.2",
+          "zh-Hant": "DTLS 1.2"
+        }
+      },
+      {
+        "value": "wireguard",
+        "label": {
+          "en": "WireGuard",
+          "zh-Hans": "WireGuard",
+          "zh-Hant": "WireGuard"
+        }
+      }
+    ]
+  },
+  "proxies[*].mkcp-opts.mtu": {
+    "title": {
+      "en": "MTU",
+      "zh-Hans": "MTU",
+      "zh-Hant": "MTU"
+    },
+    "summary": {
+      "en": "The largest packet mKCP sends, in bytes.",
+      "zh-Hans": "mKCP 发送的最大包大小（字节）。",
+      "zh-Hant": "mKCP 傳送的最大封包大小（位元組）。"
+    }
+  },
+  "proxies[*].mkcp-opts.read-buffer": {
+    "title": {
+      "en": "Read Buffer",
+      "zh-Hans": "读缓冲",
+      "zh-Hant": "讀取緩衝"
+    },
+    "summary": {
+      "en": "The read buffer size, in bytes.",
+      "zh-Hans": "读缓冲区大小（字节）。",
+      "zh-Hant": "讀取緩衝區大小（位元組）。"
+    }
+  },
+  "proxies[*].mkcp-opts.seed": {
+    "title": {
+      "en": "Seed",
+      "zh-Hans": "混淆种子",
+      "zh-Hant": "混淆種子"
+    },
+    "summary": {
+      "en": "Turns on AES-GCM obfuscation with this seed. It must match the server.",
+      "zh-Hans": "填写后用 AES-GCM 混淆，须与服务器一致。",
+      "zh-Hant": "填寫後用 AES-GCM 混淆，須與伺服器一致。"
+    },
+    "unset": {
+      "en": "Off",
+      "zh-Hans": "不使用",
+      "zh-Hant": "不使用"
+    },
+    "example": "your-seed"
+  },
+  "proxies[*].mkcp-opts.tti": {
+    "title": {
+      "en": "Transmission Interval",
+      "zh-Hans": "发送间隔",
+      "zh-Hant": "傳送間隔"
+    },
+    "summary": {
+      "en": "How often mKCP sends. Lower is faster but uses more traffic.",
+      "zh-Hans": "mKCP 的发送间隔，越小越快也越耗流量。",
+      "zh-Hant": "mKCP 的傳送間隔，越小越快也越耗流量。"
+    }
+  },
+  "proxies[*].mkcp-opts.uplink-capacity": {
+    "title": {
+      "en": "Upload Capacity",
+      "zh-Hans": "上行容量",
+      "zh-Hant": "上行容量"
+    },
+    "summary": {
+      "en": "Upload bandwidth mKCP may use, in MB/s.",
+      "zh-Hans": "mKCP 可用的上行带宽（MB/s）。",
+      "zh-Hant": "mKCP 可用的上行頻寬（MB/s）。"
+    }
+  },
+  "proxies[*].mkcp-opts.write-buffer": {
+    "title": {
+      "en": "Write Buffer",
+      "zh-Hans": "写缓冲",
+      "zh-Hant": "寫入緩衝"
+    },
+    "summary": {
+      "en": "The write buffer size, in bytes.",
+      "zh-Hans": "写缓冲区大小（字节）。",
+      "zh-Hant": "寫入緩衝區大小（位元組）。"
+    }
+  },
+  "proxies[*].obfs-opts.host": {
+    "title": {
+      "en": "Host",
+      "zh-Hans": "域名",
+      "zh-Hant": "網域"
+    },
+    "summary": {
+      "en": "The site the traffic pretends to visit, or the site the handshake borrows.",
+      "zh-Hans": "伪装访问或借来握手的网站域名。",
+      "zh-Hant": "偽裝造訪或借來交握的網站網域。"
+    },
+    "example": "www.bing.com"
+  },
+  "proxies[*].obfs-opts.mode": {
+    "title": {
+      "en": "Mode",
+      "zh-Hans": "模式",
+      "zh-Hant": "模式"
+    },
+    "summary": {
+      "en": "How Snell disguises its traffic. It must match the server; Snell 6 takes ShadowTLS, Restls or JLS only.",
+      "zh-Hans": "Snell 流量的伪装方式，须与服务器一致；Snell 6 只能用 ShadowTLS、Restls 或 JLS。",
+      "zh-Hant": "Snell 流量的偽裝方式，須與伺服器一致；Snell 6 只能用 ShadowTLS、Restls 或 JLS。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "不混淆",
+      "zh-Hant": "不混淆"
+    },
+    "presets": [
+      {
+        "value": "tls",
+        "label": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        }
+      },
+      {
+        "value": "http",
+        "label": {
+          "en": "HTTP",
+          "zh-Hans": "HTTP",
+          "zh-Hant": "HTTP"
+        }
+      },
+      {
+        "value": "shadow-tls",
+        "label": {
+          "en": "ShadowTLS",
+          "zh-Hans": "ShadowTLS",
+          "zh-Hant": "ShadowTLS"
+        }
+      },
+      {
+        "value": "restls",
+        "label": {
+          "en": "Restls",
+          "zh-Hans": "Restls",
+          "zh-Hant": "Restls"
+        }
+      },
+      {
+        "value": "jls",
+        "label": {
+          "en": "JLS",
+          "zh-Hans": "JLS",
+          "zh-Hant": "JLS"
+        }
+      }
+    ]
+  },
+  "proxies[*].obfs-opts[*].alpn": {
+    "title": {
+      "en": "ALPN",
+      "zh-Hans": "ALPN",
+      "zh-Hant": "ALPN"
+    },
+    "summary": {
+      "en": "Application protocols offered in the handshake.",
+      "zh-Hans": "握手时提供的应用层协议。",
+      "zh-Hant": "交握時提供的應用層協定。"
+    },
+    "unset": {
+      "en": "h2 and HTTP/1.1",
+      "zh-Hans": "h2 和 HTTP/1.1",
+      "zh-Hant": "h2 和 HTTP/1.1"
+    },
+    "presets": [
+      {
+        "value": "h2",
+        "label": {
+          "en": "HTTP/2",
+          "zh-Hans": "HTTP/2",
+          "zh-Hant": "HTTP/2"
+        }
+      },
+      {
+        "value": "http/1.1",
+        "label": {
+          "en": "HTTP/1.1",
+          "zh-Hans": "HTTP/1.1",
+          "zh-Hant": "HTTP/1.1"
+        }
+      }
+    ]
+  },
+  "proxies[*].obfs-opts[*].certificate": {
+    "title": {
+      "en": "Client Certificate",
+      "zh-Hans": "客户端证书",
+      "zh-Hant": "用戶端憑證"
+    },
+    "summary": {
+      "en": "Your certificate, in PEM, for servers that require mutual TLS. Use it with the private key.",
+      "zh-Hans": "服务器要求双向 TLS 时用的证书（PEM），与私钥一起填。",
+      "zh-Hant": "伺服器要求雙向 TLS 時用的憑證（PEM），與私密金鑰一起填。"
+    },
+    "example": "-----BEGIN CERTIFICATE-----"
+  },
+  "proxies[*].obfs-opts[*].fingerprint": {
+    "title": {
+      "en": "Certificate Fingerprint",
+      "zh-Hans": "证书指纹",
+      "zh-Hant": "憑證指紋"
+    },
+    "summary": {
+      "en": "Trusts only the certificate with this SHA-256 fingerprint, as with a self-signed server.",
+      "zh-Hans": "只信任这个 SHA-256 指纹的证书，自签证书时用。",
+      "zh-Hant": "只信任這個 SHA-256 指紋的憑證，自簽憑證時使用。"
+    },
+    "example": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "proxies[*].obfs-opts[*].force-tls12": {
+    "title": {
+      "en": "Force TLS 1.2",
+      "zh-Hans": "强制 TLS 1.2",
+      "zh-Hant": "強制 TLS 1.2"
+    },
+    "summary": {
+      "en": "Forces a TLS 1.2 handshake. Meant for testing only.",
+      "zh-Hans": "强制使用 TLS 1.2 握手，仅供测试。",
+      "zh-Hant": "強制使用 TLS 1.2 交握，僅供測試。"
+    }
+  },
+  "proxies[*].obfs-opts[*].name-cert-verify": {
+    "title": {
+      "en": "Verify Certificate As",
+      "zh-Hans": "证书校验域名",
+      "zh-Hant": "憑證驗證網域"
+    },
+    "summary": {
+      "en": "Checks the certificate against this domain instead of the obfs host.",
+      "zh-Hans": "用这个域名校验证书，混淆域名本身不变。",
+      "zh-Hant": "用這個網域驗證憑證，混淆網域本身不變。"
+    },
+    "example": "example.com"
+  },
+  "proxies[*].obfs-opts[*].password": {
+    "title": {
+      "en": "Obfs Password",
+      "zh-Hans": "混淆密码",
+      "zh-Hant": "混淆密碼"
+    },
+    "summary": {
+      "en": "The obfuscation password. It must match the server.",
+      "zh-Hans": "混淆的密码，须与服务器一致。",
+      "zh-Hant": "混淆的密碼，須與伺服器一致。"
+    },
+    "example": "your-password"
+  },
+  "proxies[*].obfs-opts[*].private-key": {
+    "title": {
+      "en": "Client Private Key",
+      "zh-Hans": "客户端私钥",
+      "zh-Hant": "用戶端私密金鑰"
+    },
+    "summary": {
+      "en": "The private key for your client certificate, in PEM.",
+      "zh-Hans": "客户端证书对应的私钥（PEM）。",
+      "zh-Hant": "用戶端憑證對應的私密金鑰（PEM）。"
+    },
+    "example": "PRIVATE_KEY_PEM"
+  },
+  "proxies[*].obfs-opts[*].restls-script": {
+    "title": {
+      "en": "Restls Script",
+      "zh-Hans": "Restls 脚本",
+      "zh-Hant": "Restls 腳本"
+    },
+    "summary": {
+      "en": "Shapes traffic after the handshake to hide proxy patterns. Optional.",
+      "zh-Hans": "握手后按脚本调整流量，隐藏代理特征，可不填。",
+      "zh-Hant": "交握後依腳本調整流量，隱藏代理特徵，可不填。"
+    },
+    "example": "300?100<1,400~100,350~100,600~100,300~200,300~100"
+  },
+  "proxies[*].obfs-opts[*].skip-cert-verify": {
+    "title": {
+      "en": "Skip Certificate Check",
+      "zh-Hans": "跳过证书验证",
+      "zh-Hant": "略過憑證驗證"
+    },
+    "summary": {
+      "en": "Accepts any certificate. Unsafe: use it only for testing or a self-signed server.",
+      "zh-Hans": "不检查服务器证书。不安全，仅在测试或自签证书时用。",
+      "zh-Hant": "不檢查伺服器憑證。不安全，僅在測試或自簽憑證時使用。"
+    }
+  },
+  "proxies[*].obfs-opts[*].username": {
+    "title": {
+      "en": "JLS Username",
+      "zh-Hans": "JLS 用户名",
+      "zh-Hant": "JLS 使用者名稱"
+    },
+    "summary": {
+      "en": "The JLS username the server gave you.",
+      "zh-Hans": "服务器提供的 JLS 用户名。",
+      "zh-Hant": "伺服器提供的 JLS 使用者名稱。"
+    },
+    "example": "jls-user"
+  },
+  "proxies[*].obfs-opts[*].version": {
+    "title": {
+      "en": "ShadowTLS Version",
+      "zh-Hans": "ShadowTLS 版本",
+      "zh-Hant": "ShadowTLS 版本"
+    },
+    "summary": {
+      "en": "The ShadowTLS version the server runs.",
+      "zh-Hans": "服务器运行的 ShadowTLS 版本。",
+      "zh-Hant": "伺服器執行的 ShadowTLS 版本。"
+    },
+    "presets": [
+      {
+        "value": "1",
+        "label": {
+          "en": "v1",
+          "zh-Hans": "v1",
+          "zh-Hant": "v1"
+        }
+      },
+      {
+        "value": "2",
+        "label": {
+          "en": "v2",
+          "zh-Hans": "v2",
+          "zh-Hant": "v2"
+        }
+      },
+      {
+        "value": "3",
+        "label": {
+          "en": "v3",
+          "zh-Hans": "v3",
+          "zh-Hant": "v3"
+        }
+      }
+    ]
+  },
+  "proxies[*].obfs-opts[*].version-hint": {
+    "title": {
+      "en": "Restls TLS Version",
+      "zh-Hans": "Restls 版本",
+      "zh-Hant": "Restls 版本"
+    },
+    "summary": {
+      "en": "The TLS version of the site Restls imitates.",
+      "zh-Hans": "Restls 伪装的网站所用的 TLS 版本。",
+      "zh-Hant": "Restls 偽裝的網站所用的 TLS 版本。"
+    },
+    "presets": [
+      {
+        "value": "tls12",
+        "label": {
+          "en": "TLS 1.2",
+          "zh-Hans": "TLS 1.2",
+          "zh-Hant": "TLS 1.2"
+        }
+      },
+      {
+        "value": "tls13",
+        "label": {
+          "en": "TLS 1.3",
+          "zh-Hans": "TLS 1.3",
+          "zh-Hant": "TLS 1.3"
+        }
+      }
+    ]
+  },
+  "proxies[*].obfs-param": {
+    "title": {
+      "en": "Obfs Parameter",
+      "zh-Hans": "混淆参数",
+      "zh-Hant": "混淆參數"
+    },
+    "summary": {
+      "en": "The obfuscation parameter, usually a domain. Leave it empty if the server gave none.",
+      "zh-Hans": "混淆参数，一般是域名，服务器没给就留空。",
+      "zh-Hant": "混淆參數，一般是網域，伺服器沒給就留空。"
+    },
+    "example": "example.com"
+  },
+  "proxies[*].packet-addr": {
+    "title": {
+      "en": "PacketAddr (Legacy)",
+      "zh-Hans": "PacketAddr",
+      "zh-Hant": "PacketAddr"
+    },
+    "summary": {
+      "en": "The old switch for packetaddr encoding. Use UDP Packet Encoding instead.",
+      "zh-Hans": "packetaddr 编码的旧开关，请改用「UDP 包编码」。",
+      "zh-Hant": "packetaddr 編碼的舊開關，請改用「UDP 封包編碼」。"
+    }
+  },
+  "proxies[*].plugin": {
+    "title": {
+      "en": "Plugin",
+      "zh-Hans": "插件",
+      "zh-Hant": "外掛程式"
+    },
+    "summary": {
+      "en": "A Shadowsocks plugin that disguises traffic. It must match the server.",
+      "zh-Hans": "伪装流量的 Shadowsocks 插件，须与服务器一致。",
+      "zh-Hant": "偽裝流量的 Shadowsocks 外掛程式，須與伺服器一致。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "不使用",
+      "zh-Hant": "不使用"
+    },
+    "presets": [
+      {
+        "value": "obfs",
+        "label": {
+          "en": "simple-obfs",
+          "zh-Hans": "simple-obfs",
+          "zh-Hant": "simple-obfs"
+        }
+      },
+      {
+        "value": "v2ray-plugin",
+        "label": {
+          "en": "v2ray-plugin",
+          "zh-Hans": "v2ray-plugin",
+          "zh-Hant": "v2ray-plugin"
+        }
+      },
+      {
+        "value": "gost-plugin",
+        "label": {
+          "en": "gost-plugin",
+          "zh-Hans": "gost-plugin",
+          "zh-Hant": "gost-plugin"
+        }
+      },
+      {
+        "value": "shadow-tls",
+        "label": {
+          "en": "ShadowTLS",
+          "zh-Hans": "ShadowTLS",
+          "zh-Hant": "ShadowTLS"
+        }
+      },
+      {
+        "value": "restls",
+        "label": {
+          "en": "Restls",
+          "zh-Hans": "Restls",
+          "zh-Hant": "Restls"
+        }
+      },
+      {
+        "value": "jls",
+        "label": {
+          "en": "JLS",
+          "zh-Hans": "JLS",
+          "zh-Hant": "JLS"
+        }
+      },
+      {
+        "value": "kcptun",
+        "label": {
+          "en": "kcptun",
+          "zh-Hans": "kcptun",
+          "zh-Hant": "kcptun"
+        }
+      }
+    ]
+  },
+  "proxies[*].plugin-opts[*].acknodelay": {
+    "title": {
+      "en": "Immediate ACK",
+      "zh-Hans": "立即确认",
+      "zh-Hant": "立即確認"
+    },
+    "summary": {
+      "en": "Acknowledges each packet as soon as it arrives.",
+      "zh-Hans": "收到包就立即回确认。",
+      "zh-Hant": "收到封包就立即回覆確認。"
+    }
+  },
+  "proxies[*].plugin-opts[*].alpn": {
+    "title": {
+      "en": "ALPN",
+      "zh-Hans": "ALPN",
+      "zh-Hant": "ALPN"
+    },
+    "summary": {
+      "en": "Application protocols offered in the handshake.",
+      "zh-Hans": "握手时提供的应用层协议。",
+      "zh-Hant": "交握時提供的應用層協定。"
+    },
+    "unset": {
+      "en": "h2 and HTTP/1.1",
+      "zh-Hans": "h2 和 HTTP/1.1",
+      "zh-Hant": "h2 和 HTTP/1.1"
+    },
+    "presets": [
+      {
+        "value": "h2",
+        "label": {
+          "en": "HTTP/2",
+          "zh-Hans": "HTTP/2",
+          "zh-Hant": "HTTP/2"
+        }
+      },
+      {
+        "value": "http/1.1",
+        "label": {
+          "en": "HTTP/1.1",
+          "zh-Hans": "HTTP/1.1",
+          "zh-Hant": "HTTP/1.1"
+        }
+      }
+    ]
+  },
+  "proxies[*].plugin-opts[*].autoexpire": {
+    "title": {
+      "en": "Connection Lifetime",
+      "zh-Hans": "连接有效期",
+      "zh-Hant": "連線有效期"
+    },
+    "summary": {
+      "en": "How long a UDP connection is used before it's replaced. 0 keeps it.",
+      "zh-Hans": "UDP 连接用多久后换新，0 为不过期。",
+      "zh-Hant": "UDP 連線用多久後換新，0 為不過期。"
+    },
+    "unset": {
+      "en": "Never",
+      "zh-Hans": "不过期",
+      "zh-Hant": "不過期"
+    }
+  },
+  "proxies[*].plugin-opts[*].certificate": {
+    "title": {
+      "en": "Client Certificate",
+      "zh-Hans": "客户端证书",
+      "zh-Hant": "用戶端憑證"
+    },
+    "summary": {
+      "en": "Your certificate, in PEM, for servers that require mutual TLS. Use it with the private key.",
+      "zh-Hans": "服务器要求双向 TLS 时用的证书（PEM），与私钥一起填。",
+      "zh-Hant": "伺服器要求雙向 TLS 時用的憑證（PEM），與私密金鑰一起填。"
+    },
+    "example": "-----BEGIN CERTIFICATE-----"
+  },
+  "proxies[*].plugin-opts[*].conn": {
+    "title": {
+      "en": "UDP Connections",
+      "zh-Hans": "UDP 连接数",
+      "zh-Hant": "UDP 連線數"
+    },
+    "summary": {
+      "en": "How many UDP connections to the server to use.",
+      "zh-Hans": "与服务器之间使用的 UDP 连接数。",
+      "zh-Hant": "與伺服器之間使用的 UDP 連線數。"
+    }
+  },
+  "proxies[*].plugin-opts[*].crypt": {
+    "title": {
+      "en": "Encryption",
+      "zh-Hans": "加密方式",
+      "zh-Hant": "加密方式"
+    },
+    "summary": {
+      "en": "How KCP data is encrypted. It must match the server.",
+      "zh-Hans": "KCP 数据的加密方式，须与服务器一致。",
+      "zh-Hant": "KCP 資料的加密方式，須與伺服器一致。"
+    },
+    "presets": [
+      {
+        "value": "aes",
+        "label": {
+          "en": "AES",
+          "zh-Hans": "AES",
+          "zh-Hant": "AES"
+        }
+      },
+      {
+        "value": "aes-128",
+        "label": {
+          "en": "AES-128",
+          "zh-Hans": "AES-128",
+          "zh-Hant": "AES-128"
+        }
+      },
+      {
+        "value": "aes-192",
+        "label": {
+          "en": "AES-192",
+          "zh-Hans": "AES-192",
+          "zh-Hant": "AES-192"
+        }
+      },
+      {
+        "value": "aes-128-gcm",
+        "label": {
+          "en": "AES-128-GCM",
+          "zh-Hans": "AES-128-GCM",
+          "zh-Hant": "AES-128-GCM"
+        }
+      },
+      {
+        "value": "salsa20",
+        "label": {
+          "en": "Salsa20",
+          "zh-Hans": "Salsa20",
+          "zh-Hant": "Salsa20"
+        }
+      },
+      {
+        "value": "blowfish",
+        "label": {
+          "en": "Blowfish",
+          "zh-Hans": "Blowfish",
+          "zh-Hant": "Blowfish"
+        }
+      },
+      {
+        "value": "twofish",
+        "label": {
+          "en": "Twofish",
+          "zh-Hans": "Twofish",
+          "zh-Hant": "Twofish"
+        }
+      },
+      {
+        "value": "cast5",
+        "label": {
+          "en": "CAST5",
+          "zh-Hans": "CAST5",
+          "zh-Hant": "CAST5"
+        }
+      },
+      {
+        "value": "3des",
+        "label": {
+          "en": "3DES",
+          "zh-Hans": "3DES",
+          "zh-Hant": "3DES"
+        }
+      },
+      {
+        "value": "tea",
+        "label": {
+          "en": "TEA",
+          "zh-Hans": "TEA",
+          "zh-Hant": "TEA"
+        }
+      },
+      {
+        "value": "xtea",
+        "label": {
+          "en": "XTEA",
+          "zh-Hans": "XTEA",
+          "zh-Hant": "XTEA"
+        }
+      },
+      {
+        "value": "xor",
+        "label": {
+          "en": "XOR",
+          "zh-Hans": "XOR",
+          "zh-Hant": "XOR"
+        }
+      },
+      {
+        "value": "none",
+        "label": {
+          "en": "None (with checksum)",
+          "zh-Hans": "不加密（带校验）",
+          "zh-Hant": "不加密（含檢查碼）"
+        }
+      },
+      {
+        "value": "null",
+        "label": {
+          "en": "None (no checksum)",
+          "zh-Hans": "不加密（无校验）",
+          "zh-Hant": "不加密（無檢查碼）"
+        }
+      }
+    ]
+  },
+  "proxies[*].plugin-opts[*].datashard": {
+    "title": {
+      "en": "Data Shards",
+      "zh-Hans": "数据分片",
+      "zh-Hant": "資料分片"
+    },
+    "summary": {
+      "en": "Reed-Solomon data shards for error correction. It must match the server.",
+      "zh-Hans": "纠错编码的数据分片数，须与服务器一致。",
+      "zh-Hant": "糾錯編碼的資料分片數，須與伺服器一致。"
+    }
+  },
+  "proxies[*].plugin-opts[*].dscp": {
+    "title": {
+      "en": "DSCP",
+      "zh-Hans": "DSCP",
+      "zh-Hant": "DSCP"
+    },
+    "summary": {
+      "en": "The DSCP value that marks packet priority, 0 to 63.",
+      "zh-Hans": "标记包优先级的 DSCP 值（0–63）。",
+      "zh-Hant": "標記封包優先順序的 DSCP 值（0–63）。"
+    }
+  },
+  "proxies[*].plugin-opts[*].ech-opts.config": {
+    "title": {
+      "en": "Config",
+      "zh-Hans": "配置",
+      "zh-Hant": "設定"
+    },
+    "summary": {
+      "en": "The server's ECH config in base64. Leave it empty to look it up in DNS.",
+      "zh-Hans": "服务器的 ECH 配置（base64），留空则从 DNS 查询。",
+      "zh-Hant": "伺服器的 ECH 設定（base64），留空則從 DNS 查詢。"
+    },
+    "unset": {
+      "en": "From DNS",
+      "zh-Hans": "从 DNS 获取",
+      "zh-Hant": "從 DNS 取得"
+    },
+    "example": "AEn+DQBFKwAgACABWIHUGj4u+PIggYXcR5JF0gYk3dCRioBW8uJq9H4mKAAIAAEAAQABAANAEnB1YmxpYy50bHMtZWNoLmRldgAA"
+  },
+  "proxies[*].plugin-opts[*].ech-opts.enable": {
+    "title": {
+      "en": "Encrypted Client Hello",
+      "zh-Hans": "ECH（加密握手）",
+      "zh-Hant": "ECH（加密交握）"
+    },
+    "summary": {
+      "en": "Hides the domain name in the TLS handshake with ECH. The server must support it.",
+      "zh-Hans": "用 ECH 隐藏 TLS 握手里的域名，需服务器支持。",
+      "zh-Hant": "用 ECH 隱藏 TLS 交握中的網域名稱，需伺服器支援。"
+    }
+  },
+  "proxies[*].plugin-opts[*].ech-opts.query-server-name": {
+    "title": {
+      "en": "Lookup Domain",
+      "zh-Hans": "查询域名",
+      "zh-Hant": "查詢網域"
+    },
+    "summary": {
+      "en": "The domain to look up the ECH config for. Leave it empty to use the host.",
+      "zh-Hans": "查询 ECH 配置时用的域名，留空则用 Host。",
+      "zh-Hant": "查詢 ECH 設定時用的網域，留空則用 Host。"
+    },
+    "example": "example.com"
+  },
+  "proxies[*].plugin-opts[*].fingerprint": {
+    "title": {
+      "en": "Certificate Fingerprint",
+      "zh-Hans": "证书指纹",
+      "zh-Hant": "憑證指紋"
+    },
+    "summary": {
+      "en": "Trusts only the certificate with this SHA-256 fingerprint, as with a self-signed server.",
+      "zh-Hans": "只信任这个 SHA-256 指纹的证书，自签证书时用。",
+      "zh-Hant": "只信任這個 SHA-256 指紋的憑證，自簽憑證時使用。"
+    },
+    "example": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "proxies[*].plugin-opts[*].force-tls12": {
+    "title": {
+      "en": "Force TLS 1.2",
+      "zh-Hans": "强制 TLS 1.2",
+      "zh-Hant": "強制 TLS 1.2"
+    },
+    "summary": {
+      "en": "Forces a TLS 1.2 handshake. Meant for testing only.",
+      "zh-Hans": "强制使用 TLS 1.2 握手，仅供测试。",
+      "zh-Hant": "強制使用 TLS 1.2 交握，僅供測試。"
+    }
+  },
+  "proxies[*].plugin-opts[*].framesize": {
+    "title": {
+      "en": "smux Frame Size",
+      "zh-Hans": "smux 帧大小",
+      "zh-Hant": "smux 訊框大小"
+    },
+    "summary": {
+      "en": "The largest smux frame, in bytes.",
+      "zh-Hans": "smux 的最大帧大小（字节）。",
+      "zh-Hant": "smux 的最大訊框大小（位元組）。"
+    }
+  },
+  "proxies[*].plugin-opts[*].headers": {
+    "title": {
+      "en": "Request Headers",
+      "zh-Hans": "请求头",
+      "zh-Hant": "請求標頭"
+    },
+    "summary": {
+      "en": "Extra WebSocket request headers.",
+      "zh-Hans": "额外的 WebSocket 请求头。",
+      "zh-Hant": "額外的 WebSocket 請求標頭。"
+    }
+  },
+  "proxies[*].plugin-opts[*].interval": {
+    "title": {
+      "en": "Update Interval",
+      "zh-Hans": "刷新间隔",
+      "zh-Hant": "更新間隔"
+    },
+    "summary": {
+      "en": "KCP's internal update interval. Applies only when Speed Mode isn't a preset.",
+      "zh-Hans": "KCP 内部刷新间隔，仅在加速模式不是预设档时生效。",
+      "zh-Hant": "KCP 內部更新間隔，僅在加速模式不是預設檔時生效。"
+    },
+    "unset": {
+      "en": "Set by the speed mode (30 ms in fast)",
+      "zh-Hans": "由加速模式决定，fast 为 30 毫秒",
+      "zh-Hant": "由加速模式決定，fast 為 30 毫秒"
+    }
+  },
+  "proxies[*].plugin-opts[*].keepalive": {
+    "title": {
+      "en": "Keepalive Interval",
+      "zh-Hans": "心跳间隔",
+      "zh-Hant": "心跳間隔"
+    },
+    "summary": {
+      "en": "How often a heartbeat is sent.",
+      "zh-Hans": "多久发一次心跳包。",
+      "zh-Hant": "多久送一次心跳封包。"
+    }
+  },
+  "proxies[*].plugin-opts[*].key": {
+    "title": {
+      "en": "Pre-shared Key",
+      "zh-Hans": "预共享密钥",
+      "zh-Hant": "預共享金鑰"
+    },
+    "summary": {
+      "en": "The secret shared with the server. It must match the server.",
+      "zh-Hans": "与服务器共享的密钥，须与服务器一致。",
+      "zh-Hant": "與伺服器共享的金鑰，須與伺服器一致。"
+    },
+    "example": "your-secret"
+  },
+  "proxies[*].plugin-opts[*].mtu": {
+    "title": {
+      "en": "MTU",
+      "zh-Hans": "MTU",
+      "zh-Hant": "MTU"
+    },
+    "summary": {
+      "en": "The largest UDP packet to send, in bytes.",
+      "zh-Hans": "发送的最大 UDP 包大小（字节）。",
+      "zh-Hant": "傳送的最大 UDP 封包大小（位元組）。"
+    }
+  },
+  "proxies[*].plugin-opts[*].mux": {
+    "title": {
+      "en": "Multiplexing",
+      "zh-Hans": "多路复用",
+      "zh-Hant": "多工"
+    },
+    "summary": {
+      "en": "Uses the plugin's own multiplexing. It must match the server.",
+      "zh-Hans": "使用插件自带的多路复用，须与服务器一致。",
+      "zh-Hant": "使用外掛內建的多工，須與伺服器一致。"
+    }
+  },
+  "proxies[*].plugin-opts[*].name-cert-verify": {
+    "title": {
+      "en": "Verify Certificate As",
+      "zh-Hans": "证书校验域名",
+      "zh-Hant": "憑證驗證網域"
+    },
+    "summary": {
+      "en": "Checks the certificate against this domain instead of the host. The host itself doesn't change.",
+      "zh-Hans": "用这个域名校验证书，Host 本身不变。",
+      "zh-Hant": "用這個網域驗證憑證，Host 本身不變。"
+    },
+    "example": "example.com"
+  },
+  "proxies[*].plugin-opts[*].nc": {
+    "title": {
+      "en": "No Congestion Control",
+      "zh-Hans": "关闭拥塞控制",
+      "zh-Hant": "關閉壅塞控制"
+    },
+    "summary": {
+      "en": "1 turns congestion control off. Applies only when Speed Mode isn't a preset.",
+      "zh-Hans": "1 为关闭拥塞控制，仅在加速模式不是预设档时生效。",
+      "zh-Hant": "1 為關閉壅塞控制，僅在加速模式不是預設檔時生效。"
+    },
+    "unset": {
+      "en": "Set by the speed mode (1 in fast)",
+      "zh-Hans": "由加速模式决定，fast 为 1",
+      "zh-Hant": "由加速模式決定，fast 為 1"
+    },
+    "presets": [
+      {
+        "value": "0",
+        "label": {
+          "en": "Congestion control on",
+          "zh-Hans": "开启拥塞控制",
+          "zh-Hant": "開啟壅塞控制"
+        }
+      },
+      {
+        "value": "1",
+        "label": {
+          "en": "Congestion control off",
+          "zh-Hans": "关闭拥塞控制",
+          "zh-Hant": "關閉壅塞控制"
+        }
+      }
+    ]
+  },
+  "proxies[*].plugin-opts[*].nocomp": {
+    "title": {
+      "en": "No Compression",
+      "zh-Hans": "关闭压缩",
+      "zh-Hant": "關閉壓縮"
+    },
+    "summary": {
+      "en": "Turns compression off. It must match the server.",
+      "zh-Hans": "关闭数据压缩，须与服务器一致。",
+      "zh-Hant": "關閉資料壓縮，須與伺服器一致。"
+    }
+  },
+  "proxies[*].plugin-opts[*].nodelay": {
+    "title": {
+      "en": "No Delay",
+      "zh-Hans": "无延迟模式",
+      "zh-Hant": "無延遲模式"
+    },
+    "summary": {
+      "en": "KCP's nodelay switch. Applies only when Speed Mode isn't a preset.",
+      "zh-Hans": "KCP 的 nodelay，仅在加速模式不是预设档时生效。",
+      "zh-Hant": "KCP 的 nodelay，僅在加速模式不是預設檔時生效。"
+    },
+    "unset": {
+      "en": "Set by the speed mode (0 in fast)",
+      "zh-Hans": "由加速模式决定，fast 为 0",
+      "zh-Hant": "由加速模式決定，fast 為 0"
+    },
+    "presets": [
+      {
+        "value": "0",
+        "label": {
+          "en": "Off",
+          "zh-Hans": "关闭",
+          "zh-Hant": "關閉"
+        }
+      },
+      {
+        "value": "1",
+        "label": {
+          "en": "On",
+          "zh-Hans": "开启",
+          "zh-Hant": "開啟"
+        }
+      }
+    ]
+  },
+  "proxies[*].plugin-opts[*].parityshard": {
+    "title": {
+      "en": "Parity Shards",
+      "zh-Hans": "校验分片",
+      "zh-Hant": "校驗分片"
+    },
+    "summary": {
+      "en": "Reed-Solomon parity shards for error correction. It must match the server.",
+      "zh-Hans": "纠错编码的校验分片数，须与服务器一致。",
+      "zh-Hant": "糾錯編碼的校驗分片數，須與伺服器一致。"
+    }
+  },
+  "proxies[*].plugin-opts[*].password": {
+    "title": {
+      "en": "Plugin Password",
+      "zh-Hans": "插件密码",
+      "zh-Hant": "外掛密碼"
+    },
+    "summary": {
+      "en": "The plugin's password. It must match the server.",
+      "zh-Hans": "插件的密码，须与服务器一致。",
+      "zh-Hant": "外掛的密碼，須與伺服器一致。"
+    },
+    "example": "your-password"
+  },
+  "proxies[*].plugin-opts[*].path": {
+    "title": {
+      "en": "WebSocket Path",
+      "zh-Hans": "WebSocket 路径",
+      "zh-Hant": "WebSocket 路徑"
+    },
+    "summary": {
+      "en": "The request path on the server. It must match the server.",
+      "zh-Hans": "服务器上的请求路径，须与服务器一致。",
+      "zh-Hant": "伺服器上的請求路徑，須與伺服器一致。"
+    },
+    "example": "/",
+    "presets": [
+      {
+        "value": "/",
+        "label": {
+          "en": "Root (/)",
+          "zh-Hans": "根路径（/）",
+          "zh-Hant": "根路徑（/）"
+        }
+      }
+    ]
+  },
+  "proxies[*].plugin-opts[*].private-key": {
+    "title": {
+      "en": "Client Private Key",
+      "zh-Hans": "客户端私钥",
+      "zh-Hant": "用戶端私密金鑰"
+    },
+    "summary": {
+      "en": "The private key for your client certificate, in PEM.",
+      "zh-Hans": "客户端证书对应的私钥（PEM）。",
+      "zh-Hant": "用戶端憑證對應的私密金鑰（PEM）。"
+    },
+    "example": "PRIVATE_KEY_PEM"
+  },
+  "proxies[*].plugin-opts[*].ratelimit": {
+    "title": {
+      "en": "Rate Limit",
+      "zh-Hans": "限速",
+      "zh-Hant": "限速"
+    },
+    "summary": {
+      "en": "Caps each KCP connection's sending speed, in bytes per second. 0 means no cap.",
+      "zh-Hans": "每条 KCP 连接的发送速率上限（字节/秒），0 不限。",
+      "zh-Hant": "每條 KCP 連線的傳送速率上限（位元組/秒），0 不限。"
+    },
+    "unset": {
+      "en": "No limit",
+      "zh-Hans": "不限",
+      "zh-Hant": "不限"
+    }
+  },
+  "proxies[*].plugin-opts[*].rcvwnd": {
+    "title": {
+      "en": "Receive Window",
+      "zh-Hans": "接收窗口",
+      "zh-Hant": "接收視窗"
+    },
+    "summary": {
+      "en": "The receive window, in packets.",
+      "zh-Hans": "接收窗口大小（包数）。",
+      "zh-Hant": "接收視窗大小（封包數）。"
+    }
+  },
+  "proxies[*].plugin-opts[*].resend": {
+    "title": {
+      "en": "Fast Resend",
+      "zh-Hans": "快速重传",
+      "zh-Hant": "快速重傳"
+    },
+    "summary": {
+      "en": "Resends after this many skipped ACKs. Applies only when Speed Mode isn't a preset.",
+      "zh-Hans": "跳过几次确认就快速重传，仅在加速模式不是预设档时生效。",
+      "zh-Hant": "略過幾次確認就快速重傳，僅在加速模式不是預設檔時生效。"
+    },
+    "unset": {
+      "en": "Set by the speed mode (2 in fast)",
+      "zh-Hans": "由加速模式决定，fast 为 2",
+      "zh-Hant": "由加速模式決定，fast 為 2"
+    }
+  },
+  "proxies[*].plugin-opts[*].restls-script": {
+    "title": {
+      "en": "Restls Script",
+      "zh-Hans": "Restls 脚本",
+      "zh-Hant": "Restls 腳本"
+    },
+    "summary": {
+      "en": "Shapes traffic after the handshake to hide proxy patterns. Optional.",
+      "zh-Hans": "握手后按脚本调整流量，隐藏代理特征，可不填。",
+      "zh-Hant": "交握後依腳本調整流量，隱藏代理特徵，可不填。"
+    },
+    "example": "300?100<1,400~100,350~100,600~100,300~200,300~100"
+  },
+  "proxies[*].plugin-opts[*].scavengettl": {
+    "title": {
+      "en": "Expired Connection TTL",
+      "zh-Hans": "过期连接保留",
+      "zh-Hant": "過期連線保留"
+    },
+    "summary": {
+      "en": "How long an expired connection may still carry data.",
+      "zh-Hans": "过期连接还能继续使用多久。",
+      "zh-Hant": "過期連線還能繼續使用多久。"
+    }
+  },
+  "proxies[*].plugin-opts[*].skip-cert-verify": {
+    "title": {
+      "en": "Skip Certificate Check",
+      "zh-Hans": "跳过证书验证",
+      "zh-Hant": "略過憑證驗證"
+    },
+    "summary": {
+      "en": "Accepts any certificate. Unsafe: use it only for testing or a self-signed server.",
+      "zh-Hans": "不检查服务器证书。不安全，仅在测试或自签证书时用。",
+      "zh-Hant": "不檢查伺服器憑證。不安全，僅在測試或自簽憑證時使用。"
+    }
+  },
+  "proxies[*].plugin-opts[*].smuxbuf": {
+    "title": {
+      "en": "smux Buffer",
+      "zh-Hans": "smux 缓冲",
+      "zh-Hant": "smux 緩衝"
+    },
+    "summary": {
+      "en": "The total receive buffer for smux, in bytes.",
+      "zh-Hans": "smux 总的接收缓冲区大小（字节）。",
+      "zh-Hant": "smux 總接收緩衝區大小（位元組）。"
+    }
+  },
+  "proxies[*].plugin-opts[*].smuxver": {
+    "title": {
+      "en": "smux Version",
+      "zh-Hans": "smux 版本",
+      "zh-Hant": "smux 版本"
+    },
+    "summary": {
+      "en": "The smux version. It must match the server.",
+      "zh-Hans": "smux 协议版本，须与服务器一致。",
+      "zh-Hant": "smux 協定版本，須與伺服器一致。"
+    },
+    "presets": [
+      {
+        "value": "1",
+        "label": {
+          "en": "v1",
+          "zh-Hans": "v1",
+          "zh-Hant": "v1"
+        }
+      },
+      {
+        "value": "2",
+        "label": {
+          "en": "v2",
+          "zh-Hans": "v2",
+          "zh-Hant": "v2"
+        }
+      }
+    ]
+  },
+  "proxies[*].plugin-opts[*].sndwnd": {
+    "title": {
+      "en": "Send Window",
+      "zh-Hans": "发送窗口",
+      "zh-Hant": "傳送視窗"
+    },
+    "summary": {
+      "en": "The send window, in packets.",
+      "zh-Hans": "发送窗口大小（包数）。",
+      "zh-Hant": "傳送視窗大小（封包數）。"
+    }
+  },
+  "proxies[*].plugin-opts[*].sockbuf": {
+    "title": {
+      "en": "Socket Buffer",
+      "zh-Hans": "套接字缓冲",
+      "zh-Hant": "通訊端緩衝"
+    },
+    "summary": {
+      "en": "The buffer size of each socket, in bytes.",
+      "zh-Hans": "每个套接字的缓冲区大小（字节）。",
+      "zh-Hant": "每個通訊端的緩衝區大小（位元組）。"
+    }
+  },
+  "proxies[*].plugin-opts[*].streambuf": {
+    "title": {
+      "en": "Stream Buffer",
+      "zh-Hans": "单流缓冲",
+      "zh-Hant": "單一串流緩衝"
+    },
+    "summary": {
+      "en": "The receive buffer of each stream, in bytes, from smux v2 on.",
+      "zh-Hans": "每个流的接收缓冲（字节），smux v2 起生效。",
+      "zh-Hant": "每個串流的接收緩衝（位元組），smux v2 起生效。"
+    }
+  },
+  "proxies[*].plugin-opts[*].tls": {
+    "title": {
+      "en": "TLS",
+      "zh-Hans": "TLS",
+      "zh-Hant": "TLS"
+    },
+    "summary": {
+      "en": "Wraps the WebSocket in TLS (wss). It must match the server.",
+      "zh-Hans": "给 WebSocket 加上 TLS（wss），须与服务器一致。",
+      "zh-Hant": "替 WebSocket 加上 TLS（wss），須與伺服器一致。"
+    }
+  },
+  "proxies[*].plugin-opts[*].username": {
+    "title": {
+      "en": "JLS Username",
+      "zh-Hans": "JLS 用户名",
+      "zh-Hant": "JLS 使用者名稱"
+    },
+    "summary": {
+      "en": "The JLS username the server gave you.",
+      "zh-Hans": "服务器提供的 JLS 用户名。",
+      "zh-Hant": "伺服器提供的 JLS 使用者名稱。"
+    },
+    "example": "jls-user"
+  },
+  "proxies[*].plugin-opts[*].v2ray-http-upgrade": {
+    "title": {
+      "en": "HTTP Upgrade",
+      "zh-Hans": "HTTP Upgrade",
+      "zh-Hant": "HTTP Upgrade"
+    },
+    "summary": {
+      "en": "Uses V2Ray's HTTPUpgrade instead of full WebSocket. It must match the server.",
+      "zh-Hans": "改用 V2Ray 的 HTTPUpgrade 传输，须与服务器一致。",
+      "zh-Hant": "改用 V2Ray 的 HTTPUpgrade 傳輸，須與伺服器一致。"
+    }
+  },
+  "proxies[*].plugin-opts[*].v2ray-http-upgrade-fast-open": {
+    "title": {
+      "en": "HTTP Upgrade Fast Open",
+      "zh-Hans": "Upgrade 快速打开",
+      "zh-Hant": "Upgrade 快速開啟"
+    },
+    "summary": {
+      "en": "Sends data without waiting for the upgrade reply, saving a round trip.",
+      "zh-Hans": "不等升级响应就发数据，省一次往返。",
+      "zh-Hant": "不等升級回應就傳送資料，省一次往返。"
+    }
+  },
+  "proxies[*].plugin-opts[*].version": {
+    "title": {
+      "en": "ShadowTLS Version",
+      "zh-Hans": "ShadowTLS 版本",
+      "zh-Hant": "ShadowTLS 版本"
+    },
+    "summary": {
+      "en": "The ShadowTLS version the server runs.",
+      "zh-Hans": "服务器运行的 ShadowTLS 版本。",
+      "zh-Hant": "伺服器執行的 ShadowTLS 版本。"
+    },
+    "presets": [
+      {
+        "value": "1",
+        "label": {
+          "en": "v1",
+          "zh-Hans": "v1",
+          "zh-Hant": "v1"
+        }
+      },
+      {
+        "value": "2",
+        "label": {
+          "en": "v2",
+          "zh-Hans": "v2",
+          "zh-Hant": "v2"
+        }
+      },
+      {
+        "value": "3",
+        "label": {
+          "en": "v3",
+          "zh-Hans": "v3",
+          "zh-Hant": "v3"
+        }
+      }
+    ]
+  },
+  "proxies[*].plugin-opts[*].version-hint": {
+    "title": {
+      "en": "Restls TLS Version",
+      "zh-Hans": "Restls 版本",
+      "zh-Hant": "Restls 版本"
+    },
+    "summary": {
+      "en": "The TLS version of the site Restls imitates.",
+      "zh-Hans": "Restls 伪装的网站所用的 TLS 版本。",
+      "zh-Hant": "Restls 偽裝的網站所用的 TLS 版本。"
+    },
+    "presets": [
+      {
+        "value": "tls12",
+        "label": {
+          "en": "TLS 1.2",
+          "zh-Hans": "TLS 1.2",
+          "zh-Hant": "TLS 1.2"
+        }
+      },
+      {
+        "value": "tls13",
+        "label": {
+          "en": "TLS 1.3",
+          "zh-Hans": "TLS 1.3",
+          "zh-Hant": "TLS 1.3"
+        }
+      }
+    ]
+  },
+  "proxies[*].protocol-param": {
+    "title": {
+      "en": "Protocol Parameter",
+      "zh-Hans": "协议参数",
+      "zh-Hant": "協定參數"
+    },
+    "summary": {
+      "en": "The protocol parameter, such as a user ID and key. Leave it empty if the server gave none.",
+      "zh-Hans": "协议参数（如用户 ID:密钥），服务器没给就留空。",
+      "zh-Hant": "協定參數（如使用者 ID:金鑰），伺服器沒給就留空。"
+    },
+    "example": "1024:password"
+  },
+  "proxies[*].psk": {
+    "title": {
+      "en": "Pre-shared Key",
+      "zh-Hans": "预共享密钥",
+      "zh-Hant": "預共享金鑰"
+    },
+    "summary": {
+      "en": "The Snell key the server gave you.",
+      "zh-Hans": "服务器提供的 Snell 密钥。",
+      "zh-Hant": "伺服器提供的 Snell 金鑰。"
+    },
+    "example": "your-psk"
+  },
+  "proxies[*].reuse": {
+    "title": {
+      "en": "Reuse Connections",
+      "zh-Hans": "连接复用",
+      "zh-Hant": "連線重複使用"
+    },
+    "summary": {
+      "en": "Reuses connections to the server (Snell 4 and later).",
+      "zh-Hans": "复用到服务器的连接（Snell 4 及以上）。",
+      "zh-Hant": "重複使用到伺服器的連線（Snell 4 及以上）。"
+    }
+  },
+  "proxies[*].ss-opts.enabled": {
+    "title": {
+      "en": "Shadowsocks Layer",
+      "zh-Hans": "SS 加密层",
+      "zh-Hant": "SS 加密層"
+    },
+    "summary": {
+      "en": "Adds trojan-go's Shadowsocks AEAD encryption. It must match the server.",
+      "zh-Hans": "启用 trojan-go 的 SS 加密，须与服务器一致。",
+      "zh-Hant": "啟用 trojan-go 的 SS 加密，須與伺服器一致。"
+    }
+  },
+  "proxies[*].ss-opts.method": {
+    "title": {
+      "en": "Cipher",
+      "zh-Hans": "加密方式",
+      "zh-Hant": "加密方式"
+    },
+    "summary": {
+      "en": "The cipher for the Shadowsocks layer.",
+      "zh-Hans": "SS 加密层的加密方式。",
+      "zh-Hant": "SS 加密層的加密方式。"
+    },
+    "presets": [
+      {
+        "value": "aes-128-gcm",
+        "label": {
+          "en": "AES-128-GCM",
+          "zh-Hans": "AES-128-GCM",
+          "zh-Hant": "AES-128-GCM"
+        }
+      },
+      {
+        "value": "aes-192-gcm",
+        "label": {
+          "en": "AES-192-GCM",
+          "zh-Hans": "AES-192-GCM",
+          "zh-Hant": "AES-192-GCM"
+        }
+      },
+      {
+        "value": "aes-256-gcm",
+        "label": {
+          "en": "AES-256-GCM",
+          "zh-Hans": "AES-256-GCM",
+          "zh-Hant": "AES-256-GCM"
+        }
+      },
+      {
+        "value": "chacha20-ietf-poly1305",
+        "label": {
+          "en": "ChaCha20-IETF-Poly1305",
+          "zh-Hans": "ChaCha20-IETF-Poly1305",
+          "zh-Hant": "ChaCha20-IETF-Poly1305"
+        }
+      },
+      {
+        "value": "xchacha20-ietf-poly1305",
+        "label": {
+          "en": "XChaCha20-IETF-Poly1305",
+          "zh-Hans": "XChaCha20-IETF-Poly1305",
+          "zh-Hant": "XChaCha20-IETF-Poly1305"
+        }
+      },
+      {
+        "value": "chacha8-ietf-poly1305",
+        "label": {
+          "en": "ChaCha8-IETF-Poly1305",
+          "zh-Hans": "ChaCha8-IETF-Poly1305",
+          "zh-Hant": "ChaCha8-IETF-Poly1305"
+        }
+      },
+      {
+        "value": "xchacha8-ietf-poly1305",
+        "label": {
+          "en": "XChaCha8-IETF-Poly1305",
+          "zh-Hans": "XChaCha8-IETF-Poly1305",
+          "zh-Hant": "XChaCha8-IETF-Poly1305"
+        }
+      },
+      {
+        "value": "aes-128-ccm",
+        "label": {
+          "en": "AES-128-CCM",
+          "zh-Hans": "AES-128-CCM",
+          "zh-Hant": "AES-128-CCM"
+        }
+      },
+      {
+        "value": "aes-192-ccm",
+        "label": {
+          "en": "AES-192-CCM",
+          "zh-Hans": "AES-192-CCM",
+          "zh-Hant": "AES-192-CCM"
+        }
+      },
+      {
+        "value": "aes-256-ccm",
+        "label": {
+          "en": "AES-256-CCM",
+          "zh-Hans": "AES-256-CCM",
+          "zh-Hant": "AES-256-CCM"
+        }
+      },
+      {
+        "value": "rc4-md5",
+        "label": {
+          "en": "RC4-MD5",
+          "zh-Hans": "RC4-MD5",
+          "zh-Hant": "RC4-MD5"
+        }
+      },
+      {
+        "value": "aes-128-ctr",
+        "label": {
+          "en": "AES-128-CTR",
+          "zh-Hans": "AES-128-CTR",
+          "zh-Hant": "AES-128-CTR"
+        }
+      },
+      {
+        "value": "aes-192-ctr",
+        "label": {
+          "en": "AES-192-CTR",
+          "zh-Hans": "AES-192-CTR",
+          "zh-Hant": "AES-192-CTR"
+        }
+      },
+      {
+        "value": "aes-256-ctr",
+        "label": {
+          "en": "AES-256-CTR",
+          "zh-Hans": "AES-256-CTR",
+          "zh-Hant": "AES-256-CTR"
+        }
+      },
+      {
+        "value": "aes-128-cfb",
+        "label": {
+          "en": "AES-128-CFB",
+          "zh-Hans": "AES-128-CFB",
+          "zh-Hant": "AES-128-CFB"
+        }
+      },
+      {
+        "value": "aes-192-cfb",
+        "label": {
+          "en": "AES-192-CFB",
+          "zh-Hans": "AES-192-CFB",
+          "zh-Hant": "AES-192-CFB"
+        }
+      },
+      {
+        "value": "aes-256-cfb",
+        "label": {
+          "en": "AES-256-CFB",
+          "zh-Hans": "AES-256-CFB",
+          "zh-Hant": "AES-256-CFB"
+        }
+      },
+      {
+        "value": "chacha20",
+        "label": {
+          "en": "ChaCha20",
+          "zh-Hans": "ChaCha20",
+          "zh-Hant": "ChaCha20"
+        }
+      },
+      {
+        "value": "chacha20-ietf",
+        "label": {
+          "en": "ChaCha20-IETF",
+          "zh-Hans": "ChaCha20-IETF",
+          "zh-Hant": "ChaCha20-IETF"
+        }
+      },
+      {
+        "value": "xchacha20",
+        "label": {
+          "en": "XChaCha20",
+          "zh-Hans": "XChaCha20",
+          "zh-Hant": "XChaCha20"
+        }
+      },
+      {
+        "value": "dummy",
+        "label": {
+          "en": "None (dummy)",
+          "zh-Hans": "不加密（dummy）",
+          "zh-Hant": "不加密（dummy）"
+        }
+      }
+    ]
+  },
+  "proxies[*].ss-opts.password": {
+    "title": {
+      "en": "Password",
+      "zh-Hans": "密码",
+      "zh-Hant": "密碼"
+    },
+    "summary": {
+      "en": "The password for the Shadowsocks layer.",
+      "zh-Hans": "SS 加密层的密码。",
+      "zh-Hant": "SS 加密層的密碼。"
+    },
+    "example": "your-password"
+  },
+  "proxies[*].target-rematch-name": {
+    "title": {
+      "en": "Rematch Name",
+      "zh-Hans": "重新匹配名",
+      "zh-Hant": "重新比對名稱"
+    },
+    "summary": {
+      "en": "Tags the connection with this name and matches the rules again, for REMATCH-NAME rules.",
+      "zh-Hans": "给连接打上这个名字再重新匹配规则，供 REMATCH-NAME 规则用。",
+      "zh-Hant": "給連線加上這個名稱再重新比對規則，供 REMATCH-NAME 規則使用。"
+    },
+    "example": "streaming"
+  },
+  "proxies[*].target-sub-rule": {
+    "title": {
+      "en": "Jump to Sub-rules",
+      "zh-Hans": "跳转子规则",
+      "zh-Hant": "跳至子規則"
+    },
+    "summary": {
+      "en": "Continues matching with these sub-rules. If they're missing or empty, the main rules take over.",
+      "zh-Hans": "改用这组子规则继续匹配，不存在或为空则回到主规则。",
+      "zh-Hant": "改用這組子規則繼續比對，不存在或為空則回到主規則。"
+    },
+    "unset": {
+      "en": "Main rules",
+      "zh-Hans": "主规则",
+      "zh-Hant": "主規則"
+    }
+  },
+  "proxies[*].tlsmirror-opts.connection-enrolment.primary-egress-outbound": {
+    "title": {
+      "en": "Egress Control Outbound",
+      "zh-Hans": "出站控制出站",
+      "zh-Hant": "出站控制出站"
+    },
+    "summary": {
+      "en": "The egress-side control outbound for connection enrolment. Keep it empty for mihomo.",
+      "zh-Hans": "连接登记用的出站侧控制出站，mihomo 一般留空。",
+      "zh-Hant": "連線登記用的出站側控制出站，mihomo 一般留空。"
+    },
+    "example": "control"
+  },
+  "proxies[*].tlsmirror-opts.connection-enrolment.primary-ingress-outbound": {
+    "title": {
+      "en": "Ingress Control Outbound",
+      "zh-Hans": "入站控制出站",
+      "zh-Hant": "入站控制出站"
+    },
+    "summary": {
+      "en": "The ingress-side control outbound for connection enrolment, to match a V2Ray server. Usually empty.",
+      "zh-Hans": "连接登记用的入站侧控制出站，配合 V2Ray 服务端，一般留空。",
+      "zh-Hant": "連線登記用的入站側控制出站，配合 V2Ray 伺服器端，一般留空。"
+    },
+    "example": "control"
+  },
+  "proxies[*].tlsmirror-opts.defer-instance-derived-write-time.base-nanoseconds": {
+    "title": {
+      "en": "Base Time",
+      "zh-Hans": "基础延迟",
+      "zh-Hant": "基礎延遲"
+    },
+    "summary": {
+      "en": "The delay before the first write, in nanoseconds.",
+      "zh-Hans": "首次写入前的延迟（纳秒）。",
+      "zh-Hant": "首次寫入前的延遲（奈秒）。"
+    }
+  },
+  "proxies[*].tlsmirror-opts.defer-instance-derived-write-time.uniform-random-multiplier-nanoseconds": {
+    "title": {
+      "en": "Random Jitter",
+      "zh-Hans": "随机抖动",
+      "zh-Hant": "隨機抖動"
+    },
+    "summary": {
+      "en": "A random delay added before the first write, in nanoseconds.",
+      "zh-Hans": "首次写入前随机增加的延迟（纳秒）。",
+      "zh-Hant": "首次寫入前隨機增加的延遲（奈秒）。"
+    }
+  },
+  "proxies[*].tlsmirror-opts.embedded-traffic-generator.steps": {
+    "title": {
+      "en": "Steps",
+      "zh-Hans": "步骤",
+      "zh-Hant": "步驟"
+    },
+    "summary": {
+      "en": "Steps of extra HTTP cover traffic, run in order. With none, there's no cover traffic.",
+      "zh-Hans": "额外 HTTP 载体流量的步骤，按顺序执行，不填则不启用。",
+      "zh-Hant": "額外 HTTP 載體流量的步驟，依序執行，不填則不啟用。"
+    }
+  },
+  "proxies[*].tlsmirror-opts.embedded-traffic-generator.steps[].connection-ready": {
+    "title": {
+      "en": "Ready After This Step",
+      "zh-Hans": "此步后交付连接",
+      "zh-Hant": "此步後交付連線"
+    },
+    "summary": {
+      "en": "Hands over the proxy connection only after this step finishes.",
+      "zh-Hans": "这一步完成后才交付代理连接。",
+      "zh-Hant": "這一步完成後才交付代理連線。"
+    }
+  },
+  "proxies[*].tlsmirror-opts.embedded-traffic-generator.steps[].connection-recall-exit": {
+    "title": {
+      "en": "Stop When Proxy Closes",
+      "zh-Hans": "代理关闭即停止",
+      "zh-Hant": "代理關閉即停止"
+    },
+    "summary": {
+      "en": "Stops the cover traffic when the proxy connection closes.",
+      "zh-Hans": "代理连接关闭后停止载体流量。",
+      "zh-Hant": "代理連線關閉後停止載體流量。"
+    }
+  },
+  "proxies[*].tlsmirror-opts.embedded-traffic-generator.steps[].h2-do-not-wait-for-download-finish": {
+    "title": {
+      "en": "Don't Wait for Download",
+      "zh-Hans": "不等下载完成",
+      "zh-Hant": "不等下載完成"
+    },
+    "summary": {
+      "en": "Over HTTP/2, doesn't wait for the response body to finish.",
+      "zh-Hans": "HTTP/2 下不等待响应正文读完。",
+      "zh-Hant": "HTTP/2 下不等待回應內文讀完。"
+    }
+  },
+  "proxies[*].tlsmirror-opts.embedded-traffic-generator.steps[].headers": {
+    "title": {
+      "en": "Headers",
+      "zh-Hans": "请求头",
+      "zh-Hant": "請求標頭"
+    },
+    "summary": {
+      "en": "Request headers; each has a name and one or more values.",
+      "zh-Hans": "请求头，每项一个名字和一个或多个值。",
+      "zh-Hant": "請求標頭，每項一個名稱和一個或多個值。"
+    }
+  },
+  "proxies[*].tlsmirror-opts.embedded-traffic-generator.steps[].headers[].name": {
+    "title": {
+      "en": "Header Name",
+      "zh-Hans": "请求头名",
+      "zh-Hant": "標頭名稱"
+    },
+    "summary": {
+      "en": "The header's name.",
+      "zh-Hans": "请求头的名字。",
+      "zh-Hant": "標頭的名稱。"
+    },
+    "example": "User-Agent"
+  },
+  "proxies[*].tlsmirror-opts.embedded-traffic-generator.steps[].headers[].value": {
+    "title": {
+      "en": "Value",
+      "zh-Hans": "值",
+      "zh-Hant": "值"
+    },
+    "summary": {
+      "en": "A single value for the header.",
+      "zh-Hans": "请求头的单个值。",
+      "zh-Hant": "標頭的單一值。"
+    },
+    "example": "Mozilla/5.0"
+  },
+  "proxies[*].tlsmirror-opts.embedded-traffic-generator.steps[].headers[].values": {
+    "title": {
+      "en": "Values",
+      "zh-Hans": "多个值",
+      "zh-Hant": "多個值"
+    },
+    "summary": {
+      "en": "Several values for the header.",
+      "zh-Hans": "请求头的多个值。",
+      "zh-Hant": "標頭的多個值。"
+    },
+    "example": "text/html"
+  },
+  "proxies[*].tlsmirror-opts.embedded-traffic-generator.steps[].host": {
+    "title": {
+      "en": "Host",
+      "zh-Hans": "请求主机",
+      "zh-Hant": "請求主機"
+    },
+    "summary": {
+      "en": "The host the HTTP request goes to.",
+      "zh-Hans": "HTTP 请求的目标主机。",
+      "zh-Hant": "HTTP 請求的目標主機。"
+    },
+    "example": "example.com"
+  },
+  "proxies[*].tlsmirror-opts.embedded-traffic-generator.steps[].method": {
+    "title": {
+      "en": "Method",
+      "zh-Hans": "请求方法",
+      "zh-Hant": "請求方法"
+    },
+    "summary": {
+      "en": "The HTTP request method.",
+      "zh-Hans": "HTTP 请求方法。",
+      "zh-Hant": "HTTP 請求方法。"
+    },
+    "example": "GET",
+    "presets": [
+      {
+        "value": "GET",
+        "label": {
+          "en": "GET",
+          "zh-Hans": "GET",
+          "zh-Hant": "GET"
+        }
+      },
+      {
+        "value": "POST",
+        "label": {
+          "en": "POST",
+          "zh-Hans": "POST",
+          "zh-Hant": "POST"
+        }
+      },
+      {
+        "value": "HEAD",
+        "label": {
+          "en": "HEAD",
+          "zh-Hans": "HEAD",
+          "zh-Hant": "HEAD"
+        }
+      },
+      {
+        "value": "PUT",
+        "label": {
+          "en": "PUT",
+          "zh-Hans": "PUT",
+          "zh-Hant": "PUT"
+        }
+      }
+    ]
+  },
+  "proxies[*].tlsmirror-opts.embedded-traffic-generator.steps[].name": {
+    "title": {
+      "en": "Step Name",
+      "zh-Hans": "步骤名",
+      "zh-Hant": "步驟名稱"
+    },
+    "summary": {
+      "en": "A label for the step.",
+      "zh-Hans": "步骤的名字，仅用于标识。",
+      "zh-Hant": "步驟的名稱，僅用於識別。"
+    },
+    "example": "step-1"
+  },
+  "proxies[*].tlsmirror-opts.embedded-traffic-generator.steps[].next-step": {
+    "title": {
+      "en": "Next Steps",
+      "zh-Hans": "下一步",
+      "zh-Hant": "下一步"
+    },
+    "summary": {
+      "en": "Weighted choices of which step runs next.",
+      "zh-Hans": "按权重选择接下来执行哪一步。",
+      "zh-Hant": "依權重選擇接下來執行哪一步。"
+    }
+  },
+  "proxies[*].tlsmirror-opts.embedded-traffic-generator.steps[].next-step[].goto-location": {
+    "title": {
+      "en": "Go to Step",
+      "zh-Hans": "跳转到步骤",
+      "zh-Hant": "跳至步驟"
+    },
+    "summary": {
+      "en": "The number of the step to jump to, counting from 0.",
+      "zh-Hans": "要跳转到的步骤序号，从 0 开始。",
+      "zh-Hant": "要跳至的步驟序號，從 0 開始。"
+    }
+  },
+  "proxies[*].tlsmirror-opts.embedded-traffic-generator.steps[].next-step[].weight": {
+    "title": {
+      "en": "Weight",
+      "zh-Hans": "权重",
+      "zh-Hant": "權重"
+    },
+    "summary": {
+      "en": "How likely this choice is picked.",
+      "zh-Hans": "被选中的相对概率。",
+      "zh-Hant": "被選中的相對機率。"
+    }
+  },
+  "proxies[*].tlsmirror-opts.embedded-traffic-generator.steps[].path": {
+    "title": {
+      "en": "Path",
+      "zh-Hans": "请求路径",
+      "zh-Hant": "請求路徑"
+    },
+    "summary": {
+      "en": "The HTTP request path.",
+      "zh-Hans": "HTTP 请求路径。",
+      "zh-Hant": "HTTP 請求路徑。"
+    },
+    "example": "/"
+  },
+  "proxies[*].tlsmirror-opts.embedded-traffic-generator.steps[].wait-time.base-nanoseconds": {
+    "title": {
+      "en": "Base Time",
+      "zh-Hans": "基础时长",
+      "zh-Hant": "基礎時長"
+    },
+    "summary": {
+      "en": "Time to wait after this step, in nanoseconds.",
+      "zh-Hans": "这一步完成后等待的时间（纳秒）。",
+      "zh-Hant": "這一步完成後等待的時間（奈秒）。"
+    }
+  },
+  "proxies[*].tlsmirror-opts.embedded-traffic-generator.steps[].wait-time.uniform-random-multiplier-nanoseconds": {
+    "title": {
+      "en": "Random Jitter",
+      "zh-Hans": "随机抖动",
+      "zh-Hant": "隨機抖動"
+    },
+    "summary": {
+      "en": "A random extra wait after this step, in nanoseconds.",
+      "zh-Hans": "步骤后随机增加的等待（纳秒）。",
+      "zh-Hant": "步驟後隨機增加的等待（奈秒）。"
+    }
+  },
+  "proxies[*].tlsmirror-opts.explicit-nonce-ciphersuites": {
+    "title": {
+      "en": "Explicit-Nonce Suites",
+      "zh-Hans": "显式 Nonce 套件",
+      "zh-Hant": "顯式 Nonce 套件"
+    },
+    "summary": {
+      "en": "TLS 1.2 cipher suites, by number, that use an explicit nonce.",
+      "zh-Hans": "使用显式 nonce 的 TLS 1.2 加密套件编号。",
+      "zh-Hant": "使用顯式 nonce 的 TLS 1.2 加密套件編號。"
+    }
+  },
+  "proxies[*].tlsmirror-opts.primary-key": {
+    "title": {
+      "en": "Key",
+      "zh-Hans": "密钥",
+      "zh-Hant": "金鑰"
+    },
+    "summary": {
+      "en": "The 32-byte primary key, in base64. Required to use TLSMirror.",
+      "zh-Hans": "32 字节主密钥的 base64，启用 TLSMirror 必填。",
+      "zh-Hant": "32 位元組主金鑰的 base64，啟用 TLSMirror 必填。"
+    },
+    "example": "MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY="
+  },
+  "proxies[*].tlsmirror-opts.sequence-watermarking-enabled": {
+    "title": {
+      "en": "Sequence Watermarking",
+      "zh-Hans": "序列水印",
+      "zh-Hant": "序列浮水印"
+    },
+    "summary": {
+      "en": "Turns on sequence watermarking.",
+      "zh-Hans": "启用序列水印。",
+      "zh-Hant": "啟用序列浮水印。"
+    }
+  },
+  "proxies[*].tlsmirror-opts.transport-layer-padding.enabled": {
+    "title": {
+      "en": "Transport Padding",
+      "zh-Hans": "传输层填充",
+      "zh-Hant": "傳輸層填充"
+    },
+    "summary": {
+      "en": "Pads the traffic at the transport layer.",
+      "zh-Hans": "在传输层加入填充。",
+      "zh-Hant": "在傳輸層加入填充。"
+    }
+  },
+  "proxies[*].udp-over-tcp": {
+    "title": {
+      "en": "UDP over TCP",
+      "zh-Hans": "UDP 走 TCP",
+      "zh-Hant": "UDP 走 TCP"
+    },
+    "summary": {
+      "en": "Carries UDP inside TCP, for networks that block UDP. The server must support it.",
+      "zh-Hans": "把 UDP 装进 TCP 传输，适合封锁 UDP 的网络，需服务器支持。",
+      "zh-Hant": "把 UDP 裝進 TCP 傳輸，適合封鎖 UDP 的網路，需伺服器支援。"
+    }
+  },
+  "proxies[*].udp-over-tcp-version": {
+    "title": {
+      "en": "UDP over TCP Version",
+      "zh-Hans": "UDP 走 TCP 版本",
+      "zh-Hant": "UDP 走 TCP 版本"
+    },
+    "summary": {
+      "en": "The UDP over TCP protocol version. It must match the server.",
+      "zh-Hans": "UDP 走 TCP 的协议版本，须与服务器一致。",
+      "zh-Hant": "UDP 走 TCP 的協定版本，須與伺服器一致。"
+    },
+    "presets": [
+      {
+        "value": "1",
+        "label": {
+          "en": "v1",
+          "zh-Hans": "v1",
+          "zh-Hant": "v1"
+        }
+      },
+      {
+        "value": "2",
+        "label": {
+          "en": "v2",
+          "zh-Hans": "v2",
+          "zh-Hant": "v2"
+        }
+      }
+    ]
+  },
+  "proxies[*].version": {
+    "title": {
+      "en": "Snell Version",
+      "zh-Hans": "Snell 版本",
+      "zh-Hant": "Snell 版本"
+    },
+    "summary": {
+      "en": "The Snell version the server runs. Only 3 and later carry UDP.",
+      "zh-Hans": "服务器的 Snell 版本，3 及以上才支持 UDP。",
+      "zh-Hant": "伺服器的 Snell 版本，3 以上才支援 UDP。"
+    },
+    "presets": [
+      {
+        "value": "1",
+        "label": {
+          "en": "v1",
+          "zh-Hans": "v1",
+          "zh-Hant": "v1"
+        }
+      },
+      {
+        "value": "2",
+        "label": {
+          "en": "v2",
+          "zh-Hans": "v2",
+          "zh-Hant": "v2"
+        }
+      },
+      {
+        "value": "3",
+        "label": {
+          "en": "v3",
+          "zh-Hans": "v3",
+          "zh-Hant": "v3"
+        }
+      },
+      {
+        "value": "4",
+        "label": {
+          "en": "v4",
+          "zh-Hans": "v4",
+          "zh-Hant": "v4"
+        }
+      },
+      {
+        "value": "5",
+        "label": {
+          "en": "v5",
+          "zh-Hans": "v5",
+          "zh-Hant": "v5"
+        }
+      },
+      {
+        "value": "6",
+        "label": {
+          "en": "v6",
+          "zh-Hans": "v6",
+          "zh-Hant": "v6"
+        }
+      }
+    ]
+  },
+  "proxies[*].ws-headers": {
+    "title": {
+      "en": "WS Headers (Unused)",
+      "zh-Hans": "WS 请求头（无效）",
+      "zh-Hant": "WS 標頭（無效）"
+    },
+    "summary": {
+      "en": "An old key the core no longer reads. Set headers in the WebSocket settings instead.",
+      "zh-Hans": "内核已不读取的旧写法，请在 WebSocket 设置里填请求头。",
+      "zh-Hant": "核心已不讀取的舊寫法，請在 WebSocket 設定中填寫標頭。"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.alpn": {
+    "title": {
+      "en": "ALPN",
+      "zh-Hans": "ALPN",
+      "zh-Hant": "ALPN"
+    },
+    "summary": {
+      "en": "The download side's ALPN list. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的 ALPN，留空沿用上行。",
+      "zh-Hant": "下行用的 ALPN，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    },
+    "presets": [
+      {
+        "value": "h2",
+        "label": {
+          "en": "HTTP/2",
+          "zh-Hans": "HTTP/2",
+          "zh-Hant": "HTTP/2"
+        }
+      },
+      {
+        "value": "http/1.1",
+        "label": {
+          "en": "HTTP/1.1",
+          "zh-Hans": "HTTP/1.1",
+          "zh-Hant": "HTTP/1.1"
+        }
+      },
+      {
+        "value": "h3",
+        "label": {
+          "en": "HTTP/3",
+          "zh-Hans": "HTTP/3",
+          "zh-Hant": "HTTP/3"
+        }
+      }
+    ]
+  },
+  "proxies[*].xhttp-opts.download-settings.certificate": {
+    "title": {
+      "en": "Client Certificate",
+      "zh-Hans": "客户端证书",
+      "zh-Hant": "用戶端憑證"
+    },
+    "summary": {
+      "en": "The download side's client certificate. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的客户端证书，留空沿用上行。",
+      "zh-Hant": "下行用的用戶端憑證，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    },
+    "example": "-----BEGIN CERTIFICATE-----"
+  },
+  "proxies[*].xhttp-opts.download-settings.client-fingerprint": {
+    "title": {
+      "en": "Client Fingerprint",
+      "zh-Hans": "客户端指纹",
+      "zh-Hant": "用戶端指紋"
+    },
+    "summary": {
+      "en": "The download side's client fingerprint. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的客户端指纹，留空沿用上行。",
+      "zh-Hant": "下行用的用戶端指紋，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    },
+    "presets": [
+      {
+        "value": "chrome",
+        "label": {
+          "en": "Chrome",
+          "zh-Hans": "Chrome",
+          "zh-Hant": "Chrome"
+        }
+      },
+      {
+        "value": "firefox",
+        "label": {
+          "en": "Firefox",
+          "zh-Hans": "Firefox",
+          "zh-Hant": "Firefox"
+        }
+      },
+      {
+        "value": "safari",
+        "label": {
+          "en": "Safari",
+          "zh-Hans": "Safari",
+          "zh-Hant": "Safari"
+        }
+      },
+      {
+        "value": "ios",
+        "label": {
+          "en": "iOS",
+          "zh-Hans": "iOS",
+          "zh-Hant": "iOS"
+        }
+      },
+      {
+        "value": "android",
+        "label": {
+          "en": "Android (OkHttp)",
+          "zh-Hans": "Android（OkHttp）",
+          "zh-Hant": "Android（OkHttp）"
+        }
+      },
+      {
+        "value": "edge",
+        "label": {
+          "en": "Edge",
+          "zh-Hans": "Edge",
+          "zh-Hant": "Edge"
+        }
+      },
+      {
+        "value": "360",
+        "label": {
+          "en": "360 Browser",
+          "zh-Hans": "360 浏览器",
+          "zh-Hant": "360 瀏覽器"
+        }
+      },
+      {
+        "value": "qq",
+        "label": {
+          "en": "QQ Browser",
+          "zh-Hans": "QQ 浏览器",
+          "zh-Hant": "QQ 瀏覽器"
+        }
+      },
+      {
+        "value": "random",
+        "label": {
+          "en": "Random (picked at start)",
+          "zh-Hans": "随机（启动时选定）",
+          "zh-Hant": "隨機（啟動時選定）"
+        }
+      },
+      {
+        "value": "randomized",
+        "label": {
+          "en": "Fully randomized",
+          "zh-Hans": "完全随机",
+          "zh-Hant": "完全隨機"
+        }
+      },
+      {
+        "value": "chrome120",
+        "label": {
+          "en": "Chrome 120",
+          "zh-Hans": "Chrome 120",
+          "zh-Hant": "Chrome 120"
+        }
+      },
+      {
+        "value": "firefox120",
+        "label": {
+          "en": "Firefox 120",
+          "zh-Hans": "Firefox 120",
+          "zh-Hant": "Firefox 120"
+        }
+      },
+      {
+        "value": "safari16",
+        "label": {
+          "en": "Safari 16",
+          "zh-Hans": "Safari 16",
+          "zh-Hant": "Safari 16"
+        }
+      },
+      {
+        "value": "chrome_psk",
+        "label": {
+          "en": "Chrome PSK (old)",
+          "zh-Hans": "Chrome PSK（旧）",
+          "zh-Hant": "Chrome PSK（舊）"
+        }
+      },
+      {
+        "value": "chrome_psk_shuffle",
+        "label": {
+          "en": "Chrome PSK shuffled (old)",
+          "zh-Hans": "Chrome PSK 乱序（旧）",
+          "zh-Hant": "Chrome PSK 亂序（舊）"
+        }
+      },
+      {
+        "value": "chrome_padding_psk_shuffle",
+        "label": {
+          "en": "Chrome padded PSK shuffled (old)",
+          "zh-Hans": "Chrome 填充 PSK 乱序（旧）",
+          "zh-Hant": "Chrome 填充 PSK 亂序（舊）"
+        }
+      },
+      {
+        "value": "chrome_pq",
+        "label": {
+          "en": "Chrome post-quantum (old)",
+          "zh-Hans": "Chrome 后量子（旧）",
+          "zh-Hant": "Chrome 後量子（舊）"
+        }
+      },
+      {
+        "value": "chrome_pq_psk",
+        "label": {
+          "en": "Chrome post-quantum PSK (old)",
+          "zh-Hans": "Chrome 后量子 PSK（旧）",
+          "zh-Hant": "Chrome 後量子 PSK（舊）"
+        }
+      },
+      {
+        "value": "none",
+        "label": {
+          "en": "None",
+          "zh-Hans": "不伪装",
+          "zh-Hant": "不偽裝"
+        }
+      }
+    ]
+  },
+  "proxies[*].xhttp-opts.download-settings.ech-opts.config": {
+    "title": {
+      "en": "Config",
+      "zh-Hans": "配置",
+      "zh-Hant": "設定"
+    },
+    "summary": {
+      "en": "The download side's ECH config. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的 ECH 配置，留空沿用上行。",
+      "zh-Hant": "下行用的 ECH 設定，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.ech-opts.enable": {
+    "title": {
+      "en": "Encrypted Client Hello",
+      "zh-Hans": "ECH（加密握手）",
+      "zh-Hant": "ECH（加密交握）"
+    },
+    "summary": {
+      "en": "The download side's ECH switch. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的 ECH 开关，留空沿用上行。",
+      "zh-Hant": "下行用的 ECH 開關，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.ech-opts.query-server-name": {
+    "title": {
+      "en": "Lookup Domain",
+      "zh-Hans": "查询域名",
+      "zh-Hant": "查詢網域"
+    },
+    "summary": {
+      "en": "The download side's ECH lookup domain. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的 ECH 查询域名，留空沿用上行。",
+      "zh-Hant": "下行用的 ECH 查詢網域，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    },
+    "example": "example.com"
+  },
+  "proxies[*].xhttp-opts.download-settings.fingerprint": {
+    "title": {
+      "en": "Certificate Fingerprint",
+      "zh-Hans": "证书指纹",
+      "zh-Hant": "憑證指紋"
+    },
+    "summary": {
+      "en": "The download side's certificate fingerprint. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的证书指纹，留空沿用上行。",
+      "zh-Hant": "下行用的憑證指紋，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.headers": {
+    "title": {
+      "en": "Headers",
+      "zh-Hans": "请求头",
+      "zh-Hant": "標頭"
+    },
+    "summary": {
+      "en": "The download side's request headers. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的请求头，留空沿用上行。",
+      "zh-Hant": "下行用的請求標頭，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.host": {
+    "title": {
+      "en": "Host",
+      "zh-Hans": "主机名",
+      "zh-Hant": "主機名稱"
+    },
+    "summary": {
+      "en": "The download side's Host. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的 Host，留空沿用上行。",
+      "zh-Hant": "下行用的 Host，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    },
+    "example": "example.com"
+  },
+  "proxies[*].xhttp-opts.download-settings.jls-opts.password": {
+    "title": {
+      "en": "Password",
+      "zh-Hans": "密码",
+      "zh-Hant": "密碼"
+    },
+    "summary": {
+      "en": "The download side's JLS password. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的 JLS 密码，留空沿用上行。",
+      "zh-Hant": "下行用的 JLS 密碼，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.jls-opts.username": {
+    "title": {
+      "en": "Username",
+      "zh-Hans": "用户名",
+      "zh-Hant": "使用者名稱"
+    },
+    "summary": {
+      "en": "The download side's JLS username. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的 JLS 用户名，留空沿用上行。",
+      "zh-Hant": "下行用的 JLS 使用者名稱，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.name-cert-verify": {
+    "title": {
+      "en": "Verify Certificate As",
+      "zh-Hans": "证书校验域名",
+      "zh-Hant": "憑證驗證網域"
+    },
+    "summary": {
+      "en": "The download side's certificate check domain. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的证书校验域名，留空沿用上行。",
+      "zh-Hant": "下行用的憑證驗證網域，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    },
+    "example": "example.com"
+  },
+  "proxies[*].xhttp-opts.download-settings.path": {
+    "title": {
+      "en": "Path",
+      "zh-Hans": "路径",
+      "zh-Hant": "路徑"
+    },
+    "summary": {
+      "en": "The download side's request path. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的请求路径，留空沿用上行。",
+      "zh-Hant": "下行用的請求路徑，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    },
+    "example": "/"
+  },
+  "proxies[*].xhttp-opts.download-settings.port": {
+    "title": {
+      "en": "Port",
+      "zh-Hans": "端口",
+      "zh-Hant": "埠號"
+    },
+    "summary": {
+      "en": "The download side's port. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的端口，留空沿用上行。",
+      "zh-Hant": "下行用的埠號，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.private-key": {
+    "title": {
+      "en": "Client Private Key",
+      "zh-Hans": "客户端私钥",
+      "zh-Hant": "用戶端私鑰"
+    },
+    "summary": {
+      "en": "The download side's client private key. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的客户端私钥，留空沿用上行。",
+      "zh-Hant": "下行用的用戶端私密金鑰，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    },
+    "example": "PRIVATE_KEY_PEM"
+  },
+  "proxies[*].xhttp-opts.download-settings.reality-opts.public-key": {
+    "title": {
+      "en": "Public Key",
+      "zh-Hans": "公钥",
+      "zh-Hant": "公鑰"
+    },
+    "summary": {
+      "en": "The download side's REALITY public key. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的 REALITY 公钥，留空沿用上行。",
+      "zh-Hant": "下行用的 REALITY 公鑰，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.reality-opts.short-id": {
+    "title": {
+      "en": "Short ID",
+      "zh-Hans": "短 ID",
+      "zh-Hant": "短 ID"
+    },
+    "summary": {
+      "en": "The download side's REALITY short ID. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的 REALITY 短 ID，留空沿用上行。",
+      "zh-Hant": "下行用的 REALITY 短 ID，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.reality-opts.support-x25519mlkem768": {
+    "title": {
+      "en": "Post-Quantum Key Exchange",
+      "zh-Hans": "抗量子密钥交换",
+      "zh-Hant": "抗量子金鑰交換"
+    },
+    "summary": {
+      "en": "The download side's post-quantum key exchange switch. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的抗量子密钥交换开关，留空沿用上行。",
+      "zh-Hant": "下行用的抗量子金鑰交換開關，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.restls-opts.password": {
+    "title": {
+      "en": "Password",
+      "zh-Hans": "密码",
+      "zh-Hant": "密碼"
+    },
+    "summary": {
+      "en": "The download side's Restls password. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的 Restls 密码，留空沿用上行。",
+      "zh-Hant": "下行用的 Restls 密碼，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.restls-opts.restls-script": {
+    "title": {
+      "en": "Script",
+      "zh-Hans": "脚本",
+      "zh-Hant": "腳本"
+    },
+    "summary": {
+      "en": "The download side's Restls script. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的 Restls 脚本，留空沿用上行。",
+      "zh-Hant": "下行用的 Restls 腳本，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.restls-opts.version-hint": {
+    "title": {
+      "en": "TLS Version",
+      "zh-Hans": "TLS 版本",
+      "zh-Hant": "TLS 版本"
+    },
+    "summary": {
+      "en": "The download side's Restls TLS version. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的 Restls TLS 版本，留空沿用上行。",
+      "zh-Hant": "下行用的 Restls TLS 版本，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    },
+    "presets": [
+      {
+        "value": "tls12",
+        "label": {
+          "en": "TLS 1.2",
+          "zh-Hans": "TLS 1.2",
+          "zh-Hant": "TLS 1.2"
+        }
+      },
+      {
+        "value": "tls13",
+        "label": {
+          "en": "TLS 1.3",
+          "zh-Hans": "TLS 1.3",
+          "zh-Hant": "TLS 1.3"
+        }
+      }
+    ]
+  },
+  "proxies[*].xhttp-opts.download-settings.reuse-settings.c-max-reuse-times": {
+    "title": {
+      "en": "Max Reuses",
+      "zh-Hans": "最多复用次数",
+      "zh-Hant": "最多重複使用次數"
+    },
+    "summary": {
+      "en": "The download side's reuse limit. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的最多复用次数，留空沿用上行。",
+      "zh-Hant": "下行用的最多重複使用次數，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.reuse-settings.h-keep-alive-period": {
+    "title": {
+      "en": "Keepalive Period",
+      "zh-Hans": "保活间隔",
+      "zh-Hant": "保活間隔"
+    },
+    "summary": {
+      "en": "The download side's keepalive period. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的保活间隔，留空沿用上行。",
+      "zh-Hant": "下行用的保活間隔，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.reuse-settings.h-max-request-times": {
+    "title": {
+      "en": "Max Requests in Total",
+      "zh-Hans": "累计请求上限",
+      "zh-Hant": "累計請求上限"
+    },
+    "summary": {
+      "en": "The download side's total request limit. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的累计请求上限，留空沿用上行。",
+      "zh-Hant": "下行用的累計請求上限，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.reuse-settings.h-max-reusable-secs": {
+    "title": {
+      "en": "Max Reuse Time",
+      "zh-Hans": "最长复用时间",
+      "zh-Hant": "最長重複使用時間"
+    },
+    "summary": {
+      "en": "The download side's reuse time limit. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的最长复用时间，留空沿用上行。",
+      "zh-Hant": "下行用的最長重複使用時間，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.reuse-settings.max-concurrency": {
+    "title": {
+      "en": "Max Requests per Connection",
+      "zh-Hans": "单连接并发上限",
+      "zh-Hant": "單一連線並行上限"
+    },
+    "summary": {
+      "en": "The download side's per-connection request limit. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的单连接并发上限，留空沿用上行。",
+      "zh-Hant": "下行用的單一連線並行上限，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.reuse-settings.max-connections": {
+    "title": {
+      "en": "Max Connections",
+      "zh-Hans": "最大连接数",
+      "zh-Hant": "最大連線數"
+    },
+    "summary": {
+      "en": "The download side's connection limit. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的最大连接数，留空沿用上行。",
+      "zh-Hant": "下行用的最大連線數，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.server": {
+    "title": {
+      "en": "Server",
+      "zh-Hans": "服务器地址",
+      "zh-Hant": "伺服器位址"
+    },
+    "summary": {
+      "en": "The download side's server address. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的服务器地址，留空沿用上行。",
+      "zh-Hant": "下行用的伺服器位址，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    },
+    "example": "example.com"
+  },
+  "proxies[*].xhttp-opts.download-settings.servername": {
+    "title": {
+      "en": "Server Name (SNI)",
+      "zh-Hans": "SNI 域名",
+      "zh-Hant": "SNI 網域"
+    },
+    "summary": {
+      "en": "The download side's SNI domain. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的 SNI 域名，留空沿用上行。",
+      "zh-Hant": "下行用的 SNI 網域，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    },
+    "example": "example.com"
+  },
+  "proxies[*].xhttp-opts.download-settings.shadow-tls-opts.password": {
+    "title": {
+      "en": "Password",
+      "zh-Hans": "密码",
+      "zh-Hant": "密碼"
+    },
+    "summary": {
+      "en": "The download side's ShadowTLS password. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的 ShadowTLS 密码，留空沿用上行。",
+      "zh-Hant": "下行用的 ShadowTLS 密碼，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.shadow-tls-opts.version": {
+    "title": {
+      "en": "Version",
+      "zh-Hans": "版本",
+      "zh-Hant": "版本"
+    },
+    "summary": {
+      "en": "The download side's ShadowTLS version. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的 ShadowTLS 版本，留空沿用上行。",
+      "zh-Hant": "下行用的 ShadowTLS 版本，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    },
+    "presets": [
+      {
+        "value": "1",
+        "label": {
+          "en": "v1",
+          "zh-Hans": "v1",
+          "zh-Hant": "v1"
+        }
+      },
+      {
+        "value": "2",
+        "label": {
+          "en": "v2",
+          "zh-Hans": "v2",
+          "zh-Hant": "v2"
+        }
+      },
+      {
+        "value": "3",
+        "label": {
+          "en": "v3",
+          "zh-Hans": "v3",
+          "zh-Hant": "v3"
+        }
+      }
+    ],
+    "unsetOverrides": true
+  },
+  "proxies[*].xhttp-opts.download-settings.skip-cert-verify": {
+    "title": {
+      "en": "Skip Certificate Check",
+      "zh-Hans": "跳过证书验证",
+      "zh-Hant": "略過憑證驗證"
+    },
+    "summary": {
+      "en": "The download side's certificate check switch. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的证书验证开关，留空沿用上行。",
+      "zh-Hant": "下行用的憑證驗證開關，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    }
+  },
+  "proxies[*].xhttp-opts.download-settings.tls": {
+    "title": {
+      "en": "Turn On TLS",
+      "zh-Hans": "启用 TLS",
+      "zh-Hant": "啟用 TLS"
+    },
+    "summary": {
+      "en": "The download side's TLS switch. Leave it empty to use the upload side's.",
+      "zh-Hans": "下行用的 TLS 开关，留空沿用上行。",
+      "zh-Hant": "下行用的 TLS 開關，留空沿用上行。"
+    },
+    "unset": {
+      "en": "Same as upload",
+      "zh-Hans": "同上行",
+      "zh-Hant": "同上行"
+    }
+  },
+  "proxies[*].xhttp-opts.headers": {
+    "title": {
+      "en": "Headers",
+      "zh-Hans": "请求头",
+      "zh-Hant": "標頭"
+    },
+    "summary": {
+      "en": "Extra request headers.",
+      "zh-Hans": "额外的请求头。",
+      "zh-Hant": "額外的請求標頭。"
+    }
+  },
+  "proxies[*].xhttp-opts.host": {
+    "title": {
+      "en": "Host",
+      "zh-Hans": "主机名",
+      "zh-Hant": "主機名稱"
+    },
+    "summary": {
+      "en": "The Host of the requests. Leave it empty to use the SNI or server address.",
+      "zh-Hans": "请求的 Host，留空则用 SNI 或服务器地址。",
+      "zh-Hant": "請求的 Host，留空則用 SNI 或伺服器位址。"
+    },
+    "example": "example.com",
+    "unset": {
+      "en": "The SNI, else the server address",
+      "zh-Hans": "SNI，未填则用服务器地址",
+      "zh-Hant": "SNI，未填則用伺服器位址"
+    }
+  },
+  "proxies[*].xhttp-opts.mode": {
+    "title": {
+      "en": "Mode",
+      "zh-Hans": "模式",
+      "zh-Hant": "模式"
+    },
+    "summary": {
+      "en": "How XHTTP carries data up and down. auto picks one; it must suit the server.",
+      "zh-Hans": "XHTTP 的上下行方式，auto 自动选择，须与服务器匹配。",
+      "zh-Hant": "XHTTP 的上下行方式，auto 自動選擇，須與伺服器相符。"
+    },
+    "presets": [
+      {
+        "value": "auto",
+        "label": {
+          "en": "Auto",
+          "zh-Hans": "自动",
+          "zh-Hant": "自動"
+        }
+      },
+      {
+        "value": "packet-up",
+        "label": {
+          "en": "Packet upload (packet-up)",
+          "zh-Hans": "分包上传（packet-up）",
+          "zh-Hant": "分包上傳（packet-up）"
+        }
+      },
+      {
+        "value": "stream-up",
+        "label": {
+          "en": "Stream upload (stream-up)",
+          "zh-Hans": "流式上传（stream-up）",
+          "zh-Hant": "串流上傳（stream-up）"
+        }
+      },
+      {
+        "value": "stream-one",
+        "label": {
+          "en": "One request both ways (stream-one)",
+          "zh-Hans": "单请求双向（stream-one）",
+          "zh-Hant": "單一請求雙向（stream-one）"
+        }
+      }
+    ]
+  },
+  "proxies[*].xhttp-opts.no-grpc-header": {
+    "title": {
+      "en": "No gRPC Disguise",
+      "zh-Hans": "不伪装 gRPC",
+      "zh-Hant": "不偽裝 gRPC"
+    },
+    "summary": {
+      "en": "Stops stream-up and stream-one uploads from posing as gRPC with a gRPC Content-Type.",
+      "zh-Hans": "stream 模式上行不再带 gRPC 的 Content-Type 伪装。",
+      "zh-Hant": "stream 模式上行不再帶 gRPC 的 Content-Type 偽裝。"
+    }
+  },
+  "proxies[*].xhttp-opts.path": {
+    "title": {
+      "en": "Path",
+      "zh-Hans": "路径",
+      "zh-Hant": "路徑"
+    },
+    "summary": {
+      "en": "The request path. It must match the server.",
+      "zh-Hans": "请求路径，须与服务器一致。",
+      "zh-Hant": "請求路徑，須與伺服器一致。"
+    },
+    "example": "/"
+  },
+  "proxies[*].xhttp-opts.reuse-settings.c-max-reuse-times": {
+    "title": {
+      "en": "Max Reuses",
+      "zh-Hans": "最多复用次数",
+      "zh-Hant": "最多重複使用次數"
+    },
+    "summary": {
+      "en": "How many times a connection is reused before it retires.",
+      "zh-Hans": "一条连接最多复用几次，之后不再分配新请求。",
+      "zh-Hant": "一條連線最多重複使用幾次，之後不再分配新請求。"
+    },
+    "example": "8"
+  },
+  "proxies[*].xhttp-opts.reuse-settings.h-keep-alive-period": {
+    "title": {
+      "en": "Keepalive Period",
+      "zh-Hans": "保活间隔",
+      "zh-Hant": "保活間隔"
+    },
+    "summary": {
+      "en": "How often an idle connection sends a keepalive. 0 uses the default; -1 turns them off.",
+      "zh-Hans": "空闲时多久发一次保活包，0 用默认值，-1 关闭。",
+      "zh-Hant": "閒置時多久送一次保活封包，0 用預設值，-1 關閉。"
+    },
+    "unset": {
+      "en": "HTTP/2 45 s, HTTP/3 10 s",
+      "zh-Hans": "HTTP/2 45 秒，HTTP/3 10 秒",
+      "zh-Hant": "HTTP/2 45 秒，HTTP/3 10 秒"
+    }
+  },
+  "proxies[*].xhttp-opts.reuse-settings.h-max-request-times": {
+    "title": {
+      "en": "Max Requests in Total",
+      "zh-Hans": "累计请求上限",
+      "zh-Hant": "累計請求上限"
+    },
+    "summary": {
+      "en": "Total requests a connection carries. The count is loose, so it's best left empty.",
+      "zh-Hans": "一条连接累计承载的请求数，计数不精确，建议不填。",
+      "zh-Hant": "一條連線累計承載的請求數，計數不精確，建議不填。"
+    },
+    "example": "600-900"
+  },
+  "proxies[*].xhttp-opts.reuse-settings.h-max-reusable-secs": {
+    "title": {
+      "en": "Max Reuse Time",
+      "zh-Hans": "最长复用时间",
+      "zh-Hant": "最長重複使用時間"
+    },
+    "summary": {
+      "en": "How long a connection takes new requests before it retires.",
+      "zh-Hans": "连接最多接收新请求多久，到时后不再分配。",
+      "zh-Hant": "連線最多接收新請求多久，到時後不再分配。"
+    },
+    "example": "1800-3000"
+  },
+  "proxies[*].xhttp-opts.reuse-settings.max-concurrency": {
+    "title": {
+      "en": "Max Requests per Connection",
+      "zh-Hans": "单连接并发上限",
+      "zh-Hant": "單一連線並行上限"
+    },
+    "summary": {
+      "en": "How many requests one connection carries at once before a new one opens, such as 16-32.",
+      "zh-Hans": "一条连接同时承载的请求数，满了开新连接，如 16-32。",
+      "zh-Hant": "一條連線同時承載的請求數，滿了開新連線，如 16-32。"
+    },
+    "example": "16-32"
+  },
+  "proxies[*].xhttp-opts.reuse-settings.max-connections": {
+    "title": {
+      "en": "Max Connections",
+      "zh-Hans": "最大连接数",
+      "zh-Hant": "最大連線數"
+    },
+    "summary": {
+      "en": "Connections to open before reusing them. Don't set it with the per-connection limit.",
+      "zh-Hans": "连接数到此后开始复用，不能与单连接并发同设。",
+      "zh-Hant": "連線數到此後開始重複使用，不能與單一連線並行同設。"
+    },
+    "example": "4"
+  },
+  "proxies[*].xhttp-opts.sc-max-each-post-bytes": {
+    "title": {
+      "en": "Max Bytes per POST",
+      "zh-Hans": "单个 POST 上限",
+      "zh-Hant": "單一 POST 上限"
+    },
+    "summary": {
+      "en": "The most data one POST carries. Keep it under your CDN's limit.",
+      "zh-Hans": "每个 POST 最多携带的数据量，须小于 CDN 上限。",
+      "zh-Hant": "每個 POST 最多攜帶的資料量，須小於 CDN 上限。"
+    },
+    "example": "1000000"
+  },
+  "proxies[*].xhttp-opts.sc-min-posts-interval-ms": {
+    "title": {
+      "en": "Min POST Interval",
+      "zh-Hans": "POST 最小间隔",
+      "zh-Hant": "POST 最小間隔"
+    },
+    "summary": {
+      "en": "The shortest gap between POSTs for one connection.",
+      "zh-Hans": "同一连接两次 POST 的最短间隔。",
+      "zh-Hant": "同一連線兩次 POST 的最短間隔。"
+    },
+    "example": "30"
+  },
+  "proxies[*].xhttp-opts.seq-key": {
+    "title": {
+      "en": "Sequence Key",
+      "zh-Hans": "序号键名",
+      "zh-Hant": "序號鍵名"
+    },
+    "summary": {
+      "en": "The name that carries the sequence number. Not used when it's in the path.",
+      "zh-Hans": "序号的键名，放在路径里时不用。",
+      "zh-Hant": "序號的鍵名，放在路徑中時不使用。"
+    },
+    "example": "X-Seq",
+    "unset": {
+      "en": "X-Seq in a header, x_seq in a cookie or query",
+      "zh-Hans": "请求头里为 X-Seq，Cookie 或查询参数里为 x_seq",
+      "zh-Hant": "請求標頭裡為 X-Seq，Cookie 或查詢參數裡為 x_seq"
+    }
+  },
+  "proxies[*].xhttp-opts.seq-placement": {
+    "title": {
+      "en": "Sequence Placement",
+      "zh-Hans": "序号位置",
+      "zh-Hant": "序號位置"
+    },
+    "summary": {
+      "en": "Where the sequence number goes. Must be path when the session ID is in the path.",
+      "zh-Hans": "序号放在哪里；会话 ID 在路径时这里也须是路径。",
+      "zh-Hant": "序號放在哪裡；工作階段 ID 在路徑時這裡也須是路徑。"
+    },
+    "presets": [
+      {
+        "value": "path",
+        "label": {
+          "en": "Path",
+          "zh-Hans": "路径",
+          "zh-Hant": "路徑"
+        }
+      },
+      {
+        "value": "query",
+        "label": {
+          "en": "URL query",
+          "zh-Hans": "网址参数",
+          "zh-Hant": "網址參數"
+        }
+      },
+      {
+        "value": "header",
+        "label": {
+          "en": "Header",
+          "zh-Hans": "请求头",
+          "zh-Hant": "請求標頭"
+        }
+      },
+      {
+        "value": "cookie",
+        "label": {
+          "en": "Cookie",
+          "zh-Hans": "Cookie",
+          "zh-Hant": "Cookie"
+        }
+      }
+    ]
+  },
+  "proxies[*].xhttp-opts.session-key": {
+    "title": {
+      "en": "Session ID Key",
+      "zh-Hans": "会话 ID 键名",
+      "zh-Hant": "工作階段 ID 鍵名"
+    },
+    "summary": {
+      "en": "The name that carries the session ID. Not used when it's in the path.",
+      "zh-Hans": "会话 ID 的键名，放在路径里时不用。",
+      "zh-Hant": "工作階段 ID 的鍵名，放在路徑中時不使用。"
+    },
+    "example": "X-Session",
+    "unset": {
+      "en": "X-Session in a header, x_session in a cookie or query",
+      "zh-Hans": "请求头里为 X-Session，Cookie 或查询参数里为 x_session",
+      "zh-Hant": "請求標頭裡為 X-Session，Cookie 或查詢參數裡為 x_session"
+    }
+  },
+  "proxies[*].xhttp-opts.session-length": {
+    "title": {
+      "en": "Session ID Length",
+      "zh-Hans": "会话 ID 长度",
+      "zh-Hant": "工作階段 ID 長度"
+    },
+    "summary": {
+      "en": "The length range of session IDs, such as 16-32. Used with a character set.",
+      "zh-Hans": "会话 ID 的长度范围（如 16-32），配合字符集用。",
+      "zh-Hant": "工作階段 ID 的長度範圍（如 16-32），配合字元集使用。"
+    },
+    "example": "16-32"
+  },
+  "proxies[*].xhttp-opts.session-placement": {
+    "title": {
+      "en": "Session ID Placement",
+      "zh-Hans": "会话 ID 位置",
+      "zh-Hant": "工作階段 ID 位置"
+    },
+    "summary": {
+      "en": "Where the session ID goes. It must match the server.",
+      "zh-Hans": "会话 ID 放在哪里，须与服务器一致。",
+      "zh-Hant": "工作階段 ID 放在哪裡，須與伺服器一致。"
+    },
+    "presets": [
+      {
+        "value": "path",
+        "label": {
+          "en": "Path",
+          "zh-Hans": "路径",
+          "zh-Hant": "路徑"
+        }
+      },
+      {
+        "value": "query",
+        "label": {
+          "en": "URL query",
+          "zh-Hans": "网址参数",
+          "zh-Hant": "網址參數"
+        }
+      },
+      {
+        "value": "header",
+        "label": {
+          "en": "Header",
+          "zh-Hans": "请求头",
+          "zh-Hant": "請求標頭"
+        }
+      },
+      {
+        "value": "cookie",
+        "label": {
+          "en": "Cookie",
+          "zh-Hans": "Cookie",
+          "zh-Hant": "Cookie"
+        }
+      }
+    ]
+  },
+  "proxies[*].xhttp-opts.session-table": {
+    "title": {
+      "en": "Session ID Characters",
+      "zh-Hans": "会话 ID 字符集",
+      "zh-Hant": "工作階段 ID 字元集"
+    },
+    "summary": {
+      "en": "The characters session IDs are made of.",
+      "zh-Hans": "生成会话 ID 用的字符集。",
+      "zh-Hant": "產生工作階段 ID 用的字元集。"
+    },
+    "example": "uuid",
+    "presets": [
+      {
+        "value": "uuid",
+        "label": {
+          "en": "UUID",
+          "zh-Hans": "UUID",
+          "zh-Hant": "UUID"
+        }
+      },
+      {
+        "value": "hex",
+        "label": {
+          "en": "Hex (lowercase)",
+          "zh-Hans": "十六进制（小写）",
+          "zh-Hant": "十六進位（小寫）"
+        }
+      },
+      {
+        "value": "HEX",
+        "label": {
+          "en": "Hex (uppercase)",
+          "zh-Hans": "十六进制（大写）",
+          "zh-Hant": "十六進位（大寫）"
+        }
+      },
+      {
+        "value": "number",
+        "label": {
+          "en": "Digits",
+          "zh-Hans": "纯数字",
+          "zh-Hant": "純數字"
+        }
+      },
+      {
+        "value": "alphabet",
+        "label": {
+          "en": "Letters (lowercase)",
+          "zh-Hans": "字母（小写）",
+          "zh-Hant": "字母（小寫）"
+        }
+      },
+      {
+        "value": "ALPHABET",
+        "label": {
+          "en": "Letters (uppercase)",
+          "zh-Hans": "字母（大写）",
+          "zh-Hant": "字母（大寫）"
+        }
+      },
+      {
+        "value": "Alphabet",
+        "label": {
+          "en": "Letters (both cases)",
+          "zh-Hans": "字母（大小写）",
+          "zh-Hant": "字母（大小寫）"
+        }
+      },
+      {
+        "value": "base36",
+        "label": {
+          "en": "Base36 (lowercase)",
+          "zh-Hans": "Base36（小写）",
+          "zh-Hant": "Base36（小寫）"
+        }
+      },
+      {
+        "value": "BASE36",
+        "label": {
+          "en": "Base36 (uppercase)",
+          "zh-Hans": "Base36（大写）",
+          "zh-Hant": "Base36（大寫）"
+        }
+      },
+      {
+        "value": "Base62",
+        "label": {
+          "en": "Base62",
+          "zh-Hans": "Base62",
+          "zh-Hant": "Base62"
+        }
+      }
+    ]
+  },
+  "proxies[*].xhttp-opts.uplink-chunk-size": {
+    "title": {
+      "en": "Upload Chunk Size",
+      "zh-Hans": "上行块大小",
+      "zh-Hant": "上行區塊大小"
+    },
+    "summary": {
+      "en": "The largest upload chunk in bytes when data isn't in the body. Empty picks a default.",
+      "zh-Hans": "上行数据不在正文时，每块的最大字节数，留空自动。",
+      "zh-Hant": "上行資料不在內文時，每塊的最大位元組數，留空自動。"
+    },
+    "unset": {
+      "en": "Automatic",
+      "zh-Hans": "自动",
+      "zh-Hant": "自動"
+    },
+    "example": "3072"
+  },
+  "proxies[*].xhttp-opts.uplink-data-key": {
+    "title": {
+      "en": "Upload Data Key",
+      "zh-Hans": "上行数据键名",
+      "zh-Hant": "上行資料鍵名"
+    },
+    "summary": {
+      "en": "The base name of the keys that carry upload chunks.",
+      "zh-Hans": "承载上行数据块的键名前缀。",
+      "zh-Hant": "承載上行資料區塊的鍵名前綴。"
+    },
+    "example": "x_data"
+  },
+  "proxies[*].xhttp-opts.uplink-data-placement": {
+    "title": {
+      "en": "Upload Data Placement",
+      "zh-Hans": "上行数据位置",
+      "zh-Hant": "上行資料位置"
+    },
+    "summary": {
+      "en": "Where packet-up puts upload data: the body, a cookie or a header.",
+      "zh-Hans": "packet-up 模式上行数据放在哪里：正文、Cookie 或请求头。",
+      "zh-Hant": "packet-up 模式上行資料放在哪裡：內文、Cookie 或標頭。"
+    },
+    "presets": [
+      {
+        "value": "body",
+        "label": {
+          "en": "Body",
+          "zh-Hans": "请求体",
+          "zh-Hant": "請求內容"
+        }
+      },
+      {
+        "value": "auto",
+        "label": {
+          "en": "Auto",
+          "zh-Hans": "自动",
+          "zh-Hant": "自動"
+        }
+      },
+      {
+        "value": "header",
+        "label": {
+          "en": "Header",
+          "zh-Hans": "请求头",
+          "zh-Hant": "請求標頭"
+        }
+      },
+      {
+        "value": "cookie",
+        "label": {
+          "en": "Cookie",
+          "zh-Hans": "Cookie",
+          "zh-Hant": "Cookie"
+        }
+      }
+    ]
+  },
+  "proxies[*].xhttp-opts.uplink-http-method": {
+    "title": {
+      "en": "Upload Method",
+      "zh-Hans": "上行请求方法",
+      "zh-Hant": "上行請求方法"
+    },
+    "summary": {
+      "en": "The HTTP method for uploads. Pick one your CDN allows.",
+      "zh-Hans": "上行数据用的 HTTP 方法，选 CDN 允许的。",
+      "zh-Hant": "上行資料用的 HTTP 方法，選 CDN 允許的。"
+    },
+    "example": "POST",
+    "presets": [
+      {
+        "value": "POST",
+        "label": {
+          "en": "POST",
+          "zh-Hans": "POST",
+          "zh-Hant": "POST"
+        }
+      },
+      {
+        "value": "PUT",
+        "label": {
+          "en": "PUT",
+          "zh-Hans": "PUT",
+          "zh-Hant": "PUT"
+        }
+      },
+      {
+        "value": "PATCH",
+        "label": {
+          "en": "PATCH",
+          "zh-Hans": "PATCH",
+          "zh-Hant": "PATCH"
+        }
+      },
+      {
+        "value": "GET",
+        "label": {
+          "en": "GET",
+          "zh-Hans": "GET",
+          "zh-Hant": "GET"
+        }
+      }
+    ]
+  },
+  "proxies[*].xhttp-opts.x-padding-bytes": {
+    "title": {
+      "en": "Padding Size",
+      "zh-Hans": "填充长度",
+      "zh-Hant": "填充長度"
+    },
+    "summary": {
+      "en": "The range of random padding added to each request, such as 100-1000.",
+      "zh-Hans": "每次请求随机填充的长度范围，如 100-1000。",
+      "zh-Hant": "每次請求隨機填充的長度範圍，如 100-1000。"
+    },
+    "example": "100-1000"
+  },
+  "proxies[*].xhttp-opts.x-padding-header": {
+    "title": {
+      "en": "Padding Header",
+      "zh-Hans": "填充请求头",
+      "zh-Hant": "填充標頭"
+    },
+    "summary": {
+      "en": "The header that carries the padding, when it's placed in a header.",
+      "zh-Hans": "放填充的请求头名，仅放在请求头时用。",
+      "zh-Hant": "放填充的標頭名稱，僅放在標頭時使用。"
+    },
+    "example": "Referer"
+  },
+  "proxies[*].xhttp-opts.x-padding-key": {
+    "title": {
+      "en": "Padding Key",
+      "zh-Hans": "填充键名",
+      "zh-Hant": "填充鍵名"
+    },
+    "summary": {
+      "en": "The name that carries the padding; what it names depends on Padding Placement.",
+      "zh-Hans": "存放填充值的键名，含义随填充位置而定。",
+      "zh-Hant": "存放填充值的鍵名，含義隨填充位置而定。"
+    },
+    "example": "x_padding"
+  },
+  "proxies[*].xhttp-opts.x-padding-method": {
+    "title": {
+      "en": "Padding Method",
+      "zh-Hans": "填充方式",
+      "zh-Hant": "填充方式"
+    },
+    "summary": {
+      "en": "How the padding is made: a run of X, or a random token.",
+      "zh-Hans": "填充值的生成方式：一串 X 或随机字串。",
+      "zh-Hant": "填充值的產生方式：一串 X 或隨機字串。"
+    },
+    "presets": [
+      {
+        "value": "repeat-x",
+        "label": {
+          "en": "Repeated X characters",
+          "zh-Hans": "重复的 X 字符",
+          "zh-Hant": "重複的 X 字元"
+        }
+      },
+      {
+        "value": "tokenish",
+        "label": {
+          "en": "Random Base62 token",
+          "zh-Hans": "随机 Base62 标记",
+          "zh-Hant": "隨機 Base62 標記"
+        }
+      }
+    ]
+  },
+  "proxies[*].xhttp-opts.x-padding-obfs-mode": {
+    "title": {
+      "en": "Padding Obfuscation",
+      "zh-Hans": "填充混淆",
+      "zh-Hant": "填充混淆"
+    },
+    "summary": {
+      "en": "Obfuscates the padding. Off by default for compatibility.",
+      "zh-Hans": "混淆填充内容，为兼容默认关闭。",
+      "zh-Hant": "混淆填充內容，為相容預設關閉。"
+    }
+  },
+  "proxies[*].xhttp-opts.x-padding-placement": {
+    "title": {
+      "en": "Padding Placement",
+      "zh-Hans": "填充位置",
+      "zh-Hant": "填充位置"
+    },
+    "summary": {
+      "en": "Where the padding goes. Works only with Padding Obfuscation on.",
+      "zh-Hans": "填充值放在哪里，仅开启填充混淆时有效。",
+      "zh-Hant": "填充值放在哪裡，僅開啟填充混淆時有效。"
+    },
+    "presets": [
+      {
+        "value": "header",
+        "label": {
+          "en": "Header",
+          "zh-Hans": "请求头",
+          "zh-Hant": "請求標頭"
+        }
+      },
+      {
+        "value": "queryInHeader",
+        "label": {
+          "en": "URL query in a header",
+          "zh-Hans": "请求头里的网址参数",
+          "zh-Hant": "請求標頭裡的網址參數"
+        }
+      },
+      {
+        "value": "cookie",
+        "label": {
+          "en": "Cookie",
+          "zh-Hans": "Cookie",
+          "zh-Hant": "Cookie"
+        }
+      },
+      {
+        "value": "query",
+        "label": {
+          "en": "URL query",
+          "zh-Hans": "网址参数",
+          "zh-Hant": "網址參數"
+        }
+      }
+    ]
+  },
+  "proxies[*].xudp": {
+    "title": {
+      "en": "XUDP (Legacy)",
+      "zh-Hans": "XUDP",
+      "zh-Hant": "XUDP"
+    },
+    "summary": {
+      "en": "The old switch for xudp encoding. Use UDP Packet Encoding instead.",
+      "zh-Hans": "xudp 编码的旧开关，请改用「UDP 包编码」。",
+      "zh-Hant": "xudp 編碼的舊開關，請改用「UDP 封包編碼」。"
+    }
+  },
+  "proxies[snell].client-fingerprint": {
+    "title": {
+      "en": "Client Fingerprint",
+      "zh-Hans": "客户端指纹",
+      "zh-Hant": "用戶端指紋"
+    },
+    "summary": {
+      "en": "The browser Snell's disguised handshake looks like.",
+      "zh-Hans": "Snell 混淆握手时模仿的浏览器。",
+      "zh-Hant": "Snell 混淆交握時模仿的瀏覽器。"
+    },
+    "unset": {
+      "en": "Chrome",
+      "zh-Hans": "Chrome",
+      "zh-Hant": "Chrome"
+    },
+    "presets": [
+      {
+        "value": "chrome",
+        "label": {
+          "en": "Chrome",
+          "zh-Hans": "Chrome",
+          "zh-Hant": "Chrome"
+        }
+      },
+      {
+        "value": "firefox",
+        "label": {
+          "en": "Firefox",
+          "zh-Hans": "Firefox",
+          "zh-Hant": "Firefox"
+        }
+      },
+      {
+        "value": "safari",
+        "label": {
+          "en": "Safari",
+          "zh-Hans": "Safari",
+          "zh-Hant": "Safari"
+        }
+      },
+      {
+        "value": "ios",
+        "label": {
+          "en": "iOS",
+          "zh-Hans": "iOS",
+          "zh-Hant": "iOS"
+        }
+      },
+      {
+        "value": "android",
+        "label": {
+          "en": "Android (OkHttp)",
+          "zh-Hans": "Android（OkHttp）",
+          "zh-Hant": "Android（OkHttp）"
+        }
+      },
+      {
+        "value": "edge",
+        "label": {
+          "en": "Edge",
+          "zh-Hans": "Edge",
+          "zh-Hant": "Edge"
+        }
+      },
+      {
+        "value": "360",
+        "label": {
+          "en": "360 Browser",
+          "zh-Hans": "360 浏览器",
+          "zh-Hant": "360 瀏覽器"
+        }
+      },
+      {
+        "value": "qq",
+        "label": {
+          "en": "QQ Browser",
+          "zh-Hans": "QQ 浏览器",
+          "zh-Hant": "QQ 瀏覽器"
+        }
+      },
+      {
+        "value": "random",
+        "label": {
+          "en": "Random (picked at start)",
+          "zh-Hans": "随机（启动时选定）",
+          "zh-Hant": "隨機（啟動時選定）"
+        }
+      },
+      {
+        "value": "randomized",
+        "label": {
+          "en": "Fully randomized",
+          "zh-Hans": "完全随机",
+          "zh-Hant": "完全隨機"
+        }
+      },
+      {
+        "value": "chrome120",
+        "label": {
+          "en": "Chrome 120",
+          "zh-Hans": "Chrome 120",
+          "zh-Hant": "Chrome 120"
+        }
+      },
+      {
+        "value": "firefox120",
+        "label": {
+          "en": "Firefox 120",
+          "zh-Hans": "Firefox 120",
+          "zh-Hant": "Firefox 120"
+        }
+      },
+      {
+        "value": "safari16",
+        "label": {
+          "en": "Safari 16",
+          "zh-Hans": "Safari 16",
+          "zh-Hant": "Safari 16"
+        }
+      },
+      {
+        "value": "chrome_psk",
+        "label": {
+          "en": "Chrome PSK (old)",
+          "zh-Hans": "Chrome PSK（旧）",
+          "zh-Hant": "Chrome PSK（舊）"
+        }
+      },
+      {
+        "value": "chrome_psk_shuffle",
+        "label": {
+          "en": "Chrome PSK shuffled (old)",
+          "zh-Hans": "Chrome PSK 乱序（旧）",
+          "zh-Hant": "Chrome PSK 亂序（舊）"
+        }
+      },
+      {
+        "value": "chrome_padding_psk_shuffle",
+        "label": {
+          "en": "Chrome padded PSK shuffled (old)",
+          "zh-Hans": "Chrome 填充 PSK 乱序（旧）",
+          "zh-Hant": "Chrome 填充 PSK 亂序（舊）"
+        }
+      },
+      {
+        "value": "chrome_pq",
+        "label": {
+          "en": "Chrome post-quantum (old)",
+          "zh-Hans": "Chrome 后量子（旧）",
+          "zh-Hant": "Chrome 後量子（舊）"
+        }
+      },
+      {
+        "value": "chrome_pq_psk",
+        "label": {
+          "en": "Chrome post-quantum PSK (old)",
+          "zh-Hans": "Chrome 后量子 PSK（旧）",
+          "zh-Hant": "Chrome 後量子 PSK（舊）"
+        }
+      },
+      {
+        "value": "none",
+        "label": {
+          "en": "None",
+          "zh-Hans": "不伪装",
+          "zh-Hant": "不偽裝"
+        }
+      }
+    ],
+    "unsetOverrides": true
+  },
+  "proxies[ss].plugin-opts[gost-plugin].host": {
+    "title": {
+      "en": "Host",
+      "zh-Hans": "Host 域名",
+      "zh-Hant": "Host 網域"
+    },
+    "summary": {
+      "en": "The Host header and TLS domain the plugin presents.",
+      "zh-Hans": "插件使用的 Host 请求头和 TLS 域名。",
+      "zh-Hant": "外掛使用的 Host 標頭與 TLS 網域。"
+    },
+    "example": "example.com"
+  },
+  "proxies[ss].plugin-opts[gost-plugin].mode": {
+    "title": {
+      "en": "Plugin Mode",
+      "zh-Hans": "插件模式",
+      "zh-Hant": "外掛模式"
+    },
+    "summary": {
+      "en": "The plugin's transport. Only websocket is supported.",
+      "zh-Hans": "插件的传输方式，目前只支持 websocket。",
+      "zh-Hant": "外掛的傳輸方式，目前只支援 websocket。"
+    },
+    "presets": [
+      {
+        "value": "websocket",
+        "label": {
+          "en": "WebSocket",
+          "zh-Hans": "WebSocket",
+          "zh-Hant": "WebSocket"
+        }
+      }
+    ]
+  },
+  "proxies[ss].plugin-opts[jls].host": {
+    "title": {
+      "en": "Imitated Site",
+      "zh-Hans": "伪装网站",
+      "zh-Hant": "偽裝網站"
+    },
+    "summary": {
+      "en": "The site JLS imitates. It must match the server.",
+      "zh-Hans": "JLS 模仿的网站，须与服务器一致。",
+      "zh-Hant": "JLS 模仿的網站，須與伺服器一致。"
+    },
+    "example": "www.example.com"
+  },
+  "proxies[ss].plugin-opts[kcptun].mode": {
+    "title": {
+      "en": "Speed Mode",
+      "zh-Hans": "加速模式",
+      "zh-Hant": "加速模式"
+    },
+    "summary": {
+      "en": "Presets from normal to fast3; faster modes use more traffic.",
+      "zh-Hans": "从 normal 到 fast3，越快越耗流量。",
+      "zh-Hant": "從 normal 到 fast3，越快越耗流量。"
+    },
+    "presets": [
+      {
+        "value": "normal",
+        "label": {
+          "en": "Normal",
+          "zh-Hans": "普通",
+          "zh-Hant": "普通"
+        }
+      },
+      {
+        "value": "fast",
+        "label": {
+          "en": "Fast",
+          "zh-Hans": "快速",
+          "zh-Hant": "快速"
+        }
+      },
+      {
+        "value": "fast2",
+        "label": {
+          "en": "Faster",
+          "zh-Hans": "更快",
+          "zh-Hant": "更快"
+        }
+      },
+      {
+        "value": "fast3",
+        "label": {
+          "en": "Fastest",
+          "zh-Hans": "最快",
+          "zh-Hant": "最快"
+        }
+      }
+    ]
+  },
+  "proxies[ss].plugin-opts[obfs].host": {
+    "title": {
+      "en": "Obfs Host",
+      "zh-Hans": "混淆域名",
+      "zh-Hant": "混淆網域"
+    },
+    "summary": {
+      "en": "The site the traffic pretends to visit.",
+      "zh-Hans": "流量伪装访问的网站域名。",
+      "zh-Hant": "流量偽裝造訪的網站網域。"
+    },
+    "example": "www.bing.com"
+  },
+  "proxies[ss].plugin-opts[obfs].mode": {
+    "title": {
+      "en": "Obfs Mode",
+      "zh-Hans": "混淆模式",
+      "zh-Hant": "混淆模式"
+    },
+    "summary": {
+      "en": "Makes traffic look like TLS or HTTP. It must match the server.",
+      "zh-Hans": "把流量伪装成 TLS 或 HTTP，须与服务器一致。",
+      "zh-Hant": "把流量偽裝成 TLS 或 HTTP，須與伺服器一致。"
+    },
+    "presets": [
+      {
+        "value": "tls",
+        "label": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        }
+      },
+      {
+        "value": "http",
+        "label": {
+          "en": "HTTP",
+          "zh-Hans": "HTTP",
+          "zh-Hant": "HTTP"
+        }
+      }
+    ]
+  },
+  "proxies[ss].plugin-opts[restls].host": {
+    "title": {
+      "en": "Imitated Site",
+      "zh-Hans": "伪装网站",
+      "zh-Hant": "偽裝網站"
+    },
+    "summary": {
+      "en": "A real TLS 1.3 site Restls imitates. It must match the server.",
+      "zh-Hans": "Restls 模仿的真实 TLS 1.3 网站，须与服务器一致。",
+      "zh-Hant": "Restls 模仿的真實 TLS 1.3 網站，須與伺服器一致。"
+    },
+    "example": "www.microsoft.com"
+  },
+  "proxies[ss].plugin-opts[shadow-tls].host": {
+    "title": {
+      "en": "Handshake Site",
+      "zh-Hans": "握手网站",
+      "zh-Hant": "交握網站"
+    },
+    "summary": {
+      "en": "The real TLS site ShadowTLS borrows for its handshake. It must match the server.",
+      "zh-Hans": "ShadowTLS 借来握手的真实网站，须与服务器一致。",
+      "zh-Hant": "ShadowTLS 借來交握的真實網站，須與伺服器一致。"
+    },
+    "example": "www.microsoft.com"
+  },
+  "proxies[ss].plugin-opts[v2ray-plugin].host": {
+    "title": {
+      "en": "Host",
+      "zh-Hans": "Host 域名",
+      "zh-Hant": "Host 網域"
+    },
+    "summary": {
+      "en": "The Host header and TLS domain the plugin presents.",
+      "zh-Hans": "插件使用的 Host 请求头和 TLS 域名。",
+      "zh-Hant": "外掛使用的 Host 標頭與 TLS 網域。"
+    },
+    "example": "example.com"
+  },
+  "proxies[ss].plugin-opts[v2ray-plugin].mode": {
+    "title": {
+      "en": "Plugin Mode",
+      "zh-Hans": "插件模式",
+      "zh-Hant": "外掛模式"
+    },
+    "summary": {
+      "en": "The plugin's transport. Only websocket is supported.",
+      "zh-Hans": "插件的传输方式，目前只支持 websocket。",
+      "zh-Hant": "外掛的傳輸方式，目前只支援 websocket。"
+    },
+    "presets": [
+      {
+        "value": "websocket",
+        "label": {
+          "en": "WebSocket",
+          "zh-Hans": "WebSocket",
+          "zh-Hant": "WebSocket"
+        }
+      }
+    ]
+  },
+  "proxies[ssr].protocol": {
+    "title": {
+      "en": "Protocol Plugin",
+      "zh-Hans": "协议插件",
+      "zh-Hant": "協定外掛"
+    },
+    "summary": {
+      "en": "The SSR protocol plugin. It must match the server.",
+      "zh-Hans": "SSR 的协议插件，须与服务器一致。",
+      "zh-Hant": "SSR 的協定外掛，須與伺服器一致。"
+    },
+    "presets": [
+      {
+        "value": "origin",
+        "label": {
+          "en": "origin",
+          "zh-Hans": "origin",
+          "zh-Hant": "origin"
+        }
+      },
+      {
+        "value": "auth_sha1_v4",
+        "label": {
+          "en": "auth_sha1_v4",
+          "zh-Hans": "auth_sha1_v4",
+          "zh-Hant": "auth_sha1_v4"
+        }
+      },
+      {
+        "value": "auth_aes128_md5",
+        "label": {
+          "en": "auth_aes128_md5",
+          "zh-Hans": "auth_aes128_md5",
+          "zh-Hant": "auth_aes128_md5"
+        }
+      },
+      {
+        "value": "auth_aes128_sha1",
+        "label": {
+          "en": "auth_aes128_sha1",
+          "zh-Hans": "auth_aes128_sha1",
+          "zh-Hant": "auth_aes128_sha1"
+        }
+      },
+      {
+        "value": "auth_chain_a",
+        "label": {
+          "en": "auth_chain_a",
+          "zh-Hans": "auth_chain_a",
+          "zh-Hant": "auth_chain_a"
+        }
+      },
+      {
+        "value": "auth_chain_b",
+        "label": {
+          "en": "auth_chain_b",
+          "zh-Hans": "auth_chain_b",
+          "zh-Hant": "auth_chain_b"
+        }
+      }
+    ]
+  },
+  "proxies[vless].packet-encoding": {
+    "title": {
+      "en": "UDP Packet Encoding",
+      "zh-Hans": "UDP 包编码",
+      "zh-Hant": "UDP 封包編碼"
+    },
+    "summary": {
+      "en": "How UDP packets are wrapped: packetaddr for V2Ray 5+, xudp for Xray. It must match the server.",
+      "zh-Hans": "UDP 包的封装方式，须与服务器一致。",
+      "zh-Hant": "UDP 封包的封裝方式，須與伺服器一致。"
+    },
+    "unset": {
+      "en": "XUDP",
+      "zh-Hans": "XUDP",
+      "zh-Hant": "XUDP"
+    },
+    "presets": [
+      {
+        "value": "xudp",
+        "label": {
+          "en": "XUDP",
+          "zh-Hans": "XUDP",
+          "zh-Hant": "XUDP"
+        }
+      },
+      {
+        "value": "packetaddr",
+        "label": {
+          "en": "PacketAddr",
+          "zh-Hans": "PacketAddr",
+          "zh-Hant": "PacketAddr"
+        }
+      },
+      {
+        "value": "packet",
+        "label": {
+          "en": "Packet",
+          "zh-Hans": "Packet",
+          "zh-Hant": "Packet"
+        }
+      }
+    ]
+  },
+  "proxies[vmess].packet-encoding": {
+    "title": {
+      "en": "UDP Packet Encoding",
+      "zh-Hans": "UDP 包编码",
+      "zh-Hant": "UDP 封包編碼"
+    },
+    "summary": {
+      "en": "How UDP packets are wrapped: packetaddr for V2Ray 5+, xudp for Xray. It must match the server.",
+      "zh-Hans": "UDP 包的封装方式，须与服务器一致。",
+      "zh-Hant": "UDP 封包的封裝方式，須與伺服器一致。"
+    },
+    "unset": {
+      "en": "Plain",
+      "zh-Hans": "不封装",
+      "zh-Hant": "不封裝"
+    },
+    "presets": [
+      {
+        "value": "packetaddr",
+        "label": {
+          "en": "PacketAddr",
+          "zh-Hans": "PacketAddr",
+          "zh-Hant": "PacketAddr"
+        }
+      },
+      {
+        "value": "packet",
+        "label": {
+          "en": "Packet",
+          "zh-Hans": "Packet",
+          "zh-Hant": "Packet"
+        }
+      },
+      {
+        "value": "xudp",
+        "label": {
+          "en": "XUDP",
+          "zh-Hans": "XUDP",
+          "zh-Hant": "XUDP"
+        }
+      }
+    ]
+  },
+  "proxies[trojan].alpn": {
+    "title": {
+      "en": "ALPN",
+      "zh-Hans": "ALPN",
+      "zh-Hant": "ALPN"
+    },
+    "summary": {
+      "en": "Application protocols offered in the TLS handshake, in order of preference.",
+      "zh-Hans": "TLS 握手时提供的应用层协议，按优先顺序。",
+      "zh-Hant": "TLS 交握時提供的應用層協定，依優先順序。"
+    },
+    "unset": {
+      "en": "h2 and HTTP/1.1 (HTTP/1.1 over WebSocket)",
+      "zh-Hans": "h2 和 HTTP/1.1（WebSocket 时为 HTTP/1.1）",
+      "zh-Hant": "h2 和 HTTP/1.1（WebSocket 時為 HTTP/1.1）"
+    },
+    "presets": [
+      {
+        "value": "h2",
+        "label": {
+          "en": "HTTP/2",
+          "zh-Hans": "HTTP/2",
+          "zh-Hant": "HTTP/2"
+        }
+      },
+      {
+        "value": "http/1.1",
+        "label": {
+          "en": "HTTP/1.1",
+          "zh-Hans": "HTTP/1.1",
+          "zh-Hant": "HTTP/1.1"
+        }
+      }
+    ]
+  },
+  "proxies[snell].mode": {
+    "title": {
+      "en": "Snell 6 Mode",
+      "zh-Hans": "Snell 6 模式",
+      "zh-Hant": "Snell 6 模式"
+    },
+    "summary": {
+      "en": "How Snell 6 carries the data; it must match the server.",
+      "zh-Hans": "Snell 6 的传输方式，须与服务器一致。",
+      "zh-Hant": "Snell 6 的傳輸方式，須與伺服器一致。"
+    },
+    "presets": [
+      {
+        "value": "default",
+        "label": {
+          "en": "Standard (encrypted, disguised)",
+          "zh-Hans": "标准（加密并伪装）",
+          "zh-Hant": "標準（加密並偽裝）"
+        }
+      },
+      {
+        "value": "unshaped",
+        "label": {
+          "en": "Encrypted only",
+          "zh-Hans": "仅加密",
+          "zh-Hant": "僅加密"
+        }
+      },
+      {
+        "value": "unsafe-raw",
+        "label": {
+          "en": "Unencrypted (unsafe)",
+          "zh-Hans": "不加密（不安全）",
+          "zh-Hant": "不加密（不安全）"
+        }
+      }
+    ]
+  },
+  "proxies[snell].user-key": {
+    "title": {
+      "en": "User Key",
+      "zh-Hans": "用户密钥",
+      "zh-Hant": "使用者金鑰"
+    },
+    "summary": {
+      "en": "Your own key on a Snell 6 server several people share, as your provider gives it.",
+      "zh-Hans": "多人共用的 Snell 6 服务器上你自己的密钥，照服务商给的填。",
+      "zh-Hant": "多人共用的 Snell 6 伺服器上你自己的金鑰，照服務商給的填。"
+    },
+    "example": "your-user-key"
+  },
+  "proxies[vless].xudp": {
+    "title": {
+      "en": "XUDP (Legacy)",
+      "zh-Hans": "XUDP",
+      "zh-Hant": "XUDP"
+    },
+    "summary": {
+      "en": "The old switch for xudp encoding. Use UDP Packet Encoding instead.",
+      "zh-Hans": "xudp 编码的旧开关，请改用「UDP 包编码」。",
+      "zh-Hant": "xudp 編碼的舊開關，請改用「UDP 封包編碼」。"
+    },
+    "unset": {
+      "en": "On, unless PacketAddr is used",
+      "zh-Hans": "开启（使用 PacketAddr 时关闭）",
+      "zh-Hant": "開啟（使用 PacketAddr 時關閉）"
+    }
+  }
+}

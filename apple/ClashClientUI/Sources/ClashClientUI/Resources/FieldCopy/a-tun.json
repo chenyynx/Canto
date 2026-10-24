@@ -1,0 +1,1090 @@
+{
+  "tun": {
+    "title": {
+      "en": "TUN",
+      "zh-Hans": "TUN",
+      "zh-Hant": "TUN"
+    },
+    "summary": {
+      "en": "The virtual network interface that carries the device's traffic.",
+      "zh-Hans": "接管设备流量的虚拟网卡。",
+      "zh-Hant": "接管裝置流量的虛擬網卡。"
+    }
+  },
+  "tun.enable": {
+    "title": {
+      "en": "TUN",
+      "zh-Hans": "启用 TUN",
+      "zh-Hant": "啟用 TUN"
+    },
+    "summary": {
+      "en": "Takes over all of the device's traffic through a virtual network interface.",
+      "zh-Hans": "通过虚拟网卡接管设备的全部流量。",
+      "zh-Hant": "透過虛擬網卡接管裝置的全部流量。"
+    },
+    "platform": {
+      "en": "Always on here: the VPN itself carries the TUN.",
+      "zh-Hans": "这里始终开启：VPN 本身就是 TUN。",
+      "zh-Hant": "這裡始終開啟：VPN 本身就是 TUN。"
+    }
+  },
+  "tun.device": {
+    "title": {
+      "en": "TUN Interface Name",
+      "zh-Hans": "TUN 网卡名",
+      "zh-Hant": "TUN 網卡名稱"
+    },
+    "summary": {
+      "en": "The TUN interface's name; on macOS it must start with utun.",
+      "zh-Hans": "TUN 网卡的名字，macOS 上须以 utun 开头。",
+      "zh-Hant": "TUN 網卡的名稱，macOS 上須以 utun 開頭。"
+    },
+    "unset": {
+      "en": "Automatic",
+      "zh-Hans": "自动",
+      "zh-Hant": "自動"
+    },
+    "example": "utun0",
+    "platform": {
+      "en": "Fixed here: the tunnel always uses Clash's own virtual interface.",
+      "zh-Hans": "这里固定使用 Clash 自己的虚拟网卡。",
+      "zh-Hant": "這裡固定使用 Clash 自己的虛擬網卡。"
+    }
+  },
+  "tun.stack": {
+    "title": {
+      "en": "Network Stack",
+      "zh-Hans": "网络栈",
+      "zh-Hant": "網路堆疊"
+    },
+    "summary": {
+      "en": "The network stack that handles TUN traffic; keep the default unless something breaks.",
+      "zh-Hans": "处理 TUN 流量的网络栈，没有问题就保持默认。",
+      "zh-Hant": "處理 TUN 流量的網路堆疊，沒有問題就保持預設。"
+    },
+    "unset": {
+      "en": "gVisor",
+      "zh-Hans": "gVisor",
+      "zh-Hant": "gVisor"
+    },
+    "presets": [
+      {
+        "value": "gvisor",
+        "label": {
+          "en": "gVisor",
+          "zh-Hans": "gVisor",
+          "zh-Hant": "gVisor"
+        }
+      },
+      {
+        "value": "system",
+        "label": {
+          "en": "System",
+          "zh-Hans": "系统",
+          "zh-Hant": "系統"
+        }
+      },
+      {
+        "value": "mixed",
+        "label": {
+          "en": "Mixed",
+          "zh-Hans": "混合",
+          "zh-Hant": "混合"
+        }
+      },
+      {
+        "value": "mips",
+        "label": {
+          "en": "mipstack",
+          "zh-Hans": "mipstack",
+          "zh-Hant": "mipstack"
+        }
+      }
+    ],
+    "platform": {
+      "en": "While Include All Networks is on, System and Mixed run as gVisor; gVisor and MIPS run as written.",
+      "zh-Hans": "开启「包含所有网络」时，System 和 Mixed 按 gVisor 运行；gVisor 和 MIPS 照写的运行。",
+      "zh-Hant": "開啟「包含所有網路」時，System 和 Mixed 以 gVisor 執行；gVisor 和 MIPS 依寫的執行。"
+    }
+  },
+  "tun.congestion-controller": {
+    "title": {
+      "en": "TCP Congestion Control",
+      "zh-Hans": "TCP 拥塞控制",
+      "zh-Hant": "TCP 壅塞控制"
+    },
+    "summary": {
+      "en": "The congestion control for TCP inside the tunnel; only mipstack uses it.",
+      "zh-Hans": "隧道内 TCP 的拥塞控制算法，只有 mipstack 使用。",
+      "zh-Hant": "隧道內 TCP 的壅塞控制演算法，只有 mipstack 使用。"
+    },
+    "unset": {
+      "en": "CUBIC",
+      "zh-Hans": "CUBIC",
+      "zh-Hant": "CUBIC"
+    },
+    "presets": [
+      {
+        "value": "cubic",
+        "label": {
+          "en": "CUBIC",
+          "zh-Hans": "CUBIC",
+          "zh-Hant": "CUBIC"
+        }
+      },
+      {
+        "value": "reno",
+        "label": {
+          "en": "Reno",
+          "zh-Hans": "Reno",
+          "zh-Hant": "Reno"
+        }
+      },
+      {
+        "value": "bbr",
+        "label": {
+          "en": "BBR",
+          "zh-Hans": "BBR",
+          "zh-Hant": "BBR"
+        }
+      },
+      {
+        "value": "bbr3",
+        "label": {
+          "en": "BBRv3",
+          "zh-Hans": "BBRv3",
+          "zh-Hant": "BBRv3"
+        }
+      }
+    ]
+  },
+  "tun.dns-hijack": {
+    "title": {
+      "en": "Hijacked Addresses",
+      "zh-Hans": "劫持的地址",
+      "zh-Hant": "劫持的位址"
+    },
+    "summary": {
+      "en": "DNS queries sent to these addresses are answered by the core.",
+      "zh-Hans": "发往这些地址的 DNS 查询交给内核处理。",
+      "zh-Hant": "送往這些位址的 DNS 查詢交給核心處理。"
+    },
+    "unset": {
+      "en": "All DNS queries",
+      "zh-Hans": "所有 DNS 查询",
+      "zh-Hant": "所有 DNS 查詢"
+    },
+    "example": "any:53",
+    "presets": [
+      {
+        "value": "any:53",
+        "label": {
+          "en": "All DNS queries",
+          "zh-Hans": "所有 DNS 查询",
+          "zh-Hant": "所有 DNS 查詢"
+        }
+      },
+      {
+        "value": "tcp://any:53",
+        "label": {
+          "en": "All DNS queries over TCP",
+          "zh-Hans": "所有 TCP 上的 DNS 查询",
+          "zh-Hant": "所有 TCP 上的 DNS 查詢"
+        }
+      }
+    ],
+    "platform": {
+      "en": "Fixed here: every DNS query in the tunnel goes to Clash.",
+      "zh-Hans": "这里固定接管隧道里的全部 DNS 查询，交给 Clash 处理。",
+      "zh-Hant": "這裡固定接管通道裡的全部 DNS 查詢，交給 Clash 處理。"
+    }
+  },
+  "tun.auto-route": {
+    "title": {
+      "en": "Set Routes Automatically",
+      "zh-Hans": "自动设置路由",
+      "zh-Hant": "自動設定路由"
+    },
+    "summary": {
+      "en": "Sends all traffic into the TUN interface automatically.",
+      "zh-Hans": "自动把全部流量路由进 TUN。",
+      "zh-Hant": "自動把全部流量路由進 TUN。"
+    },
+    "platform": {
+      "en": "Off here: the app sets up the routes itself.",
+      "zh-Hans": "这里固定关闭：路由由 App 自己设置。",
+      "zh-Hant": "這裡固定關閉：路由由 App 自己設定。"
+    }
+  },
+  "tun.auto-detect-interface": {
+    "title": {
+      "en": "Pick Outbound Interface",
+      "zh-Hans": "自动选择出口网卡",
+      "zh-Hant": "自動選擇出口網卡"
+    },
+    "summary": {
+      "en": "Chooses the physical interface traffic leaves through automatically.",
+      "zh-Hans": "自动选择流量出去的物理网卡。",
+      "zh-Hant": "自動選擇流量出去的實體網卡。"
+    },
+    "platform": {
+      "en": "Off here: the tunnel chooses its own outgoing interface.",
+      "zh-Hans": "这里固定关闭：出口网卡由隧道自己选择。",
+      "zh-Hant": "這裡固定關閉：出口網卡由通道自己選擇。"
+    }
+  },
+  "tun.mtu": {
+    "title": {
+      "en": "MTU",
+      "zh-Hans": "MTU",
+      "zh-Hant": "MTU"
+    },
+    "summary": {
+      "en": "The largest packet the TUN interface carries; keep the default unless something breaks.",
+      "zh-Hans": "TUN 能传的最大数据包，没有问题就保持默认。",
+      "zh-Hant": "TUN 能傳的最大封包，沒有問題就保持預設。"
+    },
+    "unset": {
+      "en": "9000",
+      "zh-Hans": "9000",
+      "zh-Hant": "9000"
+    },
+    "platform": {
+      "en": "Fixed here: the tunnel picks the MTU when it starts.",
+      "zh-Hans": "这里由隧道启动时自己决定 MTU。",
+      "zh-Hant": "這裡由通道啟動時自己決定 MTU。"
+    }
+  },
+  "tun.gso": {
+    "title": {
+      "en": "GSO",
+      "zh-Hans": "GSO 分段卸载",
+      "zh-Hant": "GSO 分段卸載"
+    },
+    "summary": {
+      "en": "Linux only: turns on generic segmentation offload for more throughput.",
+      "zh-Hans": "仅 Linux：开启通用分段卸载，提升吞吐。",
+      "zh-Hant": "僅 Linux：開啟通用分段卸載，提升傳輸量。"
+    },
+    "platform": {
+      "en": "Off here: the tunnel doesn't use segmentation offload.",
+      "zh-Hans": "这里固定关闭：隧道不使用分段卸载。",
+      "zh-Hant": "這裡固定關閉：通道不使用分段卸載。"
+    }
+  },
+  "tun.gso-max-size": {
+    "title": {
+      "en": "GSO Maximum Size",
+      "zh-Hans": "GSO 最大长度",
+      "zh-Hant": "GSO 最大長度"
+    },
+    "summary": {
+      "en": "The largest block, in bytes, GSO hands over at once.",
+      "zh-Hans": "GSO 每个数据块的最大字节数。",
+      "zh-Hant": "GSO 每個資料塊的最大位元組數。"
+    },
+    "unset": {
+      "en": "65536",
+      "zh-Hans": "65536",
+      "zh-Hant": "65536"
+    },
+    "platform": {
+      "en": "Not used: segmentation offload is off here.",
+      "zh-Hans": "不起作用：这里分段卸载是关闭的。",
+      "zh-Hant": "不起作用：這裡分段卸載是關閉的。"
+    }
+  },
+  "tun.inet6-address": {
+    "title": {
+      "en": "TUN IPv6 Address",
+      "zh-Hans": "TUN IPv6 地址",
+      "zh-Hant": "TUN IPv6 位址"
+    },
+    "summary": {
+      "en": "The IPv6 address of the TUN interface; IPv6 must be on too.",
+      "zh-Hans": "TUN 网卡的 IPv6 地址，需同时开启 IPv6。",
+      "zh-Hant": "TUN 網卡的 IPv6 位址，需同時開啟 IPv6。"
+    },
+    "unset": {
+      "en": "fdfe:dcba:9876::1/126",
+      "zh-Hans": "fdfe:dcba:9876::1/126",
+      "zh-Hant": "fdfe:dcba:9876::1/126"
+    },
+    "example": "fdfe:dcba:9876::1/126"
+  },
+  "tun.iproute2-table-index": {
+    "title": {
+      "en": "Table Number",
+      "zh-Hans": "路由表编号",
+      "zh-Hant": "路由表編號"
+    },
+    "summary": {
+      "en": "Linux only: the routing table automatic routes are written to.",
+      "zh-Hans": "仅 Linux：自动路由使用的路由表编号。",
+      "zh-Hant": "僅 Linux：自動路由使用的路由表編號。"
+    },
+    "unset": {
+      "en": "2022",
+      "zh-Hans": "2022",
+      "zh-Hant": "2022"
+    },
+    "platform": {
+      "en": "A Linux routing setting; it does nothing here.",
+      "zh-Hans": "Linux 路由的设置，这里不起作用。",
+      "zh-Hant": "Linux 路由的設定，這裡不起作用。"
+    }
+  },
+  "tun.iproute2-rule-index": {
+    "title": {
+      "en": "First Rule Number",
+      "zh-Hans": "路由规则起始编号",
+      "zh-Hant": "路由規則起始編號"
+    },
+    "summary": {
+      "en": "Linux only: the number automatic routing rules start from.",
+      "zh-Hans": "仅 Linux：自动路由生成的规则从这个编号开始。",
+      "zh-Hant": "僅 Linux：自動路由產生的規則從這個編號開始。"
+    },
+    "unset": {
+      "en": "9000",
+      "zh-Hans": "9000",
+      "zh-Hant": "9000"
+    },
+    "platform": {
+      "en": "A Linux routing setting; it does nothing here.",
+      "zh-Hans": "Linux 路由的设置，这里不起作用。",
+      "zh-Hant": "Linux 路由的設定，這裡不起作用。"
+    }
+  },
+  "tun.auto-redirect": {
+    "title": {
+      "en": "Auto Redirect",
+      "zh-Hans": "自动重定向",
+      "zh-Hant": "自動重新導向"
+    },
+    "summary": {
+      "en": "Linux only: sets up the firewall to redirect TCP connections; needs automatic routes.",
+      "zh-Hans": "仅 Linux：自动配置防火墙重定向 TCP 连接，需开启自动路由。",
+      "zh-Hant": "僅 Linux：自動設定防火牆重新導向 TCP 連線，需開啟自動路由。"
+    },
+    "platform": {
+      "en": "Auto-redirect is Linux-only; it does nothing here.",
+      "zh-Hans": "自动重定向只在 Linux 上有用，这里不起作用。",
+      "zh-Hant": "自動重新導向只在 Linux 上有用，這裡不起作用。"
+    }
+  },
+  "tun.auto-redirect-input-mark": {
+    "title": {
+      "en": "Redirect Input Mark",
+      "zh-Hans": "重定向入站标记",
+      "zh-Hant": "重新導向入站標記"
+    },
+    "summary": {
+      "en": "Linux only: the mark auto redirect puts on incoming traffic.",
+      "zh-Hans": "仅 Linux：自动重定向给入站流量打的标记。",
+      "zh-Hant": "僅 Linux：自動重新導向給入站流量加的標記。"
+    },
+    "unset": {
+      "en": "8227",
+      "zh-Hans": "8227",
+      "zh-Hant": "8227"
+    },
+    "platform": {
+      "en": "Used only by auto-redirect on Linux; it does nothing here.",
+      "zh-Hans": "只给 Linux 上的自动重定向用，这里不起作用。",
+      "zh-Hant": "只給 Linux 上的自動重新導向用，這裡不起作用。"
+    }
+  },
+  "tun.auto-redirect-output-mark": {
+    "title": {
+      "en": "Redirect Output Mark",
+      "zh-Hans": "重定向出站标记",
+      "zh-Hant": "重新導向出站標記"
+    },
+    "summary": {
+      "en": "Linux only: the mark auto redirect puts on outgoing traffic.",
+      "zh-Hans": "仅 Linux：自动重定向给出站流量打的标记。",
+      "zh-Hant": "僅 Linux：自動重新導向給出站流量加的標記。"
+    },
+    "unset": {
+      "en": "8228",
+      "zh-Hans": "8228",
+      "zh-Hant": "8228"
+    },
+    "platform": {
+      "en": "Used only by auto-redirect on Linux; it does nothing here.",
+      "zh-Hans": "只给 Linux 上的自动重定向用，这里不起作用。",
+      "zh-Hant": "只給 Linux 上的自動重新導向用，這裡不起作用。"
+    }
+  },
+  "tun.auto-redirect-iproute2-fallback-rule-index": {
+    "title": {
+      "en": "Redirect Fallback Rule No.",
+      "zh-Hans": "重定向兜底规则编号",
+      "zh-Hant": "重新導向備援規則編號"
+    },
+    "summary": {
+      "en": "Linux only: the number of auto redirect's fallback routing rule.",
+      "zh-Hans": "仅 Linux：自动重定向兜底路由规则的编号。",
+      "zh-Hant": "僅 Linux：自動重新導向備援路由規則的編號。"
+    },
+    "unset": {
+      "en": "32768",
+      "zh-Hans": "32768",
+      "zh-Hant": "32768"
+    },
+    "platform": {
+      "en": "Used only by auto-redirect on Linux; it does nothing here.",
+      "zh-Hans": "只给 Linux 上的自动重定向用，这里不起作用。",
+      "zh-Hant": "只給 Linux 上的自動重新導向用，這裡不起作用。"
+    }
+  },
+  "tun.loopback-address": {
+    "title": {
+      "en": "Loopback Addresses",
+      "zh-Hans": "回环地址",
+      "zh-Hant": "迴路位址"
+    },
+    "summary": {
+      "en": "TCP connections to these addresses are connected back to the device that made them.",
+      "zh-Hans": "连到这些地址的 TCP 连接会接回发起连接的设备本身。",
+      "zh-Hant": "連到這些位址的 TCP 連線會接回發起連線的裝置本身。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    },
+    "example": "10.7.0.1"
+  },
+  "tun.strict-route": {
+    "title": {
+      "en": "Strict Route",
+      "zh-Hans": "严格路由",
+      "zh-Hant": "嚴格路由"
+    },
+    "summary": {
+      "en": "Stops traffic from slipping past the TUN interface, so addresses don't leak.",
+      "zh-Hans": "阻止流量绕过 TUN，防止地址泄漏。",
+      "zh-Hant": "阻止流量繞過 TUN，防止位址外洩。"
+    }
+  },
+  "tun.route-address": {
+    "title": {
+      "en": "Routed Ranges",
+      "zh-Hans": "只接管的网段",
+      "zh-Hant": "只接管的網段"
+    },
+    "summary": {
+      "en": "Only these ranges are routed into the TUN interface, instead of all traffic.",
+      "zh-Hans": "只把这些网段路由进 TUN，而不是全部流量。",
+      "zh-Hant": "只把這些網段路由進 TUN，而不是全部流量。"
+    },
+    "unset": {
+      "en": "All traffic",
+      "zh-Hans": "全部流量",
+      "zh-Hant": "全部流量"
+    },
+    "example": "0.0.0.0/1"
+  },
+  "tun.route-address-set": {
+    "title": {
+      "en": "Routed Rule Sets",
+      "zh-Hans": "只接管的规则集",
+      "zh-Hant": "只接管的規則集"
+    },
+    "summary": {
+      "en": "The IP ranges in these rule sets are routed into the TUN interface.",
+      "zh-Hans": "把这些规则集里的 IP 段路由进 TUN。",
+      "zh-Hant": "把這些規則集裡的 IP 段路由進 TUN。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    }
+  },
+  "tun.route-exclude-address": {
+    "title": {
+      "en": "Excluded Ranges",
+      "zh-Hans": "不接管的网段",
+      "zh-Hant": "不接管的網段"
+    },
+    "summary": {
+      "en": "These ranges skip the TUN interface and use the network directly.",
+      "zh-Hans": "这些网段不经过 TUN，直接走原来的网络。",
+      "zh-Hant": "這些網段不經過 TUN，直接走原來的網路。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    },
+    "example": "192.168.0.0/16"
+  },
+  "tun.route-exclude-address-set": {
+    "title": {
+      "en": "Excluded Rule Sets",
+      "zh-Hans": "不接管的规则集",
+      "zh-Hant": "不接管的規則集"
+    },
+    "summary": {
+      "en": "The IP ranges in these rule sets skip the TUN interface.",
+      "zh-Hans": "这些规则集里的 IP 段不经过 TUN。",
+      "zh-Hant": "這些規則集裡的 IP 段不經過 TUN。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    }
+  },
+  "tun.include-interface": {
+    "title": {
+      "en": "Only These Interfaces",
+      "zh-Hans": "只接管的网卡",
+      "zh-Hant": "只接管的網卡"
+    },
+    "summary": {
+      "en": "Only traffic from these interfaces is routed; can't be used with excluded interfaces.",
+      "zh-Hans": "只路由来自这些网卡的流量，不能和排除网卡同时用。",
+      "zh-Hant": "只路由來自這些網卡的流量，不能和排除網卡同時用。"
+    },
+    "unset": {
+      "en": "All",
+      "zh-Hans": "全部",
+      "zh-Hant": "全部"
+    },
+    "example": "eth0",
+    "platform": {
+      "en": "Removed here: the tunnel doesn't filter traffic this way.",
+      "zh-Hans": "这里会被去掉：隧道不按这一项筛选流量。",
+      "zh-Hant": "這裡會被移除：通道不依這一項篩選流量。"
+    }
+  },
+  "tun.exclude-interface": {
+    "title": {
+      "en": "Excluded Interfaces",
+      "zh-Hans": "不接管的网卡",
+      "zh-Hant": "不接管的網卡"
+    },
+    "summary": {
+      "en": "Traffic from these interfaces skips the TUN interface.",
+      "zh-Hans": "这些网卡的流量不经过 TUN。",
+      "zh-Hant": "這些網卡的流量不經過 TUN。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    },
+    "example": "eth1",
+    "platform": {
+      "en": "Removed here: the tunnel doesn't filter traffic this way.",
+      "zh-Hans": "这里会被去掉：隧道不按这一项筛选流量。",
+      "zh-Hant": "這裡會被移除：通道不依這一項篩選流量。"
+    }
+  },
+  "tun.include-uid": {
+    "title": {
+      "en": "Only These Users",
+      "zh-Hans": "只接管的用户",
+      "zh-Hant": "只接管的使用者"
+    },
+    "summary": {
+      "en": "Linux only: only traffic from these user IDs is routed.",
+      "zh-Hans": "仅 Linux：只路由这些用户 ID 的流量。",
+      "zh-Hant": "僅 Linux：只路由這些使用者 ID 的流量。"
+    },
+    "unset": {
+      "en": "All",
+      "zh-Hans": "全部",
+      "zh-Hant": "全部"
+    },
+    "example": "0",
+    "platform": {
+      "en": "Removed here: the tunnel doesn't filter traffic this way.",
+      "zh-Hans": "这里会被去掉：隧道不按这一项筛选流量。",
+      "zh-Hant": "這裡會被移除：通道不依這一項篩選流量。"
+    }
+  },
+  "tun.include-uid-range": {
+    "title": {
+      "en": "Only These User Ranges",
+      "zh-Hans": "只接管的用户范围",
+      "zh-Hant": "只接管的使用者範圍"
+    },
+    "summary": {
+      "en": "Linux only: only traffic from user IDs in this range is routed.",
+      "zh-Hans": "仅 Linux：只路由这个范围内用户 ID 的流量。",
+      "zh-Hant": "僅 Linux：只路由這個範圍內使用者 ID 的流量。"
+    },
+    "unset": {
+      "en": "All",
+      "zh-Hans": "全部",
+      "zh-Hant": "全部"
+    },
+    "example": "1000:9999",
+    "platform": {
+      "en": "Removed here: the tunnel doesn't filter traffic this way.",
+      "zh-Hans": "这里会被去掉：隧道不按这一项筛选流量。",
+      "zh-Hant": "這裡會被移除：通道不依這一項篩選流量。"
+    }
+  },
+  "tun.exclude-uid": {
+    "title": {
+      "en": "Excluded Users",
+      "zh-Hans": "不接管的用户",
+      "zh-Hant": "不接管的使用者"
+    },
+    "summary": {
+      "en": "Linux only: traffic from these user IDs skips the TUN interface.",
+      "zh-Hans": "仅 Linux：这些用户 ID 的流量不经过 TUN。",
+      "zh-Hant": "僅 Linux：這些使用者 ID 的流量不經過 TUN。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    },
+    "example": "1000",
+    "platform": {
+      "en": "Removed here: the tunnel doesn't filter traffic this way.",
+      "zh-Hans": "这里会被去掉：隧道不按这一项筛选流量。",
+      "zh-Hant": "這裡會被移除：通道不依這一項篩選流量。"
+    }
+  },
+  "tun.exclude-uid-range": {
+    "title": {
+      "en": "Excluded User Ranges",
+      "zh-Hans": "不接管的用户范围",
+      "zh-Hant": "不接管的使用者範圍"
+    },
+    "summary": {
+      "en": "Linux only: traffic from user IDs in this range skips the TUN interface.",
+      "zh-Hans": "仅 Linux：这个范围内用户 ID 的流量不经过 TUN。",
+      "zh-Hant": "僅 Linux：這個範圍內使用者 ID 的流量不經過 TUN。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    },
+    "example": "1000:9999",
+    "platform": {
+      "en": "Removed here: the tunnel doesn't filter traffic this way.",
+      "zh-Hans": "这里会被去掉：隧道不按这一项筛选流量。",
+      "zh-Hant": "這裡會被移除：通道不依這一項篩選流量。"
+    }
+  },
+  "tun.exclude-src-port": {
+    "title": {
+      "en": "Excluded Source Ports",
+      "zh-Hans": "排除的来源端口",
+      "zh-Hant": "排除的來源埠"
+    },
+    "summary": {
+      "en": "Traffic from these source ports skips the TUN interface.",
+      "zh-Hans": "来自这些源端口的流量不经过 TUN。",
+      "zh-Hant": "來自這些來源埠的流量不經過 TUN。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    },
+    "example": "8080",
+    "platform": {
+      "en": "Removed here: the tunnel doesn't filter traffic this way.",
+      "zh-Hans": "这里会被去掉：隧道不按这一项筛选流量。",
+      "zh-Hant": "這裡會被移除：通道不依這一項篩選流量。"
+    }
+  },
+  "tun.exclude-src-port-range": {
+    "title": {
+      "en": "Excluded Source Port Ranges",
+      "zh-Hans": "排除的来源端口范围",
+      "zh-Hant": "排除的來源埠範圍"
+    },
+    "summary": {
+      "en": "Traffic from source ports in this range skips the TUN interface.",
+      "zh-Hans": "源端口在这个范围内的流量不经过 TUN。",
+      "zh-Hant": "來源埠在這個範圍內的流量不經過 TUN。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    },
+    "example": "1000:2000",
+    "platform": {
+      "en": "Removed here: the tunnel doesn't filter traffic this way.",
+      "zh-Hans": "这里会被去掉：隧道不按这一项筛选流量。",
+      "zh-Hant": "這裡會被移除：通道不依這一項篩選流量。"
+    }
+  },
+  "tun.exclude-dst-port": {
+    "title": {
+      "en": "Excluded Target Ports",
+      "zh-Hans": "排除的目标端口",
+      "zh-Hant": "排除的目標埠"
+    },
+    "summary": {
+      "en": "Traffic to these ports skips the TUN interface.",
+      "zh-Hans": "发往这些端口的流量不经过 TUN。",
+      "zh-Hant": "送往這些埠的流量不經過 TUN。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    },
+    "example": "25",
+    "platform": {
+      "en": "Removed here: the tunnel doesn't filter traffic this way.",
+      "zh-Hans": "这里会被去掉：隧道不按这一项筛选流量。",
+      "zh-Hant": "這裡會被移除：通道不依這一項篩選流量。"
+    }
+  },
+  "tun.exclude-dst-port-range": {
+    "title": {
+      "en": "Excluded Target Port Ranges",
+      "zh-Hans": "排除的目标端口范围",
+      "zh-Hant": "排除的目標埠範圍"
+    },
+    "summary": {
+      "en": "Traffic to ports in this range skips the TUN interface.",
+      "zh-Hans": "发往这个端口范围的流量不经过 TUN。",
+      "zh-Hant": "送往這個埠範圍的流量不經過 TUN。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    },
+    "example": "6881:6889",
+    "platform": {
+      "en": "Removed here: the tunnel doesn't filter traffic this way.",
+      "zh-Hans": "这里会被去掉：隧道不按这一项筛选流量。",
+      "zh-Hant": "這裡會被移除：通道不依這一項篩選流量。"
+    }
+  },
+  "tun.include-android-user": {
+    "title": {
+      "en": "Only These Android Users",
+      "zh-Hans": "只接管的安卓用户",
+      "zh-Hant": "只接管的安卓使用者"
+    },
+    "summary": {
+      "en": "Android only: only traffic from these Android users is routed.",
+      "zh-Hans": "仅 Android：只路由这些安卓用户的流量。",
+      "zh-Hant": "僅 Android：只路由這些 Android 使用者的流量。"
+    },
+    "unset": {
+      "en": "All",
+      "zh-Hans": "全部",
+      "zh-Hant": "全部"
+    },
+    "example": "0",
+    "platform": {
+      "en": "Android only; it does nothing here.",
+      "zh-Hans": "只在安卓上有用，这里不起作用。",
+      "zh-Hant": "只在 Android 上有用，這裡不起作用。"
+    }
+  },
+  "tun.include-package": {
+    "title": {
+      "en": "Only These Android Apps",
+      "zh-Hans": "只接管的安卓应用",
+      "zh-Hant": "只接管的 App"
+    },
+    "summary": {
+      "en": "Android only: only traffic from these app package names is routed.",
+      "zh-Hans": "仅 Android：只路由这些应用包名的流量。",
+      "zh-Hant": "僅 Android：只路由這些 App 套件名稱的流量。"
+    },
+    "unset": {
+      "en": "All",
+      "zh-Hans": "全部",
+      "zh-Hant": "全部"
+    },
+    "example": "com.android.chrome",
+    "platform": {
+      "en": "Android only; it does nothing here.",
+      "zh-Hans": "只在安卓上有用，这里不起作用。",
+      "zh-Hant": "只在 Android 上有用，這裡不起作用。"
+    }
+  },
+  "tun.exclude-package": {
+    "title": {
+      "en": "Excluded Android Apps",
+      "zh-Hans": "不接管的安卓应用",
+      "zh-Hant": "不接管的 App"
+    },
+    "summary": {
+      "en": "Android only: traffic from these apps skips the TUN interface.",
+      "zh-Hans": "仅 Android：这些应用的流量不经过 TUN。",
+      "zh-Hant": "僅 Android：這些 App 的流量不經過 TUN。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    },
+    "example": "com.android.captiveportallogin",
+    "platform": {
+      "en": "Android only; it does nothing here.",
+      "zh-Hans": "只在安卓上有用，这里不起作用。",
+      "zh-Hant": "只在 Android 上有用，這裡不起作用。"
+    }
+  },
+  "tun.include-mac-address": {
+    "title": {
+      "en": "Only These Devices (MAC)",
+      "zh-Hans": "只接管的设备 MAC",
+      "zh-Hant": "只接管的裝置 MAC"
+    },
+    "summary": {
+      "en": "Linux only: only traffic from devices with these MAC addresses is routed.",
+      "zh-Hans": "仅 Linux：只路由这些 MAC 地址设备的流量。",
+      "zh-Hant": "僅 Linux：只路由這些 MAC 位址裝置的流量。"
+    },
+    "unset": {
+      "en": "All",
+      "zh-Hans": "全部",
+      "zh-Hant": "全部"
+    },
+    "example": "00:11:22:33:44:55",
+    "platform": {
+      "en": "Removed here: the tunnel doesn't filter traffic this way.",
+      "zh-Hans": "这里会被去掉：隧道不按这一项筛选流量。",
+      "zh-Hant": "這裡會被移除：通道不依這一項篩選流量。"
+    }
+  },
+  "tun.exclude-mac-address": {
+    "title": {
+      "en": "Excluded Devices (MAC)",
+      "zh-Hans": "不接管的设备 MAC",
+      "zh-Hant": "不接管的裝置 MAC"
+    },
+    "summary": {
+      "en": "Linux only: traffic from devices with these MAC addresses skips the TUN interface.",
+      "zh-Hans": "仅 Linux：这些 MAC 地址设备的流量不经过 TUN。",
+      "zh-Hant": "僅 Linux：這些 MAC 位址裝置的流量不經過 TUN。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    },
+    "example": "00:11:22:33:44:66",
+    "platform": {
+      "en": "Removed here: the tunnel doesn't filter traffic this way.",
+      "zh-Hans": "这里会被去掉：隧道不按这一项筛选流量。",
+      "zh-Hant": "這裡會被移除：通道不依這一項篩選流量。"
+    }
+  },
+  "tun.endpoint-independent-nat": {
+    "title": {
+      "en": "Endpoint-Independent NAT",
+      "zh-Hans": "端点无关 NAT",
+      "zh-Hant": "端點無關 NAT"
+    },
+    "summary": {
+      "en": "Turns on endpoint-independent NAT; only when you need it, since it costs a little speed.",
+      "zh-Hans": "开启独立于端点的 NAT，需要时再开，性能会略降。",
+      "zh-Hant": "開啟獨立於端點的 NAT，需要時再開，效能會略降。"
+    }
+  },
+  "tun.udp-timeout": {
+    "title": {
+      "en": "UDP Timeout",
+      "zh-Hans": "UDP 超时",
+      "zh-Hant": "UDP 逾時"
+    },
+    "summary": {
+      "en": "How long a UDP session may go without data before it's closed.",
+      "zh-Hans": "UDP 会话多久没有数据就断开。",
+      "zh-Hant": "UDP 工作階段多久沒有資料就中斷。"
+    },
+    "unset": {
+      "en": "5 minutes",
+      "zh-Hans": "5 分钟",
+      "zh-Hant": "5 分鐘"
+    }
+  },
+  "tun.icmp-timeout": {
+    "title": {
+      "en": "ICMP Timeout",
+      "zh-Hans": "ICMP 超时",
+      "zh-Hant": "ICMP 逾時"
+    },
+    "summary": {
+      "en": "How long an ICMP session may go without a reply before it ends.",
+      "zh-Hans": "ICMP 会话多久没有回应就结束。",
+      "zh-Hant": "ICMP 工作階段多久沒有回應就結束。"
+    },
+    "unset": {
+      "en": "10 seconds",
+      "zh-Hans": "10 秒",
+      "zh-Hant": "10 秒"
+    }
+  },
+  "tun.disable-icmp-forwarding": {
+    "title": {
+      "en": "Don't Forward ICMP",
+      "zh-Hans": "不转发 ICMP",
+      "zh-Hant": "不轉發 ICMP"
+    },
+    "summary": {
+      "en": "The core answers pings itself instead of forwarding ICMP.",
+      "zh-Hans": "由内核自己回应 ping，不把 ICMP 转发出去。",
+      "zh-Hant": "由核心自己回應 ping，不把 ICMP 轉發出去。"
+    },
+    "platform": {
+      "en": "Always on here: Clash answers pings itself instead of forwarding them.",
+      "zh-Hans": "这里固定开启：ping 由 Clash 直接回应，不转发出去。",
+      "zh-Hant": "這裡固定開啟：ping 由 Clash 直接回應，不轉送出去。"
+    }
+  },
+  "tun.file-descriptor": {
+    "title": {
+      "en": "TUN File Descriptor",
+      "zh-Hans": "TUN 文件描述符",
+      "zh-Hant": "TUN 檔案描述子"
+    },
+    "summary": {
+      "en": "Uses a TUN interface another program already opened; leave it empty.",
+      "zh-Hans": "使用其他程序已打开的 TUN，不填即可。",
+      "zh-Hant": "使用其他程式已開啟的 TUN，不填即可。"
+    },
+    "unset": {
+      "en": "Not used",
+      "zh-Hans": "不使用",
+      "zh-Hant": "不使用"
+    }
+  },
+  "tun.inet4-route-address": {
+    "title": {
+      "en": "IPv4 Routed Ranges (Old)",
+      "zh-Hans": "旧版 IPv4 接管网段",
+      "zh-Hant": "舊版 IPv4 接管網段"
+    },
+    "summary": {
+      "en": "The old spelling; use Routed Ranges instead.",
+      "zh-Hans": "旧写法，请改用「只接管的网段」。",
+      "zh-Hant": "舊寫法，請改用「只接管的網段」。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    },
+    "example": "0.0.0.0/1"
+  },
+  "tun.inet6-route-address": {
+    "title": {
+      "en": "IPv6 Routed Ranges (Old)",
+      "zh-Hans": "旧版 IPv6 接管网段",
+      "zh-Hant": "舊版 IPv6 接管網段"
+    },
+    "summary": {
+      "en": "The old spelling; use Routed Ranges instead.",
+      "zh-Hans": "旧写法，请改用「只接管的网段」。",
+      "zh-Hant": "舊寫法，請改用「只接管的網段」。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    },
+    "example": "::/1"
+  },
+  "tun.inet4-route-exclude-address": {
+    "title": {
+      "en": "IPv4 Excluded Ranges (Old)",
+      "zh-Hans": "旧版 IPv4 排除网段",
+      "zh-Hant": "舊版 IPv4 排除網段"
+    },
+    "summary": {
+      "en": "The old spelling; use Excluded Ranges instead.",
+      "zh-Hans": "旧写法，请改用「不接管的网段」。",
+      "zh-Hant": "舊寫法，請改用「不接管的網段」。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    },
+    "example": "192.168.0.0/16"
+  },
+  "tun.inet6-route-exclude-address": {
+    "title": {
+      "en": "IPv6 Excluded Ranges (Old)",
+      "zh-Hans": "旧版 IPv6 排除网段",
+      "zh-Hant": "舊版 IPv6 排除網段"
+    },
+    "summary": {
+      "en": "The old spelling; use Excluded Ranges instead.",
+      "zh-Hans": "旧写法，请改用「不接管的网段」。",
+      "zh-Hant": "舊寫法，請改用「不接管的網段」。"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    },
+    "example": "fc00::/7"
+  },
+  "tun.recvmsgx": {
+    "title": {
+      "en": "Batched Receive",
+      "zh-Hans": "批量接收",
+      "zh-Hant": "批次接收"
+    },
+    "summary": {
+      "en": "On macOS, reads TUN packets in batches.",
+      "zh-Hans": "在 macOS 上批量读取 TUN 数据包。",
+      "zh-Hant": "在 macOS 上批次讀取 TUN 封包。"
+    },
+    "platform": {
+      "en": "Off here: the tunnel receives packets the normal way.",
+      "zh-Hans": "这里固定关闭，隧道用普通方式收包。",
+      "zh-Hant": "這裡固定關閉，通道用一般方式收封包。"
+    }
+  },
+  "tun.sendmsgx": {
+    "title": {
+      "en": "Batched Send",
+      "zh-Hans": "批量发送",
+      "zh-Hant": "批次傳送"
+    },
+    "summary": {
+      "en": "On macOS, writes TUN packets in batches.",
+      "zh-Hans": "在 macOS 上批量写出 TUN 数据包。",
+      "zh-Hant": "在 macOS 上批次寫出 TUN 封包。"
+    },
+    "platform": {
+      "en": "Off here: the tunnel sends packets the normal way.",
+      "zh-Hans": "这里固定关闭，隧道用普通方式发包。",
+      "zh-Hant": "這裡固定關閉，通道用一般方式送封包。"
+    }
+  },
+  "tun.processors-per-channel": {
+    "title": {
+      "en": "Workers per Channel",
+      "zh-Hans": "每通道处理线程数",
+      "zh-Hant": "每通道處理執行緒數"
+    },
+    "summary": {
+      "en": "How many workers the gVisor stack runs per channel; keep the default.",
+      "zh-Hans": "gVisor 栈每个通道用几个处理线程，保持默认即可。",
+      "zh-Hant": "gVisor 堆疊每個通道用幾個處理執行緒，保持預設即可。"
+    },
+    "unset": {
+      "en": "1",
+      "zh-Hans": "1",
+      "zh-Hant": "1"
+    }
+  }
+}

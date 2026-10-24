@@ -37,28 +37,19 @@ def verify_sdk(sdk, revision):
     if actual!={('ios',''),('ios','simulator'),('tvos',''),('tvos','simulator'),('macos','')}:
         raise RuntimeError('Expected all five Apple SDK slices')
     for entry in slices:
-        info=json.loads((sdk/entry['LibraryIdentifier']/'Hako.framework/Versions/A/Resources/HakoBuildInfo.json').read_text())
+        resources=sdk/entry['LibraryIdentifier']/'Clash.framework/Versions/A/Resources'
+        info_path=resources/'ClashBuildInfo.json'
+        info=json.loads(info_path.read_text())
         if info['sourceRevision']!=revision or info['sourceDirty'] or info['internalDiagnostics'] or info['debugBuild']:
             raise RuntimeError('SDK provenance does not match public source build')
-
-def sdk_provenance_ok(sdk, revision):
-    try:
-        verify_sdk(sdk, revision); return True
-    except Exception:
-        return False
 
 def main():
     lock=json.loads((ROOT/'Dependencies.lock.json').read_text())
     kernel=checkout('kernel',lock['kernel']);adapter=checkout('adapter',lock['adapter'])
-    sdk=kernel/'Hako.xcframework';receipt=kernel.parent/'sdk-inventory.json'
-    reuse=(sdk.exists() and receipt.exists() and json.loads(receipt.read_text())==inventory(sdk)
-           and sdk_provenance_ok(sdk,lock['kernel']['revision']))
+    sdk=kernel/'Clash.xcframework';receipt=kernel.parent/'sdk-inventory.json'
+    reuse=sdk.exists() and receipt.exists() and json.loads(receipt.read_text())==inventory(sdk)
     if not reuse:
-        # 缓存恢复（restore-key 前缀命中）可能带回过期 SDK：revision 对不上即整体移开重建
-        if sdk.exists():
-            stale=kernel.parent/('sdk-stale-'+lock['kernel']['revision'][:12])
-            if stale.exists(): shutil.rmtree(stale)
-            shutil.move(str(sdk),str(stale))
+        if sdk.exists(): raise RuntimeError('Unverified SDK exists; move it aside before rebuilding')
         bins=ROOT/'.build/bin';bins.mkdir(parents=True,exist_ok=True)
         env=dict(os.environ,GOBIN=str(bins),PATH=str(bins)+os.pathsep+os.environ['PATH'])
         for tool in ('gomobile','gobind'): run('go','install',lock[tool],env=env)
@@ -66,12 +57,12 @@ def main():
         verify_sdk(sdk,lock['kernel']['revision'])
         receipt.write_text(json.dumps(inventory(sdk),sort_keys=True))
     verify_sdk(sdk,lock['kernel']['revision'])
-    target=ROOT/'Hako.xcframework'
+    target=ROOT/'Clash.xcframework'
     if target.exists() or target.is_symlink():
         if not target.is_symlink() or target.resolve()!=sdk.resolve(): raise RuntimeError('Refusing to replace SDK')
     else: target.symlink_to(sdk.relative_to(ROOT),target_is_directory=True)
-    vendor=ROOT/'Vendor/HakoAdapter/Sources/HakoAdapter';vendor.mkdir(parents=True,exist_ok=True)
-    for source in (adapter/'Sources/HakoAdapter').glob('*.swift'):
+    vendor=ROOT/'Vendor/ClashAdapter/Sources/ClashAdapter';vendor.mkdir(parents=True,exist_ok=True)
+    for source in (adapter/'Sources/ClashAdapter').glob('*.swift'):
         dest=vendor/source.name
         if dest.exists() and dest.read_bytes()!=source.read_bytes(): raise RuntimeError('Adapter has local modifications')
         shutil.copyfile(source,dest)

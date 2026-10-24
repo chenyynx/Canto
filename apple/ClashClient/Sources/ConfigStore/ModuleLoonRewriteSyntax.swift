@@ -1,0 +1,1950 @@
+import Foundation
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+enum ModuleLoonRewriteSyntax {
+    enum Token: Equatable {
+         
+        case word(String)
+         
+         
+        case string(String)
+         
+        case raw(String)
+         
+        case regex(String, flags: String)
+        case number(Double)
+        case bool(Bool)
+         
+        case reference(String)
+        case symbol(String)
+    }
+
+     
+    static let maximumLineBytes = 64 * 1024
+     
+     
+    static let maximumDepth = 16
+     
+     
+    static let maximumJQBytes = ModuleJSONRewriteSyntax.maximumJQBytes
+
+     
+     
+    static let mockContentTypes: [String: String] = [
+        "json": "application/json", "text": "text/plain", "text/event-stream": "text/event-stream", "css": "text/css",
+        "html": "text/html", "javascript": "application/javascript", "plain": "text/plain", "png": "image/png",
+        "gif": "image/gif", "jpeg": "image/jpeg", "tiff": "image/tiff", "svg": "image/svg+xml", "mp4": "video/mp4",
+        "form-data": "multipart/form-data",
+    ]
+
+     
+    static func isRule(_ line: String) -> Bool {
+        let words = line.split(maxSplits: 2, whereSeparator: { $0 == " " || $0 == "\t" })
+        guard words.count >= 2 else { return false }
+        return ["request", "response"].contains(words[0].lowercased()) && words[1].lowercased() == "if"
+    }
+
+     
+
+    private static func isBlank(_ character: Character) -> Bool { character == " " || character == "\t" }
+    private static func isWordStart(_ character: Character) -> Bool {
+        character.isASCII && (character.isLetter || character == "_")
+    }
+    private static func isWordCharacter(_ character: Character) -> Bool {
+        character.isASCII && (character.isLetter || character.isNumber || character == "_" || character == ".")
+    }
+    private static func isDigit(_ character: Character) -> Bool { character.isASCII && character.isNumber }
+
+     
+     
+     
+     
+     
+    static func tokens(_ line: String) -> [Token]? {
+        let c = Array(line)
+        var out: [Token] = []
+        var i = 0
+        while i < c.count {
+            let ch = c[i]
+            if isBlank(ch) {
+                i += 1
+                continue
+            }
+            if i > 0, isBlank(c[i - 1]), ch == "#" || ch == ";" || (ch == "/" && i + 1 < c.count && c[i + 1] == "/") { break }
+            switch ch {
+            case "\"":
+                var j = i + 1
+                var closed = false
+                while j < c.count {
+                    if c[j] == "\\" {
+                        j += 2
+                        continue
+                    }
+                    if c[j] == "\"" {
+                        closed = true
+                        break
+                    }
+                    j += 1
+                }
+                guard closed else { return nil }
+                out.append(.string(String(c[(i + 1)..<j])))
+                i = j + 1
+            case "`":
+                var text = ""
+                var j = i + 1
+                var closed = false
+                while j < c.count {
+                    if c[j] == "`" {
+                        if j + 1 < c.count, c[j + 1] == "`" {
+                            text.append("`")
+                            j += 2
+                            continue
+                        }
+                        closed = true
+                        break
+                    }
+                    text.append(c[j])
+                    j += 1
+                }
+                guard closed else { return nil }
+                out.append(.raw(text))
+                i = j + 1
+            case "/":
+                var j = i + 1
+                var inClass = false
+                var closed = false
+                while j < c.count {
+                    let x = c[j]
+                    if x == "\\" {
+                        j += 2
+                        continue
+                    }
+                    if inClass {
+                        if x == "]" { inClass = false }
+                    } else if x == "[" {
+                        inClass = true
+                    } else if x == "/" {
+                        closed = true
+                        break
+                    }
+                    j += 1
+                }
+                guard closed, j > i + 1 else { return nil }
+                var k = j + 1
+                var flags = ""
+                while k < c.count, isWordCharacter(c[k]) {
+                    guard "ims".contains(c[k]) else { return nil }
+                    flags.append(c[k])
+                    k += 1
+                }
+                out.append(.regex(String(c[(i + 1)..<j]), flags: flags))
+                i = k
+            case "$" where i + 1 < c.count && c[i + 1] == "{":
+                guard let end = referenceEnd(c, from: i + 2), end > i + 2 else { return nil }
+                out.append(.reference(String(c[(i + 2)..<end])))
+                i = end + 1
+            default:
+                if isDigit(ch) || (ch == "-" && i + 1 < c.count && isDigit(c[i + 1])) {
+                    var j = i + 1
+                    while j < c.count, isDigit(c[j]) || c[j] == "." || c[j] == "e" || c[j] == "E"
+                            || ((c[j] == "+" || c[j] == "-") && (c[j - 1] == "e" || c[j - 1] == "E")) {
+                        j += 1
+                    }
+                    guard let value = Double(String(c[i..<j])), value.isFinite else { return nil }
+                    if j < c.count, isWordCharacter(c[j]) { return nil }
+                    out.append(.number(value))
+                    i = j
+                } else if isWordStart(ch) {
+                    var j = i + 1
+                    while j < c.count, isWordCharacter(c[j]) { j += 1 }
+                    let word = String(c[i..<j])
+                    switch word {
+                    case "true": out.append(.bool(true))
+                    case "false": out.append(.bool(false))
+                    default: out.append(.word(word))
+                    }
+                    i = j
+                } else {
+                    let two = i + 1 < c.count ? String(c[i...(i + 1)]) : ""
+                    if ["~=", "==", "&&", "||", "!=", "!~"].contains(two) {
+                        out.append(.symbol(two))
+                        i += 2
+                    } else if "|()[]{},!=<>".contains(ch) {
+                        out.append(.symbol(String(ch)))
+                        i += 1
+                    } else {
+                        return nil
+                    }
+                }
+            }
+        }
+        return out
+    }
+
+     
+     
+     
+     
+     
+    static func strippingComment(_ line: String) -> String {
+        let c = Array(line)
+        let whole = line.trimmingCharacters(in: .whitespaces)
+        var i = 0
+        while i < c.count {
+            let ch = c[i]
+            if isBlank(ch) {
+                i += 1
+                continue
+            }
+            if i > 0, isBlank(c[i - 1]), ch == "#" || ch == ";" || (ch == "/" && i + 1 < c.count && c[i + 1] == "/") {
+                return String(c[..<i]).trimmingCharacters(in: .whitespaces)
+            }
+            var j = i + 1
+            switch ch {
+            case "\"":
+                while j < c.count, c[j] != "\"" { j += c[j] == "\\" ? 2 : 1 }
+            case "`":
+                while j < c.count, c[j] != "`" || (j + 1 < c.count && c[j + 1] == "`") { j += c[j] == "`" ? 2 : 1 }
+            case "/":
+                var inClass = false
+                while j < c.count {
+                    if c[j] == "\\" {
+                        j += 2
+                        continue
+                    }
+                    if inClass {
+                        if c[j] == "]" { inClass = false }
+                    } else if c[j] == "[" {
+                        inClass = true
+                    } else if c[j] == "/" {
+                        break
+                    }
+                    j += 1
+                }
+            case "$" where j < c.count && c[j] == "{":
+                guard let end = referenceEnd(c, from: j + 1) else { return whole }
+                j = end
+            default:
+                i += 1
+                continue
+            }
+            guard j < c.count else { return whole }
+            i = j + 1
+        }
+        return whole
+    }
+
+     
+     
+    private static func referenceEnd(_ c: [Character], from start: Int) -> Int? {
+        var quote: Character?
+        var j = start
+        while j < c.count {
+            let x = c[j]
+            if let open = quote {
+                if x == open { quote = nil }
+            } else if x == "'" || x == "\"" {
+                quote = x
+            } else if x == "}" {
+                return j
+            }
+            j += 1
+        }
+        return nil
+    }
+
+     
+
+     
+     
+     
+     
+    enum SettingType: Equatable, Sendable {
+        case text
+        case number
+        case boolean
+    }
+
+     
+     
+     
+    static func declaredType(ofArgument line: String) -> SettingType {
+        guard let equals = line.firstIndex(of: "=") else { return .text }
+        var parts: [String] = []
+        var current = ""
+        var quoted = false
+        for character in line[line.index(after: equals)...] {
+            if character == "\"" { quoted.toggle() }
+            if character == ",", !quoted {
+                parts.append(current)
+                current = ""
+            } else {
+                current.append(character)
+            }
+        }
+        parts.append(current)
+        let trimmed = parts.map { $0.trimmingCharacters(in: .whitespaces).lowercased() }
+        if trimmed.first == "switch" { return .boolean }
+        let declared = trimmed.dropFirst().first { $0.hasPrefix("type") && $0.dropFirst(4).trimmingCharacters(in: .whitespaces).hasPrefix("=") }
+        if let declared, declared.split(separator: "=", maxSplits: 1).last?.trimmingCharacters(in: .whitespaces) == "number" { return .number }
+        return .text
+    }
+
+     
+     
+     
+     
+     
+    static func rule(_ line: String, origin: ModuleLineOrigin, arguments: [String: String?],
+                     types: [String: SettingType] = [:]) -> Result<ModuleRewriteRule, ModuleIgnoredReason> {
+        reading(line, origin: origin, arguments: arguments, types: types).map(\.rule)
+    }
+
+     
+     
+     
+     
+     
+     
+    static func reading(_ line: String, origin: ModuleLineOrigin, arguments: [String: String?], types: [String: SettingType] = [:],
+                        moduleURL: String? = nil) -> Result<(rule: ModuleRewriteRule, files: [ModuleAnswerFileReference]), ModuleIgnoredReason> {
+        guard line.utf8.count <= maximumLineBytes else { return .failure(.lineTooLong(maximumLineBytes)) }
+        guard isPrintable(line), let tokens = tokens(line) else { return .failure(.unreadableLine) }
+        do {
+            var reader = Reader(tokens: tokens, arguments: arguments, types: types, moduleURL: moduleURL)
+            let rule = try reader.rule(origin: origin)
+            return .success((rule: rule, files: reader.files))
+        } catch let reason as ModuleIgnoredReason {
+            return .failure(reason)
+        } catch {
+            return .failure(.unreadableLine)
+        }
+    }
+
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+    static func scriptRule(_ line: String, origin: ModuleLineOrigin, arguments: [String: String?],
+                           types: [String: SettingType] = [:], moduleURL: String? = nil) -> Result<ModuleScript, ModuleIgnoredReason> {
+        guard line.utf8.count <= maximumLineBytes else { return .failure(.lineTooLong(maximumLineBytes)) }
+        guard isPrintable(line), let tokens = tokens(line) else { return .failure(.unreadableLine) }
+        do {
+            var reader = Reader(tokens: tokens, arguments: arguments, types: types, moduleURL: moduleURL)
+            return .success(try reader.script(origin: origin))
+        } catch let reason as ModuleIgnoredReason {
+            return .failure(reason)
+        } catch {
+            return .failure(.unreadableLine)
+        }
+    }
+
+     
+     
+     
+     
+     
+    static func appScriptKind(_ line: String) -> ModuleAppScriptKind? {
+        let words = line.split(maxSplits: 2, whereSeparator: { $0 == " " || $0 == "\t" }).map { $0.lowercased() }
+        guard words.count >= 2 else { return nil }
+        switch words[0] {
+        case "cron": return line.range(of: #" then "#, options: .caseInsensitive) != nil ? .cron : nil
+        case "network-changed": return words[1] == "then" ? .networkChanged : nil
+        case "generic": return words[1] == "then" ? .generic : nil
+        default: return nil
+        }
+    }
+
+    static func isAppScriptRule(_ line: String) -> Bool { appScriptKind(line) != nil }
+
+     
+     
+     
+     
+     
+    static func appScriptRule(_ line: String, origin: ModuleLineOrigin, arguments: [String: String?],
+                              types: [String: SettingType] = [:], moduleURL: String? = nil) -> Result<ModuleAppScript, ModuleIgnoredReason> {
+        guard line.utf8.count <= maximumLineBytes else { return .failure(.lineTooLong(maximumLineBytes)) }
+        guard let kind = appScriptKind(line), isPrintable(line) else { return .failure(.unreadableLine) }
+        let text = line.trimmingCharacters(in: .whitespaces)
+        guard let kindEnd = text.firstIndex(where: { $0 == " " || $0 == "\t" }),
+              let tokens = tokens(String(text[kindEnd...])) else { return .failure(.unreadableLine) }
+        do {
+            var reader = Reader(tokens: tokens, arguments: arguments, types: types, moduleURL: moduleURL)
+            return .success(try reader.appScript(kind: kind, origin: origin))
+        } catch let reason as ModuleIgnoredReason {
+            return .failure(reason)
+        } catch {
+            return .failure(.unreadableLine)
+        }
+    }
+
+     
+     
+    static func unescapingSlashes(_ pattern: String) -> String {
+        let c = Array(pattern)
+        var out = ""
+        var i = 0
+        while i < c.count {
+            if c[i] == "\\", i + 1 < c.count {
+                if c[i + 1] != "/" { out.append(c[i]) }
+                out.append(c[i + 1])
+                i += 2
+                continue
+            }
+            out.append(c[i])
+            i += 1
+        }
+        return out
+    }
+
+     
+     
+     
+     
+     
+    static func ignoringCase(_ pattern: String) -> String {
+        pattern.hasPrefix("(?i)") ? pattern : "(?i)" + pattern
+    }
+
+     
+     
+     
+     
+     
+     
+    static func gatePattern(of condition: ModuleCondition) -> String {
+        let atoms: [ModuleCondition]
+        switch condition {
+        case .match: atoms = [condition]
+        case .all(let conditions): atoms = conditions
+        case .any: atoms = []
+        }
+        for atom in atoms {
+            if case .match(.url, .regexSearch, .regex(let pattern), _) = atom { return pattern }
+        }
+        for atom in atoms {
+            if case .match(.url, .equals, .string(let whole), _) = atom {
+                return "^" + NSRegularExpression.escapedPattern(for: whole) + "$"
+            }
+        }
+        return ""
+    }
+
+     
+    private static func isPrintable(_ line: String) -> Bool {
+        line.unicodeScalars.allSatisfy { scalar in
+            switch scalar.value {
+            case 0x09: return true
+            case 0x00...0x1F, 0x7F...0x9F, 0x2028, 0x2029, 0xFEFF: return false
+            default: return true
+            }
+        }
+    }
+
+     
+
+    fileprivate indirect enum Expression {
+        case and([Expression])
+        case or([Expression])
+        case compare(Operand, ModuleConditionOperator, Operand, capture: String?)
+    }
+
+    fileprivate enum Operand {
+        case reference(String)
+        case string(String)
+        case raw(String)
+        case regex(String, flags: String)
+        case number(Double)
+        case bool(Bool)
+        case null
+    }
+
+    fileprivate enum Argument {
+        case one(Operand)
+        case many([Operand])
+    }
+
+    fileprivate struct Call {
+        let name: String
+        let arguments: [Argument]
+         
+         
+        var bare = false
+    }
+
+     
+    fileprivate enum Typed: Equatable {
+        case text(String)
+        case number(Double)
+        case boolean(Bool)
+    }
+
+     
+    fileprivate enum Reference {
+        case variable(ModuleConditionVariable)
+        case capture(name: String, index: Int)
+        case setting(String)
+    }
+
+     
+    fileprivate struct Capture {
+        let groups: Int
+         
+         
+        let onEveryPath: Bool
+        let regex: String
+    }
+
+     
+     
+    fileprivate enum Piece {
+        case text(String, written: Bool)
+        case capture(name: String, index: Int, written: String)
+        case variable(String)
+    }
+
+    fileprivate struct Reader {
+        let tokens: [Token]
+        let arguments: [String: String?]
+        let types: [String: SettingType]
+        var index = 0
+        var depth = 0
+        var phase: ModuleRewritePhase = .request
+        var captures: [String: Capture] = [:]
+         
+        var gateCapture: String?
+        var deferred: ModuleIgnoredReason?
+         
+        let moduleURL: String?
+        var origin = ModuleLineOrigin(section: "", line: 0)
+         
+         
+        var files: [ModuleAnswerFileReference] = []
+        var namesABody = false
+
+        init(tokens: [Token], arguments: [String: String?], types: [String: SettingType], moduleURL: String?) {
+            self.tokens = tokens
+            self.arguments = arguments
+            self.types = types
+            self.moduleURL = moduleURL
+        }
+
+        private func peek(_ offset: Int = 0) -> Token? {
+            index + offset < tokens.count ? tokens[index + offset] : nil
+        }
+
+        private mutating func next() -> Token? {
+            defer { index += 1 }
+            return peek()
+        }
+
+        private mutating func expect(_ symbol: String) throws {
+            guard next() == .symbol(symbol) else { throw ModuleIgnoredReason.unreadableLine }
+        }
+
+        private mutating func defer_(_ reason: ModuleIgnoredReason) {
+            if deferred == nil { deferred = reason }
+        }
+
+         
+
+        mutating func rule(origin: ModuleLineOrigin) throws -> ModuleRewriteRule {
+            self.origin = origin
+            guard case .word(let phaseWord)? = next(), case .word(let ifWord)? = next(), ifWord.lowercased() == "if" else {
+                throw ModuleIgnoredReason.unreadableLine
+            }
+            switch phaseWord.lowercased() {
+            case "request": phase = .request
+            case "response": phase = .response
+            default: throw ModuleIgnoredReason.unreadableLine
+            }
+            let expression = try or()
+            guard case .word(let thenWord)? = next(), thenWord.lowercased() == "then" else { throw ModuleIgnoredReason.unreadableLine }
+            var calls: [Call] = [try call()]
+            while index < tokens.count {
+                try expect("|")
+                calls.append(try call())
+            }
+             
+            try collectCaptures(expression, onEveryPath: true)
+            let condition = Self.root(try lower(expression))
+            if case .match(.url, .regexSearch, .regex(let gate), let capture) = Self.gateAtom(condition) {
+                gateCapture = capture.flatMap { captures[$0]?.regex == gate ? $0 : nil }
+            }
+            let actions = try self.actions(calls, expression: expression)
+            if let deferred { throw deferred }
+            return ModuleRewriteRule(pattern: ModuleLoonRewriteSyntax.gatePattern(of: condition), phase: phase, condition: condition, actions: actions,
+                                      origin: origin)
+        }
+
+         
+
+        private mutating func or() throws -> Expression {
+            var parts = [try and()]
+            while peek() == .symbol("||") {
+                index += 1
+                parts.append(try and())
+            }
+            return parts.count == 1 ? parts[0] : .or(parts)
+        }
+
+        private mutating func and() throws -> Expression {
+            var parts = [try atom()]
+            while peek() == .symbol("&&") {
+                index += 1
+                parts.append(try atom())
+            }
+            return parts.count == 1 ? parts[0] : .and(parts)
+        }
+
+        private mutating func atom() throws -> Expression {
+            if peek() == .symbol("(") {
+                index += 1
+                depth += 1
+                guard depth <= ModuleLoonRewriteSyntax.maximumDepth else { throw ModuleIgnoredReason.unreadableLine }
+                let inner = try or()
+                try expect(")")
+                depth -= 1
+                return inner
+            }
+            let left = try operand()
+            let op: ModuleConditionOperator
+            switch next() {
+            case .symbol("~=")?: op = .regexSearch
+            case .symbol("==")?: op = .equals
+             
+            default: throw ModuleIgnoredReason.unreadableLine
+            }
+            let right = try operand()
+            var capture: String?
+            if peek() == .word("as") {
+                index += 1
+                guard op == .regexSearch, case .word(let name)? = next(), !name.contains(".") else {
+                    throw ModuleIgnoredReason.unreadableLine
+                }
+                capture = name
+            }
+            return .compare(left, op, right, capture: capture)
+        }
+
+        private mutating func operand() throws -> Operand {
+            switch next() {
+            case .reference(let text)?: return .reference(text)
+            case .string(let text)?: return .string(text)
+            case .raw(let text)?: return .raw(text)
+            case .regex(let body, let flags)?: return .regex(body, flags: flags)
+            case .number(let value)?: return .number(value)
+            case .bool(let value)?: return .bool(value)
+            case .word("null")?: return .null
+            default: throw ModuleIgnoredReason.unreadableLine
+            }
+        }
+
+         
+
+        private mutating func call() throws -> Call {
+            guard case .word(let name)? = next() else { throw ModuleIgnoredReason.unreadableLine }
+             
+             
+            if name == "reject", peek() == nil || peek() == .symbol("|") {
+                return Call(name: name, arguments: [], bare: true)
+            }
+            try expect("(")
+            var arguments: [Argument] = []
+            if peek() == .symbol(")") {
+                index += 1
+                return Call(name: name, arguments: arguments)
+            }
+            while true {
+                if peek() == .symbol("[") {
+                    index += 1
+                    var values: [Operand] = []
+                    if peek() != .symbol("]") {
+                        values.append(try operand())
+                        while peek() == .symbol(",") {
+                            index += 1
+                            values.append(try operand())
+                        }
+                    }
+                    try expect("]")
+                    arguments.append(.many(values))
+                } else {
+                     
+                    arguments.append(.one(try operand()))
+                }
+                switch next() {
+                case .symbol(",")?: continue
+                case .symbol(")")?: return Call(name: name, arguments: arguments)
+                default: throw ModuleIgnoredReason.unreadableLine
+                }
+            }
+        }
+
+         
+
+        private mutating func collectCaptures(_ expression: Expression, onEveryPath: Bool) throws {
+            switch expression {
+            case .and(let parts):
+                for part in parts { try collectCaptures(part, onEveryPath: onEveryPath) }
+            case .or(let parts):
+                for part in parts { try collectCaptures(part, onEveryPath: false) }
+            case .compare(_, _, let right, let capture?):
+                 
+                guard captures[capture] == nil, arguments[capture] == nil else { throw ModuleIgnoredReason.unreadableLine }
+                let regex = try conditionRegex(right)
+                guard let compiled = try? NSRegularExpression(pattern: regex) else { throw ModuleIgnoredReason.invalidPattern }
+                captures[capture] = Capture(groups: compiled.numberOfCaptureGroups, onEveryPath: onEveryPath, regex: regex)
+            case .compare:
+                break
+            }
+        }
+
+         
+        private func reference(_ text: String) throws -> Reference {
+            switch text {
+            case "url": return .variable(.url)
+            case "request.method": return .variable(.requestMethod)
+            case "response.status": return .variable(.responseStatus)
+            default: break
+            }
+            for (prefix, request) in [("request.header[", true), ("response.header[", false)] where text.hasPrefix(prefix) {
+                let rest = Array(text.dropFirst(prefix.count))
+                guard rest.count >= 4, let quote = rest.first, quote == "'" || quote == "\"", rest[rest.count - 2] == quote,
+                      rest[rest.count - 1] == "]" else { throw ModuleIgnoredReason.unreadableLine }
+                let name = String(rest[1..<(rest.count - 2)])
+                guard !name.isEmpty, !name.contains(quote), ModuleLoonRewriteSyntax.isHeaderName(name) else {
+                    throw ModuleIgnoredReason.unreadableLine
+                }
+                return .variable(request ? .requestHeader(name) : .responseHeader(name))
+            }
+             
+            if text.hasPrefix("request.") || text.hasPrefix("response.") { throw ModuleIgnoredReason.unreadableLine }
+            if arguments[text] != nil { return .setting(text) }
+            if let dot = text.lastIndex(of: "."), let number = Int(text[text.index(after: dot)...]), number >= 0,
+               text[text.index(after: dot)...].allSatisfy({ $0.isASCII && $0.isNumber }) {
+                return .capture(name: String(text[..<dot]), index: number)
+            }
+             
+            throw ModuleIgnoredReason.unreadableLine
+        }
+
+         
+        private func setting(_ name: String) throws -> String {
+            guard let declared = arguments[name] else { throw ModuleIgnoredReason.unreadableLine }
+            guard let value = declared else { throw ModuleIgnoredReason.missingArgument(name) }
+            return value
+        }
+
+         
+         
+         
+        private func typedSetting(_ name: String) throws -> Typed {
+            let value = try setting(name)
+            switch types[name] ?? .text {
+            case .text: return .text(value)
+            case .number:
+                guard let number = Double(value.trimmingCharacters(in: .whitespaces)), number.isFinite else {
+                    throw ModuleIgnoredReason.unreadableLine
+                }
+                return .number(number)
+            case .boolean:
+                switch value.lowercased() {
+                case "true": return .boolean(true)
+                case "false": return .boolean(false)
+                default: throw ModuleIgnoredReason.unreadableLine
+                }
+            }
+        }
+
+         
+        private func textSetting(_ name: String) throws -> String {
+            guard case .text(let value) = try typedSetting(name) else { throw ModuleIgnoredReason.unreadableLine }
+            return value
+        }
+
+         
+         
+        private func checkCapture(_ name: String, _ index: Int) throws {
+            guard let capture = captures[name], capture.onEveryPath, index <= capture.groups else {
+                throw ModuleIgnoredReason.unreadableLine
+            }
+        }
+
+         
+        private func checkVariable(_ variable: ModuleConditionVariable) throws {
+            switch variable {
+            case .responseStatus, .responseHeader:
+                guard phase == .response else { throw ModuleIgnoredReason.unreadableLine }
+            case .url, .requestMethod, .requestHeader, .requestHead:
+                break
+            }
+        }
+
+         
+
+         
+         
+         
+         
+         
+         
+        private func pieces(_ operand: Operand) throws -> [Piece] {
+            switch operand {
+            case .raw(let text):
+                return [.text(text, written: true)]
+            case .reference(let text):
+                if case .setting(let name) = try reference(text) { return [.text(try textSetting(name), written: false)] }
+                return [try piece(reference: text)]
+            case .string(let written):
+                let c = Array(written)
+                var out: [Piece] = []
+                var text = ""
+                func flush() {
+                    if !text.isEmpty { out.append(.text(text, written: true)) }
+                    text = ""
+                }
+                var i = 0
+                while i < c.count {
+                    let x = c[i]
+                    if x == "\\", i + 1 < c.count {
+                        let escaped = c[i + 1]
+                        switch escaped {
+                        case "\"": text.append("\"")
+                        case "\\": text.append("\\")
+                        case "n": text.append("\n")
+                        case "r": text.append("\r")
+                        case "t": text.append("\t")
+                        case "$":
+                             
+                            flush()
+                            out.append(.text("$", written: false))
+                        default:
+                            text.append(x)
+                            text.append(escaped)
+                        }
+                        i += 2
+                        continue
+                    }
+                    if x == "$", i + 1 < c.count, c[i + 1] == "{" {
+                        guard let end = ModuleLoonRewriteSyntax.referenceEnd(c, from: i + 2), end > i + 2 else {
+                            throw ModuleIgnoredReason.unreadableLine
+                        }
+                        flush()
+                        out.append(try piece(reference: String(c[(i + 2)..<end])))
+                        i = end + 1
+                        continue
+                    }
+                    text.append(x)
+                    i += 1
+                }
+                flush()
+                return out
+            default:
+                throw ModuleIgnoredReason.unreadableLine
+            }
+        }
+
+        private func piece(reference text: String) throws -> Piece {
+            switch try reference(text) {
+            case .setting(let name):
+                 
+                _ = try typedSetting(name)
+                return .text(try setting(name), written: false)
+            case .capture(let name, let index):
+                try checkCapture(name, index)
+                return .capture(name: name, index: index, written: "${" + text + "}")
+            case .variable(let variable):
+                try checkVariable(variable)
+                return .variable("${" + text + "}")
+            }
+        }
+
+         
+         
+         
+         
+        private func refusePlaceholders(_ text: String) throws {
+            let c = Array(text)
+            var i = 0
+            while i < c.count {
+                if c[i] == "{", let end = c[(i + 1)...].firstIndex(where: { $0 == "}" || $0 == "{" }), c[end] == "}",
+                   end > i + 1, arguments[String(c[(i + 1)..<end])] != nil {
+                    throw ModuleIgnoredReason.unreadableLine
+                }
+                i += 1
+            }
+        }
+
+         
+         
+        private mutating func plainText(_ operand: Operand) throws -> String {
+            var out = ""
+            for piece in try pieces(operand) {
+                switch piece {
+                case .text(let text, let written):
+                    if written { try refusePlaceholders(text) }
+                    out += text
+                case .capture(_, _, let written), .variable(let written):
+                    defer_(.unsupportedRewriteType(written))
+                }
+            }
+            return out
+        }
+
+         
+         
+         
+         
+        private mutating func template(_ operand: Operand, refusingWrittenDollars: Bool) throws -> String {
+            var out = ""
+            for piece in try pieces(operand) {
+                switch piece {
+                case .text(let text, let written):
+                    if written { try refusePlaceholders(text) }
+                    if written, refusingWrittenDollars, ModuleLoonRewriteSyntax.holdsDollarNumber(text) {
+                        defer_(.noEffectInItsOwnApp(.redirectAddressCannotUseDollarNumbers))
+                    }
+                    out += ModuleLoonRewriteSyntax.escapedForTemplate(text)
+                case .capture(let name, let index, let written):
+                    if name == gateCapture { out += "$\(index)" } else { defer_(.unsupportedRewriteType(written)) }
+                case .variable(let written):
+                    defer_(.unsupportedRewriteType(written))
+                }
+            }
+            return out
+        }
+
+         
+         
+        private mutating func replacement(_ operand: Operand) throws -> String {
+            var out = ""
+            for piece in try pieces(operand) {
+                switch piece {
+                case .text(let text, let written):
+                    if written {
+                        try refusePlaceholders(text)
+                        let c = Array(text)
+                        for (i, x) in c.enumerated() {
+                            switch x {
+                            case "\\": out += "\\\\"
+                            case "$" where i + 1 < c.count && c[i + 1].isASCII && c[i + 1].isNumber: out.append(x)
+                            case "$": out += "\\$"
+                            default: out.append(x)
+                            }
+                        }
+                    } else {
+                        out += ModuleLoonRewriteSyntax.escapedForTemplate(text)
+                    }
+                case .capture(_, _, let written), .variable(let written):
+                     
+                    defer_(.unsupportedRewriteType(written))
+                }
+            }
+            return out
+        }
+
+         
+        private func regex(_ operand: Operand) throws -> String {
+            guard case .regex(let body, let flags) = operand else { throw ModuleIgnoredReason.unreadableLine }
+            let pattern = ModuleLoonRewriteSyntax.icu(body, flags: flags)
+            guard ModuleLineSyntax.isValidPattern(pattern) else { throw ModuleIgnoredReason.invalidPattern }
+            return pattern
+        }
+
+         
+         
+        private func conditionRegex(_ operand: Operand) throws -> String {
+            if case .reference(let text) = operand, case .setting(let name) = try reference(text) {
+                let pattern = try textSetting(name)
+                guard ModuleLineSyntax.isValidPattern(pattern) else { throw ModuleIgnoredReason.invalidPattern }
+                return pattern
+            }
+            return try regex(operand)
+        }
+
+         
+         
+        private func status(_ operand: Operand) throws -> Int {
+            let value: Double
+            switch operand {
+            case .number(let number): value = number
+            case .reference(let text):
+                guard case .setting(let name) = try reference(text), case .number(let number) = try typedSetting(name) else {
+                    throw ModuleIgnoredReason.unreadableLine
+                }
+                value = number
+            default: throw ModuleIgnoredReason.unreadableLine
+            }
+            guard value.isFinite, value.rounded() == value, (100...599).contains(value) else { throw ModuleIgnoredReason.unreadableLine }
+            return Int(value)
+        }
+
+        private func flag(_ operand: Operand) throws -> Bool {
+            switch operand {
+            case .bool(let value): return value
+            case .reference(let text):
+                guard case .setting(let name) = try reference(text), case .boolean(let value) = try typedSetting(name) else {
+                    throw ModuleIgnoredReason.unreadableLine
+                }
+                return value
+            default: throw ModuleIgnoredReason.unreadableLine
+            }
+        }
+
+         
+         
+         
+         
+         
+         
+         
+         
+         
+        private mutating func jsonValue(_ operand: Operand) throws -> String {
+            switch operand {
+            case .number(let value): return ModuleLoonRewriteSyntax.jsonNumber(value)
+            case .bool(let value): return value ? "true" : "false"
+            case .null: return "null"
+            case .reference(let text):
+                if case .setting(let name) = try reference(text) {
+                    switch try typedSetting(name) {
+                    case .number(let value): return ModuleLoonRewriteSyntax.jsonNumber(value)
+                    case .boolean(let value): return value ? "true" : "false"
+                    case .text(let value): return ModuleJSONRewriteSyntax.string(value)
+                    }
+                }
+                return ModuleJSONRewriteSyntax.string(try plainText(operand))
+            case .string, .raw:
+                let asWritten = try pieces(operand).allSatisfy { piece in
+                    if case .text(_, written: true) = piece { return true } else { return false }
+                }
+                let text = try plainText(operand)
+                return asWritten ? ModuleJSONRewriteSyntax.value(ofString: text) : ModuleJSONRewriteSyntax.string(text)
+            case .regex: throw ModuleIgnoredReason.unreadableLine
+            }
+        }
+
+         
+
+        fileprivate enum Lowered {
+            case condition(ModuleCondition)
+            case constant(Bool)
+        }
+
+         
+         
+         
+        private func lower(_ expression: Expression) throws -> Lowered {
+            switch expression {
+            case .and(let parts):
+                 
+                var out = Self.Distinct()
+                for part in parts {
+                    switch try lower(part) {
+                    case .constant(true): continue
+                    case .constant(false): out.add(.any([]))
+                    case .condition(.all(let inner)): inner.forEach { out.add($0) }
+                    case .condition(let condition): out.add(condition)
+                    }
+                }
+                if out.items.isEmpty { return .constant(true) }
+                return .condition(out.items.count == 1 ? out.items[0] : .all(out.items))
+            case .or(let parts):
+                var out = Self.Distinct()
+                for part in parts {
+                    switch try lower(part) {
+                    case .constant(true): return .constant(true)
+                    case .constant(false): continue
+                    case .condition(.any(let inner)): inner.forEach { out.add($0) }
+                    case .condition(let condition): out.add(condition)
+                    }
+                }
+                if out.items.isEmpty { return .constant(false) }
+                return .condition(out.items.count == 1 ? out.items[0] : .any(out.items))
+            case .compare(let left, let op, let right, let capture):
+                return try compare(left, op, right, capture: capture)
+            }
+        }
+
+         
+        private struct Distinct {
+            var items: [ModuleCondition] = []
+            var seen: Set<ModuleCondition> = []
+
+            mutating func add(_ condition: ModuleCondition) {
+                if seen.insert(condition).inserted { items.append(condition) }
+            }
+        }
+
+         
+        private static func root(_ lowered: Lowered) -> ModuleCondition {
+            switch lowered {
+            case .condition(let condition): return condition
+            case .constant(let value): return value ? .all([]) : .any([])
+            }
+        }
+
+        private static func gateAtom(_ condition: ModuleCondition) -> ModuleCondition? {
+            let atoms: [ModuleCondition]
+            switch condition {
+            case .match: atoms = [condition]
+            case .all(let conditions): atoms = conditions
+            case .any: atoms = []
+            }
+            return atoms.first { if case .match(.url, .regexSearch, .regex, _) = $0 { return true } else { return false } }
+        }
+
+        private func compare(_ left: Operand, _ op: ModuleConditionOperator, _ right: Operand, capture: String?) throws -> Lowered {
+             
+            if op == .equals, case .reference(let text) = right, case .variable = try reference(text) {
+                if case .reference(let other) = left, case .variable = try reference(other) { throw ModuleIgnoredReason.unreadableLine }
+                return try compare(right, op, left, capture: capture)
+            }
+            guard case .reference(let text) = left else { throw ModuleIgnoredReason.unreadableLine }
+            switch try reference(text) {
+            case .capture: throw ModuleIgnoredReason.unreadableLine
+            case .variable(let variable):
+                try checkVariable(variable)
+                return .condition(.match(variable, op, try value(for: variable, op, right), capture: capture))
+            case .setting(let name):
+                guard capture == nil else { throw ModuleIgnoredReason.unreadableLine }
+                 
+                 
+                 
+                if op == .regexSearch {
+                    _ = try conditionRegex(right)
+                    throw ModuleIgnoredReason.unsupportedRewriteType("${" + text + "}")
+                }
+                return .constant(try decide(try typedSetting(name), right))
+            }
+        }
+
+         
+         
+        private func value(for variable: ModuleConditionVariable, _ op: ModuleConditionOperator,
+                           _ right: Operand) throws -> ModuleConditionValue {
+            if op == .regexSearch {
+                guard variable != .responseStatus else { throw ModuleIgnoredReason.unreadableLine }
+                return .regex(try conditionRegex(right))
+            }
+            switch variable {
+            case .responseStatus:
+                switch right {
+                case .number(let number): return .number(number)
+                case .reference(let text):
+                    guard case .setting(let name) = try reference(text), case .number(let number) = try typedSetting(name) else {
+                        throw ModuleIgnoredReason.unreadableLine
+                    }
+                    return .number(number)
+                default: throw ModuleIgnoredReason.unreadableLine
+                }
+            case .url, .requestMethod, .requestHeader, .responseHeader, .requestHead:
+                switch right {
+                case .null:
+                    switch variable {
+                    case .requestHeader, .responseHeader: return .null
+                    default: throw ModuleIgnoredReason.unreadableLine
+                    }
+                case .string, .raw, .reference:
+                    return .string(try conditionText(right))
+                default:
+                    throw ModuleIgnoredReason.unreadableLine
+                }
+            }
+        }
+
+         
+         
+        private func conditionText(_ operand: Operand) throws -> String {
+            var out = ""
+            for piece in try pieces(operand) {
+                switch piece {
+                case .text(let text, _): out += text
+                case .capture(_, _, let written), .variable(let written):
+                    throw ModuleIgnoredReason.unsupportedRewriteType(written)
+                }
+            }
+            return out
+        }
+
+         
+         
+         
+         
+        private func decide(_ value: Typed, _ right: Operand) throws -> Bool {
+            switch (value, right) {
+            case (.boolean(let have), .bool(let flag)): return have == flag
+            case (.number(let have), .number(let number)): return have == number
+            case (.text(let have), .string), (.text(let have), .raw): return have == (try conditionText(right))
+            case (_, .reference(let text)):
+                guard case .setting(let name) = try reference(text) else { throw ModuleIgnoredReason.unreadableLine }
+                let other = try typedSetting(name)
+                switch (value, other) {
+                case (.text, .text), (.number, .number), (.boolean, .boolean): return value == other
+                default: throw ModuleIgnoredReason.unreadableLine
+                }
+            default:
+                throw ModuleIgnoredReason.unreadableLine
+            }
+        }
+
+         
+
+         
+         
+        private static let requestActions: Set<String> = [
+            "url.replace", "redirect", "reject", "reject_img", "reject_dict", "reject_array", "reject_video",
+            "request.header.add", "request.header.set", "request.header.del", "request.header.replace",
+            "request.body.replace", "request.json.add", "request.json.delete", "request.json.replace", "request.json.jq",
+            "request.json.jq_file", "request.body.mock", "request.body.mock_file",
+        ]
+        private static let responseActions: Set<String> = [
+            "response.header.add", "response.header.set", "response.header.del", "response.header.replace",
+            "response.body.replace", "response.json.add", "response.json.delete", "response.json.replace", "response.json.jq",
+            "response.json.jq_file", "response.body.mock", "response.body.mock_file",
+        ]
+        private static let mocks: Set<String> = ["response.body.mock", "response.body.mock_file"]
+
+        private mutating func actions(_ calls: [Call], expression: Expression) throws -> [ModuleRewriteAction] {
+             
+            if calls.contains(where: { $0.name == "script" }) {
+                guard calls.count == 1 else { throw ModuleIgnoredReason.unreadableLine }
+                defer_(.newerSyntaxNotSupported)
+                return []
+            }
+            let allowed = phase == .request ? Self.requestActions : Self.responseActions
+            guard calls.allSatisfy({ allowed.contains($0.name) }) else { throw ModuleIgnoredReason.unreadableLine }
+            if calls.contains(where: { $0.name == "url.replace" || $0.name == "redirect" }) {
+                 
+                guard try Self.requiredURLRegexes(expression, reader: self) == 1 else { throw ModuleIgnoredReason.unreadableLine }
+            }
+            let mocks = calls.filter { Self.mocks.contains($0.name) }
+            if !mocks.isEmpty {
+                 
+                 
+                 
+                guard mocks.count == 1, calls.allSatisfy({ Self.mocks.contains($0.name) || $0.name.hasPrefix("response.header.") }),
+                      try !Self.namesResponse(expression, reader: self) else { throw ModuleIgnoredReason.unreadableLine }
+                return try mockAnswer(calls)
+            }
+            var out: [ModuleRewriteAction] = []
+            for call in calls { out += try action(call) }
+            return out
+        }
+
+         
+        private static func requiredURLRegexes(_ expression: Expression, reader: Reader) throws -> Int {
+            switch expression {
+            case .and(let parts): return try parts.reduce(0) { $0 + (try requiredURLRegexes($1, reader: reader)) }
+            case .or: return 0
+            case .compare(let left, .regexSearch, _, _):
+                if case .reference(let text) = left, case .variable(.url) = try reader.reference(text) { return 1 }
+                return 0
+            case .compare: return 0
+            }
+        }
+
+        private static func namesResponse(_ expression: Expression, reader: Reader) throws -> Bool {
+            switch expression {
+            case .and(let parts), .or(let parts): return try parts.contains { try namesResponse($0, reader: reader) }
+            case .compare(let left, _, let right, _):
+                for operand in [left, right] {
+                    guard case .reference(let text) = operand else { continue }
+                    switch try reader.reference(text) {
+                    case .variable(.responseStatus), .variable(.responseHeader): return true
+                    default: continue
+                    }
+                }
+                return false
+            }
+        }
+
+         
+         
+         
+         
+        private func rows(_ call: Call, arity: Int, batch: Bool) throws -> [[Operand]] {
+            guard call.arguments.count == arity else { throw ModuleIgnoredReason.unreadableLine }
+            var singles: [Operand] = []
+            var columns: [[Operand]] = []
+            for argument in call.arguments {
+                switch argument {
+                case .one(let operand): singles.append(operand)
+                case .many(let operands): columns.append(operands)
+                }
+            }
+            if columns.isEmpty { return [singles] }
+            guard batch, singles.isEmpty, let count = columns.first?.count, count > 0, columns.allSatisfy({ $0.count == count }) else {
+                throw ModuleIgnoredReason.unreadableLine
+            }
+            return (0..<count).map { row in columns.map { $0[row] } }
+        }
+
+         
+        private func singles(_ call: Call, _ arities: ClosedRange<Int>) throws -> [Operand] {
+            guard arities.contains(call.arguments.count) else { throw ModuleIgnoredReason.unreadableLine }
+            return try call.arguments.map { argument in
+                guard case .one(let operand) = argument else { throw ModuleIgnoredReason.unreadableLine }
+                return operand
+            }
+        }
+
+        private mutating func headerName(_ operand: Operand) throws -> String {
+            let name = try plainText(operand)
+            guard ModuleLoonRewriteSyntax.isHeaderName(name) else { throw ModuleIgnoredReason.unreadableLine }
+            return name
+        }
+
+        private mutating func action(_ call: Call) throws -> [ModuleRewriteAction] {
+            let name = call.name
+            let side: ModuleRewritePhase = name.hasPrefix("response.") ? .response : .request
+            func answer(_ status: Int, _ contentType: String?, _ body: ModuleAnswerBody) -> ModuleRewriteAction {
+                .localAnswer(ModuleLocalAnswer(status: status, headers: contentType.map { [ModuleHeaderField(name: "Content-Type", value: $0)] } ?? [],
+                                                body: body))
+            }
+            switch name {
+            case "url.replace":
+                let target = try template(try singles(call, 1...1)[0], refusingWrittenDollars: true)
+                return [.transparent(target)]
+            case "redirect":
+                let given = try singles(call, 2...2)
+                let code = try status(given[0])
+                let target = try template(given[1], refusingWrittenDollars: true)
+                switch code {
+                case 302: return [.redirect302(target)]
+                case 307: return [.redirect307(target)]
+                default: throw ModuleIgnoredReason.unreadableLine
+                }
+            case "reject" where call.bare:
+                 
+                 
+                 
+                return [.rejectDrop]
+            case "reject":
+                let given = try singles(call, 1...2)
+                let code = try status(given[0])
+                let body = given.count == 2 ? try plainText(given[1]) : ""
+                if body.isEmpty {
+                     
+                    return [code == 404 ? .reject : code == 200 ? .reject200 : answer(code, nil, .empty)]
+                }
+                 
+                return [answer(code, "text/plain", .text(body))]
+            case "reject_img":
+                let code = try status(try singles(call, 1...1)[0])
+                return [code == 200 ? .rejectImg : answer(code, "image/gif", .tinyGIF)]
+            case "reject_dict":
+                let code = try status(try singles(call, 1...1)[0])
+                return [code == 200 ? .rejectDict : answer(code, "application/json", .emptyJSONObject)]
+            case "reject_array":
+                let code = try status(try singles(call, 1...1)[0])
+                return [code == 200 ? .rejectArray : answer(code, "application/json", .emptyJSONArray)]
+            case "reject_video":
+                let code = try status(try singles(call, 1...1)[0])
+                return [answer(code, "video/mp4", .emptyVideo)]
+            case "request.header.add", "request.header.set", "response.header.add", "response.header.set":
+                let operation: ModuleHeaderOperation = name.hasSuffix(".add") ? .add : .set
+                return try rows(call, arity: 2, batch: true).map { row -> ModuleRewriteAction in
+                    let value = try template(row[1], refusingWrittenDollars: false)
+                    guard ModuleYAMLText.isOneLine(value) else { throw ModuleIgnoredReason.unreadableLine }
+                    return .header(phase: side, operation: operation, name: try headerName(row[0]), arguments: [value])
+                }
+            case "request.header.del", "response.header.del":
+                return try rows(call, arity: 1, batch: true).map { row -> ModuleRewriteAction in
+                    .header(phase: side, operation: .delete, name: try headerName(row[0]), arguments: [])
+                }
+            case "request.header.replace", "response.header.replace":
+                return try rows(call, arity: 3, batch: true).map { row -> ModuleRewriteAction in
+                    let replacement = try self.replacement(row[2])
+                    guard ModuleYAMLText.isOneLine(replacement) else { throw ModuleIgnoredReason.unreadableLine }
+                    return .header(phase: side, operation: .replaceRegex, name: try headerName(row[0]),
+                                   arguments: [try regex(row[1]), replacement])
+                }
+            case "request.body.replace", "response.body.replace":
+                let pairs = try rows(call, arity: 2, batch: true).map { row -> ModuleReplacementPair in
+                    ModuleReplacementPair(search: try regex(row[0]), replacement: try replacement(row[1]))
+                }
+                return [.bodyReplace(phase: side, pairs: pairs)]
+             
+             
+            case "request.json.add", "request.json.replace", "response.json.add", "response.json.replace":
+                let given = try rows(call, arity: 2, batch: true)
+                let paths = try given.map { try plainText($0[0]) }
+                let values = try given.map { try jsonValue($0[1]) }
+                return [.json(phase: side, operations: try ModuleJSONRewriteSyntax.operations(name.hasSuffix(".add") ? .add : .replace,
+                                                                                             paths: paths, values: values).get())]
+            case "request.json.delete", "response.json.delete":
+                let paths = try rows(call, arity: 1, batch: true).map { try plainText($0[0]) }
+                return [.json(phase: side, operations: try ModuleJSONRewriteSyntax.operations(.delete, paths: paths, values: nil).get())]
+            case "request.json.jq", "response.json.jq":
+                let written = try plainText(try singles(call, 1...1)[0])
+                switch ModuleJSONRewriteSyntax.jqSource(written) {
+                case .expression(let expression):
+                    return [.bodyJQ(phase: side, expression: try ModuleJSONRewriteSyntax.jq(expression).get())]
+                case .file(let name):
+                     
+                    try addJQFile(name)
+                    return [.bodyJQ(phase: side, expression: "")]
+                }
+            case "request.json.jq_file", "response.json.jq_file":
+                 
+                try addJQFile(try plainText(try singles(call, 1...1)[0]))
+                return [.bodyJQ(phase: side, expression: "")]
+            case "request.body.mock_file":
+                 
+                let given = try singles(call, 2...3)
+                let contentType = try mockType(given[0])
+                try addFile(given[1], base64: given.count == 3 ? try flag(given[2]) : false)
+                return [.requestBody(ModuleLocalAnswerSyntax.pendingFile, contentType: contentType)]
+            case "request.body.mock":
+                let given = try singles(call, 2...3)
+                let made = try mock(given[0], given[1], status: nil, base64: given.count == 3 ? try flag(given[2]) : false)
+                return [.requestBody(made.body, contentType: made.headers.first?.value)]
+            default:
+                throw ModuleIgnoredReason.unreadableLine
+            }
+        }
+
+        private mutating func mockType(_ operand: Operand) throws -> String {
+            guard let contentType = ModuleLoonRewriteSyntax.mockContentTypes[try plainText(operand)] else {
+                throw ModuleIgnoredReason.unreadableLine
+            }
+            return contentType
+        }
+
+         
+         
+        private mutating func mock(_ type: Operand, _ body: Operand, status: Int?, base64: Bool) throws -> ModuleLocalAnswer {
+            switch ModuleLocalAnswerSyntax.loonMock(type: try plainText(type), body: try plainText(body), status: status, base64: base64) {
+            case .success(let answer): return answer
+            case .failure(let reason): throw reason
+            }
+        }
+
+         
+         
+        private mutating func addFile(_ operand: Operand, base64: Bool) throws {
+            guard !namesABody else { throw ModuleIgnoredReason.unreadableLine }
+            namesABody = true
+            switch ModuleLocalAnswerSyntax.fileAddress(try plainText(operand), moduleURL: moduleURL, resolvesAgainstTheModule: true) {
+            case .success(let address):
+                files.append(ModuleAnswerFileReference(url: address, sha256: nil, origin: origin, base64: base64 ? true : nil))
+            case .failure(let reason):
+                throw reason
+            }
+        }
+
+         
+         
+         
+         
+        private static let typesWithNoEffect: Set<String> = ["base64", "file"]
+
+         
+         
+         
+         
+        private mutating func mockAnswer(_ calls: [Call]) throws -> [ModuleRewriteAction] {
+            var answer = ModuleLocalAnswer(status: 200, headers: [], body: .empty)
+            for call in calls where Self.mocks.contains(call.name) {
+                let given = try singles(call, 2...4)
+                if call.name == "response.body.mock", Self.typesWithNoEffect.contains(try plainText(given[0])) {
+                    defer_(.noEffectInItsOwnApp(.noEffect))
+                    return [.localAnswer(answer)]
+                }
+                let code = given.count >= 3 ? try status(given[2]) : 200
+                let base64 = given.count == 4 ? try flag(given[3]) : false
+                if call.name == "response.body.mock_file" {
+                     
+                    let contentType = try mockType(given[0])
+                    try addFile(given[1], base64: base64)
+                    answer = ModuleLocalAnswer(status: code, headers: [ModuleHeaderField(name: "Content-Type", value: contentType)],
+                                                body: ModuleLocalAnswerSyntax.pendingFile)
+                } else {
+                    answer = try mock(given[0], given[1], status: code, base64: base64)
+                }
+            }
+            func framing(_ name: String) -> Bool { ["content-length", "transfer-encoding"].contains(name.lowercased()) }
+            func same(_ field: ModuleHeaderField, _ name: String) -> Bool { field.name.caseInsensitiveCompare(name) == .orderedSame }
+             
+             
+             
+            var after: [ModuleRewriteAction] = []
+            for call in calls where !Self.mocks.contains(call.name) {
+                if !after.isEmpty || call.name == "response.header.replace" {
+                    after += try action(call)
+                    continue
+                }
+                switch call.name {
+                case "response.header.add", "response.header.set":
+                    for row in try rows(call, arity: 2, batch: true) {
+                        let name = try headerName(row[0])
+                        let value = try plainText(row[1])
+                        guard ModuleYAMLText.isOneLine(value) else { throw ModuleIgnoredReason.unreadableLine }
+                        guard !framing(name) else { continue }
+                        if call.name.hasSuffix(".set"), let first = answer.headers.firstIndex(where: { same($0, name) }) {
+                            answer.headers[first].value = value
+                            answer.headers = answer.headers.enumerated().filter { $0.offset <= first || !same($0.element, name) }.map(\.element)
+                        } else {
+                            answer.headers.append(ModuleHeaderField(name: name, value: value))
+                        }
+                    }
+                case "response.header.del":
+                    for row in try rows(call, arity: 1, batch: true) {
+                        let name = try headerName(row[0])
+                        answer.headers.removeAll { same($0, name) }
+                    }
+                default:
+                    throw ModuleIgnoredReason.unreadableLine
+                }
+            }
+            return [.localAnswer(answer)] + after
+        }
+
+         
+         
+         
+        private mutating func addJQFile(_ written: String) throws {
+            switch ModuleLocalAnswerSyntax.fileAddress(written, moduleURL: moduleURL, resolvesAgainstTheModule: true) {
+            case .success(let address): files.append(ModuleAnswerFileReference(url: address, sha256: nil, origin: origin))
+            case .failure(let reason): throw reason
+            }
+        }
+    }
+
+     
+
+     
+    static func isHeaderName(_ name: String) -> Bool {
+        !name.isEmpty && name.unicodeScalars.allSatisfy { scalar in
+            scalar.isASCII && (CharacterSet.alphanumerics.contains(scalar) || "!#$%&'*+-.^_`|~".unicodeScalars.contains(scalar))
+        }
+    }
+
+     
+    static func icu(_ body: String, flags: String) -> String {
+        ["i", "m", "s"].filter { flags.contains($0) }.map { "(?\($0))" }.joined() + body
+    }
+
+     
+    static func holdsDollarNumber(_ text: String) -> Bool {
+        let c = Array(text)
+        return c.indices.contains { c[$0] == "$" && $0 + 1 < c.count && c[$0 + 1].isASCII && c[$0 + 1].isNumber }
+    }
+
+     
+    static func escapedForTemplate(_ text: String) -> String {
+        var out = ""
+        for character in text {
+            if character == "\\" || character == "$" { out.append("\\") }
+            out.append(character)
+        }
+        return out
+    }
+
+    static func jsonNumber(_ value: Double) -> String {
+        if value.rounded() == value, abs(value) < 1e15 { return String(Int64(value)) }
+        return "\(value)"
+    }
+}
+
+ 
+
+extension ModuleLoonRewriteSyntax {
+     
+     
+     
+     
+     
+     
+    static let defaultHTTPScriptTimeout = 20
+}
+
+private extension ModuleLoonRewriteSyntax.Reader {
+    typealias Token = ModuleLoonRewriteSyntax.Token
+
+     
+     
+    static let scriptOptions: Set<String> = ["enable", "tag", "img_url", "timeout", "debug", "requires_body", "binary_body_mode"]
+
+     
+    mutating func script(origin: ModuleLineOrigin) throws -> ModuleScript {
+        self.origin = origin
+        guard case .word(let phaseWord)? = next(), case .word(let ifWord)? = next(), ifWord.lowercased() == "if" else {
+            throw ModuleIgnoredReason.unreadableLine
+        }
+        switch phaseWord.lowercased() {
+        case "request": phase = .request
+        case "response": phase = .response
+        default: throw ModuleIgnoredReason.unreadableLine
+        }
+        let expression = try or()
+        guard case .word(let thenWord)? = next(), thenWord.lowercased() == "then", next() == .word("script") else {
+            throw ModuleIgnoredReason.unreadableLine
+        }
+         
+        guard !Self.captures(expression) else { throw ModuleIgnoredReason.unreadableLine }
+         
+         
+         
+        if phase == .response, try !Self.guarded(expression, reader: self) {
+            throw ModuleIgnoredReason.unreadableLine
+        }
+        let call = try scriptCall(options: Self.scriptOptions)
+        let (path, argument, typedArguments, options) = (call.path, call.argument, call.typedArguments, call.options)
+        let argumentNames = typedArguments?.map(\.name)
+
+        let condition = Self.root(try lower(expression))
+        let gate = Self.scriptGate(of: condition)
+         
+         
+        let pattern = gate.isEmpty ? "^" : ModuleLoonRewriteSyntax.unescapingSlashes(gate)
+        guard ModuleLineSyntax.isValidPattern(pattern) else { throw ModuleIgnoredReason.invalidPattern }
+        let requiresBody = try flag(options["requires_body"], settings: false, otherwise: false)
+        let binaryBodyMode = try flag(options["binary_body_mode"], settings: false, otherwise: false)
+        _ = try flag(options["debug"], settings: true, otherwise: false)
+         
+        let timeout = try seconds(options["timeout"]) ?? ModuleLoonRewriteSyntax.defaultHTTPScriptTimeout
+        let tag = try options["tag"].map { try fixedText(Self.operand(of: $0)) }
+        let imageURL = try options["img_url"].map { try fixedText(Self.operand(of: $0)) }
+         
+        guard try flag(options["enable"], settings: true, otherwise: true) else { throw ModuleIgnoredReason.scriptTurnedOff }
+         
+         
+         
+        if Self.neverHolds(condition) { throw ModuleIgnoredReason.scriptTurnedOff }
+
+         
+         
+         
+        let address: String
+        switch ModuleLocalAnswerSyntax.fileAddress(path, moduleURL: moduleURL, resolvesAgainstTheModule: true) {
+        case .success(let resolved): address = resolved
+        case .failure(let reason): throw reason
+        }
+         
+        if address.lowercased().contains("boxjs") || pattern.lowercased().contains("boxjs") {
+            throw ModuleIgnoredReason.boxJSNotSupported
+        }
+        guard let url = URL(string: address), let scheme = url.scheme?.lowercased(), scheme == "http" || scheme == "https",
+              url.host?.isEmpty == false else { throw ModuleIgnoredReason.scriptWithoutAddress }
+        guard address.utf8.count <= ModuleParser.maximumShownBytes else { throw ModuleIgnoredReason.unreadableLine }
+        guard scheme == "https" else { throw ModuleIgnoredReason.scriptAddressNotSecure }
+
+         
+        let file = URL(string: path)?.lastPathComponent ?? ""
+        let name = tag.flatMap { $0.isEmpty ? nil : $0 } ?? (!file.isEmpty && file != "/" ? file : pattern)
+        var asked: ModuleCondition? = condition
+        switch condition {
+        case .match(.url, .regexSearch, .regex(let only), nil) where only == gate: asked = nil
+        case .all(let parts) where parts.isEmpty: asked = nil
+        default: break
+        }
+        return ModuleScript(name: name, phase: phase, pattern: pattern, scriptURL: address, requiresBody: requiresBody,
+                             binaryBodyMode: binaryBodyMode, maxSize: nil, timeout: timeout, argument: argument,
+                             updateInterval: ModuleLineSyntax.defaultScriptUpdateInterval, bodySHA256: nil, origin: origin,
+                             condition: asked, argumentNames: argumentNames, imageURL: imageURL.flatMap { $0.isEmpty ? nil : $0 },
+                             typedArguments: typedArguments)
+    }
+
+     
+     
+     
+    mutating func scriptCall(options allowed: Set<String>) throws
+        -> (path: String, argument: String?, typedArguments: [ModuleScriptTypedArgument]?, options: [String: Token]) {
+        try expect("(")
+        let path = try fixedText(try operand())
+        guard !path.isEmpty else { throw ModuleIgnoredReason.unreadableLine }
+        var argument: String?
+        var typedArguments: [ModuleScriptTypedArgument]?
+        if peek() == .symbol(",") {
+            index += 1
+            if peek() == .symbol("{") {
+                typedArguments = try objectArgument()
+            } else {
+                argument = try argumentText(try operand())
+            }
+        }
+        try expect(")")
+        var options: [String: Token] = [:]
+        if peek() == .word("with") {
+            index += 1
+            while true {
+                guard case .word(let name)? = next(), allowed.contains(name), options[name] == nil else {
+                    throw ModuleIgnoredReason.unreadableLine
+                }
+                try expect("=")
+                guard let value = next() else { throw ModuleIgnoredReason.unreadableLine }
+                options[name] = value
+                guard peek() == .symbol(",") else { break }
+                index += 1
+            }
+        }
+         
+        guard index == tokens.count else { throw ModuleIgnoredReason.unreadableLine }
+        return (path, argument, typedArguments, options)
+    }
+
+     
+     
+     
+     
+    static let appScriptOptions: Set<String> = ["enable", "tag", "img_url", "timeout", "debug"]
+
+     
+     
+     
+     
+    mutating func appScript(kind: ModuleAppScriptKind, origin: ModuleLineOrigin) throws -> ModuleAppScript {
+        self.origin = origin
+        var schedule: String?
+        if kind == .cron {
+            let written: String
+            switch next() {
+            case .string(let text)?: written = try argumentText(.string(text))
+            case .raw(let text)?: written = text
+            case .reference(let text)?:
+                guard case .setting(let name) = try reference(text) else { throw ModuleIgnoredReason.unreadableLine }
+                written = try textSetting(name)
+            default: throw ModuleIgnoredReason.unreadableLine
+            }
+            guard let shaped = ModuleLineSyntax.cronExpression(written) else { throw ModuleIgnoredReason.unreadableLine }
+            schedule = shaped
+        }
+        guard case .word(let thenWord)? = next(), thenWord.lowercased() == "then", next() == .word("script") else {
+            throw ModuleIgnoredReason.unreadableLine
+        }
+        let call = try scriptCall(options: Self.appScriptOptions)
+        _ = try flag(call.options["debug"], settings: true, otherwise: false)
+        let timeout = try seconds(call.options["timeout"])
+        let tag = try call.options["tag"].map { try fixedText(Self.operand(of: $0)) }
+        let imageURL = try call.options["img_url"].map { try fixedText(Self.operand(of: $0)) }
+         
+        guard try flag(call.options["enable"], settings: true, otherwise: true) else { throw ModuleIgnoredReason.scriptTurnedOff }
+        let address: String
+        switch ModuleLocalAnswerSyntax.fileAddress(call.path, moduleURL: moduleURL, resolvesAgainstTheModule: true) {
+        case .success(let resolved): address = resolved
+        case .failure(let reason): throw reason
+        }
+        if address.lowercased().contains("boxjs") { throw ModuleIgnoredReason.boxJSNotSupported }
+        guard let url = URL(string: address), let scheme = url.scheme?.lowercased(), scheme == "http" || scheme == "https",
+              url.host?.isEmpty == false else { throw ModuleIgnoredReason.scriptWithoutAddress }
+        guard address.utf8.count <= ModuleParser.maximumShownBytes else { throw ModuleIgnoredReason.unreadableLine }
+        guard scheme == "https" else { throw ModuleIgnoredReason.scriptAddressNotSecure }
+         
+        let file = URL(string: call.path)?.lastPathComponent ?? ""
+        let fallback = kind == .networkChanged ? "network-changed" : kind.rawValue
+        return ModuleAppScript(name: tag.flatMap { $0.isEmpty ? nil : $0 } ?? (!file.isEmpty && file != "/" ? file : fallback),
+                               kind: kind, cronExpression: schedule, scriptURL: address, timeout: timeout,
+                               argument: call.argument, argumentNames: call.typedArguments?.map(\.name),
+                               typedArguments: call.typedArguments, origin: origin,
+                               imageURL: imageURL.flatMap { $0.isEmpty ? nil : $0 })
+    }
+
+    static func captures(_ expression: ModuleLoonRewriteSyntax.Expression) -> Bool {
+        switch expression {
+        case .and(let parts), .or(let parts): return parts.contains(where: captures)
+        case .compare(_, _, _, let capture): return capture != nil
+        }
+    }
+
+    static func operand(of token: Token) throws -> ModuleLoonRewriteSyntax.Operand {
+        switch token {
+        case .string(let text): return .string(text)
+        case .raw(let text): return .raw(text)
+        default: throw ModuleIgnoredReason.unreadableLine
+        }
+    }
+
+     
+     
+     
+    func fixedText(_ operand: ModuleLoonRewriteSyntax.Operand) throws -> String {
+        switch operand {
+        case .string, .raw: break
+        default: throw ModuleIgnoredReason.unreadableLine
+        }
+        var out = ""
+        for piece in try pieces(operand) {
+            guard case .text(let text, written: true) = piece else { throw ModuleIgnoredReason.unreadableLine }
+            out += text
+        }
+        return out
+    }
+
+     
+     
+     
+    func argumentText(_ operand: ModuleLoonRewriteSyntax.Operand) throws -> String {
+        switch operand {
+        case .string, .raw, .reference: break
+        default: throw ModuleIgnoredReason.unreadableLine
+        }
+        var out = ""
+        for piece in try pieces(operand) {
+            switch piece {
+            case .text(let text, let written):
+                if written { try refusePlaceholders(text) }
+                out += text
+            case .capture, .variable:
+                throw ModuleIgnoredReason.unreadableLine
+            }
+        }
+        return out
+    }
+
+     
+     
+     
+     
+     
+    mutating func objectArgument() throws -> [ModuleScriptTypedArgument] {
+        try expect("{")
+        var fields: [ModuleScriptTypedArgument] = []
+        while true {
+            guard case .reference(let text)? = next(), case .setting(let name) = try reference(text),
+                  !fields.contains(where: { $0.name == name }) else {
+                throw ModuleIgnoredReason.unreadableLine
+            }
+            fields.append(ModuleScriptTypedArgument(name: name, value: try argumentValue(name)))
+            guard peek() == .symbol(",") else { break }
+            index += 1
+        }
+        try expect("}")
+        return fields
+    }
+
+     
+     
+     
+     
+     
+     
+    func argumentValue(_ name: String) throws -> ModuleScriptTypedArgument.Value {
+        guard case .some(.some(let value)) = arguments[name] else { return .null }
+        switch types[name] ?? .text {
+        case .text:
+            return .string(value)
+        case .boolean:
+            guard case .boolean(let flag) = try typedSetting(name) else { throw ModuleIgnoredReason.unreadableLine }
+            return .bool(flag)
+        case .number:
+            guard let number = Double(value.trimmingCharacters(in: .whitespaces)) else { throw ModuleIgnoredReason.unreadableLine }
+            return number.isFinite ? .number(number) : .string(value)
+        }
+    }
+
+     
+     
+    func flag(_ token: Token?, settings: Bool, otherwise: Bool) throws -> Bool {
+        switch token {
+        case nil: return otherwise
+        case .bool(let value)?: return value
+        case .reference(let text)? where settings:
+            guard case .setting(let name) = try reference(text) else { throw ModuleIgnoredReason.unreadableLine }
+            guard case .some(.some) = arguments[name] else { return otherwise }
+            guard case .boolean(let value) = try typedSetting(name) else { throw ModuleIgnoredReason.unreadableLine }
+            return value
+        default: throw ModuleIgnoredReason.unreadableLine
+        }
+    }
+
+     
+     
+     
+     
+    func seconds(_ token: Token?) throws -> Int? {
+        let value: Double
+        switch token {
+        case nil: return nil
+        case .number(let number)?: value = number
+        case .reference(let text)?:
+            guard case .setting(let name) = try reference(text) else { throw ModuleIgnoredReason.unreadableLine }
+            guard case .some(.some) = arguments[name] else { return nil }
+            switch try typedSetting(name) {
+            case .number(let number): value = number
+            case .text(let written):
+                guard let number = Double(written) else { throw ModuleIgnoredReason.unreadableLine }
+                value = number
+            case .boolean: throw ModuleIgnoredReason.unreadableLine
+            }
+        default: throw ModuleIgnoredReason.unreadableLine
+        }
+        guard value.isFinite, value > 0, value <= Double(Int32.max) else { throw ModuleIgnoredReason.unreadableLine }
+        return Int(value.rounded(.up))
+    }
+
+     
+     
+     
+    static func guarded(_ expression: ModuleLoonRewriteSyntax.Expression, reader: Self) throws -> Bool {
+        func isURL(_ operand: ModuleLoonRewriteSyntax.Operand) throws -> Bool {
+            guard case .reference(let text) = operand, case .variable(.url) = try reader.reference(text) else { return false }
+            return true
+        }
+        switch expression {
+        case .and(let parts): return try parts.contains { try guarded($0, reader: reader) }
+        case .or(let parts): return try parts.allSatisfy { try guarded($0, reader: reader) }
+        case .compare(let left, .regexSearch, _, _): return try isURL(left)
+        case .compare(let left, .equals, let right, _): return try isURL(left) || isURL(right)
+        case .compare: return false
+        }
+    }
+
+     
+     
+     
+     
+    static func scriptGate(of condition: ModuleCondition) -> String {
+        let gate = ModuleLoonRewriteSyntax.gatePattern(of: condition)
+        guard gate.isEmpty else { return gate }
+        let parts: [ModuleCondition]
+        switch condition {
+        case .all(let all): parts = all
+        default: parts = [condition]
+        }
+        for part in parts {
+            guard case .any(let options) = part, !options.isEmpty else { continue }
+            let gates = options.map { scriptGate(of: $0) }
+            if !gates.contains("") { return gates.map { "(?:" + $0 + ")" }.joined(separator: "|") }
+        }
+        return ""
+    }
+
+     
+     
+     
+    static func neverHolds(_ condition: ModuleCondition) -> Bool {
+        switch condition {
+        case .any(let options): return options.allSatisfy(neverHolds)
+        case .all(let parts): return parts.contains(where: neverHolds)
+        case .match: return false
+        }
+    }
+}

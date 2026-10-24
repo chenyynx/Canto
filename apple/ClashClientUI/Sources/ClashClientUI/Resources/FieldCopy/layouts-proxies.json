@@ -1,0 +1,3682 @@
+{
+  "layouts": {
+    "proxies[ss]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "password",
+          "cipher"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels over the network; it must match the server.",
+          "zh-Hans": "数据怎么在网络上传，要和服务器一致。",
+          "zh-Hant": "資料怎麼在網路上傳，要和伺服器一致。"
+        },
+        "keys": [
+          "plugin",
+          "plugin-opts",
+          "udp-over-tcp",
+          "udp-over-tcp-version"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The name, certificate checks and disguise for the encrypted connection; they must match the server.",
+          "zh-Hans": "加密连接用的域名、证书校验和伪装，要和服务器一致。",
+          "zh-Hant": "加密連線用的網域、憑證驗證和偽裝，要和伺服器一致。"
+        },
+        "keys": [
+          "client-fingerprint"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "udp",
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[ssr]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "password",
+          "cipher"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels over the network; it must match the server.",
+          "zh-Hans": "数据怎么在网络上传，要和服务器一致。",
+          "zh-Hant": "資料怎麼在網路上傳，要和伺服器一致。"
+        },
+        "keys": [
+          "obfs",
+          "obfs-param",
+          "protocol",
+          "protocol-param"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "udp",
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[socks5]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "password",
+          "username"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The name, certificate checks and disguise for the encrypted connection; they must match the server.",
+          "zh-Hans": "加密连接用的域名、证书校验和伪装，要和服务器一致。",
+          "zh-Hant": "加密連線用的網域、憑證驗證和偽裝，要和伺服器一致。"
+        },
+        "keys": [
+          "tls",
+          "skip-cert-verify",
+          "name-cert-verify",
+          "fingerprint",
+          "certificate",
+          "private-key"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "udp",
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[http]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "password",
+          "username"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels over the network; it must match the server.",
+          "zh-Hans": "数据怎么在网络上传，要和服务器一致。",
+          "zh-Hant": "資料怎麼在網路上傳，要和伺服器一致。"
+        },
+        "keys": [
+          "headers"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The name, certificate checks and disguise for the encrypted connection; they must match the server.",
+          "zh-Hans": "加密连接用的域名、证书校验和伪装，要和服务器一致。",
+          "zh-Hant": "加密連線用的網域、憑證驗證和偽裝，要和伺服器一致。"
+        },
+        "keys": [
+          "tls",
+          "sni",
+          "skip-cert-verify",
+          "name-cert-verify",
+          "fingerprint",
+          "certificate",
+          "private-key"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[vmess]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "uuid",
+          "cipher",
+          "alterId"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels over the network; it must match the server.",
+          "zh-Hans": "数据怎么在网络上传，要和服务器一致。",
+          "zh-Hant": "資料怎麼在網路上傳，要和伺服器一致。"
+        },
+        "keys": [
+          "network",
+          "ws-opts",
+          "grpc-opts",
+          "h2-opts",
+          "http-opts",
+          "mkcp-opts",
+          "mekya-opts",
+          "packet-addr",
+          "xudp",
+          "packet-encoding",
+          "global-padding",
+          "authenticated-length"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The name, certificate checks and disguise for the encrypted connection; they must match the server.",
+          "zh-Hans": "加密连接用的域名、证书校验和伪装，要和服务器一致。",
+          "zh-Hant": "加密連線用的網域、憑證驗證和偽裝，要和伺服器一致。"
+        },
+        "keys": [
+          "tls",
+          "servername",
+          "skip-cert-verify",
+          "name-cert-verify",
+          "fingerprint",
+          "certificate",
+          "private-key",
+          "alpn",
+          "client-fingerprint",
+          "reality-opts",
+          "ech-opts",
+          "shadow-tls-opts",
+          "restls-opts",
+          "jls-opts",
+          "tlsmirror-opts"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "udp",
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[vless]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "uuid",
+          "encryption"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels over the network; it must match the server.",
+          "zh-Hans": "数据怎么在网络上传，要和服务器一致。",
+          "zh-Hant": "資料怎麼在網路上傳，要和伺服器一致。"
+        },
+        "keys": [
+          "network",
+          "ws-opts",
+          "grpc-opts",
+          "h2-opts",
+          "http-opts",
+          "xhttp-opts",
+          "ws-headers",
+          "packet-addr",
+          "xudp",
+          "packet-encoding"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The name, certificate checks and disguise for the encrypted connection; they must match the server.",
+          "zh-Hans": "加密连接用的域名、证书校验和伪装，要和服务器一致。",
+          "zh-Hant": "加密連線用的網域、憑證驗證和偽裝，要和伺服器一致。"
+        },
+        "keys": [
+          "tls",
+          "servername",
+          "skip-cert-verify",
+          "name-cert-verify",
+          "fingerprint",
+          "certificate",
+          "private-key",
+          "alpn",
+          "client-fingerprint",
+          "reality-opts",
+          "ech-opts",
+          "shadow-tls-opts",
+          "restls-opts",
+          "jls-opts",
+          "flow"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "udp",
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[snell]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "psk",
+          "user-key"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels over the network; it must match the server.",
+          "zh-Hans": "数据怎么在网络上传，要和服务器一致。",
+          "zh-Hant": "資料怎麼在網路上傳，要和伺服器一致。"
+        },
+        "keys": [
+          "obfs-opts",
+          "version",
+          "mode",
+          "reuse"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The name, certificate checks and disguise for the encrypted connection; they must match the server.",
+          "zh-Hans": "加密连接用的域名、证书校验和伪装，要和服务器一致。",
+          "zh-Hant": "加密連線用的網域、憑證驗證和偽裝，要和伺服器一致。"
+        },
+        "keys": [
+          "client-fingerprint"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "udp",
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[trojan]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "password"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels over the network; it must match the server.",
+          "zh-Hans": "数据怎么在网络上传，要和服务器一致。",
+          "zh-Hant": "資料怎麼在網路上傳，要和伺服器一致。"
+        },
+        "keys": [
+          "network",
+          "ws-opts",
+          "grpc-opts",
+          "ss-opts"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The name, certificate checks and disguise for the encrypted connection; they must match the server.",
+          "zh-Hans": "加密连接用的域名、证书校验和伪装，要和服务器一致。",
+          "zh-Hant": "加密連線用的網域、憑證驗證和偽裝，要和伺服器一致。"
+        },
+        "keys": [
+          "sni",
+          "skip-cert-verify",
+          "name-cert-verify",
+          "fingerprint",
+          "certificate",
+          "private-key",
+          "alpn",
+          "client-fingerprint",
+          "reality-opts",
+          "ech-opts",
+          "shadow-tls-opts",
+          "restls-opts",
+          "jls-opts"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "udp",
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[hysteria]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port",
+          "ports",
+          "hop-interval"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "auth",
+          "auth-str"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels over the network; it must match the server.",
+          "zh-Hans": "数据怎么在网络上传，要和服务器一致。",
+          "zh-Hant": "資料怎麼在網路上傳，要和伺服器一致。"
+        },
+        "keys": [
+          "obfs",
+          "protocol",
+          "obfs-protocol"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The name, certificate checks and disguise for the encrypted connection; they must match the server.",
+          "zh-Hans": "加密连接用的域名、证书校验和伪装，要和服务器一致。",
+          "zh-Hant": "加密連線用的網域、憑證驗證和偽裝，要和伺服器一致。"
+        },
+        "keys": [
+          "sni",
+          "skip-cert-verify",
+          "name-cert-verify",
+          "fingerprint",
+          "certificate",
+          "private-key",
+          "alpn",
+          "ech-opts"
+        ]
+      },
+      {
+        "id": "speed",
+        "title": {
+          "en": "Speed & QUIC",
+          "zh-Hans": "速度与 QUIC",
+          "zh-Hant": "速度與 QUIC"
+        },
+        "footer": {
+          "en": "Bandwidth, congestion control and QUIC settings; leave them at the defaults if unsure.",
+          "zh-Hans": "带宽、拥塞控制和 QUIC 参数，不清楚就保持默认。",
+          "zh-Hant": "頻寬、壅塞控制和 QUIC 參數，不清楚就保持預設。"
+        },
+        "keys": [
+          "up",
+          "down",
+          "up-speed",
+          "down-speed",
+          "recv-window-conn",
+          "recv-window",
+          "disable-mtu-discovery",
+          "fast-open"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[hysteria2]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port",
+          "ports",
+          "hop-interval"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "password"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels over the network; it must match the server.",
+          "zh-Hans": "数据怎么在网络上传，要和服务器一致。",
+          "zh-Hant": "資料怎麼在網路上傳，要和伺服器一致。"
+        },
+        "keys": [
+          "obfs",
+          "obfs-password",
+          "obfs-min-packet-size",
+          "obfs-max-packet-size",
+          "realm-opts"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The name, certificate checks and disguise for the encrypted connection; they must match the server.",
+          "zh-Hans": "加密连接用的域名、证书校验和伪装，要和服务器一致。",
+          "zh-Hant": "加密連線用的網域、憑證驗證和偽裝，要和伺服器一致。"
+        },
+        "keys": [
+          "sni",
+          "skip-cert-verify",
+          "name-cert-verify",
+          "fingerprint",
+          "certificate",
+          "private-key",
+          "alpn",
+          "ech-opts"
+        ]
+      },
+      {
+        "id": "speed",
+        "title": {
+          "en": "Speed & QUIC",
+          "zh-Hans": "速度与 QUIC",
+          "zh-Hant": "速度與 QUIC"
+        },
+        "footer": {
+          "en": "Bandwidth, congestion control and QUIC settings; leave them at the defaults if unsure.",
+          "zh-Hans": "带宽、拥塞控制和 QUIC 参数，不清楚就保持默认。",
+          "zh-Hant": "頻寬、壅塞控制和 QUIC 參數，不清楚就保持預設。"
+        },
+        "keys": [
+          "up",
+          "down",
+          "cwnd",
+          "bbr-profile",
+          "udp-mtu",
+          "initial-stream-receive-window",
+          "max-stream-receive-window",
+          "initial-connection-receive-window",
+          "max-connection-receive-window",
+          "handshake-timeout"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[wireguard]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "public-key",
+          "pre-shared-key",
+          "reserved",
+          "private-key"
+        ]
+      },
+      {
+        "id": "network",
+        "title": {
+          "en": "Tunnel Network",
+          "zh-Hans": "隧道网络",
+          "zh-Hant": "隧道網路"
+        },
+        "footer": {
+          "en": "The virtual interface's addresses, routes and DNS, as your provider's config says.",
+          "zh-Hans": "虚拟网卡的地址、路由和 DNS，照服务商给的配置填。",
+          "zh-Hant": "虛擬網卡的位址、路由和 DNS，照服務商給的設定填。"
+        },
+        "keys": [
+          "ip",
+          "ipv6",
+          "allowed-ips",
+          "peers",
+          "mtu",
+          "ip-stack",
+          "remote-dns-resolve",
+          "dns",
+          "workers",
+          "persistent-keepalive",
+          "amnezia-wg-option",
+          "refresh-server-ip-interval"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "udp",
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[tuic]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port",
+          "ip"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "uuid",
+          "password",
+          "token"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels over the network; it must match the server.",
+          "zh-Hans": "数据怎么在网络上传，要和服务器一致。",
+          "zh-Hant": "資料怎麼在網路上傳，要和伺服器一致。"
+        },
+        "keys": [
+          "udp-over-stream",
+          "udp-over-stream-version"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The name, certificate checks and disguise for the encrypted connection; they must match the server.",
+          "zh-Hans": "加密连接用的域名、证书校验和伪装，要和服务器一致。",
+          "zh-Hant": "加密連線用的網域、憑證驗證和偽裝，要和伺服器一致。"
+        },
+        "keys": [
+          "sni",
+          "skip-cert-verify",
+          "name-cert-verify",
+          "fingerprint",
+          "certificate",
+          "private-key",
+          "alpn",
+          "ech-opts",
+          "disable-sni"
+        ]
+      },
+      {
+        "id": "speed",
+        "title": {
+          "en": "Speed & QUIC",
+          "zh-Hans": "速度与 QUIC",
+          "zh-Hant": "速度與 QUIC"
+        },
+        "footer": {
+          "en": "Bandwidth, congestion control and QUIC settings; leave them at the defaults if unsure.",
+          "zh-Hans": "带宽、拥塞控制和 QUIC 参数，不清楚就保持默认。",
+          "zh-Hant": "頻寬、壅塞控制和 QUIC 參數，不清楚就保持預設。"
+        },
+        "keys": [
+          "congestion-controller",
+          "cwnd",
+          "bbr-profile",
+          "recv-window-conn",
+          "recv-window",
+          "disable-mtu-discovery",
+          "fast-open",
+          "reduce-rtt",
+          "heartbeat-interval",
+          "request-timeout",
+          "udp-relay-mode",
+          "max-udp-relay-packet-size",
+          "max-open-streams",
+          "max-datagram-frame-size"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[shadowquic]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "password",
+          "username"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels over the network; it must match the server.",
+          "zh-Hans": "数据怎么在网络上传，要和服务器一致。",
+          "zh-Hant": "資料怎麼在網路上傳，要和伺服器一致。"
+        },
+        "keys": [
+          "udp-over-stream"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The name, certificate checks and disguise for the encrypted connection; they must match the server.",
+          "zh-Hans": "加密连接用的域名、证书校验和伪装，要和服务器一致。",
+          "zh-Hant": "加密連線用的網域、憑證驗證和偽裝，要和伺服器一致。"
+        },
+        "keys": [
+          "sni",
+          "alpn"
+        ]
+      },
+      {
+        "id": "speed",
+        "title": {
+          "en": "Speed & QUIC",
+          "zh-Hans": "速度与 QUIC",
+          "zh-Hant": "速度與 QUIC"
+        },
+        "footer": {
+          "en": "Bandwidth, congestion control and QUIC settings; leave them at the defaults if unsure.",
+          "zh-Hans": "带宽、拥塞控制和 QUIC 参数，不清楚就保持默认。",
+          "zh-Hant": "頻寬、壅塞控制和 QUIC 參數，不清楚就保持預設。"
+        },
+        "keys": [
+          "up",
+          "down",
+          "congestion-controller",
+          "cwnd",
+          "bbr-profile",
+          "recv-window-conn",
+          "recv-window",
+          "disable-mtu-discovery",
+          "max-open-streams",
+          "max-datagram-frame-size",
+          "zero-rtt",
+          "quic-versions",
+          "keep-alive-interval"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[gost-relay]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "password",
+          "username"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels over the network; it must match the server.",
+          "zh-Hans": "数据怎么在网络上传，要和服务器一致。",
+          "zh-Hant": "資料怎麼在網路上傳，要和伺服器一致。"
+        },
+        "keys": [
+          "forward"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The name, certificate checks and disguise for the encrypted connection; they must match the server.",
+          "zh-Hans": "加密连接用的域名、证书校验和伪装，要和服务器一致。",
+          "zh-Hant": "加密連線用的網域、憑證驗證和偽裝，要和伺服器一致。"
+        },
+        "keys": [
+          "tls",
+          "sni",
+          "skip-cert-verify",
+          "name-cert-verify",
+          "fingerprint",
+          "certificate",
+          "private-key",
+          "client-fingerprint"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "udp",
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux",
+          "mux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[direct]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Connects straight to the target, without a proxy.",
+          "zh-Hans": "不走代理，直接连目标。",
+          "zh-Hant": "不走代理，直接連目標。"
+        },
+        "keys": [
+          "name",
+          "type"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[dns]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Hands DNS queries to Clash's own DNS.",
+          "zh-Hans": "把 DNS 查询交给 Clash 自己的 DNS 处理。",
+          "zh-Hant": "把 DNS 查詢交給 Clash 自己的 DNS 處理。"
+        },
+        "keys": [
+          "name",
+          "type"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[reject]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Every connection sent to this node is refused.",
+          "zh-Hans": "发到这个节点的连接一律拒绝。",
+          "zh-Hant": "送到這個節點的連線一律拒絕。"
+        },
+        "keys": [
+          "name",
+          "type"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[rematch]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Sends the connection through the rules again, as set below.",
+          "zh-Hans": "让连接按下面指定的规则重新匹配一遍。",
+          "zh-Hant": "讓連線按下面指定的規則重新比對一遍。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "target-rematch-name",
+          "target-sub-rule"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[ssh]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "password",
+          "username",
+          "private-key-passphrase",
+          "host-key",
+          "host-key-algorithms",
+          "private-key"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[mieru]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port",
+          "port-range"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "password",
+          "username"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels over the network; it must match the server.",
+          "zh-Hans": "数据怎么在网络上传，要和服务器一致。",
+          "zh-Hant": "資料怎麼在網路上傳，要和伺服器一致。"
+        },
+        "keys": [
+          "transport",
+          "handshake-mode",
+          "traffic-pattern"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "udp",
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux",
+          "multiplexing"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[anytls]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "password"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The name, certificate checks and disguise for the encrypted connection; they must match the server.",
+          "zh-Hans": "加密连接用的域名、证书校验和伪装，要和服务器一致。",
+          "zh-Hant": "加密連線用的網域、憑證驗證和偽裝，要和伺服器一致。"
+        },
+        "keys": [
+          "sni",
+          "skip-cert-verify",
+          "name-cert-verify",
+          "fingerprint",
+          "certificate",
+          "private-key",
+          "alpn",
+          "client-fingerprint",
+          "ech-opts",
+          "shadow-tls-opts",
+          "restls-opts",
+          "jls-opts"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "udp",
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux",
+          "idle-session-check-interval",
+          "idle-session-timeout",
+          "min-idle-session",
+          "disable-reuse"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[sudoku]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "key",
+          "aead-method"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels over the network; it must match the server.",
+          "zh-Hans": "数据怎么在网络上传，要和服务器一致。",
+          "zh-Hant": "資料怎麼在網路上傳，要和伺服器一致。"
+        },
+        "keys": [
+          "table-type",
+          "padding-min",
+          "padding-max",
+          "custom-table",
+          "custom-tables",
+          "enable-pure-downlink",
+          "http-mask",
+          "http-mask-mode",
+          "http-mask-tls",
+          "http-mask-host",
+          "path-root",
+          "httpmask"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux",
+          "multiplex",
+          "http-mask-multiplex"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[masque]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port",
+          "uri"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "public-key",
+          "private-key"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels over the network; it must match the server.",
+          "zh-Hans": "数据怎么在网络上传，要和服务器一致。",
+          "zh-Hant": "資料怎麼在網路上傳，要和伺服器一致。"
+        },
+        "keys": [
+          "network"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The name, certificate checks and disguise for the encrypted connection; they must match the server.",
+          "zh-Hans": "加密连接用的域名、证书校验和伪装，要和服务器一致。",
+          "zh-Hant": "加密連線用的網域、憑證驗證和偽裝，要和伺服器一致。"
+        },
+        "keys": [
+          "sni",
+          "skip-cert-verify",
+          "name-cert-verify"
+        ]
+      },
+      {
+        "id": "speed",
+        "title": {
+          "en": "Speed & QUIC",
+          "zh-Hans": "速度与 QUIC",
+          "zh-Hant": "速度與 QUIC"
+        },
+        "footer": {
+          "en": "Bandwidth, congestion control and QUIC settings; leave them at the defaults if unsure.",
+          "zh-Hans": "带宽、拥塞控制和 QUIC 参数，不清楚就保持默认。",
+          "zh-Hant": "頻寬、壅塞控制和 QUIC 參數，不清楚就保持預設。"
+        },
+        "keys": [
+          "congestion-controller",
+          "cwnd",
+          "bbr-profile",
+          "handshake-timeout"
+        ]
+      },
+      {
+        "id": "network",
+        "title": {
+          "en": "Tunnel Network",
+          "zh-Hans": "隧道网络",
+          "zh-Hant": "隧道網路"
+        },
+        "footer": {
+          "en": "The virtual interface's addresses, routes and DNS, as your provider's config says.",
+          "zh-Hans": "虚拟网卡的地址、路由和 DNS，照服务商给的配置填。",
+          "zh-Hant": "虛擬網卡的位址、路由和 DNS，照服務商給的設定填。"
+        },
+        "keys": [
+          "ip",
+          "ipv6",
+          "mtu",
+          "ip-stack",
+          "remote-dns-resolve",
+          "dns"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "udp",
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[trusttunnel]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "password",
+          "username"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels over the network; it must match the server.",
+          "zh-Hans": "数据怎么在网络上传，要和服务器一致。",
+          "zh-Hant": "資料怎麼在網路上傳，要和伺服器一致。"
+        },
+        "keys": [
+          "quic"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The name, certificate checks and disguise for the encrypted connection; they must match the server.",
+          "zh-Hans": "加密连接用的域名、证书校验和伪装，要和服务器一致。",
+          "zh-Hant": "加密連線用的網域、憑證驗證和偽裝，要和伺服器一致。"
+        },
+        "keys": [
+          "sni",
+          "skip-cert-verify",
+          "name-cert-verify",
+          "fingerprint",
+          "certificate",
+          "private-key",
+          "alpn",
+          "client-fingerprint",
+          "ech-opts"
+        ]
+      },
+      {
+        "id": "speed",
+        "title": {
+          "en": "Speed & QUIC",
+          "zh-Hans": "速度与 QUIC",
+          "zh-Hant": "速度與 QUIC"
+        },
+        "footer": {
+          "en": "Bandwidth, congestion control and QUIC settings; leave them at the defaults if unsure.",
+          "zh-Hans": "带宽、拥塞控制和 QUIC 参数，不清楚就保持默认。",
+          "zh-Hant": "頻寬、壅塞控制和 QUIC 參數，不清楚就保持預設。"
+        },
+        "keys": [
+          "congestion-controller",
+          "cwnd",
+          "bbr-profile",
+          "max-connections",
+          "min-streams",
+          "max-streams"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "udp",
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[openvpn]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "password",
+          "username",
+          "cipher",
+          "auth",
+          "key",
+          "ca",
+          "cert",
+          "tls-auth",
+          "key-direction",
+          "tls-crypt",
+          "tls-crypt-v2",
+          "data-ciphers",
+          "data-ciphers-fallback"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels over the network; it must match the server.",
+          "zh-Hans": "数据怎么在网络上传，要和服务器一致。",
+          "zh-Hant": "資料怎麼在網路上傳，要和伺服器一致。"
+        },
+        "keys": [
+          "proto",
+          "comp-lzo"
+        ]
+      },
+      {
+        "id": "network",
+        "title": {
+          "en": "Tunnel Network",
+          "zh-Hans": "隧道网络",
+          "zh-Hant": "隧道網路"
+        },
+        "footer": {
+          "en": "The virtual interface's addresses, routes and DNS, as your provider's config says.",
+          "zh-Hans": "虚拟网卡的地址、路由和 DNS，照服务商给的配置填。",
+          "zh-Hant": "虛擬網卡的位址、路由和 DNS，照服務商給的設定填。"
+        },
+        "keys": [
+          "mtu",
+          "ip-stack",
+          "remote-dns-resolve",
+          "dns",
+          "dev",
+          "peer-info"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "udp",
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[tailscale]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Joins a virtual network and uses it as an outbound.",
+          "zh-Hans": "加入一个虚拟局域网，把它当出站用。",
+          "zh-Hant": "加入一個虛擬區域網路，把它當出站用。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "hostname",
+          "control-url"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "auth-key"
+        ]
+      },
+      {
+        "id": "network",
+        "title": {
+          "en": "Tunnel Network",
+          "zh-Hans": "隧道网络",
+          "zh-Hant": "隧道網路"
+        },
+        "footer": {
+          "en": "The virtual interface's addresses, routes and DNS, as your provider's config says.",
+          "zh-Hans": "虚拟网卡的地址、路由和 DNS，照服务商给的配置填。",
+          "zh-Hant": "虛擬網卡的位址、路由和 DNS，照服務商給的設定填。"
+        },
+        "keys": [
+          "accept-routes",
+          "exit-node",
+          "exit-node-allow-lan-access"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "udp",
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[zerotier]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Joins a virtual network and uses it as an outbound.",
+          "zh-Hans": "加入一个虚拟局域网，把它当出站用。",
+          "zh-Hant": "加入一個虛擬區域網路，把它當出站用。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "network"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "identity-secret"
+        ]
+      },
+      {
+        "id": "network",
+        "title": {
+          "en": "Tunnel Network",
+          "zh-Hans": "隧道网络",
+          "zh-Hant": "隧道網路"
+        },
+        "footer": {
+          "en": "The virtual interface's addresses, routes and DNS, as your provider's config says.",
+          "zh-Hans": "虚拟网卡的地址、路由和 DNS，照服务商给的配置填。",
+          "zh-Hant": "虛擬網卡的位址、路由和 DNS，照服務商給的設定填。"
+        },
+        "keys": [
+          "mtu",
+          "ip-stack",
+          "remote-dns-resolve",
+          "dns",
+          "planet",
+          "orbit",
+          "physical-mtu",
+          "primary-port",
+          "secondary-port",
+          "tcp-fallback-mode",
+          "tcp-fallback-relay",
+          "low-bandwidth"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "udp",
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[easytier]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Joins a virtual network and uses it as an outbound.",
+          "zh-Hans": "加入一个虚拟局域网，把它当出站用。",
+          "zh-Hant": "加入一個虛擬區域網路，把它當出站用。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "network-name",
+          "hostname"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "network-secret",
+          "local-private-key",
+          "local-public-key",
+          "encryption-algorithm",
+          "enable-encryption",
+          "secure-mode"
+        ]
+      },
+      {
+        "id": "network",
+        "title": {
+          "en": "Tunnel Network",
+          "zh-Hans": "隧道网络",
+          "zh-Hant": "隧道網路"
+        },
+        "footer": {
+          "en": "The virtual interface's addresses, routes and DNS, as your provider's config says.",
+          "zh-Hans": "虚拟网卡的地址、路由和 DNS，照服务商给的配置填。",
+          "zh-Hant": "虛擬網卡的位址、路由和 DNS，照服務商給的設定填。"
+        },
+        "keys": [
+          "ipv4",
+          "peers",
+          "mtu",
+          "dhcp",
+          "listeners",
+          "no-listener",
+          "mapped-listeners",
+          "exit-nodes",
+          "proxy-networks",
+          "accept-dns",
+          "enable-exit-node",
+          "tld-dns-zone",
+          "private-mode",
+          "latency-first",
+          "disable-p2p",
+          "enable-kcp-proxy",
+          "disable-kcp-input",
+          "enable-quic-proxy",
+          "disable-quic-input"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "udp",
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "proxies[*]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Fill these in from your provider's node details; the name is up to you.",
+          "zh-Hans": "照服务商给的节点信息填写，名称可以自己取。",
+          "zh-Hant": "照服務商給的節點資訊填寫，名稱可以自己取。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "server",
+          "port",
+          "ports",
+          "hop-interval",
+          "port-range",
+          "uri"
+        ]
+      },
+      {
+        "id": "auth",
+        "title": {
+          "en": "Authentication & Encryption",
+          "zh-Hans": "认证与加密",
+          "zh-Hant": "認證與加密"
+        },
+        "footer": {
+          "en": "The account, password, keys and encryption for the server, as your provider gives them.",
+          "zh-Hans": "连服务器用的账号、密码、密钥和加密方式，照服务商给的填。",
+          "zh-Hant": "連伺服器用的帳號、密碼、金鑰和加密方式，照服務商給的填。"
+        },
+        "keys": [
+          "uuid",
+          "password",
+          "psk",
+          "username",
+          "cipher",
+          "alterId",
+          "flow",
+          "encryption",
+          "token",
+          "auth",
+          "auth-str",
+          "key",
+          "aead-method",
+          "public-key",
+          "pre-shared-key",
+          "reserved",
+          "private-key-passphrase",
+          "host-key",
+          "host-key-algorithms",
+          "auth-key",
+          "control-url",
+          "identity-secret",
+          "network-secret",
+          "local-private-key",
+          "local-public-key",
+          "ca",
+          "cert",
+          "tls-auth",
+          "key-direction",
+          "tls-crypt",
+          "tls-crypt-v2",
+          "data-ciphers",
+          "data-ciphers-fallback",
+          "encryption-algorithm",
+          "enable-encryption",
+          "secure-mode"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels over the network; it must match the server.",
+          "zh-Hans": "数据怎么在网络上传，要和服务器一致。",
+          "zh-Hant": "資料怎麼在網路上傳，要和伺服器一致。"
+        },
+        "keys": [
+          "network",
+          "ws-opts",
+          "grpc-opts",
+          "h2-opts",
+          "http-opts",
+          "xhttp-opts",
+          "ws-headers",
+          "mkcp-opts",
+          "mekya-opts",
+          "plugin",
+          "plugin-opts",
+          "obfs",
+          "obfs-param",
+          "protocol",
+          "protocol-param",
+          "obfs-opts",
+          "obfs-protocol",
+          "obfs-password",
+          "obfs-min-packet-size",
+          "obfs-max-packet-size",
+          "version",
+          "reuse",
+          "udp-over-tcp",
+          "udp-over-tcp-version",
+          "packet-addr",
+          "xudp",
+          "packet-encoding",
+          "ss-opts",
+          "transport",
+          "handshake-mode",
+          "traffic-pattern",
+          "headers",
+          "forward",
+          "table-type",
+          "padding-min",
+          "padding-max",
+          "custom-table",
+          "custom-tables",
+          "enable-pure-downlink",
+          "http-mask",
+          "http-mask-mode",
+          "http-mask-tls",
+          "http-mask-host",
+          "path-root",
+          "httpmask",
+          "udp-over-stream",
+          "udp-over-stream-version",
+          "quic",
+          "proto",
+          "comp-lzo",
+          "global-padding",
+          "authenticated-length",
+          "realm-opts"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The name, certificate checks and disguise for the encrypted connection; they must match the server.",
+          "zh-Hans": "加密连接用的域名、证书校验和伪装，要和服务器一致。",
+          "zh-Hant": "加密連線用的網域、憑證驗證和偽裝，要和伺服器一致。"
+        },
+        "keys": [
+          "tls",
+          "sni",
+          "servername",
+          "skip-cert-verify",
+          "name-cert-verify",
+          "fingerprint",
+          "certificate",
+          "private-key",
+          "alpn",
+          "client-fingerprint",
+          "reality-opts",
+          "ech-opts",
+          "shadow-tls-opts",
+          "restls-opts",
+          "jls-opts",
+          "tlsmirror-opts",
+          "disable-sni"
+        ]
+      },
+      {
+        "id": "speed",
+        "title": {
+          "en": "Speed & QUIC",
+          "zh-Hans": "速度与 QUIC",
+          "zh-Hant": "速度與 QUIC"
+        },
+        "footer": {
+          "en": "Bandwidth, congestion control and QUIC settings; leave them at the defaults if unsure.",
+          "zh-Hans": "带宽、拥塞控制和 QUIC 参数，不清楚就保持默认。",
+          "zh-Hant": "頻寬、壅塞控制和 QUIC 參數，不清楚就保持預設。"
+        },
+        "keys": [
+          "up",
+          "down",
+          "up-speed",
+          "down-speed",
+          "congestion-controller",
+          "cwnd",
+          "bbr-profile",
+          "udp-mtu",
+          "recv-window-conn",
+          "recv-window",
+          "initial-stream-receive-window",
+          "max-stream-receive-window",
+          "initial-connection-receive-window",
+          "max-connection-receive-window",
+          "disable-mtu-discovery",
+          "fast-open",
+          "reduce-rtt",
+          "heartbeat-interval",
+          "request-timeout",
+          "udp-relay-mode",
+          "max-udp-relay-packet-size",
+          "max-open-streams",
+          "max-datagram-frame-size",
+          "handshake-timeout",
+          "zero-rtt",
+          "quic-versions",
+          "keep-alive-interval",
+          "idle-session-check-interval",
+          "idle-session-timeout",
+          "min-idle-session",
+          "max-connections",
+          "min-streams",
+          "max-streams"
+        ]
+      },
+      {
+        "id": "network",
+        "title": {
+          "en": "Tunnel Network",
+          "zh-Hans": "隧道网络",
+          "zh-Hant": "隧道網路"
+        },
+        "footer": {
+          "en": "The virtual interface's addresses, routes and DNS, as your provider's config says.",
+          "zh-Hans": "虚拟网卡的地址、路由和 DNS，照服务商给的配置填。",
+          "zh-Hant": "虛擬網卡的位址、路由和 DNS，照服務商給的設定填。"
+        },
+        "keys": [
+          "ip",
+          "ipv6",
+          "ipv4",
+          "allowed-ips",
+          "peers",
+          "mtu",
+          "ip-stack",
+          "remote-dns-resolve",
+          "dns",
+          "workers",
+          "persistent-keepalive",
+          "amnezia-wg-option",
+          "refresh-server-ip-interval",
+          "dev",
+          "dhcp",
+          "listeners",
+          "no-listener",
+          "mapped-listeners",
+          "exit-nodes",
+          "proxy-networks",
+          "accept-dns",
+          "enable-exit-node",
+          "accept-routes",
+          "exit-node",
+          "exit-node-allow-lan-access",
+          "planet",
+          "orbit",
+          "physical-mtu",
+          "primary-port",
+          "secondary-port",
+          "tcp-fallback-mode",
+          "tcp-fallback-relay",
+          "low-bandwidth",
+          "tld-dns-zone",
+          "hostname",
+          "private-mode",
+          "latency-first",
+          "disable-p2p",
+          "enable-kcp-proxy",
+          "disable-kcp-input",
+          "enable-quic-proxy",
+          "disable-quic-input",
+          "peer-info"
+        ]
+      },
+      {
+        "id": "connection",
+        "title": {
+          "en": "Connection",
+          "zh-Hans": "连接",
+          "zh-Hant": "連線"
+        },
+        "footer": {
+          "en": "UDP, IP version, the outgoing interface, and which node to go through first.",
+          "zh-Hans": "UDP、IP 版本、出口网卡，以及先经过哪个节点再连。",
+          "zh-Hant": "UDP、IP 版本、出口網卡，以及先經過哪個節點再連。"
+        },
+        "keys": [
+          "udp",
+          "tfo",
+          "mptcp",
+          "ip-version",
+          "interface-name",
+          "routing-mark",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "multiplex",
+        "title": {
+          "en": "Multiplexing",
+          "zh-Hans": "多路复用",
+          "zh-Hant": "多工"
+        },
+        "footer": {
+          "en": "Several connections share one channel; the server must support it too.",
+          "zh-Hans": "多个连接共用一条通道，服务器也要开启才行。",
+          "zh-Hant": "多個連線共用一條通道，伺服器也要開啟才行。"
+        },
+        "keys": [
+          "smux",
+          "mux",
+          "multiplexing",
+          "multiplex",
+          "http-mask-multiplex"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,161 @@
+{
+  "layouts": {
+    "proxy-providers.*": [
+      {
+        "id": "source",
+        "title": {
+          "en": "Source",
+          "zh-Hans": "来源",
+          "zh-Hant": "來源"
+        },
+        "footer": {
+          "en": "Where the nodes come from: a link, a local file, or written right here.",
+          "zh-Hans": "节点从哪里来：链接、本机文件，或直接写在这里。",
+          "zh-Hant": "節點從哪裡來：連結、本機檔案，或直接寫在這裡。"
+        },
+        "keys": [
+          "type",
+          "url",
+          "path",
+          "payload",
+          "interval"
+        ]
+      },
+      {
+        "id": "download",
+        "title": {
+          "en": "Download",
+          "zh-Hans": "下载",
+          "zh-Hant": "下載"
+        },
+        "footer": {
+          "en": "How the link is fetched: the outbound, the headers, and the key to decrypt it.",
+          "zh-Hans": "下载链接走哪个出站、带什么请求头，以及解密用的密钥。",
+          "zh-Hant": "下載連結走哪個出站、帶什麼請求標頭，以及解密用的金鑰。"
+        },
+        "keys": [
+          "proxy",
+          "header",
+          "size-limit",
+          "age-secret-key"
+        ]
+      },
+      {
+        "id": "health",
+        "title": {
+          "en": "Node Testing",
+          "zh-Hans": "节点测试",
+          "zh-Hant": "節點測試"
+        },
+        "footer": {
+          "en": "Tests the set's nodes regularly and marks the ones that don't work.",
+          "zh-Hans": "定期测试集合里的节点，把不能用的标出来。",
+          "zh-Hant": "定期測試集合裡的節點，把不能用的標出來。"
+        },
+        "keys": [
+          "health-check"
+        ]
+      },
+      {
+        "id": "filter",
+        "title": {
+          "en": "Filter",
+          "zh-Hans": "筛选",
+          "zh-Hant": "篩選"
+        },
+        "footer": {
+          "en": "Keeps only the nodes whose name or type matches.",
+          "zh-Hans": "只保留名字或类型符合条件的节点。",
+          "zh-Hant": "只保留名稱或類型符合條件的節點。"
+        },
+        "keys": [
+          "filter",
+          "exclude-filter",
+          "exclude-type"
+        ]
+      },
+      {
+        "id": "override",
+        "title": {
+          "en": "Change Every Node",
+          "zh-Hans": "统一修改",
+          "zh-Hant": "統一修改"
+        },
+        "footer": {
+          "en": "Changes settings on every node in the set, such as a name prefix or a node to go through first.",
+          "zh-Hans": "对集合里每个节点统一改设置，比如加名字前缀、指定前置节点。",
+          "zh-Hant": "對集合裡每個節點統一改設定，比如加名稱前綴、指定前置節點。"
+        },
+        "keys": [
+          "override",
+          "dialer-proxy"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "rule-providers.*": [
+      {
+        "id": "source",
+        "title": {
+          "en": "Source",
+          "zh-Hans": "来源",
+          "zh-Hant": "來源"
+        },
+        "footer": {
+          "en": "Where the rules come from, and whether the file holds domains, IP ranges or full rules.",
+          "zh-Hans": "规则从哪里来，以及文件里装的是域名、IP 段还是完整规则。",
+          "zh-Hant": "規則從哪裡來，以及檔案裡裝的是網域、IP 段還是完整規則。"
+        },
+        "keys": [
+          "type",
+          "behavior",
+          "format",
+          "url",
+          "path",
+          "payload",
+          "path-in-bundle",
+          "interval"
+        ]
+      },
+      {
+        "id": "download",
+        "title": {
+          "en": "Download",
+          "zh-Hans": "下载",
+          "zh-Hant": "下載"
+        },
+        "footer": {
+          "en": "How the rule file is fetched: the outbound, the headers, and the size limit.",
+          "zh-Hans": "下载规则文件走哪个出站、带什么请求头、最大多大。",
+          "zh-Hant": "下載規則檔案走哪個出站、帶什麼請求標頭、最大多大。"
+        },
+        "keys": [
+          "proxy",
+          "header",
+          "size-limit"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,295 @@
+{
+  "layouts": {
+    "dns": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Whether Clash resolves domain names, and in which mode.",
+          "zh-Hans": "是否由 Clash 负责解析域名，以及用哪种模式。",
+          "zh-Hant": "是否由 Clash 負責解析網域，以及用哪種模式。"
+        },
+        "keys": [
+          "enable",
+          "enhanced-mode",
+          "ipv6",
+          "listen",
+          "use-hosts",
+          "use-system-hosts",
+          "respect-rules"
+        ]
+      },
+      {
+        "id": "servers",
+        "title": {
+          "en": "Upstream Servers",
+          "zh-Hans": "上游服务器",
+          "zh-Hant": "上游伺服器"
+        },
+        "footer": {
+          "en": "Bootstrap DNS takes IP addresses only; it looks up the other servers' names.",
+          "zh-Hans": "引导 DNS 只能填 IP，用来解析其他服务器的域名。",
+          "zh-Hant": "引導 DNS 只能填 IP，用來解析其他伺服器的網域。"
+        },
+        "keys": [
+          "default-nameserver",
+          "nameserver",
+          "fallback",
+          "proxy-server-nameserver",
+          "direct-nameserver",
+          "direct-nameserver-follow-policy",
+          "prefer-h3"
+        ]
+      },
+      {
+        "id": "policy",
+        "title": {
+          "en": "Per-Domain Servers",
+          "zh-Hans": "按域名分流",
+          "zh-Hant": "按網域分流"
+        },
+        "footer": {
+          "en": "Sends certain domains to the servers you choose.",
+          "zh-Hans": "让特定域名交给指定的服务器解析。",
+          "zh-Hant": "讓特定網域交給指定的伺服器解析。"
+        },
+        "keys": [
+          "nameserver-policy",
+          "proxy-server-nameserver-policy"
+        ]
+      },
+      {
+        "id": "fallback",
+        "title": {
+          "en": "Fallback Rules",
+          "zh-Hans": "备用规则",
+          "zh-Hant": "備用規則"
+        },
+        "footer": {
+          "en": "When the fallback servers' answer is used instead of the main servers'.",
+          "zh-Hans": "什么情况下改用备用服务器的解析结果。",
+          "zh-Hant": "什麼情況下改用備用伺服器的解析結果。"
+        },
+        "keys": [
+          "fallback-filter",
+          "fallback-lazy-query"
+        ]
+      },
+      {
+        "id": "fakeip",
+        "title": {
+          "en": "Fake-IP",
+          "zh-Hans": "虚拟 IP",
+          "zh-Hant": "虛擬 IP"
+        },
+        "footer": {
+          "en": "Applies only when DNS Mode is Fake IP; usually left alone.",
+          "zh-Hans": "只在 DNS 模式为虚拟 IP 时生效；一般不用改。",
+          "zh-Hant": "只在 DNS 模式為虛擬 IP 時生效；一般不用改。"
+        },
+        "keys": [
+          "fake-ip-range",
+          "fake-ip-range6",
+          "fake-ip-filter",
+          "fake-ip-filter-mode",
+          "fake-ip-ttl"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "tun": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Takes over the device's traffic through a virtual network interface.",
+          "zh-Hans": "用虚拟网卡接管设备的流量。",
+          "zh-Hant": "用虛擬網卡接管裝置的流量。"
+        },
+        "keys": [
+          "enable",
+          "stack",
+          "device",
+          "mtu",
+          "auto-route",
+          "auto-detect-interface"
+        ]
+      },
+      {
+        "id": "hijack",
+        "title": {
+          "en": "DNS Hijack",
+          "zh-Hans": "DNS 劫持",
+          "zh-Hant": "DNS 劫持"
+        },
+        "footer": {
+          "en": "Hands DNS queries sent to these addresses to Clash.",
+          "zh-Hans": "把发往这些地址的 DNS 查询交给 Clash 处理。",
+          "zh-Hant": "把發往這些位址的 DNS 查詢交給 Clash 處理。"
+        },
+        "keys": [
+          "dns-hijack"
+        ]
+      },
+      {
+        "id": "routes",
+        "title": {
+          "en": "Routes",
+          "zh-Hans": "路由",
+          "zh-Hant": "路由"
+        },
+        "footer": {
+          "en": "Which destinations go through the virtual interface and which bypass it.",
+          "zh-Hans": "哪些目标地址走虚拟网卡，哪些绕开。",
+          "zh-Hant": "哪些目標位址走虛擬網卡，哪些繞開。"
+        },
+        "keys": [
+          "strict-route",
+          "route-address",
+          "route-address-set",
+          "route-exclude-address",
+          "route-exclude-address-set",
+          "inet4-route-address",
+          "inet6-route-address",
+          "inet4-route-exclude-address",
+          "inet6-route-exclude-address",
+          "loopback-address",
+          "iproute2-table-index",
+          "iproute2-rule-index",
+          "auto-redirect",
+          "auto-redirect-input-mark",
+          "auto-redirect-output-mark",
+          "auto-redirect-iproute2-fallback-rule-index"
+        ]
+      },
+      {
+        "id": "scope",
+        "title": {
+          "en": "Include & Exclude",
+          "zh-Hans": "包含与排除",
+          "zh-Hant": "包含與排除"
+        },
+        "footer": {
+          "en": "Empty means all traffic comes in; fill these to take only some of it or to skip some.",
+          "zh-Hans": "不填就接管所有流量；填了只接管或跳过列出的部分。",
+          "zh-Hant": "不填就接管所有流量；填了只接管或略過列出的部分。"
+        },
+        "keys": [
+          "include-interface",
+          "exclude-interface",
+          "include-uid",
+          "include-uid-range",
+          "exclude-uid",
+          "exclude-uid-range",
+          "include-android-user",
+          "include-package",
+          "exclude-package",
+          "include-mac-address",
+          "exclude-mac-address",
+          "exclude-src-port",
+          "exclude-src-port-range",
+          "exclude-dst-port",
+          "exclude-dst-port-range"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "sniffer": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Reads the domain name from connections so domain rules can match them.",
+          "zh-Hans": "从连接内容里认出域名，让域名规则也能命中。",
+          "zh-Hant": "從連線內容裡認出網域，讓網域規則也能命中。"
+        },
+        "keys": [
+          "enable",
+          "override-destination",
+          "parse-pure-ip",
+          "force-dns-mapping"
+        ]
+      },
+      {
+        "id": "protocols",
+        "title": {
+          "en": "Protocols & Ports",
+          "zh-Hans": "协议与端口",
+          "zh-Hant": "協定與連接埠"
+        },
+        "footer": {
+          "en": "Ports are set per protocol; the two old keys stay only for compatibility.",
+          "zh-Hans": "端口按协议分别设置；两项旧写法仅为兼容保留。",
+          "zh-Hant": "連接埠依協定分別設定；兩項舊寫法僅為相容保留。"
+        },
+        "keys": [
+          "sniff",
+          "sniffing",
+          "port-whitelist"
+        ]
+      },
+      {
+        "id": "lists",
+        "title": {
+          "en": "Always & Skip",
+          "zh-Hans": "强制与跳过",
+          "zh-Hant": "強制與略過"
+        },
+        "footer": {
+          "en": "Domains and addresses that are always sniffed or always skipped.",
+          "zh-Hans": "总是嗅探或一律跳过的域名和地址。",
+          "zh-Hant": "總是嗅探或一律略過的網域和位址。"
+        },
+        "keys": [
+          "force-domain",
+          "skip-domain",
+          "skip-src-address",
+          "skip-dst-address"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,2172 @@
+{
+  "layouts": {
+    "listeners[socks]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "A SOCKS proxy entrance.",
+          "zh-Hans": "SOCKS 代理入口。",
+          "zh-Hant": "SOCKS 代理入口。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "listen",
+          "port",
+          "udp"
+        ]
+      },
+      {
+        "id": "lauth",
+        "title": {
+          "en": "Authentication",
+          "zh-Hans": "认证",
+          "zh-Hant": "認證"
+        },
+        "footer": {
+          "en": "The accounts, passwords or keys needed to connect in.",
+          "zh-Hans": "连进来要用的账号、密码或密钥。",
+          "zh-Hant": "連進來要用的帳號、密碼或金鑰。"
+        },
+        "keys": [
+          "users"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The certificate clients see when they connect; Reality or another disguise can replace it.",
+          "zh-Hans": "连进来的客户端看到的证书；不想用证书时可换成 Reality 等伪装。",
+          "zh-Hant": "連進來的用戶端看到的憑證；不想用憑證時可換成 Reality 等偽裝。"
+        },
+        "keys": [
+          "certificate",
+          "private-key",
+          "client-auth-type",
+          "client-auth-cert",
+          "ech-key",
+          "reality-config"
+        ]
+      },
+      {
+        "id": "forward",
+        "title": {
+          "en": "Forwarding",
+          "zh-Hans": "转发",
+          "zh-Hant": "轉送"
+        },
+        "footer": {
+          "en": "Which rules connections from this entrance follow, or which outbound they always use.",
+          "zh-Hans": "从这个入口进来的连接按哪套规则走、固定用哪个出站。",
+          "zh-Hant": "從這個入口進來的連線按哪套規則走、固定用哪個出站。"
+        },
+        "keys": [
+          "rule",
+          "proxy",
+          "routing-mark"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "listeners[http]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "An HTTP proxy entrance.",
+          "zh-Hans": "HTTP 代理入口。",
+          "zh-Hant": "HTTP 代理入口。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "listen",
+          "port"
+        ]
+      },
+      {
+        "id": "lauth",
+        "title": {
+          "en": "Authentication",
+          "zh-Hans": "认证",
+          "zh-Hant": "認證"
+        },
+        "footer": {
+          "en": "The accounts, passwords or keys needed to connect in.",
+          "zh-Hans": "连进来要用的账号、密码或密钥。",
+          "zh-Hant": "連進來要用的帳號、密碼或金鑰。"
+        },
+        "keys": [
+          "users"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The certificate clients see when they connect; Reality or another disguise can replace it.",
+          "zh-Hans": "连进来的客户端看到的证书；不想用证书时可换成 Reality 等伪装。",
+          "zh-Hant": "連進來的用戶端看到的憑證；不想用憑證時可換成 Reality 等偽裝。"
+        },
+        "keys": [
+          "certificate",
+          "private-key",
+          "client-auth-type",
+          "client-auth-cert",
+          "ech-key",
+          "reality-config"
+        ]
+      },
+      {
+        "id": "forward",
+        "title": {
+          "en": "Forwarding",
+          "zh-Hans": "转发",
+          "zh-Hant": "轉送"
+        },
+        "footer": {
+          "en": "Which rules connections from this entrance follow, or which outbound they always use.",
+          "zh-Hans": "从这个入口进来的连接按哪套规则走、固定用哪个出站。",
+          "zh-Hant": "從這個入口進來的連線按哪套規則走、固定用哪個出站。"
+        },
+        "keys": [
+          "rule",
+          "proxy",
+          "routing-mark"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "listeners[tproxy]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "A Linux transparent-proxy entrance; it can't run on Apple devices.",
+          "zh-Hans": "Linux 透明代理入口，在 Apple 设备上用不了。",
+          "zh-Hant": "Linux 透明代理入口，在 Apple 裝置上用不了。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "listen",
+          "port",
+          "udp"
+        ]
+      },
+      {
+        "id": "forward",
+        "title": {
+          "en": "Forwarding",
+          "zh-Hans": "转发",
+          "zh-Hant": "轉送"
+        },
+        "footer": {
+          "en": "Which rules connections from this entrance follow, or which outbound they always use.",
+          "zh-Hans": "从这个入口进来的连接按哪套规则走、固定用哪个出站。",
+          "zh-Hant": "從這個入口進來的連線按哪套規則走、固定用哪個出站。"
+        },
+        "keys": [
+          "rule",
+          "proxy",
+          "routing-mark"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "listeners[redir]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "A Linux transparent-proxy entrance; it can't run on Apple devices.",
+          "zh-Hans": "Linux 透明代理入口，在 Apple 设备上用不了。",
+          "zh-Hant": "Linux 透明代理入口，在 Apple 裝置上用不了。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "listen",
+          "port"
+        ]
+      },
+      {
+        "id": "forward",
+        "title": {
+          "en": "Forwarding",
+          "zh-Hans": "转发",
+          "zh-Hant": "轉送"
+        },
+        "footer": {
+          "en": "Which rules connections from this entrance follow, or which outbound they always use.",
+          "zh-Hans": "从这个入口进来的连接按哪套规则走、固定用哪个出站。",
+          "zh-Hant": "從這個入口進來的連線按哪套規則走、固定用哪個出站。"
+        },
+        "keys": [
+          "rule",
+          "proxy",
+          "routing-mark"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "listeners[mixed]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "One port that takes both HTTP and SOCKS proxy connections.",
+          "zh-Hans": "一个端口同时接 HTTP 和 SOCKS 代理。",
+          "zh-Hant": "一個連接埠同時接 HTTP 和 SOCKS 代理。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "listen",
+          "port",
+          "udp"
+        ]
+      },
+      {
+        "id": "lauth",
+        "title": {
+          "en": "Authentication",
+          "zh-Hans": "认证",
+          "zh-Hant": "認證"
+        },
+        "footer": {
+          "en": "The accounts, passwords or keys needed to connect in.",
+          "zh-Hans": "连进来要用的账号、密码或密钥。",
+          "zh-Hant": "連進來要用的帳號、密碼或金鑰。"
+        },
+        "keys": [
+          "users"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The certificate clients see when they connect; Reality or another disguise can replace it.",
+          "zh-Hans": "连进来的客户端看到的证书；不想用证书时可换成 Reality 等伪装。",
+          "zh-Hant": "連進來的用戶端看到的憑證；不想用憑證時可換成 Reality 等偽裝。"
+        },
+        "keys": [
+          "certificate",
+          "private-key",
+          "client-auth-type",
+          "client-auth-cert",
+          "ech-key",
+          "reality-config"
+        ]
+      },
+      {
+        "id": "forward",
+        "title": {
+          "en": "Forwarding",
+          "zh-Hans": "转发",
+          "zh-Hant": "轉送"
+        },
+        "footer": {
+          "en": "Which rules connections from this entrance follow, or which outbound they always use.",
+          "zh-Hans": "从这个入口进来的连接按哪套规则走、固定用哪个出站。",
+          "zh-Hant": "從這個入口進來的連線按哪套規則走、固定用哪個出站。"
+        },
+        "keys": [
+          "rule",
+          "proxy",
+          "routing-mark"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "listeners[tunnel]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Forwards what arrives on a local port straight to a fixed target.",
+          "zh-Hans": "把本地端口收到的流量直接转到固定目标。",
+          "zh-Hant": "把本機連接埠收到的流量直接轉到固定目標。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "listen",
+          "port",
+          "network",
+          "target"
+        ]
+      },
+      {
+        "id": "forward",
+        "title": {
+          "en": "Forwarding",
+          "zh-Hans": "转发",
+          "zh-Hant": "轉送"
+        },
+        "footer": {
+          "en": "Which rules connections from this entrance follow, or which outbound they always use.",
+          "zh-Hans": "从这个入口进来的连接按哪套规则走、固定用哪个出站。",
+          "zh-Hant": "從這個入口進來的連線按哪套規則走、固定用哪個出站。"
+        },
+        "keys": [
+          "rule",
+          "proxy",
+          "routing-mark"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "listeners[tun]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Adds another virtual network interface as an entrance.",
+          "zh-Hans": "再开一个虚拟网卡当入口。",
+          "zh-Hant": "再開一個虛擬網卡當入口。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "listen",
+          "port",
+          "stack",
+          "device",
+          "mtu",
+          "auto-route",
+          "auto-detect-interface"
+        ]
+      },
+      {
+        "id": "hijack",
+        "title": {
+          "en": "DNS Hijack",
+          "zh-Hans": "DNS 劫持",
+          "zh-Hant": "DNS 劫持"
+        },
+        "footer": {
+          "en": "Hands DNS queries sent to these addresses to Clash.",
+          "zh-Hans": "把发往这些地址的 DNS 查询交给 Clash 处理。",
+          "zh-Hant": "把發往這些位址的 DNS 查詢交給 Clash 處理。"
+        },
+        "keys": [
+          "dns-hijack"
+        ]
+      },
+      {
+        "id": "routes",
+        "title": {
+          "en": "Routes",
+          "zh-Hans": "路由",
+          "zh-Hant": "路由"
+        },
+        "footer": {
+          "en": "Which destinations go through the virtual interface and which bypass it.",
+          "zh-Hans": "哪些目标地址走虚拟网卡，哪些绕开。",
+          "zh-Hant": "哪些目標位址走虛擬網卡，哪些繞開。"
+        },
+        "keys": [
+          "strict-route",
+          "route-address",
+          "route-address-set",
+          "route-exclude-address",
+          "route-exclude-address-set",
+          "inet4-route-address",
+          "inet6-route-address",
+          "inet4-route-exclude-address",
+          "inet6-route-exclude-address",
+          "loopback-address",
+          "iproute2-table-index",
+          "iproute2-rule-index",
+          "auto-redirect",
+          "auto-redirect-input-mark",
+          "auto-redirect-output-mark",
+          "auto-redirect-iproute2-fallback-rule-index"
+        ]
+      },
+      {
+        "id": "scope",
+        "title": {
+          "en": "Include & Exclude",
+          "zh-Hans": "包含与排除",
+          "zh-Hant": "包含與排除"
+        },
+        "footer": {
+          "en": "Empty means all traffic comes in; fill these to take only some of it or to skip some.",
+          "zh-Hans": "不填就接管所有流量；填了只接管或跳过列出的部分。",
+          "zh-Hant": "不填就接管所有流量；填了只接管或略過列出的部分。"
+        },
+        "keys": [
+          "include-interface",
+          "exclude-interface",
+          "include-uid",
+          "include-uid-range",
+          "exclude-uid",
+          "exclude-uid-range",
+          "include-android-user",
+          "include-package",
+          "exclude-package",
+          "include-mac-address",
+          "exclude-mac-address",
+          "exclude-src-port",
+          "exclude-src-port-range",
+          "exclude-dst-port",
+          "exclude-dst-port-range"
+        ]
+      },
+      {
+        "id": "forward",
+        "title": {
+          "en": "Forwarding",
+          "zh-Hans": "转发",
+          "zh-Hant": "轉送"
+        },
+        "footer": {
+          "en": "Which rules connections from this entrance follow, or which outbound they always use.",
+          "zh-Hans": "从这个入口进来的连接按哪套规则走、固定用哪个出站。",
+          "zh-Hant": "從這個入口進來的連線按哪套規則走、固定用哪個出站。"
+        },
+        "keys": [
+          "rule",
+          "proxy",
+          "routing-mark"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "listeners[shadowsocks]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Other devices or apps connect in at this address and port.",
+          "zh-Hans": "其他设备或 App 从这个地址和端口连进来。",
+          "zh-Hant": "其他裝置或 App 從這個位址和連接埠連進來。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "listen",
+          "port",
+          "udp"
+        ]
+      },
+      {
+        "id": "lauth",
+        "title": {
+          "en": "Authentication",
+          "zh-Hans": "认证",
+          "zh-Hant": "認證"
+        },
+        "footer": {
+          "en": "The accounts, passwords or keys needed to connect in.",
+          "zh-Hans": "连进来要用的账号、密码或密钥。",
+          "zh-Hant": "連進來要用的帳號、密碼或金鑰。"
+        },
+        "keys": [
+          "password",
+          "cipher"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The certificate clients see when they connect; Reality or another disguise can replace it.",
+          "zh-Hans": "连进来的客户端看到的证书；不想用证书时可换成 Reality 等伪装。",
+          "zh-Hant": "連進來的用戶端看到的憑證；不想用憑證時可換成 Reality 等偽裝。"
+        },
+        "keys": [
+          "shadow-tls",
+          "res-tls",
+          "jls-config"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels; it must match the clients that connect.",
+          "zh-Hans": "数据怎么传，要和连进来的客户端一致。",
+          "zh-Hant": "資料怎麼傳，要和連進來的用戶端一致。"
+        },
+        "keys": [
+          "mux-option",
+          "kcp-tun",
+          "simple-obfs"
+        ]
+      },
+      {
+        "id": "forward",
+        "title": {
+          "en": "Forwarding",
+          "zh-Hans": "转发",
+          "zh-Hant": "轉送"
+        },
+        "footer": {
+          "en": "Which rules connections from this entrance follow, or which outbound they always use.",
+          "zh-Hans": "从这个入口进来的连接按哪套规则走、固定用哪个出站。",
+          "zh-Hant": "從這個入口進來的連線按哪套規則走、固定用哪個出站。"
+        },
+        "keys": [
+          "rule",
+          "proxy",
+          "routing-mark"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "listeners[snell]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Other devices or apps connect in at this address and port.",
+          "zh-Hans": "其他设备或 App 从这个地址和端口连进来。",
+          "zh-Hant": "其他裝置或 App 從這個位址和連接埠連進來。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "listen",
+          "port",
+          "udp"
+        ]
+      },
+      {
+        "id": "lauth",
+        "title": {
+          "en": "Authentication",
+          "zh-Hans": "认证",
+          "zh-Hant": "認證"
+        },
+        "footer": {
+          "en": "The accounts, passwords or keys needed to connect in.",
+          "zh-Hans": "连进来要用的账号、密码或密钥。",
+          "zh-Hant": "連進來要用的帳號、密碼或金鑰。"
+        },
+        "keys": [
+          "psk"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The certificate clients see when they connect; Reality or another disguise can replace it.",
+          "zh-Hans": "连进来的客户端看到的证书；不想用证书时可换成 Reality 等伪装。",
+          "zh-Hant": "連進來的用戶端看到的憑證；不想用憑證時可換成 Reality 等偽裝。"
+        },
+        "keys": [
+          "shadow-tls",
+          "res-tls",
+          "jls-config"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels; it must match the clients that connect.",
+          "zh-Hans": "数据怎么传，要和连进来的客户端一致。",
+          "zh-Hant": "資料怎麼傳，要和連進來的用戶端一致。"
+        },
+        "keys": [
+          "obfs-opts",
+          "version",
+          "mode"
+        ]
+      },
+      {
+        "id": "forward",
+        "title": {
+          "en": "Forwarding",
+          "zh-Hans": "转发",
+          "zh-Hant": "轉送"
+        },
+        "footer": {
+          "en": "Which rules connections from this entrance follow, or which outbound they always use.",
+          "zh-Hans": "从这个入口进来的连接按哪套规则走、固定用哪个出站。",
+          "zh-Hant": "從這個入口進來的連線按哪套規則走、固定用哪個出站。"
+        },
+        "keys": [
+          "rule",
+          "proxy",
+          "routing-mark"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "listeners[vmess]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Other devices or apps connect in at this address and port.",
+          "zh-Hans": "其他设备或 App 从这个地址和端口连进来。",
+          "zh-Hant": "其他裝置或 App 從這個位址和連接埠連進來。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "listen",
+          "port"
+        ]
+      },
+      {
+        "id": "lauth",
+        "title": {
+          "en": "Authentication",
+          "zh-Hans": "认证",
+          "zh-Hant": "認證"
+        },
+        "footer": {
+          "en": "The accounts, passwords or keys needed to connect in.",
+          "zh-Hans": "连进来要用的账号、密码或密钥。",
+          "zh-Hant": "連進來要用的帳號、密碼或金鑰。"
+        },
+        "keys": [
+          "users"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The certificate clients see when they connect; Reality or another disguise can replace it.",
+          "zh-Hans": "连进来的客户端看到的证书；不想用证书时可换成 Reality 等伪装。",
+          "zh-Hant": "連進來的用戶端看到的憑證；不想用憑證時可換成 Reality 等偽裝。"
+        },
+        "keys": [
+          "certificate",
+          "private-key",
+          "client-auth-type",
+          "client-auth-cert",
+          "ech-key",
+          "reality-config",
+          "shadow-tls",
+          "res-tls",
+          "jls-config",
+          "tlsmirror-config"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels; it must match the clients that connect.",
+          "zh-Hans": "数据怎么传，要和连进来的客户端一致。",
+          "zh-Hant": "資料怎麼傳，要和連進來的用戶端一致。"
+        },
+        "keys": [
+          "ws-path",
+          "grpc-service-name",
+          "mux-option",
+          "mekya-config",
+          "mkcp-config"
+        ]
+      },
+      {
+        "id": "forward",
+        "title": {
+          "en": "Forwarding",
+          "zh-Hans": "转发",
+          "zh-Hant": "轉送"
+        },
+        "footer": {
+          "en": "Which rules connections from this entrance follow, or which outbound they always use.",
+          "zh-Hans": "从这个入口进来的连接按哪套规则走、固定用哪个出站。",
+          "zh-Hant": "從這個入口進來的連線按哪套規則走、固定用哪個出站。"
+        },
+        "keys": [
+          "rule",
+          "proxy",
+          "routing-mark"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "listeners[vless]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Other devices or apps connect in at this address and port.",
+          "zh-Hans": "其他设备或 App 从这个地址和端口连进来。",
+          "zh-Hant": "其他裝置或 App 從這個位址和連接埠連進來。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "listen",
+          "port"
+        ]
+      },
+      {
+        "id": "lauth",
+        "title": {
+          "en": "Authentication",
+          "zh-Hans": "认证",
+          "zh-Hant": "認證"
+        },
+        "footer": {
+          "en": "The accounts, passwords or keys needed to connect in.",
+          "zh-Hans": "连进来要用的账号、密码或密钥。",
+          "zh-Hant": "連進來要用的帳號、密碼或金鑰。"
+        },
+        "keys": [
+          "users",
+          "decryption"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The certificate clients see when they connect; Reality or another disguise can replace it.",
+          "zh-Hans": "连进来的客户端看到的证书；不想用证书时可换成 Reality 等伪装。",
+          "zh-Hant": "連進來的用戶端看到的憑證；不想用憑證時可換成 Reality 等偽裝。"
+        },
+        "keys": [
+          "certificate",
+          "private-key",
+          "client-auth-type",
+          "client-auth-cert",
+          "ech-key",
+          "reality-config",
+          "shadow-tls",
+          "res-tls",
+          "jls-config",
+          "allow-insecure"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels; it must match the clients that connect.",
+          "zh-Hans": "数据怎么传，要和连进来的客户端一致。",
+          "zh-Hant": "資料怎麼傳，要和連進來的用戶端一致。"
+        },
+        "keys": [
+          "ws-path",
+          "grpc-service-name",
+          "xhttp-config",
+          "mux-option"
+        ]
+      },
+      {
+        "id": "forward",
+        "title": {
+          "en": "Forwarding",
+          "zh-Hans": "转发",
+          "zh-Hant": "轉送"
+        },
+        "footer": {
+          "en": "Which rules connections from this entrance follow, or which outbound they always use.",
+          "zh-Hans": "从这个入口进来的连接按哪套规则走、固定用哪个出站。",
+          "zh-Hant": "從這個入口進來的連線按哪套規則走、固定用哪個出站。"
+        },
+        "keys": [
+          "rule",
+          "proxy",
+          "routing-mark"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "listeners[trojan]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Other devices or apps connect in at this address and port.",
+          "zh-Hans": "其他设备或 App 从这个地址和端口连进来。",
+          "zh-Hant": "其他裝置或 App 從這個位址和連接埠連進來。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "listen",
+          "port"
+        ]
+      },
+      {
+        "id": "lauth",
+        "title": {
+          "en": "Authentication",
+          "zh-Hans": "认证",
+          "zh-Hant": "認證"
+        },
+        "footer": {
+          "en": "The accounts, passwords or keys needed to connect in.",
+          "zh-Hans": "连进来要用的账号、密码或密钥。",
+          "zh-Hant": "連進來要用的帳號、密碼或金鑰。"
+        },
+        "keys": [
+          "users"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The certificate clients see when they connect; Reality or another disguise can replace it.",
+          "zh-Hans": "连进来的客户端看到的证书；不想用证书时可换成 Reality 等伪装。",
+          "zh-Hant": "連進來的用戶端看到的憑證；不想用憑證時可換成 Reality 等偽裝。"
+        },
+        "keys": [
+          "certificate",
+          "private-key",
+          "client-auth-type",
+          "client-auth-cert",
+          "ech-key",
+          "reality-config",
+          "shadow-tls",
+          "res-tls",
+          "jls-config",
+          "allow-insecure"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels; it must match the clients that connect.",
+          "zh-Hans": "数据怎么传，要和连进来的客户端一致。",
+          "zh-Hant": "資料怎麼傳，要和連進來的用戶端一致。"
+        },
+        "keys": [
+          "ws-path",
+          "grpc-service-name",
+          "mux-option",
+          "ss-option"
+        ]
+      },
+      {
+        "id": "forward",
+        "title": {
+          "en": "Forwarding",
+          "zh-Hans": "转发",
+          "zh-Hant": "轉送"
+        },
+        "footer": {
+          "en": "Which rules connections from this entrance follow, or which outbound they always use.",
+          "zh-Hans": "从这个入口进来的连接按哪套规则走、固定用哪个出站。",
+          "zh-Hant": "從這個入口進來的連線按哪套規則走、固定用哪個出站。"
+        },
+        "keys": [
+          "rule",
+          "proxy",
+          "routing-mark"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "listeners[hysteria2]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Other devices or apps connect in at this address and port.",
+          "zh-Hans": "其他设备或 App 从这个地址和端口连进来。",
+          "zh-Hant": "其他裝置或 App 從這個位址和連接埠連進來。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "listen",
+          "port"
+        ]
+      },
+      {
+        "id": "lauth",
+        "title": {
+          "en": "Authentication",
+          "zh-Hans": "认证",
+          "zh-Hant": "認證"
+        },
+        "footer": {
+          "en": "The accounts, passwords or keys needed to connect in.",
+          "zh-Hans": "连进来要用的账号、密码或密钥。",
+          "zh-Hant": "連進來要用的帳號、密碼或金鑰。"
+        },
+        "keys": [
+          "users"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The certificate clients see when they connect; Reality or another disguise can replace it.",
+          "zh-Hans": "连进来的客户端看到的证书；不想用证书时可换成 Reality 等伪装。",
+          "zh-Hant": "連進來的用戶端看到的憑證；不想用憑證時可換成 Reality 等偽裝。"
+        },
+        "keys": [
+          "certificate",
+          "private-key",
+          "client-auth-type",
+          "client-auth-cert",
+          "ech-key",
+          "alpn"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels; it must match the clients that connect.",
+          "zh-Hans": "数据怎么传，要和连进来的客户端一致。",
+          "zh-Hant": "資料怎麼傳，要和連進來的用戶端一致。"
+        },
+        "keys": [
+          "mux-option",
+          "obfs",
+          "obfs-password",
+          "obfs-min-packet-size",
+          "obfs-max-packet-size",
+          "masquerade",
+          "realm-opts"
+        ]
+      },
+      {
+        "id": "lspeed",
+        "title": {
+          "en": "Speed & Congestion",
+          "zh-Hans": "速度与拥塞控制",
+          "zh-Hant": "速度與壅塞控制"
+        },
+        "footer": {
+          "en": "Bandwidth and congestion control; leave them at the defaults if unsure.",
+          "zh-Hans": "带宽与拥塞控制，不清楚就保持默认。",
+          "zh-Hant": "頻寬與壅塞控制，不清楚就保持預設。"
+        },
+        "keys": [
+          "up",
+          "down",
+          "ignore-client-bandwidth",
+          "cwnd",
+          "bbr-profile",
+          "udp-mtu",
+          "max-idle-time",
+          "initial-stream-receive-window",
+          "max-stream-receive-window",
+          "initial-connection-receive-window",
+          "max-connection-receive-window"
+        ]
+      },
+      {
+        "id": "forward",
+        "title": {
+          "en": "Forwarding",
+          "zh-Hans": "转发",
+          "zh-Hant": "轉送"
+        },
+        "footer": {
+          "en": "Which rules connections from this entrance follow, or which outbound they always use.",
+          "zh-Hans": "从这个入口进来的连接按哪套规则走、固定用哪个出站。",
+          "zh-Hant": "從這個入口進來的連線按哪套規則走、固定用哪個出站。"
+        },
+        "keys": [
+          "rule",
+          "proxy",
+          "routing-mark"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "listeners[hysteria2-realm]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Other devices or apps connect in at this address and port.",
+          "zh-Hans": "其他设备或 App 从这个地址和端口连进来。",
+          "zh-Hant": "其他裝置或 App 從這個位址和連接埠連進來。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "listen",
+          "port"
+        ]
+      },
+      {
+        "id": "lauth",
+        "title": {
+          "en": "Authentication",
+          "zh-Hans": "认证",
+          "zh-Hant": "認證"
+        },
+        "footer": {
+          "en": "The accounts, passwords or keys needed to connect in.",
+          "zh-Hans": "连进来要用的账号、密码或密钥。",
+          "zh-Hant": "連進來要用的帳號、密碼或金鑰。"
+        },
+        "keys": [
+          "token"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The certificate clients see when they connect; Reality or another disguise can replace it.",
+          "zh-Hans": "连进来的客户端看到的证书；不想用证书时可换成 Reality 等伪装。",
+          "zh-Hant": "連進來的用戶端看到的憑證；不想用憑證時可換成 Reality 等偽裝。"
+        },
+        "keys": [
+          "certificate",
+          "private-key",
+          "client-auth-type",
+          "client-auth-cert",
+          "ech-key",
+          "alpn"
+        ]
+      },
+      {
+        "id": "forward",
+        "title": {
+          "en": "Forwarding",
+          "zh-Hans": "转发",
+          "zh-Hant": "轉送"
+        },
+        "footer": {
+          "en": "Which rules connections from this entrance follow, or which outbound they always use.",
+          "zh-Hans": "从这个入口进来的连接按哪套规则走、固定用哪个出站。",
+          "zh-Hant": "從這個入口進來的連線按哪套規則走、固定用哪個出站。"
+        },
+        "keys": [
+          "rule",
+          "proxy",
+          "routing-mark"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "listeners[tuic]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Other devices or apps connect in at this address and port.",
+          "zh-Hans": "其他设备或 App 从这个地址和端口连进来。",
+          "zh-Hant": "其他裝置或 App 從這個位址和連接埠連進來。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "listen",
+          "port"
+        ]
+      },
+      {
+        "id": "lauth",
+        "title": {
+          "en": "Authentication",
+          "zh-Hans": "认证",
+          "zh-Hant": "認證"
+        },
+        "footer": {
+          "en": "The accounts, passwords or keys needed to connect in.",
+          "zh-Hans": "连进来要用的账号、密码或密钥。",
+          "zh-Hant": "連進來要用的帳號、密碼或金鑰。"
+        },
+        "keys": [
+          "users",
+          "token"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The certificate clients see when they connect; Reality or another disguise can replace it.",
+          "zh-Hans": "连进来的客户端看到的证书；不想用证书时可换成 Reality 等伪装。",
+          "zh-Hant": "連進來的用戶端看到的憑證；不想用憑證時可換成 Reality 等偽裝。"
+        },
+        "keys": [
+          "certificate",
+          "private-key",
+          "client-auth-type",
+          "client-auth-cert",
+          "ech-key",
+          "alpn"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels; it must match the clients that connect.",
+          "zh-Hans": "数据怎么传，要和连进来的客户端一致。",
+          "zh-Hant": "資料怎麼傳，要和連進來的用戶端一致。"
+        },
+        "keys": [
+          "mux-option"
+        ]
+      },
+      {
+        "id": "lspeed",
+        "title": {
+          "en": "Speed & Congestion",
+          "zh-Hans": "速度与拥塞控制",
+          "zh-Hant": "速度與壅塞控制"
+        },
+        "footer": {
+          "en": "Bandwidth and congestion control; leave them at the defaults if unsure.",
+          "zh-Hans": "带宽与拥塞控制，不清楚就保持默认。",
+          "zh-Hant": "頻寬與壅塞控制，不清楚就保持預設。"
+        },
+        "keys": [
+          "cwnd",
+          "bbr-profile",
+          "congestion-controller",
+          "max-idle-time",
+          "authentication-timeout",
+          "max-udp-relay-packet-size"
+        ]
+      },
+      {
+        "id": "forward",
+        "title": {
+          "en": "Forwarding",
+          "zh-Hans": "转发",
+          "zh-Hant": "轉送"
+        },
+        "footer": {
+          "en": "Which rules connections from this entrance follow, or which outbound they always use.",
+          "zh-Hans": "从这个入口进来的连接按哪套规则走、固定用哪个出站。",
+          "zh-Hant": "從這個入口進來的連線按哪套規則走、固定用哪個出站。"
+        },
+        "keys": [
+          "rule",
+          "proxy",
+          "routing-mark"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "listeners[shadowquic]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Other devices or apps connect in at this address and port.",
+          "zh-Hans": "其他设备或 App 从这个地址和端口连进来。",
+          "zh-Hant": "其他裝置或 App 從這個位址和連接埠連進來。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "listen",
+          "port"
+        ]
+      },
+      {
+        "id": "lauth",
+        "title": {
+          "en": "Authentication",
+          "zh-Hans": "认证",
+          "zh-Hant": "認證"
+        },
+        "footer": {
+          "en": "The accounts, passwords or keys needed to connect in.",
+          "zh-Hans": "连进来要用的账号、密码或密钥。",
+          "zh-Hant": "連進來要用的帳號、密碼或金鑰。"
+        },
+        "keys": [
+          "users"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The certificate clients see when they connect; Reality or another disguise can replace it.",
+          "zh-Hans": "连进来的客户端看到的证书；不想用证书时可换成 Reality 等伪装。",
+          "zh-Hant": "連進來的用戶端看到的憑證；不想用憑證時可換成 Reality 等偽裝。"
+        },
+        "keys": [
+          "alpn",
+          "jls-upstream"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels; it must match the clients that connect.",
+          "zh-Hans": "数据怎么传，要和连进来的客户端一致。",
+          "zh-Hant": "資料怎麼傳，要和連進來的用戶端一致。"
+        },
+        "keys": [
+          "mux-option",
+          "quic-versions"
+        ]
+      },
+      {
+        "id": "lspeed",
+        "title": {
+          "en": "Speed & Congestion",
+          "zh-Hans": "速度与拥塞控制",
+          "zh-Hant": "速度與壅塞控制"
+        },
+        "footer": {
+          "en": "Bandwidth and congestion control; leave them at the defaults if unsure.",
+          "zh-Hans": "带宽与拥塞控制，不清楚就保持默认。",
+          "zh-Hant": "頻寬與壅塞控制，不清楚就保持預設。"
+        },
+        "keys": [
+          "up",
+          "down",
+          "ignore-client-bandwidth",
+          "cwnd",
+          "bbr-profile",
+          "congestion-controller",
+          "max-idle-time",
+          "max-datagram-frame-size",
+          "recv-window-conn",
+          "recv-window",
+          "disable-mtu-discovery",
+          "zero-rtt"
+        ]
+      },
+      {
+        "id": "forward",
+        "title": {
+          "en": "Forwarding",
+          "zh-Hans": "转发",
+          "zh-Hant": "轉送"
+        },
+        "footer": {
+          "en": "Which rules connections from this entrance follow, or which outbound they always use.",
+          "zh-Hans": "从这个入口进来的连接按哪套规则走、固定用哪个出站。",
+          "zh-Hant": "從這個入口進來的連線按哪套規則走、固定用哪個出站。"
+        },
+        "keys": [
+          "rule",
+          "proxy",
+          "routing-mark"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "listeners[anytls]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Other devices or apps connect in at this address and port.",
+          "zh-Hans": "其他设备或 App 从这个地址和端口连进来。",
+          "zh-Hant": "其他裝置或 App 從這個位址和連接埠連進來。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "listen",
+          "port"
+        ]
+      },
+      {
+        "id": "lauth",
+        "title": {
+          "en": "Authentication",
+          "zh-Hans": "认证",
+          "zh-Hant": "認證"
+        },
+        "footer": {
+          "en": "The accounts, passwords or keys needed to connect in.",
+          "zh-Hans": "连进来要用的账号、密码或密钥。",
+          "zh-Hant": "連進來要用的帳號、密碼或金鑰。"
+        },
+        "keys": [
+          "users"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The certificate clients see when they connect; Reality or another disguise can replace it.",
+          "zh-Hans": "连进来的客户端看到的证书；不想用证书时可换成 Reality 等伪装。",
+          "zh-Hant": "連進來的用戶端看到的憑證；不想用憑證時可換成 Reality 等偽裝。"
+        },
+        "keys": [
+          "certificate",
+          "private-key",
+          "client-auth-type",
+          "client-auth-cert",
+          "ech-key",
+          "shadow-tls",
+          "res-tls",
+          "jls-config",
+          "allow-insecure"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels; it must match the clients that connect.",
+          "zh-Hans": "数据怎么传，要和连进来的客户端一致。",
+          "zh-Hant": "資料怎麼傳，要和連進來的用戶端一致。"
+        },
+        "keys": [
+          "padding-scheme"
+        ]
+      },
+      {
+        "id": "forward",
+        "title": {
+          "en": "Forwarding",
+          "zh-Hans": "转发",
+          "zh-Hant": "轉送"
+        },
+        "footer": {
+          "en": "Which rules connections from this entrance follow, or which outbound they always use.",
+          "zh-Hans": "从这个入口进来的连接按哪套规则走、固定用哪个出站。",
+          "zh-Hant": "從這個入口進來的連線按哪套規則走、固定用哪個出站。"
+        },
+        "keys": [
+          "rule",
+          "proxy",
+          "routing-mark"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "listeners[mieru]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Other devices or apps connect in at this address and port.",
+          "zh-Hans": "其他设备或 App 从这个地址和端口连进来。",
+          "zh-Hant": "其他裝置或 App 從這個位址和連接埠連進來。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "listen",
+          "port"
+        ]
+      },
+      {
+        "id": "lauth",
+        "title": {
+          "en": "Authentication",
+          "zh-Hans": "认证",
+          "zh-Hant": "認證"
+        },
+        "footer": {
+          "en": "The accounts, passwords or keys needed to connect in.",
+          "zh-Hans": "连进来要用的账号、密码或密钥。",
+          "zh-Hant": "連進來要用的帳號、密碼或金鑰。"
+        },
+        "keys": [
+          "users",
+          "user-hint-is-mandatory"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels; it must match the clients that connect.",
+          "zh-Hans": "数据怎么传，要和连进来的客户端一致。",
+          "zh-Hant": "資料怎麼傳，要和連進來的用戶端一致。"
+        },
+        "keys": [
+          "transport",
+          "traffic-pattern"
+        ]
+      },
+      {
+        "id": "forward",
+        "title": {
+          "en": "Forwarding",
+          "zh-Hans": "转发",
+          "zh-Hant": "轉送"
+        },
+        "footer": {
+          "en": "Which rules connections from this entrance follow, or which outbound they always use.",
+          "zh-Hans": "从这个入口进来的连接按哪套规则走、固定用哪个出站。",
+          "zh-Hant": "從這個入口進來的連線按哪套規則走、固定用哪個出站。"
+        },
+        "keys": [
+          "rule",
+          "proxy",
+          "routing-mark"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "listeners[sudoku]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Other devices or apps connect in at this address and port.",
+          "zh-Hans": "其他设备或 App 从这个地址和端口连进来。",
+          "zh-Hant": "其他裝置或 App 從這個位址和連接埠連進來。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "listen",
+          "port"
+        ]
+      },
+      {
+        "id": "lauth",
+        "title": {
+          "en": "Authentication",
+          "zh-Hans": "认证",
+          "zh-Hant": "認證"
+        },
+        "footer": {
+          "en": "The accounts, passwords or keys needed to connect in.",
+          "zh-Hans": "连进来要用的账号、密码或密钥。",
+          "zh-Hant": "連進來要用的帳號、密碼或金鑰。"
+        },
+        "keys": [
+          "key",
+          "aead-method"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels; it must match the clients that connect.",
+          "zh-Hans": "数据怎么传，要和连进来的客户端一致。",
+          "zh-Hant": "資料怎麼傳，要和連進來的用戶端一致。"
+        },
+        "keys": [
+          "mux-option",
+          "http-mask-mode",
+          "disable-http-mask",
+          "path-root",
+          "httpmask",
+          "fallback",
+          "table-type",
+          "custom-table",
+          "custom-tables",
+          "padding-min",
+          "padding-max",
+          "enable-pure-downlink"
+        ]
+      },
+      {
+        "id": "lspeed",
+        "title": {
+          "en": "Speed & Congestion",
+          "zh-Hans": "速度与拥塞控制",
+          "zh-Hant": "速度與壅塞控制"
+        },
+        "footer": {
+          "en": "Bandwidth and congestion control; leave them at the defaults if unsure.",
+          "zh-Hans": "带宽与拥塞控制，不清楚就保持默认。",
+          "zh-Hant": "頻寬與壅塞控制，不清楚就保持預設。"
+        },
+        "keys": [
+          "handshake-timeout"
+        ]
+      },
+      {
+        "id": "forward",
+        "title": {
+          "en": "Forwarding",
+          "zh-Hans": "转发",
+          "zh-Hant": "轉送"
+        },
+        "footer": {
+          "en": "Which rules connections from this entrance follow, or which outbound they always use.",
+          "zh-Hans": "从这个入口进来的连接按哪套规则走、固定用哪个出站。",
+          "zh-Hant": "從這個入口進來的連線按哪套規則走、固定用哪個出站。"
+        },
+        "keys": [
+          "rule",
+          "proxy",
+          "routing-mark"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "listeners[trusttunnel]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Other devices or apps connect in at this address and port.",
+          "zh-Hans": "其他设备或 App 从这个地址和端口连进来。",
+          "zh-Hant": "其他裝置或 App 從這個位址和連接埠連進來。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "listen",
+          "port"
+        ]
+      },
+      {
+        "id": "lauth",
+        "title": {
+          "en": "Authentication",
+          "zh-Hans": "认证",
+          "zh-Hant": "認證"
+        },
+        "footer": {
+          "en": "The accounts, passwords or keys needed to connect in.",
+          "zh-Hans": "连进来要用的账号、密码或密钥。",
+          "zh-Hant": "連進來要用的帳號、密碼或金鑰。"
+        },
+        "keys": [
+          "users"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The certificate clients see when they connect; Reality or another disguise can replace it.",
+          "zh-Hans": "连进来的客户端看到的证书；不想用证书时可换成 Reality 等伪装。",
+          "zh-Hant": "連進來的用戶端看到的憑證；不想用憑證時可換成 Reality 等偽裝。"
+        },
+        "keys": [
+          "certificate",
+          "private-key",
+          "client-auth-type",
+          "client-auth-cert",
+          "ech-key"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels; it must match the clients that connect.",
+          "zh-Hans": "数据怎么传，要和连进来的客户端一致。",
+          "zh-Hant": "資料怎麼傳，要和連進來的用戶端一致。"
+        },
+        "keys": [
+          "network"
+        ]
+      },
+      {
+        "id": "lspeed",
+        "title": {
+          "en": "Speed & Congestion",
+          "zh-Hans": "速度与拥塞控制",
+          "zh-Hant": "速度與壅塞控制"
+        },
+        "footer": {
+          "en": "Bandwidth and congestion control; leave them at the defaults if unsure.",
+          "zh-Hans": "带宽与拥塞控制，不清楚就保持默认。",
+          "zh-Hant": "頻寬與壅塞控制，不清楚就保持預設。"
+        },
+        "keys": [
+          "cwnd",
+          "bbr-profile",
+          "congestion-controller"
+        ]
+      },
+      {
+        "id": "forward",
+        "title": {
+          "en": "Forwarding",
+          "zh-Hans": "转发",
+          "zh-Hant": "轉送"
+        },
+        "footer": {
+          "en": "Which rules connections from this entrance follow, or which outbound they always use.",
+          "zh-Hans": "从这个入口进来的连接按哪套规则走、固定用哪个出站。",
+          "zh-Hant": "從這個入口進來的連線按哪套規則走、固定用哪個出站。"
+        },
+        "keys": [
+          "rule",
+          "proxy",
+          "routing-mark"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ],
+    "listeners[*]": [
+      {
+        "id": "basic",
+        "title": {
+          "en": "Basics",
+          "zh-Hans": "基本",
+          "zh-Hant": "基本"
+        },
+        "footer": {
+          "en": "Other devices or apps connect in at this address and port.",
+          "zh-Hans": "其他设备或 App 从这个地址和端口连进来。",
+          "zh-Hant": "其他裝置或 App 從這個位址和連接埠連進來。"
+        },
+        "keys": [
+          "name",
+          "type",
+          "listen",
+          "port",
+          "udp"
+        ]
+      },
+      {
+        "id": "lauth",
+        "title": {
+          "en": "Authentication",
+          "zh-Hans": "认证",
+          "zh-Hant": "認證"
+        },
+        "footer": {
+          "en": "The accounts, passwords or keys needed to connect in.",
+          "zh-Hans": "连进来要用的账号、密码或密钥。",
+          "zh-Hant": "連進來要用的帳號、密碼或金鑰。"
+        },
+        "keys": [
+          "users",
+          "password",
+          "psk",
+          "secret",
+          "token",
+          "cipher",
+          "key",
+          "aead-method",
+          "decryption",
+          "user-hint-is-mandatory"
+        ]
+      },
+      {
+        "id": "tls",
+        "title": {
+          "en": "TLS",
+          "zh-Hans": "TLS",
+          "zh-Hant": "TLS"
+        },
+        "footer": {
+          "en": "The certificate clients see when they connect; Reality or another disguise can replace it.",
+          "zh-Hans": "连进来的客户端看到的证书；不想用证书时可换成 Reality 等伪装。",
+          "zh-Hant": "連進來的用戶端看到的憑證；不想用憑證時可換成 Reality 等偽裝。"
+        },
+        "keys": [
+          "certificate",
+          "private-key",
+          "client-auth-type",
+          "client-auth-cert",
+          "ech-key",
+          "reality-config",
+          "shadow-tls",
+          "res-tls",
+          "jls-config",
+          "tlsmirror-config",
+          "allow-insecure",
+          "alpn",
+          "jls-upstream"
+        ]
+      },
+      {
+        "id": "transport",
+        "title": {
+          "en": "Transport",
+          "zh-Hans": "传输",
+          "zh-Hant": "傳輸"
+        },
+        "footer": {
+          "en": "How data travels; it must match the clients that connect.",
+          "zh-Hans": "数据怎么传，要和连进来的客户端一致。",
+          "zh-Hant": "資料怎麼傳，要和連進來的用戶端一致。"
+        },
+        "keys": [
+          "ws-path",
+          "grpc-service-name",
+          "xhttp-config",
+          "mux-option",
+          "kcp-tun",
+          "simple-obfs",
+          "obfs-opts",
+          "mekya-config",
+          "mkcp-config",
+          "network",
+          "transport",
+          "obfs",
+          "obfs-password",
+          "obfs-min-packet-size",
+          "obfs-max-packet-size",
+          "masquerade",
+          "version",
+          "padding-scheme",
+          "http-mask-mode",
+          "disable-http-mask",
+          "path-root",
+          "httpmask",
+          "fallback",
+          "table-type",
+          "custom-table",
+          "custom-tables",
+          "padding-min",
+          "padding-max",
+          "enable-pure-downlink",
+          "traffic-pattern",
+          "quic-versions",
+          "ss-option",
+          "realm-opts"
+        ]
+      },
+      {
+        "id": "lspeed",
+        "title": {
+          "en": "Speed & Congestion",
+          "zh-Hans": "速度与拥塞控制",
+          "zh-Hant": "速度與壅塞控制"
+        },
+        "footer": {
+          "en": "Bandwidth and congestion control; leave them at the defaults if unsure.",
+          "zh-Hans": "带宽与拥塞控制，不清楚就保持默认。",
+          "zh-Hant": "頻寬與壅塞控制，不清楚就保持預設。"
+        },
+        "keys": [
+          "up",
+          "down",
+          "ignore-client-bandwidth",
+          "cwnd",
+          "bbr-profile",
+          "congestion-controller",
+          "udp-mtu",
+          "max-idle-time",
+          "authentication-timeout",
+          "handshake-timeout",
+          "max-udp-relay-packet-size",
+          "max-datagram-frame-size",
+          "recv-window-conn",
+          "recv-window",
+          "disable-mtu-discovery",
+          "zero-rtt",
+          "initial-stream-receive-window",
+          "max-stream-receive-window",
+          "initial-connection-receive-window",
+          "max-connection-receive-window"
+        ]
+      },
+      {
+        "id": "forward",
+        "title": {
+          "en": "Forwarding",
+          "zh-Hans": "转发",
+          "zh-Hant": "轉送"
+        },
+        "footer": {
+          "en": "Which rules connections from this entrance follow, or which outbound they always use.",
+          "zh-Hans": "从这个入口进来的连接按哪套规则走、固定用哪个出站。",
+          "zh-Hant": "從這個入口進來的連線按哪套規則走、固定用哪個出站。"
+        },
+        "keys": [
+          "rule",
+          "proxy",
+          "routing-mark"
+        ]
+      },
+      {
+        "id": "more",
+        "title": {
+          "en": "More Settings",
+          "zh-Hans": "更多设置",
+          "zh-Hant": "更多設定"
+        },
+        "keys": [
+          "*"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,916 @@
+name: ClashClient
+options:
+  bundleIdPrefix: org.example.clash
+  deploymentTarget:
+    iOS: '15.0'
+    macOS: '13.0'
+    tvOS: '17.0'
+settings:
+  base:
+    CLASH_BUNDLE_BASE: org.example.clash
+    CLASH_APP_GROUP: group.$(CLASH_BUNDLE_BASE)
+    CLASH_ICLOUD_CONTAINER: iCloud.$(CLASH_BUNDLE_BASE)
+    CLASH_DEVELOPMENT_TEAM: ''
+    SWIFT_VERSION: '5.9'
+    GENERATE_INFOPLIST_FILE: true
+    CURRENT_PROJECT_VERSION: 1
+    MARKETING_VERSION: 1.0.9
+    CLASH_SOURCE_REVISION: source-build
+    OTHER_LDFLAGS:
+    - -lresolv
+packages:
+  ClashClientKit:
+    path: ../ClashClientKit
+  ClashClientUI:
+    path: ../ClashClientUI
+  ClashMacClient:
+    path: ../ClashMacClient
+  swift-certificates:
+    url: https://github.com/apple/swift-certificates.git
+    exactVersion: 1.9.0
+  swift-crypto:
+    url: https://github.com/apple/swift-crypto.git
+    exactVersion: 3.15.1
+  swift-asn1:
+    url: https://github.com/apple/swift-asn1.git
+    exactVersion: 1.7.3
+targets:
+  ClashiOS:
+    type: application
+    platform: iOS
+    productName: Clash
+    sources:
+    - path: Sources
+      excludes:
+      - Mac
+      - TV
+    - Shared
+    - Assets.xcassets
+    - Resources/Branding/SharedSymbols.xcassets
+    - path: Resources/Branding/AppIcon/AppIcon.icon
+      buildPhase: resources
+    - path: Resources/PrivacyInfo.xcprivacy
+      buildPhase: resources
+    - path: Resources/Legal
+      buildPhase: resources
+    - path: Resources/BundledGeoData/GeoSite.dat.xz
+      buildPhase: resources
+    - path: Resources/BundledGeoData/geoip.metadb.xz
+      buildPhase: resources
+    - path: Resources/BundledGeoData/GeoIP.dat.xz
+      buildPhase: resources
+    - path: Resources/BundledGeoData/ASN.mmdb.xz
+      buildPhase: resources
+    - path: Resources/BundledGeoData/BundledGeoDataManifest.json
+      buildPhase: resources
+    - path: Resources/BundledGeoData/LICENSE.meta-rules-dat.txt
+      buildPhase: resources
+    - path: Resources/Module/surge-builtin-lan.list
+      buildPhase: resources
+    - path: Resources/Module/surge-builtin-system.list
+      buildPhase: resources
+    - path: ../../Vendor/ClashAdapter/Sources/ClashAdapter
+    settings:
+      configs:
+        Debug:
+          INFOPLIST_KEY_UIFileSharingEnabled: 'YES'
+        Release:
+          SWIFT_OPTIMIZATION_LEVEL: -Osize
+      base:
+        PRODUCT_NAME: Clash
+        PRODUCT_MODULE_NAME: ClashiOS
+        PRODUCT_BUNDLE_IDENTIFIER: $(CLASH_BUNDLE_BASE)
+        DEVELOPMENT_TEAM: $(CLASH_DEVELOPMENT_TEAM)
+        CODE_SIGN_STYLE: Automatic
+        ENABLE_USER_SCRIPT_SANDBOXING: false
+        REMOVE_HEADERS_FROM_EMBEDDED_FRAMEWORKS: true
+    info:
+      path: Info.plist
+      properties:
+        CFBundleDisplayName: Clash
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
+        ITSAppUsesNonExemptEncryption: false
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        ClashSourceRevision: $(CLASH_SOURCE_REVISION)
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+        - UIInterfaceOrientationPortrait
+        - UIInterfaceOrientationPortraitUpsideDown
+        - UIInterfaceOrientationLandscapeLeft
+        - UIInterfaceOrientationLandscapeRight
+        NSCameraUsageDescription: Scan a subscription QR code to import a profile.
+        NSLocalNetworkUsageDescription: Test DNS servers on your network, and let
+          other devices use this device's proxy.
+        CFBundleURLTypes:
+        - CFBundleTypeRole: Editor
+          CFBundleURLSchemes:
+          - clash
+          - clashmeta
+          - flclash
+          - clash
+        CFBundleDocumentTypes:
+        - CFBundleTypeName: YAML Configuration
+          CFBundleTypeRole: Viewer
+          LSHandlerRank: Alternate
+          LSItemContentTypes:
+          - public.yaml
+        LSSupportsOpeningDocumentsInPlace: true
+        BGTaskSchedulerPermittedIdentifiers:
+        - $(CLASH_BUNDLE_BASE).refresh
+        UIBackgroundModes:
+        - fetch
+        - processing
+        NSUbiquitousContainers:
+          iCloud.org.example.clash:
+            NSUbiquitousContainerIsDocumentScopePublic: true
+            NSUbiquitousContainerName: Clash
+            NSUbiquitousContainerSupportedFolderLevels: Any
+    entitlements:
+      path: ClashClient.entitlements
+      properties:
+        com.apple.security.application-groups:
+        - $(CLASH_APP_GROUP)
+        com.apple.developer.networking.networkextension:
+        - packet-tunnel-provider
+        com.apple.developer.icloud-services:
+        - CloudDocuments
+        - CloudKit
+        com.apple.developer.icloud-container-identifiers:
+        - $(CLASH_ICLOUD_CONTAINER)
+        com.apple.developer.ubiquity-container-identifiers:
+        - $(CLASH_ICLOUD_CONTAINER)
+    dependencies:
+    - package: ClashClientKit
+    - package: ClashClientUI
+    - package: swift-certificates
+      product: X509
+    - package: swift-crypto
+      product: Crypto
+    - package: swift-crypto
+      product: _CryptoExtras
+    - package: swift-asn1
+      product: SwiftASN1
+    - target: Clash
+      embed: true
+    - target: ClashiOSExtension
+      embed: true
+    - target: ClashControlsExtension
+      embed: true
+    - target: ClashShareExtension
+      embed: true
+  Clash:
+    type: framework
+    platform: iOS
+    sources:
+    - path: ClashCore
+    settings:
+      configs:
+        Release:
+          DEPLOYMENT_POSTPROCESSING: true
+          STRIP_INSTALLED_PRODUCT: true
+          STRIP_STYLE: non-global
+      base:
+        PRODUCT_NAME: Clash
+        PRODUCT_BUNDLE_IDENTIFIER: $(CLASH_BUNDLE_BASE).core
+        DEVELOPMENT_TEAM: $(CLASH_DEVELOPMENT_TEAM)
+        CODE_SIGN_STYLE: Automatic
+        DEFINES_MODULE: true
+        MODULEMAP_FILE: ClashCore/module.modulemap
+        SKIP_INSTALL: true
+        ENABLE_USER_SCRIPT_SANDBOXING: false
+        CLASH_CORE_SLICE[sdk=iphoneos*]: ios-arm64
+        CLASH_CORE_SLICE[sdk=iphonesimulator*]: ios-arm64_x86_64-simulator
+        CLASH_CORE_ARCHIVE: $(SRCROOT)/../../Clash.xcframework/$(CLASH_CORE_SLICE)/Clash.framework/Clash
+        OTHER_LDFLAGS:
+        - -Wl,-force_load,$(CLASH_CORE_ARCHIVE)
+        - -lresolv
+    preBuildScripts:
+    - name: Copy the Go core's public headers out of the locked xcframework
+      shell: /bin/sh
+      script: "set -eu\nsrc=\"$SRCROOT/../../Clash.xcframework/$CLASH_CORE_SLICE/Clash.framework/Headers\"\
+        \ndst=\"$TARGET_BUILD_DIR/$PUBLIC_HEADERS_FOLDER_PATH\"\nmkdir -p \"$dst\"\
+        \nfor h in ref.h Clash.objc.h Universe.objc.h Clash.h; do\n  cp -f \"$src/$h\"\
+        \ \"$dst/$h\"\ndone\n"
+      outputFiles:
+      - $(TARGET_BUILD_DIR)/$(PUBLIC_HEADERS_FOLDER_PATH)/ref.h
+      - $(TARGET_BUILD_DIR)/$(PUBLIC_HEADERS_FOLDER_PATH)/Clash.objc.h
+      - $(TARGET_BUILD_DIR)/$(PUBLIC_HEADERS_FOLDER_PATH)/Universe.objc.h
+      - $(TARGET_BUILD_DIR)/$(PUBLIC_HEADERS_FOLDER_PATH)/Clash.h
+  ClashiOSExtension:
+    type: app-extension
+    platform: iOS
+    sources:
+    - path: Extension
+      excludes: []
+    - path: Sources/ConfigStore/ModuleIR.swift
+    - path: Sources/ConfigStore/ModuleRegexDeadline.swift
+    - path: Sources/ConfigStore/ModuleHostList.swift
+    - path: Sources/ConfigStore/ModuleEngineContract.swift
+    - path: Sources/ConfigStore/ModuleCertificateAuthority.swift
+    - path: Sources/ConfigStore/ModuleCertificateIssuing.swift
+    - path: Sources/ConfigStore/ModuleJQ
+    - path: Sources/ConfigStore/ModuleScript
+    - path: Sources/ConfigStore/ModuleScriptFamilyFormat.swift
+    - path: Sources/SystemIntegration/ModuleScriptNotificationMailbox.swift
+    - path: Sources/SystemIntegration/ModuleScriptNotificationPoster.swift
+    - Shared
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Widgets/ClashWidgetSnapshot.swift
+      group: Shared
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Widgets/ClashWidgetMailbox.swift
+      group: Shared
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Widgets/ClashWidgetInterfaceAccounting.swift
+      group: Shared
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Tunnel/ClashTunnelRouteShaping.swift
+    - path: Resources/PrivacyInfo.xcprivacy
+      buildPhase: resources
+    - path: ../../Vendor/ClashAdapter/Sources/ClashAdapter
+    settings:
+      configs:
+        Release:
+          SWIFT_OPTIMIZATION_LEVEL: -Osize
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(CLASH_BUNDLE_BASE).extension
+        DEVELOPMENT_TEAM: $(CLASH_DEVELOPMENT_TEAM)
+        CODE_SIGN_STYLE: Automatic
+        LD_RUNPATH_SEARCH_PATHS:
+        - $(inherited)
+        - '@executable_path/Frameworks'
+        - '@executable_path/../../Frameworks'
+    entitlements:
+      path: Extension/Extension.entitlements
+      properties:
+        com.apple.security.application-groups:
+        - $(CLASH_APP_GROUP)
+        com.apple.developer.networking.networkextension:
+        - packet-tunnel-provider
+    info:
+      path: Extension/Info.plist
+      properties:
+        CFBundleDisplayName: Clash
+        CFBundleShortVersionString: '1.0'
+        CFBundleVersion: '1'
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.networkextension.packet-tunnel
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).PacketTunnelProvider
+    dependencies:
+    - target: Clash
+      embed: false
+    - sdk: NetworkExtension.framework
+    - package: swift-certificates
+      product: X509
+    - package: swift-crypto
+      product: Crypto
+    - package: swift-crypto
+      product: _CryptoExtras
+    - package: swift-asn1
+      product: SwiftASN1
+  ClashControlsExtension:
+    type: app-extension
+    platform: iOS
+    sources:
+    - ControlsExtension
+    - WidgetsShared
+    - path: Sources/SystemIntegration/ClashSystemRoute.swift
+    - path: Sources/SystemIntegration/ClashVPNControlIntent.swift
+    - path: Shared/ClashLogStore.swift
+      group: Shared
+    - path: Shared/ClashAppGroupContainer.swift
+      group: Shared
+    - path: Shared/ClashAppIdentifiers.swift
+    - path: Shared/ClashDeviceModel.swift
+      group: Shared
+    - path: Shared/ClashWidgetPlatform.swift
+      group: Shared
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Widgets/ClashWidgetSnapshot.swift
+      group: Shared
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Widgets/ClashWidgetMailbox.swift
+      group: Shared
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Widgets/ClashWidgetFormat.swift
+    - path: ../ClashClientUI/Sources/ClashClientUI/Design/ClashThroughputFormatter.swift
+      group: Shared
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Widgets/ClashWidgetViews.swift
+      group: Shared
+    - path: ../ClashClientUI/Sources/ClashClientUI/Design/ClashCopy.swift
+      group: Shared
+    - path: ../ClashClientUI/Sources/ClashClientUI/Design/ClashRegionalFlag.swift
+      group: Shared
+    - path: Sources/AppArchitecture/AppLocalization
+      excludes:
+      - '**/InfoPlist.strings'
+    - path: Resources/Branding/SharedSymbols.xcassets
+    - path: Resources/PrivacyInfo.xcprivacy
+      buildPhase: resources
+    settings:
+      configs:
+        Release:
+          SWIFT_OPTIMIZATION_LEVEL: -Osize
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(CLASH_BUNDLE_BASE).controls
+        IPHONEOS_DEPLOYMENT_TARGET: '17.0'
+        DEVELOPMENT_TEAM: $(CLASH_DEVELOPMENT_TEAM)
+        CODE_SIGN_STYLE: Automatic
+        APPLICATION_EXTENSION_API_ONLY: true
+    entitlements:
+      path: ControlsExtension/ControlsExtension.entitlements
+      properties:
+        com.apple.security.application-groups:
+        - $(CLASH_APP_GROUP)
+    info:
+      path: ControlsExtension/Info.plist
+      properties:
+        CFBundleDisplayName: Clash Controls
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    dependencies:
+    - sdk: AppIntents.framework
+    - sdk: WidgetKit.framework
+  ClashShareExtension:
+    type: app-extension
+    platform: iOS
+    sources:
+    - ShareExtension
+    - path: Sources/SystemIntegration/ProfileShareInbox.swift
+    - path: Shared/ClashAppIdentifiers.swift
+    - path: Shared/ClashDeviceModel.swift
+      group: Shared
+    - path: Shared/ClashAppGroupContainer.swift
+      group: Shared
+    - path: Resources/PrivacyInfo.xcprivacy
+      buildPhase: resources
+    settings:
+      configs:
+        Release:
+          SWIFT_OPTIMIZATION_LEVEL: -Osize
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(CLASH_BUNDLE_BASE).share
+        DEVELOPMENT_TEAM: $(CLASH_DEVELOPMENT_TEAM)
+        CODE_SIGN_STYLE: Automatic
+        APPLICATION_EXTENSION_API_ONLY: true
+    entitlements:
+      path: ShareExtension/ShareExtension.entitlements
+      properties:
+        com.apple.security.application-groups:
+        - $(CLASH_APP_GROUP)
+    info:
+      path: ShareExtension/Info.plist
+      properties:
+        CFBundleDisplayName: Import to Clash
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.share-services
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).ShareViewController
+          NSExtensionAttributes:
+            NSExtensionActivationRule: SUBQUERY(extensionItems, $extensionItem, $extensionItem.attachments.@count
+              == 1 AND SUBQUERY($extensionItem.attachments, $attachment, ANY $attachment.registeredTypeIdentifiers
+              UTI-CONFORMS-TO "public.yaml").@count == 1).@count == 1
+  ClashMacCore:
+    type: framework
+    platform: macOS
+    sources:
+    - path: ClashCore
+    settings:
+      configs:
+        Release:
+          DEPLOYMENT_POSTPROCESSING: true
+          STRIP_INSTALLED_PRODUCT: true
+          STRIP_STYLE: non-global
+      base:
+        PRODUCT_NAME: Clash
+        PRODUCT_BUNDLE_IDENTIFIER: $(CLASH_BUNDLE_BASE).core
+        DEVELOPMENT_TEAM: $(CLASH_DEVELOPMENT_TEAM)
+        CODE_SIGN_STYLE: Automatic
+        DEFINES_MODULE: true
+        MODULEMAP_FILE: ClashCore/module.modulemap
+        SKIP_INSTALL: true
+        ENABLE_USER_SCRIPT_SANDBOXING: false
+        CLASH_CORE_SLICE: macos-arm64_x86_64
+        CLASH_CORE_ARCHIVE: $(SRCROOT)/../../Clash.xcframework/$(CLASH_CORE_SLICE)/Clash.framework/Clash
+        OTHER_LDFLAGS:
+        - -Wl,-force_load,$(CLASH_CORE_ARCHIVE)
+        - -lresolv
+    preBuildScripts:
+    - name: Copy the Go core's public headers out of the locked xcframework
+      shell: /bin/sh
+      script: "set -eu\nsrc=\"$SRCROOT/../../Clash.xcframework/$CLASH_CORE_SLICE/Clash.framework/Headers\"\
+        \ndst=\"$TARGET_BUILD_DIR/$PUBLIC_HEADERS_FOLDER_PATH\"\nmkdir -p \"$dst\"\
+        \nfor h in ref.h Clash.objc.h Universe.objc.h Clash.h; do\n  cp -f \"$src/$h\"\
+        \ \"$dst/$h\"\ndone\n"
+      outputFiles:
+      - $(TARGET_BUILD_DIR)/$(PUBLIC_HEADERS_FOLDER_PATH)/ref.h
+      - $(TARGET_BUILD_DIR)/$(PUBLIC_HEADERS_FOLDER_PATH)/Clash.objc.h
+      - $(TARGET_BUILD_DIR)/$(PUBLIC_HEADERS_FOLDER_PATH)/Universe.objc.h
+      - $(TARGET_BUILD_DIR)/$(PUBLIC_HEADERS_FOLDER_PATH)/Clash.h
+  ClashmacOS:
+    type: application
+    platform: macOS
+    productName: Clash
+    sources:
+    - path: Sources
+      excludes:
+      - TV
+      - ClashClientApp.swift
+      - ClashNavigationLab.swift
+      - ClashPushClockTouchProbe.swift
+      - VPNController.swift
+      - ClashComponents.swift
+      - OverviewComponents.swift
+      - OverviewContent.swift
+      - OverviewDetailCards.swift
+      - OverviewPrimaryCards.swift
+      - HomeView.swift
+      - NodesView.swift
+      - ConfigUI/GoldenFlowHomeView.swift
+      - ConfigUI/TunnelSettingsView.swift
+    - Shared
+    - Assets.xcassets
+    - Resources/Branding/SharedSymbols.xcassets
+    - path: Resources/Branding/AppIcon/AppIcon.icon
+      buildPhase: resources
+    - path: Resources/Branding/AppIcon/macOS/ClashAppIcon.icns
+      buildPhase: resources
+    - path: Resources/PrivacyInfo.xcprivacy
+      buildPhase: resources
+    - path: Resources/Legal
+      buildPhase: resources
+    - path: Resources/BundledGeoData/GeoSite.dat.xz
+      buildPhase: resources
+    - path: Resources/BundledGeoData/geoip.metadb.xz
+      buildPhase: resources
+    - path: Resources/BundledGeoData/GeoIP.dat.xz
+      buildPhase: resources
+    - path: Resources/BundledGeoData/ASN.mmdb.xz
+      buildPhase: resources
+    - path: Resources/BundledGeoData/BundledGeoDataManifest.json
+      buildPhase: resources
+    - path: Resources/BundledGeoData/LICENSE.meta-rules-dat.txt
+      buildPhase: resources
+    - path: Resources/Module/surge-builtin-lan.list
+      buildPhase: resources
+    - path: Resources/Module/surge-builtin-system.list
+      buildPhase: resources
+    - path: ../../Vendor/ClashAdapter/Sources/ClashAdapter
+    settings:
+      configs:
+        Release:
+          SWIFT_OPTIMIZATION_LEVEL: -Osize
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(CLASH_BUNDLE_BASE)
+        PRODUCT_NAME: Clash
+        PRODUCT_MODULE_NAME: ClashmacOS
+        MARKETING_VERSION: 1.0.14
+        CURRENT_PROJECT_VERSION: '59'
+        DEVELOPMENT_TEAM: $(CLASH_DEVELOPMENT_TEAM)
+        CODE_SIGN_STYLE: Automatic
+        ENABLE_USER_SCRIPT_SANDBOXING: false
+        ASSETCATALOG_COMPILER_APPICON_NAME: ''
+        REMOVE_HEADERS_FROM_EMBEDDED_FRAMEWORKS: true
+    info:
+      path: Resources/macOS/ClashMacInfo.plist
+      properties:
+        CFBundleDisplayName: Clash
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
+        CFBundleIconName: AppIcon
+        CFBundleIconFile: ClashAppIcon
+        CFBundleURLTypes:
+        - CFBundleTypeRole: Editor
+          CFBundleURLName: $(PRODUCT_BUNDLE_IDENTIFIER).install-config
+          CFBundleURLSchemes:
+          - clash
+          - clashmeta
+          - flclash
+          - clash
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        ClashSourceRevision: $(CLASH_SOURCE_REVISION)
+        ITSAppUsesNonExemptEncryption: false
+        LSApplicationCategoryType: public.app-category.utilities
+        LSMinimumSystemVersion: $(MACOSX_DEPLOYMENT_TARGET)
+        NSCameraUsageDescription: Scan a subscription QR code to import a profile.
+    entitlements:
+      path: Resources/macOS/ClashMac.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.network.client: true
+        com.apple.security.files.user-selected.read-write: true
+        com.apple.security.device.camera: true
+        com.apple.security.application-groups:
+        - $(CLASH_APP_GROUP)
+        com.apple.developer.networking.networkextension:
+        - packet-tunnel-provider
+        com.apple.developer.icloud-services:
+        - CloudDocuments
+        - CloudKit
+        com.apple.developer.icloud-container-identifiers:
+        - $(CLASH_ICLOUD_CONTAINER)
+        com.apple.developer.ubiquity-container-identifiers:
+        - $(CLASH_ICLOUD_CONTAINER)
+    dependencies:
+    - package: ClashClientKit
+    - package: ClashClientUI
+    - package: ClashMacClient
+    - package: swift-certificates
+      product: X509
+    - package: swift-crypto
+      product: Crypto
+    - package: swift-crypto
+      product: _CryptoExtras
+    - package: swift-asn1
+      product: SwiftASN1
+    - target: ClashMacCore
+      embed: true
+    - target: ClashmacOSExtension
+      embed: true
+    - target: ClashmacOSWidgets
+      embed: true
+    - sdk: NetworkExtension.framework
+    postBuildScripts:
+    - name: Embed the terminal helper
+      shell: /bin/sh
+      script: python3 "$SRCROOT/../../scripts/embed_cli.py"
+  ClashmacOSWidgets:
+    type: app-extension
+    platform: macOS
+    sources:
+    - path: MacWidgets
+      excludes:
+      - Info.plist
+      - MacWidgets.entitlements
+    - path: WidgetsShared
+    - path: Sources/SystemIntegration/ClashSystemRoute.swift
+    - path: Sources/SystemIntegration/ClashVPNControlIntent.swift
+    - path: Shared/ClashLogStore.swift
+      group: Shared
+    - path: Shared/ClashAppGroupContainer.swift
+      group: Shared
+    - path: Shared/ClashAppIdentifiers.swift
+    - path: Shared/ClashDeviceModel.swift
+      group: Shared
+    - path: Shared/ClashWidgetPlatform.swift
+      group: Shared
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Widgets/ClashWidgetSnapshot.swift
+      group: Shared
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Widgets/ClashWidgetMailbox.swift
+      group: Shared
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Widgets/ClashWidgetFormat.swift
+    - path: ../ClashClientUI/Sources/ClashClientUI/Design/ClashThroughputFormatter.swift
+      group: Shared
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Widgets/ClashWidgetViews.swift
+      group: Shared
+    - path: ../ClashClientUI/Sources/ClashClientUI/Design/ClashCopy.swift
+      group: Shared
+    - path: ../ClashClientUI/Sources/ClashClientUI/Design/ClashRegionalFlag.swift
+      group: Shared
+    - path: Sources/AppArchitecture/AppLocalization
+      excludes:
+      - '**/InfoPlist.strings'
+    - path: Resources/Branding/SharedSymbols.xcassets
+    - path: Resources/PrivacyInfo.xcprivacy
+      buildPhase: resources
+    settings:
+      configs:
+        Release:
+          SWIFT_OPTIMIZATION_LEVEL: -Osize
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(CLASH_BUNDLE_BASE).widgets
+        MACOSX_DEPLOYMENT_TARGET: '14.0'
+        DEVELOPMENT_TEAM: $(CLASH_DEVELOPMENT_TEAM)
+        CODE_SIGN_STYLE: Automatic
+        APPLICATION_EXTENSION_API_ONLY: true
+    entitlements:
+      path: MacWidgets/MacWidgets.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.network.client: true
+        com.apple.security.application-groups:
+        - $(CLASH_APP_GROUP)
+        com.apple.developer.networking.networkextension:
+        - packet-tunnel-provider
+    info:
+      path: MacWidgets/Info.plist
+      properties:
+        CFBundleDisplayName: Clash
+        ClashSourceRevision: $(CLASH_SOURCE_REVISION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+  ClashmacOSExtension:
+    type: app-extension
+    platform: macOS
+    sources:
+    - path: Extension
+      excludes:
+      - Extension.entitlements
+      - Info.plist
+    - path: Sources/ConfigStore/ModuleIR.swift
+    - path: Sources/ConfigStore/ModuleRegexDeadline.swift
+    - path: Sources/ConfigStore/ModuleHostList.swift
+    - path: Sources/ConfigStore/ModuleEngineContract.swift
+    - path: Sources/ConfigStore/ModuleCertificateAuthority.swift
+    - path: Sources/ConfigStore/ModuleCertificateIssuing.swift
+    - path: Sources/ConfigStore/ModuleJQ
+    - path: Sources/ConfigStore/ModuleScript
+    - path: Sources/ConfigStore/ModuleScriptFamilyFormat.swift
+    - path: Sources/SystemIntegration/ModuleScriptNotificationMailbox.swift
+    - path: Sources/SystemIntegration/ModuleScriptNotificationPoster.swift
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Widgets/ClashWidgetSnapshot.swift
+      group: Shared
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Widgets/ClashWidgetMailbox.swift
+      group: Shared
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Widgets/ClashWidgetInterfaceAccounting.swift
+      group: Shared
+    - Shared
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Tunnel/ClashTunnelRouteShaping.swift
+    - path: Resources/PrivacyInfo.xcprivacy
+      buildPhase: resources
+    - path: ../../Vendor/ClashAdapter/Sources/ClashAdapter
+    settings:
+      configs:
+        Release:
+          SWIFT_OPTIMIZATION_LEVEL: -Osize
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(CLASH_BUNDLE_BASE).packet-tunnel
+        PRODUCT_NAME: ClashmacOSExtension
+        LD_RUNPATH_SEARCH_PATHS:
+        - $(inherited)
+        - '@executable_path/../Frameworks'
+        - '@executable_path/../../../../Frameworks'
+        MARKETING_VERSION: 1.0.14
+        CURRENT_PROJECT_VERSION: '59'
+        DEVELOPMENT_TEAM: $(CLASH_DEVELOPMENT_TEAM)
+        CODE_SIGN_STYLE: Automatic
+    entitlements:
+      path: Resources/macOS/ClashMacExtension.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.network.server: true
+        com.apple.security.network.client: true
+        com.apple.security.application-groups:
+        - $(CLASH_APP_GROUP)
+        com.apple.developer.networking.networkextension:
+        - packet-tunnel-provider
+    info:
+      path: Resources/macOS/ClashMacExtensionInfo.plist
+      properties:
+        CFBundleDisplayName: Clash
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        ClashSourceRevision: $(CLASH_SOURCE_REVISION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.networkextension.packet-tunnel
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).PacketTunnelProvider
+    dependencies:
+    - target: ClashMacCore
+      embed: false
+    - sdk: NetworkExtension.framework
+    - package: swift-certificates
+      product: X509
+    - package: swift-crypto
+      product: Crypto
+    - package: swift-crypto
+      product: _CryptoExtras
+    - package: swift-asn1
+      product: SwiftASN1
+  ClashtvOS:
+    type: application
+    platform: tvOS
+    productName: Clash
+    sources:
+    - path: Sources/TV
+    - path: Shared/ConfigResourceStore.swift
+    - path: Shared/ClashAppIdentifiers.swift
+    - path: Shared/ClashTunnelStart.swift
+    - path: Shared/ClashMDNSProbeDriver.swift
+    - path: Shared/ClashDNSWireProbe.swift
+    - path: Shared/ClashDeviceModel.swift
+      group: Shared
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Rules/ClashRulesSnapshot.swift
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Proxies/ClashProbeFailureCopy.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Components/InheritedValue.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Components/InheritedList.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/DNS/ClashDNSSnapshot.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Proxies/ClashProxiesSnapshot.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Proxies/ClashProxyNodeScript.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Proxies/ClashProxiesRuntime.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Proxies/ClashProxyGroupIcon.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Activity/ClashActivitySnapshot.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Activity/ClashActivityProjectionMemo.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Profiles/ClashProfilesSnapshot.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Home/ClashConnectionDuration.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Home/ClashHomeStatusLine.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Home/ClashHomeSnapshot.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Home/ClashHomeCatalog.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Home/ClashStartupExplanation.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Design/ClashCopy.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Design/ClashAccentRole.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Design/ClashSymbol.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Design/ClashSurfaceRole.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Design/ClashThroughputFormatter.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Design/ClashFeedbackPresentation.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Design/ClashFeedbackCopy.swift
+      group: SharedFacts
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/RemoteControl/ClashRemoteControlSettings.swift
+      group: SharedFacts
+    - path: Sources/ConfigStore/ConfigTransforms.swift
+    - path: Sources/ConfigStore/TopLevelYAMLSections.swift
+    - path: Sources/ConfigStore/InvalidDomainSites.swift
+    - path: Sources/ConfigStore/OrderedJSON.swift
+    - path: Sources/ConfigStore/PreflightService.swift
+    - path: Sources/ConfigStore/AppCoreSetup.swift
+    - path: Sources/ConfigStore/AppCore.swift
+    - path: Sources/ConfigStore/BundledGeodataProvisioner.swift
+    - path: Sources/ConfigStore/GeoSiteCompiler.swift
+    - path: Sources/ConfigStore/GeoIPCompiler.swift
+    - path: Sources/ConfigStore/ProviderStagingPublisher.swift
+    - path: Sources/ConfigStore/NodeLibraries.swift
+    - path: Sources/ConfigStore/ProviderSeeds.swift
+    - path: Sources/AppArchitecture/UDPFallbackGuard.swift
+    - path: Sources/AppArchitecture/ProxyBrowsingVisibility.swift
+    - path: Sources/AppArchitecture/ProxyImportBridge.swift
+    - path: Sources/ConfigStore/SubscriptionError.swift
+    - path: Shared/LocalNetworkPermission.swift
+    - path: Sources/ConfigStore/CoreLogExcerpt.swift
+    - path: Sources/ProxyShareModel.swift
+    - path: Sources/ProfileListenerPorts.swift
+    - path: Sources/ConfigStore/CredentialStore.swift
+    - path: Sources/ConfigUI/ClientUserAgent.swift
+    - path: Sources/ConfigUI/IPStackSettings.swift
+    - path: Sources/ConfigUI/IPStackSettingsApplication.swift
+    - path: Sources/ConfigUI/ScriptEngine.swift
+    - path: Sources/VPNStartAuthorization.swift
+    - path: Sources/VPNStartFailureTracker.swift
+    - path: Shared/ClashLogStore.swift
+      group: Shared
+    - path: Shared/ClashAppGroupContainer.swift
+      group: Shared
+    - path: Resources/BundledGeoData/GeoSite.dat.xz
+      buildPhase: resources
+    - path: Resources/BundledGeoData/geoip.metadb.xz
+      buildPhase: resources
+    - path: Resources/BundledGeoData/GeoIP.dat.xz
+      buildPhase: resources
+    - path: Resources/BundledGeoData/ASN.mmdb.xz
+      buildPhase: resources
+    - path: Resources/tvOS/BundledGeoData/BundledGeoDataManifest.json
+      buildPhase: resources
+    - path: Resources/BundledGeoData/LICENSE.meta-rules-dat.txt
+      buildPhase: resources
+    - path: Resources/PrivacyInfo.xcprivacy
+      buildPhase: resources
+    - path: Resources/Branding/AppIcon/tvOS/ClashTVAssets.xcassets
+      buildPhase: resources
+    - path: Resources/Branding/SharedSymbols.xcassets
+      buildPhase: resources
+    - path: Resources/tvOS/Localization
+      buildPhase: resources
+    settings:
+      configs:
+        Debug: {}
+        Release: {}
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(CLASH_BUNDLE_BASE)
+        PRODUCT_NAME: Clash
+        PRODUCT_MODULE_NAME: ClashtvOS
+        MARKETING_VERSION: 1.0.11
+        CURRENT_PROJECT_VERSION: '31'
+        DEVELOPMENT_TEAM: $(CLASH_DEVELOPMENT_TEAM)
+        CODE_SIGN_STYLE: Automatic
+        ASSETCATALOG_COMPILER_APPICON_NAME: ClashTV
+        ENABLE_USER_SCRIPT_SANDBOXING: false
+    info:
+      path: Resources/tvOS/ClashTVInfo.plist
+      properties:
+        CFBundleDisplayName: Clash
+        NSLocalNetworkUsageDescription: Let other devices on your network use this
+          Apple TV's proxy.
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        ITSAppUsesNonExemptEncryption: false
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
+        ClashSourceRevision: $(CLASH_SOURCE_REVISION)
+        UILaunchScreen: {}
+        BGTaskSchedulerPermittedIdentifiers:
+        - $(CLASH_BUNDLE_BASE).refresh
+        UIBackgroundModes:
+        - fetch
+    entitlements:
+      path: Resources/tvOS/ClashTV.entitlements
+      properties:
+        com.apple.security.application-groups:
+        - $(CLASH_APP_GROUP)
+        com.apple.developer.networking.networkextension:
+        - packet-tunnel-provider
+        com.apple.developer.icloud-container-identifiers:
+        - $(CLASH_ICLOUD_CONTAINER)
+        com.apple.developer.icloud-services:
+        - CloudKit
+        aps-environment: development
+    dependencies:
+    - package: ClashClientKit
+    - framework: ../../Clash.xcframework
+      embed: false
+    - target: ClashtvOSExtension
+      embed: true
+    - sdk: NetworkExtension.framework
+  ClashtvOSExtension:
+    type: app-extension
+    platform: tvOS
+    sources:
+    - path: Extension
+      excludes:
+      - Module
+      - Extension.entitlements
+      - Info.plist
+    - Shared
+    - path: ../ClashClientUI/Sources/ClashClientUI/Features/Tunnel/ClashTunnelRouteShaping.swift
+    - path: Resources/PrivacyInfo.xcprivacy
+      buildPhase: resources
+    - path: ../../Vendor/ClashAdapter/Sources/ClashAdapter
+    settings:
+      configs:
+        Debug: {}
+        Release: {}
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(CLASH_BUNDLE_BASE).tvextension
+        PRODUCT_NAME: ClashtvOSExtension
+        MARKETING_VERSION: 1.0.11
+        CURRENT_PROJECT_VERSION: '31'
+        DEVELOPMENT_TEAM: $(CLASH_DEVELOPMENT_TEAM)
+        CODE_SIGN_STYLE: Automatic
+    entitlements:
+      path: Resources/tvOS/ClashTVExtension.entitlements
+      properties:
+        com.apple.security.application-groups:
+        - $(CLASH_APP_GROUP)
+        com.apple.developer.networking.networkextension:
+        - packet-tunnel-provider
+    info:
+      path: Resources/tvOS/ClashTVExtensionInfo.plist
+      properties:
+        CFBundleDisplayName: Clash
+        UIRequiredDeviceCapabilities:
+        - arm64
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
+        ClashSourceRevision: $(CLASH_SOURCE_REVISION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.networkextension.packet-tunnel
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).PacketTunnelProvider
+    dependencies:
+    - framework: ../../Clash.xcframework
+      embed: false
+    - sdk: NetworkExtension.framework
+schemes:
+  ClashiOS:
+    build:
+      targets:
+        ClashiOS: all
+    run:
+      config: Debug
+    archive:
+      config: Release
+  ClashtvOS:
+    build:
+      targets:
+        ClashtvOS: all
+    run:
+      config: Debug
+    archive:
+      config: Release
+  ClashmacOS:
+    build:
+      targets:
+        ClashmacOS: all
+    run:
+      config: Debug
+    archive:
+      config: Release

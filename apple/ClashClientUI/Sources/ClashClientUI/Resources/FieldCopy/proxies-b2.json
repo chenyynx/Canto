@@ -1,0 +1,4786 @@
+{
+  "proxies[wireguard].private-key": {
+    "title": {
+      "en": "Private Key",
+      "zh-Hans": "私钥",
+      "zh-Hant": "私鑰"
+    },
+    "summary": {
+      "en": "This device's WireGuard private key, in base64.",
+      "zh-Hans": "本机的 WireGuard 私钥（base64）。",
+      "zh-Hant": "本機的 WireGuard 私鑰（base64）。"
+    }
+  },
+  "proxies[*].ip": {
+    "title": {
+      "en": "Tunnel IPv4 Address",
+      "zh-Hans": "隧道 IPv4 地址",
+      "zh-Hant": "隧道 IPv4 位址"
+    },
+    "summary": {
+      "en": "The IPv4 address this device uses inside the tunnel.",
+      "zh-Hans": "本机在隧道里使用的 IPv4 地址。",
+      "zh-Hant": "本機在隧道裡使用的 IPv4 位址。"
+    },
+    "example": "172.16.0.2/32"
+  },
+  "proxies[*].ipv6": {
+    "title": {
+      "en": "Tunnel IPv6 Address",
+      "zh-Hans": "隧道 IPv6 地址",
+      "zh-Hant": "隧道 IPv6 位址"
+    },
+    "summary": {
+      "en": "The IPv6 address this device uses inside the tunnel; leave it empty if you have none.",
+      "zh-Hans": "本机在隧道里使用的 IPv6 地址，没有就不填。",
+      "zh-Hant": "本機在隧道裡使用的 IPv6 位址，沒有就不填。"
+    },
+    "example": "fd01::2/128"
+  },
+  "proxies[*].public-key": {
+    "title": {
+      "en": "Server Public Key",
+      "zh-Hans": "服务器公钥",
+      "zh-Hant": "伺服器公鑰"
+    },
+    "summary": {
+      "en": "The server's public key, in base64.",
+      "zh-Hans": "服务器的公钥（base64）。",
+      "zh-Hant": "伺服器的公鑰（base64）。"
+    }
+  },
+  "proxies[*].allowed-ips": {
+    "title": {
+      "en": "Allowed IPs",
+      "zh-Hans": "允许的 IP",
+      "zh-Hant": "允許的 IP"
+    },
+    "summary": {
+      "en": "Which destinations go through this tunnel; 0.0.0.0/0 sends everything.",
+      "zh-Hans": "哪些目标地址走这条隧道，填 0.0.0.0/0 表示全部。",
+      "zh-Hant": "哪些目標位址走這條隧道，填 0.0.0.0/0 表示全部。"
+    },
+    "example": "0.0.0.0/0"
+  },
+  "proxies[*].pre-shared-key": {
+    "title": {
+      "en": "Pre-Shared Key",
+      "zh-Hans": "预共享密钥",
+      "zh-Hant": "預共享金鑰"
+    },
+    "summary": {
+      "en": "An extra shared key; fill it in only if the server gave you one.",
+      "zh-Hans": "额外的共享密钥，服务器提供了才填。",
+      "zh-Hant": "額外的共享金鑰，伺服器提供了才填。"
+    }
+  },
+  "proxies[*].reserved": {
+    "title": {
+      "en": "Reserved Bytes",
+      "zh-Hans": "保留字段",
+      "zh-Hant": "保留欄位"
+    },
+    "summary": {
+      "en": "WireGuard's reserved bytes; some WARP servers need them.",
+      "zh-Hans": "协议的保留字段，部分 WARP 节点需要。",
+      "zh-Hant": "協定的保留欄位，部分 WARP 節點需要。"
+    },
+    "example": "U4An"
+  },
+  "proxies[*].persistent-keepalive": {
+    "title": {
+      "en": "Keepalive Interval",
+      "zh-Hans": "保活间隔",
+      "zh-Hant": "保活間隔"
+    },
+    "summary": {
+      "en": "How often a keepalive is sent to hold the connection open through NAT.",
+      "zh-Hans": "多久发一次保活包，防止被 NAT 断开。",
+      "zh-Hant": "多久送一次保活封包，避免被 NAT 斷線。"
+    },
+    "unset": {
+      "en": "Off",
+      "zh-Hans": "关闭",
+      "zh-Hant": "關閉"
+    }
+  },
+  "proxies[*].workers": {
+    "title": {
+      "en": "Worker Threads",
+      "zh-Hans": "工作线程数",
+      "zh-Hant": "工作執行緒數"
+    },
+    "summary": {
+      "en": "How many threads process the tunnel's packets.",
+      "zh-Hans": "处理隧道数据包的线程数。",
+      "zh-Hant": "處理隧道封包的執行緒數。"
+    },
+    "unset": {
+      "en": "One per CPU core",
+      "zh-Hans": "按 CPU 核数",
+      "zh-Hant": "依 CPU 核心數"
+    }
+  },
+  "proxies[*].mtu": {
+    "title": {
+      "en": "MTU",
+      "zh-Hans": "MTU",
+      "zh-Hant": "MTU"
+    },
+    "summary": {
+      "en": "The largest packet the tunnel's virtual interface sends.",
+      "zh-Hans": "隧道虚拟网卡一次能发的最大包长。",
+      "zh-Hant": "隧道虛擬網路介面一次能送的最大封包長度。"
+    }
+  },
+  "proxies[*].refresh-server-ip-interval": {
+    "title": {
+      "en": "Re-resolve Server Every",
+      "zh-Hans": "重新解析服务器",
+      "zh-Hant": "重新解析伺服器"
+    },
+    "summary": {
+      "en": "How often the server's domain is looked up again.",
+      "zh-Hans": "多久重新解析一次服务器域名。",
+      "zh-Hant": "多久重新解析一次伺服器網域。"
+    },
+    "unset": {
+      "en": "Never",
+      "zh-Hans": "不重新解析",
+      "zh-Hant": "不重新解析"
+    }
+  },
+  "proxies[*].remote-dns-resolve": {
+    "title": {
+      "en": "Resolve DNS Remotely",
+      "zh-Hans": "远程解析 DNS",
+      "zh-Hant": "遠端解析 DNS"
+    },
+    "summary": {
+      "en": "Looks up destination domains through the tunnel instead of on this device.",
+      "zh-Hans": "通过隧道解析目标域名，而不是在本机解析。",
+      "zh-Hant": "透過隧道解析目標網域，而不是在本機解析。"
+    }
+  },
+  "proxies[*].dns": {
+    "title": {
+      "en": "Remote DNS Servers",
+      "zh-Hans": "远程 DNS 服务器",
+      "zh-Hant": "遠端 DNS 伺服器"
+    },
+    "summary": {
+      "en": "The DNS servers used when Resolve DNS Remotely is on.",
+      "zh-Hans": "开启远程解析 DNS 后使用的 DNS 服务器。",
+      "zh-Hant": "開啟遠端解析 DNS 後使用的 DNS 伺服器。"
+    },
+    "example": "1.1.1.1"
+  },
+  "proxies[*].ip-stack.mode": {
+    "title": {
+      "en": "Stack Type",
+      "zh-Hans": "协议栈类型",
+      "zh-Hant": "協定堆疊類型"
+    },
+    "summary": {
+      "en": "Which network stack runs the tunnel; leave it on auto unless told otherwise.",
+      "zh-Hans": "隧道使用的网络协议栈，保持自动即可。",
+      "zh-Hant": "隧道使用的網路協定堆疊，保持自動即可。"
+    },
+    "presets": [
+      {
+        "value": "auto",
+        "label": {
+          "en": "Auto",
+          "zh-Hans": "自动",
+          "zh-Hant": "自動"
+        }
+      },
+      {
+        "value": "gvisor",
+        "label": {
+          "en": "gVisor",
+          "zh-Hans": "gVisor",
+          "zh-Hant": "gVisor"
+        }
+      },
+      {
+        "value": "mips",
+        "label": {
+          "en": "mihomo stack (MIPS)",
+          "zh-Hans": "mihomo 协议栈（MIPS）",
+          "zh-Hant": "mihomo 協定堆疊（MIPS）"
+        }
+      }
+    ]
+  },
+  "proxies[*].ip-stack.congestion-controller": {
+    "title": {
+      "en": "TCP Congestion Control",
+      "zh-Hans": "TCP 拥塞控制",
+      "zh-Hant": "TCP 壅塞控制"
+    },
+    "summary": {
+      "en": "The congestion control for TCP inside the tunnel; it has no effect with gVisor.",
+      "zh-Hans": "隧道内 TCP 的拥塞控制算法，gVisor 下不起作用。",
+      "zh-Hant": "隧道內 TCP 的壅塞控制演算法，gVisor 下不起作用。"
+    },
+    "presets": [
+      {
+        "value": "cubic",
+        "label": {
+          "en": "CUBIC",
+          "zh-Hans": "CUBIC",
+          "zh-Hant": "CUBIC"
+        }
+      },
+      {
+        "value": "reno",
+        "label": {
+          "en": "Reno",
+          "zh-Hans": "Reno",
+          "zh-Hant": "Reno"
+        }
+      },
+      {
+        "value": "bbr",
+        "label": {
+          "en": "BBR",
+          "zh-Hans": "BBR",
+          "zh-Hant": "BBR"
+        }
+      },
+      {
+        "value": "bbr3",
+        "label": {
+          "en": "BBRv3",
+          "zh-Hans": "BBRv3",
+          "zh-Hant": "BBRv3"
+        }
+      }
+    ]
+  },
+  "proxies[wireguard].peers": {
+    "title": {
+      "en": "Peers",
+      "zh-Hans": "对端列表",
+      "zh-Hant": "對端清單"
+    },
+    "summary": {
+      "en": "Add each server here when there is more than one; the single-server fields above are then ignored.",
+      "zh-Hans": "有多个对端时逐个添加，此时上方的服务器设置不生效。",
+      "zh-Hant": "有多個對端時逐一新增，此時上方的伺服器設定不生效。"
+    }
+  },
+  "proxies[*].peers[].server": {
+    "title": {
+      "en": "Server",
+      "zh-Hans": "服务器",
+      "zh-Hant": "伺服器"
+    },
+    "summary": {
+      "en": "This peer's server address.",
+      "zh-Hans": "这个对端的服务器地址。",
+      "zh-Hant": "這個對端的伺服器位址。"
+    },
+    "example": "203.0.113.10"
+  },
+  "proxies[*].peers[].port": {
+    "title": {
+      "en": "Port",
+      "zh-Hans": "端口",
+      "zh-Hant": "通訊埠"
+    },
+    "summary": {
+      "en": "This peer's port.",
+      "zh-Hans": "这个对端的端口。",
+      "zh-Hant": "這個對端的通訊埠。"
+    }
+  },
+  "proxies[*].peers[].public-key": {
+    "title": {
+      "en": "Public Key",
+      "zh-Hans": "公钥",
+      "zh-Hant": "公鑰"
+    },
+    "summary": {
+      "en": "This peer's public key, in base64.",
+      "zh-Hans": "这个对端的公钥（base64）。",
+      "zh-Hant": "這個對端的公鑰（base64）。"
+    }
+  },
+  "proxies[*].peers[].pre-shared-key": {
+    "title": {
+      "en": "Pre-Shared Key",
+      "zh-Hans": "预共享密钥",
+      "zh-Hant": "預共享金鑰"
+    },
+    "summary": {
+      "en": "The extra shared key for this peer, if it has one.",
+      "zh-Hans": "与这个对端的预共享密钥，有才填。",
+      "zh-Hant": "與這個對端的預共享金鑰，有才填。"
+    }
+  },
+  "proxies[*].peers[].reserved": {
+    "title": {
+      "en": "Reserved Bytes",
+      "zh-Hans": "保留字段",
+      "zh-Hant": "保留欄位"
+    },
+    "summary": {
+      "en": "This peer's reserved bytes; some WARP servers need them.",
+      "zh-Hans": "这个对端的保留字段，部分 WARP 节点需要。",
+      "zh-Hant": "這個對端的保留欄位，部分 WARP 節點需要。"
+    },
+    "example": "U4An"
+  },
+  "proxies[*].peers[].allowed-ips": {
+    "title": {
+      "en": "Allowed IPs",
+      "zh-Hans": "允许的 IP",
+      "zh-Hant": "允許的 IP"
+    },
+    "summary": {
+      "en": "Which destinations this peer carries; peers must not overlap.",
+      "zh-Hans": "哪些目标地址交给这个对端，各对端不能重叠。",
+      "zh-Hant": "哪些目標位址交給這個對端，各對端不能重疊。"
+    },
+    "example": "0.0.0.0/0"
+  },
+  "proxies[*].amnezia-wg-option.version": {
+    "title": {
+      "en": "Version",
+      "zh-Hans": "版本",
+      "zh-Hant": "版本"
+    },
+    "summary": {
+      "en": "3 uses the v3 implementation; any other value uses the older one.",
+      "zh-Hans": "填 3 使用 v3 实现，其他值使用旧版实现。",
+      "zh-Hant": "填 3 使用 v3 實作，其他值使用舊版實作。"
+    },
+    "unset": {
+      "en": "Older implementation",
+      "zh-Hans": "旧版",
+      "zh-Hant": "舊版"
+    },
+    "presets": [
+      {
+        "value": "1",
+        "label": {
+          "en": "v1 (legacy)",
+          "zh-Hans": "v1（旧版实现）",
+          "zh-Hant": "v1（舊版實作）"
+        }
+      },
+      {
+        "value": "2",
+        "label": {
+          "en": "v2 (legacy)",
+          "zh-Hans": "v2（旧版实现）",
+          "zh-Hant": "v2（舊版實作）"
+        }
+      },
+      {
+        "value": "3",
+        "label": {
+          "en": "v3",
+          "zh-Hans": "v3",
+          "zh-Hant": "v3"
+        }
+      }
+    ]
+  },
+  "proxies[*].amnezia-wg-option.jc": {
+    "title": {
+      "en": "Junk Packet Count",
+      "zh-Hans": "垃圾包数量",
+      "zh-Hant": "垃圾封包數量"
+    },
+    "summary": {
+      "en": "How many junk packets are sent before the handshake; must match the server.",
+      "zh-Hans": "握手前发送的垃圾包个数，须与服务器一致。",
+      "zh-Hant": "交握前送出的垃圾封包數量，須與伺服器一致。"
+    }
+  },
+  "proxies[*].amnezia-wg-option.jmin": {
+    "title": {
+      "en": "Junk Packet Min Size",
+      "zh-Hans": "垃圾包最小长度",
+      "zh-Hant": "垃圾封包最小長度"
+    },
+    "summary": {
+      "en": "The smallest junk packet, in bytes.",
+      "zh-Hans": "垃圾包的最小长度（字节）。",
+      "zh-Hant": "垃圾封包的最小長度（位元組）。"
+    }
+  },
+  "proxies[*].amnezia-wg-option.jmax": {
+    "title": {
+      "en": "Junk Packet Max Size",
+      "zh-Hans": "垃圾包最大长度",
+      "zh-Hant": "垃圾封包最大長度"
+    },
+    "summary": {
+      "en": "The largest junk packet, in bytes.",
+      "zh-Hans": "垃圾包的最大长度（字节）。",
+      "zh-Hant": "垃圾封包的最大長度（位元組）。"
+    }
+  },
+  "proxies[*].amnezia-wg-option.s1": {
+    "title": {
+      "en": "Handshake Init Padding",
+      "zh-Hans": "握手发起填充",
+      "zh-Hant": "交握發起填充"
+    },
+    "summary": {
+      "en": "Random bytes added before the handshake initiation; must match the server.",
+      "zh-Hans": "握手发起包前加的随机字节数，须与服务器一致。",
+      "zh-Hant": "交握發起封包前加的隨機位元組數，須與伺服器一致。"
+    }
+  },
+  "proxies[*].amnezia-wg-option.s2": {
+    "title": {
+      "en": "Handshake Reply Padding",
+      "zh-Hans": "握手响应填充",
+      "zh-Hant": "交握回應填充"
+    },
+    "summary": {
+      "en": "Random bytes added before the handshake response; must match the server.",
+      "zh-Hans": "握手响应包前加的随机字节数，须与服务器一致。",
+      "zh-Hant": "交握回應封包前加的隨機位元組數，須與伺服器一致。"
+    }
+  },
+  "proxies[*].amnezia-wg-option.s3": {
+    "title": {
+      "en": "Cookie Reply Padding",
+      "zh-Hans": "Cookie 回复填充",
+      "zh-Hant": "Cookie 回覆填充"
+    },
+    "summary": {
+      "en": "Random bytes added before the cookie reply (AmneziaWG 1.5+).",
+      "zh-Hans": "Cookie 回复包前加的随机字节数（1.5 起）。",
+      "zh-Hant": "Cookie 回覆封包前加的隨機位元組數（1.5 起）。"
+    }
+  },
+  "proxies[*].amnezia-wg-option.s4": {
+    "title": {
+      "en": "Data Packet Padding",
+      "zh-Hans": "数据包填充",
+      "zh-Hant": "資料封包填充"
+    },
+    "summary": {
+      "en": "Random bytes added before each data packet (AmneziaWG 1.5+).",
+      "zh-Hans": "每个数据包前加的随机字节数（1.5 起）。",
+      "zh-Hant": "每個資料封包前加的隨機位元組數（1.5 起）。"
+    }
+  },
+  "proxies[*].amnezia-wg-option.h1": {
+    "title": {
+      "en": "Header H1",
+      "zh-Hans": "类型头 H1",
+      "zh-Hant": "類型標頭 H1"
+    },
+    "summary": {
+      "en": "The custom type value of the handshake initiation; version 2 and later accept a range.",
+      "zh-Hans": "握手发起包的自定义类型值，2.0 起可填范围。",
+      "zh-Hant": "交握發起封包的自訂類型值，2.0 起可填範圍。"
+    },
+    "example": "123456"
+  },
+  "proxies[*].amnezia-wg-option.h2": {
+    "title": {
+      "en": "Header H2",
+      "zh-Hans": "类型头 H2",
+      "zh-Hant": "類型標頭 H2"
+    },
+    "summary": {
+      "en": "The custom type value of the handshake response; version 2 and later accept a range.",
+      "zh-Hans": "握手响应包的自定义类型值，2.0 起可填范围。",
+      "zh-Hant": "交握回應封包的自訂類型值，2.0 起可填範圍。"
+    },
+    "example": "123456"
+  },
+  "proxies[*].amnezia-wg-option.h3": {
+    "title": {
+      "en": "Header H3",
+      "zh-Hans": "类型头 H3",
+      "zh-Hant": "類型標頭 H3"
+    },
+    "summary": {
+      "en": "The custom type value of the cookie reply; version 2 and later accept a range.",
+      "zh-Hans": "Cookie 回复包的自定义类型值，2.0 起可填范围。",
+      "zh-Hant": "Cookie 回覆封包的自訂類型值，2.0 起可填範圍。"
+    },
+    "example": "123456"
+  },
+  "proxies[*].amnezia-wg-option.h4": {
+    "title": {
+      "en": "Header H4",
+      "zh-Hans": "类型头 H4",
+      "zh-Hant": "類型標頭 H4"
+    },
+    "summary": {
+      "en": "The custom type value of the data packet; version 2 and later accept a range.",
+      "zh-Hans": "数据包的自定义类型值，2.0 起可填范围。",
+      "zh-Hant": "資料封包的自訂類型值，2.0 起可填範圍。"
+    },
+    "example": "123456"
+  },
+  "proxies[*].amnezia-wg-option.i1": {
+    "title": {
+      "en": "Signature Packet I1",
+      "zh-Hans": "特征包 I1",
+      "zh-Hant": "特徵封包 I1"
+    },
+    "summary": {
+      "en": "Signature packet 1 sent before the handshake, in AmneziaWG tag syntax (1.5+).",
+      "zh-Hans": "握手前发送的第 1 个特征包，按标签写法填（1.5 起）。",
+      "zh-Hant": "交握前送出的第 1 個特徵封包，依標籤寫法填（1.5 起）。"
+    },
+    "example": "<b 0xf6ab3267fa><r 10>"
+  },
+  "proxies[*].amnezia-wg-option.i2": {
+    "title": {
+      "en": "Signature Packet I2",
+      "zh-Hans": "特征包 I2",
+      "zh-Hant": "特徵封包 I2"
+    },
+    "summary": {
+      "en": "Signature packet 2 sent before the handshake, in AmneziaWG tag syntax (1.5+).",
+      "zh-Hans": "握手前发送的第 2 个特征包，按标签写法填（1.5 起）。",
+      "zh-Hant": "交握前送出的第 2 個特徵封包，依標籤寫法填（1.5 起）。"
+    },
+    "example": "<b 0xf6ab3267fa><r 10>"
+  },
+  "proxies[*].amnezia-wg-option.i3": {
+    "title": {
+      "en": "Signature Packet I3",
+      "zh-Hans": "特征包 I3",
+      "zh-Hant": "特徵封包 I3"
+    },
+    "summary": {
+      "en": "Signature packet 3 sent before the handshake, in AmneziaWG tag syntax (1.5+).",
+      "zh-Hans": "握手前发送的第 3 个特征包，按标签写法填（1.5 起）。",
+      "zh-Hant": "交握前送出的第 3 個特徵封包，依標籤寫法填（1.5 起）。"
+    },
+    "example": "<b 0xf6ab3267fa><r 10>"
+  },
+  "proxies[*].amnezia-wg-option.i4": {
+    "title": {
+      "en": "Signature Packet I4",
+      "zh-Hans": "特征包 I4",
+      "zh-Hant": "特徵封包 I4"
+    },
+    "summary": {
+      "en": "Signature packet 4 sent before the handshake, in AmneziaWG tag syntax (1.5+).",
+      "zh-Hans": "握手前发送的第 4 个特征包，按标签写法填（1.5 起）。",
+      "zh-Hant": "交握前送出的第 4 個特徵封包，依標籤寫法填（1.5 起）。"
+    },
+    "example": "<b 0xf6ab3267fa><r 10>"
+  },
+  "proxies[*].amnezia-wg-option.i5": {
+    "title": {
+      "en": "Signature Packet I5",
+      "zh-Hans": "特征包 I5",
+      "zh-Hant": "特徵封包 I5"
+    },
+    "summary": {
+      "en": "Signature packet 5 sent before the handshake, in AmneziaWG tag syntax (1.5+).",
+      "zh-Hans": "握手前发送的第 5 个特征包，按标签写法填（1.5 起）。",
+      "zh-Hant": "交握前送出的第 5 個特徵封包，依標籤寫法填（1.5 起）。"
+    },
+    "example": "<b 0xf6ab3267fa><r 10>"
+  },
+  "proxies[*].amnezia-wg-option.j1": {
+    "title": {
+      "en": "Controlled Junk J1",
+      "zh-Hans": "受控垃圾包 J1",
+      "zh-Hant": "受控垃圾封包 J1"
+    },
+    "summary": {
+      "en": "Controlled junk packet 1, in AmneziaWG tag syntax (1.5 only).",
+      "zh-Hans": "第 1 个受控垃圾包，按标签写法填（仅 1.5）。",
+      "zh-Hant": "第 1 個受控垃圾封包，依標籤寫法填（僅 1.5）。"
+    },
+    "example": "<c><b 0xf6ab><t><wt 1000>"
+  },
+  "proxies[*].amnezia-wg-option.j2": {
+    "title": {
+      "en": "Controlled Junk J2",
+      "zh-Hans": "受控垃圾包 J2",
+      "zh-Hant": "受控垃圾封包 J2"
+    },
+    "summary": {
+      "en": "Controlled junk packet 2, in AmneziaWG tag syntax (1.5 only).",
+      "zh-Hans": "第 2 个受控垃圾包，按标签写法填（仅 1.5）。",
+      "zh-Hant": "第 2 個受控垃圾封包，依標籤寫法填（僅 1.5）。"
+    },
+    "example": "<c><b 0xf6ab><t><wt 1000>"
+  },
+  "proxies[*].amnezia-wg-option.j3": {
+    "title": {
+      "en": "Controlled Junk J3",
+      "zh-Hans": "受控垃圾包 J3",
+      "zh-Hant": "受控垃圾封包 J3"
+    },
+    "summary": {
+      "en": "Controlled junk packet 3, in AmneziaWG tag syntax (1.5 only).",
+      "zh-Hans": "第 3 个受控垃圾包，按标签写法填（仅 1.5）。",
+      "zh-Hant": "第 3 個受控垃圾封包，依標籤寫法填（僅 1.5）。"
+    },
+    "example": "<c><b 0xf6ab><t><wt 1000>"
+  },
+  "proxies[*].amnezia-wg-option.itime": {
+    "title": {
+      "en": "Controlled Junk Interval",
+      "zh-Hans": "受控垃圾包间隔",
+      "zh-Hant": "受控垃圾封包間隔"
+    },
+    "summary": {
+      "en": "How often the controlled junk packets are sent (1.5 only).",
+      "zh-Hans": "受控垃圾包的发送间隔（仅 1.5）。",
+      "zh-Hant": "受控垃圾封包的送出間隔（僅 1.5）。"
+    }
+  },
+  "proxies[*].amnezia-wg-option.header-protection-key": {
+    "title": {
+      "en": "Header Protection Key",
+      "zh-Hans": "包头保护密钥",
+      "zh-Hant": "標頭保護金鑰"
+    },
+    "summary": {
+      "en": "The key that protects packet headers, in base64 (v3).",
+      "zh-Hans": "保护包头的密钥，base64 格式（v3）。",
+      "zh-Hant": "保護封包標頭的金鑰，base64 格式（v3）。"
+    }
+  },
+  "proxies[*].amnezia-wg-option.content-padding-addition": {
+    "title": {
+      "en": "Data Padding Range",
+      "zh-Hans": "数据填充范围",
+      "zh-Hant": "資料填充範圍"
+    },
+    "summary": {
+      "en": "How many random bytes are added to data packets, as a range (v3).",
+      "zh-Hans": "数据包随机填充的字节数范围（v3）。",
+      "zh-Hant": "資料封包隨機填充的位元組數範圍（v3）。"
+    },
+    "example": "0-32"
+  },
+  "proxies[*].amnezia-wg-option.rekey-after-time": {
+    "title": {
+      "en": "Rekey After",
+      "zh-Hans": "重新协商间隔",
+      "zh-Hant": "重新協商間隔"
+    },
+    "summary": {
+      "en": "How often new keys are negotiated (v3).",
+      "zh-Hans": "多久重新协商一次密钥（v3）。",
+      "zh-Hant": "多久重新協商一次金鑰（v3）。"
+    },
+    "example": "120"
+  },
+  "proxies[*].amnezia-wg-option.rekey-timeout": {
+    "title": {
+      "en": "Handshake Retry After",
+      "zh-Hans": "握手重试间隔",
+      "zh-Hant": "交握重試間隔"
+    },
+    "summary": {
+      "en": "How long to wait before retrying an unanswered handshake (v3).",
+      "zh-Hans": "握手没有回应时，等多久重试（v3）。",
+      "zh-Hant": "交握沒有回應時，等多久重試（v3）。"
+    },
+    "example": "5"
+  },
+  "proxies[*].amnezia-wg-option.reject-after-time": {
+    "title": {
+      "en": "Stop Using Keys After",
+      "zh-Hans": "密钥失效时间",
+      "zh-Hant": "金鑰失效時間"
+    },
+    "summary": {
+      "en": "How long the current keys are used before they stop working (v3).",
+      "zh-Hans": "当前密钥用满多久后停止使用（v3）。",
+      "zh-Hant": "目前金鑰用滿多久後停止使用（v3）。"
+    },
+    "example": "180"
+  },
+  "proxies[*].amnezia-wg-option.keepalive-timeout": {
+    "title": {
+      "en": "Keepalive Timeout",
+      "zh-Hans": "保活超时",
+      "zh-Hant": "保活逾時"
+    },
+    "summary": {
+      "en": "Sends a keepalive when nothing was sent this long after receiving (v3).",
+      "zh-Hans": "收到数据后这么久没发送，就发一个保活包（v3）。",
+      "zh-Hant": "收到資料後這麼久沒送出，就送一個保活封包（v3）。"
+    },
+    "example": "10"
+  },
+  "proxies[*].amnezia-wg-option.max-handshake-attempts": {
+    "title": {
+      "en": "Max Handshake Attempts",
+      "zh-Hans": "最多握手次数",
+      "zh-Hant": "最多交握次數"
+    },
+    "summary": {
+      "en": "Gives up after this many handshake attempts (v3).",
+      "zh-Hans": "握手最多尝试几次（v3）。",
+      "zh-Hant": "交握最多嘗試幾次（v3）。"
+    },
+    "example": "18"
+  },
+  "proxies[*].amnezia-wg-option.random-trailers": {
+    "title": {
+      "en": "Random Trailers",
+      "zh-Hans": "随机包尾",
+      "zh-Hant": "隨機封包尾"
+    },
+    "summary": {
+      "en": "Adds random bytes at the end of packets (v3.1).",
+      "zh-Hans": "在包尾追加随机字节（v3.1）。",
+      "zh-Hant": "在封包尾端附加隨機位元組（v3.1）。"
+    }
+  },
+  "proxies[*].amnezia-wg-option.disable-cookies": {
+    "title": {
+      "en": "Disable Cookies",
+      "zh-Hans": "关闭 Cookie",
+      "zh-Hant": "關閉 Cookie"
+    },
+    "summary": {
+      "en": "Turns off the cookie mechanism that guards against floods (v3.1).",
+      "zh-Hans": "关闭用来防洪泛攻击的 Cookie 机制（v3.1）。",
+      "zh-Hant": "關閉用來防洪泛攻擊的 Cookie 機制（v3.1）。"
+    }
+  },
+  "proxies[hysteria].protocol": {
+    "title": {
+      "en": "Type",
+      "zh-Hans": "传输方式",
+      "zh-Hant": "傳輸方式"
+    },
+    "summary": {
+      "en": "How packets travel: udp, wechat-video (looks like a video call) or faketcp.",
+      "zh-Hans": "数据包的传输方式：udp、wechat-video 或 faketcp。",
+      "zh-Hant": "封包的傳輸方式：udp、wechat-video 或 faketcp。"
+    },
+    "presets": [
+      {
+        "value": "udp",
+        "label": {
+          "en": "UDP",
+          "zh-Hans": "UDP",
+          "zh-Hant": "UDP"
+        }
+      },
+      {
+        "value": "wechat-video",
+        "label": {
+          "en": "WeChat video call",
+          "zh-Hans": "伪装成微信视频",
+          "zh-Hant": "偽裝成微信視訊"
+        }
+      },
+      {
+        "value": "faketcp",
+        "label": {
+          "en": "FakeTCP",
+          "zh-Hans": "FakeTCP",
+          "zh-Hant": "FakeTCP"
+        }
+      }
+    ]
+  },
+  "proxies[*].obfs-protocol": {
+    "title": {
+      "en": "Type (Stash)",
+      "zh-Hans": "Stash 传输方式",
+      "zh-Hant": "Stash 傳輸方式"
+    },
+    "summary": {
+      "en": "Stash's name for Transport; when set, it replaces Transport.",
+      "zh-Hans": "传输方式的 Stash 写法，填了会取代传输方式。",
+      "zh-Hant": "傳輸方式的 Stash 寫法，填了會取代傳輸方式。"
+    },
+    "presets": [
+      {
+        "value": "udp",
+        "label": {
+          "en": "UDP",
+          "zh-Hans": "UDP",
+          "zh-Hant": "UDP"
+        }
+      },
+      {
+        "value": "wechat-video",
+        "label": {
+          "en": "WeChat video call",
+          "zh-Hans": "伪装成微信视频",
+          "zh-Hant": "偽裝成微信視訊"
+        }
+      },
+      {
+        "value": "faketcp",
+        "label": {
+          "en": "FakeTCP",
+          "zh-Hans": "FakeTCP",
+          "zh-Hant": "FakeTCP"
+        }
+      }
+    ]
+  },
+  "proxies[hysteria].obfs": {
+    "title": {
+      "en": "Obfuscation Password",
+      "zh-Hans": "混淆密码",
+      "zh-Hant": "混淆密碼"
+    },
+    "summary": {
+      "en": "Scrambles traffic with this password; it must match the server's.",
+      "zh-Hans": "用这个密码混淆流量，须与服务器一致。",
+      "zh-Hant": "用這個密碼混淆流量，須與伺服器一致。"
+    },
+    "unset": {
+      "en": "No obfuscation",
+      "zh-Hans": "不混淆",
+      "zh-Hant": "不混淆"
+    }
+  },
+  "proxies[hysteria].auth": {
+    "title": {
+      "en": "Auth Payload",
+      "zh-Hans": "认证内容",
+      "zh-Hant": "認證內容"
+    },
+    "summary": {
+      "en": "The authentication bytes in base64; when set, it replaces Auth Password.",
+      "zh-Hans": "base64 格式的认证内容，填了会取代认证密码。",
+      "zh-Hant": "base64 格式的認證內容，填了會取代認證密碼。"
+    }
+  },
+  "proxies[*].auth-str": {
+    "title": {
+      "en": "Password",
+      "zh-Hans": "密码",
+      "zh-Hant": "密碼"
+    },
+    "summary": {
+      "en": "The password the server checks when you connect.",
+      "zh-Hans": "连接时服务器校验的密码。",
+      "zh-Hant": "連線時伺服器驗證的密碼。"
+    }
+  },
+  "proxies[hysteria].up": {
+    "title": {
+      "en": "Upload Bandwidth",
+      "zh-Hans": "上传带宽",
+      "zh-Hant": "上傳頻寬"
+    },
+    "summary": {
+      "en": "Your real upload speed, such as 30 Mbps; data is sent at this rate.",
+      "zh-Hans": "你的实际上传带宽，如 30 Mbps，按此速度发送。",
+      "zh-Hant": "你的實際上傳頻寬，如 30 Mbps，依此速度送出。"
+    },
+    "example": "30 Mbps"
+  },
+  "proxies[hysteria].down": {
+    "title": {
+      "en": "Download Bandwidth",
+      "zh-Hans": "下载带宽",
+      "zh-Hant": "下載頻寬"
+    },
+    "summary": {
+      "en": "Your real download speed, such as 200 Mbps.",
+      "zh-Hans": "你的实际下载带宽，如 200 Mbps。",
+      "zh-Hant": "你的實際下載頻寬，如 200 Mbps。"
+    },
+    "example": "200 Mbps"
+  },
+  "proxies[*].up-speed": {
+    "title": {
+      "en": "Upload Mbps (Stash)",
+      "zh-Hans": "Stash 上传带宽",
+      "zh-Hant": "Stash 上傳頻寬"
+    },
+    "summary": {
+      "en": "Upload bandwidth as a number of Mbps; when set, it replaces Upload Bandwidth.",
+      "zh-Hans": "以 Mbps 数字写上传带宽，填了会取代上传带宽。",
+      "zh-Hant": "以 Mbps 數字寫上傳頻寬，填了會取代上傳頻寬。"
+    }
+  },
+  "proxies[*].down-speed": {
+    "title": {
+      "en": "Download Mbps (Stash)",
+      "zh-Hans": "Stash 下载带宽",
+      "zh-Hant": "Stash 下載頻寬"
+    },
+    "summary": {
+      "en": "Download bandwidth as a number of Mbps; when set, it replaces Download Bandwidth.",
+      "zh-Hans": "以 Mbps 数字写下载带宽，填了会取代下载带宽。",
+      "zh-Hant": "以 Mbps 數字寫下載頻寬，填了會取代下載頻寬。"
+    }
+  },
+  "proxies[*].ports": {
+    "title": {
+      "en": "Port Hopping Ports",
+      "zh-Hans": "端口跳跃范围",
+      "zh-Hant": "通訊埠跳躍範圍"
+    },
+    "summary": {
+      "en": "The ports to hop between; when set, the single port is not used.",
+      "zh-Hans": "端口跳跃使用的端口范围，填了就不用单个端口。",
+      "zh-Hant": "通訊埠跳躍使用的範圍，填了就不用單一通訊埠。"
+    },
+    "example": "443,1000-2000"
+  },
+  "proxies[*].hop-interval": {
+    "title": {
+      "en": "Hop Interval",
+      "zh-Hans": "跳跃间隔",
+      "zh-Hant": "跳躍間隔"
+    },
+    "summary": {
+      "en": "How often port hopping switches to another port.",
+      "zh-Hans": "端口跳跃时多久换一次端口。",
+      "zh-Hant": "通訊埠跳躍時多久換一次。"
+    }
+  },
+  "proxies[hysteria2].hop-interval": {
+    "title": {
+      "en": "Hop Interval",
+      "zh-Hans": "跳跃间隔",
+      "zh-Hant": "跳躍間隔"
+    },
+    "summary": {
+      "en": "How often to hop to another port; a range such as 15-30 (seconds) picks a random value each time.",
+      "zh-Hans": "多久换一次端口；填范围如 15-30（秒）则每次随机取值。",
+      "zh-Hant": "多久換一次通訊埠；填範圍如 15-30（秒）則每次隨機取值。"
+    },
+    "example": "15-30"
+  },
+  "proxies[*].recv-window-conn": {
+    "title": {
+      "en": "Stream Receive Window",
+      "zh-Hans": "单流接收窗口",
+      "zh-Hant": "單一串流接收視窗"
+    },
+    "summary": {
+      "en": "How much data one stream can buffer; leave it at the default.",
+      "zh-Hans": "单个数据流的接收窗口大小，保持默认即可。",
+      "zh-Hant": "單一串流的接收視窗大小，保持預設即可。"
+    }
+  },
+  "proxies[*].recv-window": {
+    "title": {
+      "en": "Connection Receive Window",
+      "zh-Hans": "连接接收窗口",
+      "zh-Hant": "連線接收視窗"
+    },
+    "summary": {
+      "en": "How much data the whole connection can buffer; leave it at the default.",
+      "zh-Hans": "整条连接的接收窗口大小，保持默认即可。",
+      "zh-Hant": "整條連線的接收視窗大小，保持預設即可。"
+    }
+  },
+  "proxies[*].disable-mtu-discovery": {
+    "title": {
+      "en": "Disable MTU Discovery",
+      "zh-Hans": "关闭 MTU 探测",
+      "zh-Hant": "關閉 MTU 偵測"
+    },
+    "summary": {
+      "en": "Stops probing the path's packet size and uses a fixed size instead.",
+      "zh-Hans": "不探测路径 MTU，改用固定的包大小。",
+      "zh-Hant": "不偵測路徑 MTU，改用固定的封包大小。"
+    }
+  },
+  "proxies[*].fast-open": {
+    "title": {
+      "en": "Fast Open",
+      "zh-Hans": "快速打开",
+      "zh-Hant": "快速開啟"
+    },
+    "summary": {
+      "en": "Starts sending before the server confirms the connection, so connections open faster.",
+      "zh-Hans": "不等服务器确认就开始发送，连接建立更快。",
+      "zh-Hant": "不等伺服器確認就開始送出，連線建立更快。"
+    }
+  },
+  "proxies[hysteria2].obfs": {
+    "title": {
+      "en": "Obfuscation",
+      "zh-Hans": "混淆方式",
+      "zh-Hant": "混淆方式"
+    },
+    "summary": {
+      "en": "Scrambles QUIC traffic with salamander or gecko; it must match the server.",
+      "zh-Hans": "用 salamander 或 gecko 混淆 QUIC 流量，须与服务器一致。",
+      "zh-Hant": "用 salamander 或 gecko 混淆 QUIC 流量，須與伺服器一致。"
+    },
+    "unset": {
+      "en": "No obfuscation",
+      "zh-Hans": "不混淆",
+      "zh-Hant": "不混淆"
+    },
+    "presets": [
+      {
+        "value": "salamander",
+        "label": {
+          "en": "Salamander",
+          "zh-Hans": "Salamander",
+          "zh-Hant": "Salamander"
+        }
+      },
+      {
+        "value": "gecko",
+        "label": {
+          "en": "Gecko",
+          "zh-Hans": "Gecko",
+          "zh-Hant": "Gecko"
+        }
+      }
+    ]
+  },
+  "proxies[*].obfs-password": {
+    "title": {
+      "en": "Obfuscation Password",
+      "zh-Hans": "混淆密码",
+      "zh-Hant": "混淆密碼"
+    },
+    "summary": {
+      "en": "The obfuscation password; it must match the server's.",
+      "zh-Hans": "混淆用的密码，须与服务器一致。",
+      "zh-Hant": "混淆用的密碼，須與伺服器一致。"
+    }
+  },
+  "proxies[*].obfs-min-packet-size": {
+    "title": {
+      "en": "Min Packet Size",
+      "zh-Hans": "最小包长",
+      "zh-Hant": "最小封包長度"
+    },
+    "summary": {
+      "en": "The smallest packet on the wire, in bytes; gecko only.",
+      "zh-Hans": "线上数据包的最小长度（字节），仅 gecko 使用。",
+      "zh-Hant": "線上封包的最小長度（位元組），僅 gecko 使用。"
+    }
+  },
+  "proxies[*].obfs-max-packet-size": {
+    "title": {
+      "en": "Max Packet Size",
+      "zh-Hans": "最大包长",
+      "zh-Hant": "最大封包長度"
+    },
+    "summary": {
+      "en": "The largest packet on the wire, in bytes; gecko only.",
+      "zh-Hans": "线上数据包的最大长度（字节），仅 gecko 使用。",
+      "zh-Hant": "線上封包的最大長度（位元組），僅 gecko 使用。"
+    }
+  },
+  "proxies[*].up": {
+    "title": {
+      "en": "Upload Bandwidth",
+      "zh-Hans": "上传带宽",
+      "zh-Hant": "上傳頻寬"
+    },
+    "summary": {
+      "en": "Your real upload speed, such as 30 Mbps; leave it empty to adjust automatically.",
+      "zh-Hans": "你的实际上传带宽，如 30 Mbps；不填则自动调速。",
+      "zh-Hant": "你的實際上傳頻寬，如 30 Mbps；不填則自動調速。"
+    },
+    "unset": {
+      "en": "Automatic",
+      "zh-Hans": "自动调速",
+      "zh-Hant": "自動調速"
+    },
+    "example": "30 Mbps"
+  },
+  "proxies[*].down": {
+    "title": {
+      "en": "Download Bandwidth",
+      "zh-Hans": "下载带宽",
+      "zh-Hant": "下載頻寬"
+    },
+    "summary": {
+      "en": "Your real download speed, such as 200 Mbps; leave it empty to adjust automatically.",
+      "zh-Hans": "你的实际下载带宽，如 200 Mbps；不填则自动调速。",
+      "zh-Hant": "你的實際下載頻寬，如 200 Mbps；不填則自動調速。"
+    },
+    "unset": {
+      "en": "Automatic",
+      "zh-Hans": "自动调速",
+      "zh-Hant": "自動調速"
+    },
+    "example": "200 Mbps"
+  },
+  "proxies[*].cwnd": {
+    "title": {
+      "en": "Initial Congestion Window",
+      "zh-Hans": "初始拥塞窗口",
+      "zh-Hant": "初始壅塞視窗"
+    },
+    "summary": {
+      "en": "How many packets may be in flight at the start; leave it at the default.",
+      "zh-Hans": "起步时允许在途的包数，保持默认即可。",
+      "zh-Hant": "起步時允許在途的封包數，保持預設即可。"
+    }
+  },
+  "proxies[*].bbr-profile": {
+    "title": {
+      "en": "BBR Profile",
+      "zh-Hans": "BBR 激进程度",
+      "zh-Hant": "BBR 積極程度"
+    },
+    "summary": {
+      "en": "How aggressively BBR pushes; only used when BBR is the congestion control.",
+      "zh-Hans": "BBR 的激进程度，只在使用 BBR 时生效。",
+      "zh-Hant": "BBR 的積極程度，只在使用 BBR 時生效。"
+    },
+    "presets": [
+      {
+        "value": "standard",
+        "label": {
+          "en": "Standard",
+          "zh-Hans": "标准",
+          "zh-Hant": "標準"
+        }
+      },
+      {
+        "value": "conservative",
+        "label": {
+          "en": "Conservative",
+          "zh-Hans": "保守",
+          "zh-Hant": "保守"
+        }
+      },
+      {
+        "value": "aggressive",
+        "label": {
+          "en": "Aggressive",
+          "zh-Hans": "激进",
+          "zh-Hant": "激進"
+        }
+      }
+    ]
+  },
+  "proxies[*].udp-mtu": {
+    "title": {
+      "en": "UDP Packet Limit",
+      "zh-Hans": "UDP 最大包长",
+      "zh-Hant": "UDP 最大封包長度"
+    },
+    "summary": {
+      "en": "The largest UDP payload relayed through the tunnel; leave it at the default.",
+      "zh-Hans": "经隧道转发 UDP 时的最大包长，保持默认即可。",
+      "zh-Hant": "經隧道轉送 UDP 時的最大封包長度，保持預設即可。"
+    }
+  },
+  "proxies[*].handshake-timeout": {
+    "title": {
+      "en": "Handshake Timeout",
+      "zh-Hans": "握手超时",
+      "zh-Hant": "交握逾時"
+    },
+    "summary": {
+      "en": "Gives the handshake its own time limit.",
+      "zh-Hans": "单独为握手设定的超时时间。",
+      "zh-Hant": "單獨為交握設定的逾時時間。"
+    },
+    "unset": {
+      "en": "Same as the connection timeout",
+      "zh-Hans": "跟随连接超时",
+      "zh-Hant": "跟隨連線逾時"
+    }
+  },
+  "proxies[*].initial-stream-receive-window": {
+    "title": {
+      "en": "Initial Stream Window",
+      "zh-Hans": "初始流接收窗口",
+      "zh-Hant": "初始串流接收視窗"
+    },
+    "summary": {
+      "en": "QUIC's starting receive window per stream; leave it at the default.",
+      "zh-Hans": "QUIC 每个流的初始接收窗口，保持默认即可。",
+      "zh-Hant": "QUIC 每個串流的初始接收視窗，保持預設即可。"
+    }
+  },
+  "proxies[*].max-stream-receive-window": {
+    "title": {
+      "en": "Max Stream Window",
+      "zh-Hans": "最大流接收窗口",
+      "zh-Hant": "最大串流接收視窗"
+    },
+    "summary": {
+      "en": "QUIC's largest receive window per stream; leave it at the default.",
+      "zh-Hans": "QUIC 每个流的最大接收窗口，保持默认即可。",
+      "zh-Hant": "QUIC 每個串流的最大接收視窗，保持預設即可。"
+    }
+  },
+  "proxies[*].initial-connection-receive-window": {
+    "title": {
+      "en": "Initial Connection Window",
+      "zh-Hans": "初始连接接收窗口",
+      "zh-Hant": "初始連線接收視窗"
+    },
+    "summary": {
+      "en": "QUIC's starting receive window per connection; leave it at the default.",
+      "zh-Hans": "QUIC 整条连接的初始接收窗口，保持默认即可。",
+      "zh-Hant": "QUIC 整條連線的初始接收視窗，保持預設即可。"
+    }
+  },
+  "proxies[*].max-connection-receive-window": {
+    "title": {
+      "en": "Max Connection Window",
+      "zh-Hans": "最大连接接收窗口",
+      "zh-Hant": "最大連線接收視窗"
+    },
+    "summary": {
+      "en": "QUIC's largest receive window per connection; leave it at the default.",
+      "zh-Hans": "QUIC 整条连接的最大接收窗口，保持默认即可。",
+      "zh-Hant": "QUIC 整條連線的最大接收視窗，保持預設即可。"
+    }
+  },
+  "proxies[*].realm-opts.enable": {
+    "title": {
+      "en": "Connect Through Realm",
+      "zh-Hans": "通过 Realm 连接",
+      "zh-Hant": "透過 Realm 連線"
+    },
+    "summary": {
+      "en": "Reaches a server behind NAT by hole punching through a Realm server.",
+      "zh-Hans": "借助 Realm 服务器打洞，连接在 NAT 后面的服务器。",
+      "zh-Hant": "藉助 Realm 伺服器打洞，連線到 NAT 後面的伺服器。"
+    }
+  },
+  "proxies[*].realm-opts.server-url": {
+    "title": {
+      "en": "Server",
+      "zh-Hans": "服务器",
+      "zh-Hant": "伺服器"
+    },
+    "summary": {
+      "en": "The Realm server's address.",
+      "zh-Hans": "Realm 服务器的地址。",
+      "zh-Hant": "Realm 伺服器的位址。"
+    },
+    "example": "https://realm.example.com"
+  },
+  "proxies[*].realm-opts.token": {
+    "title": {
+      "en": "Token",
+      "zh-Hans": "令牌",
+      "zh-Hant": "權杖"
+    },
+    "summary": {
+      "en": "The access token for the Realm server.",
+      "zh-Hans": "访问 Realm 服务器用的令牌。",
+      "zh-Hant": "存取 Realm 伺服器用的權杖。"
+    }
+  },
+  "proxies[*].realm-opts.realm-id": {
+    "title": {
+      "en": "ID",
+      "zh-Hans": "ID",
+      "zh-Hant": "ID"
+    },
+    "summary": {
+      "en": "The ID your server registered under on the Realm server.",
+      "zh-Hans": "要连接的服务器在 Realm 上注册的 ID。",
+      "zh-Hant": "要連線的伺服器在 Realm 上註冊的 ID。"
+    }
+  },
+  "proxies[*].realm-opts.stun-servers": {
+    "title": {
+      "en": "STUN Servers",
+      "zh-Hans": "STUN 服务器",
+      "zh-Hant": "STUN 伺服器"
+    },
+    "summary": {
+      "en": "Servers used to find this device's public address for hole punching.",
+      "zh-Hans": "用来探测本机公网地址、帮助打洞的服务器。",
+      "zh-Hant": "用來偵測本機公開位址、協助打洞的伺服器。"
+    },
+    "example": "stun.example.com:3478"
+  },
+  "proxies[*].realm-opts.sni": {
+    "title": {
+      "en": "SNI",
+      "zh-Hans": "SNI",
+      "zh-Hant": "SNI"
+    },
+    "summary": {
+      "en": "The server name sent when connecting to the Realm server.",
+      "zh-Hans": "连接 Realm 服务器时发送的服务器名称。",
+      "zh-Hant": "連線 Realm 伺服器時送出的伺服器名稱。"
+    },
+    "example": "realm.example.com"
+  },
+  "proxies[*].realm-opts.skip-cert-verify": {
+    "title": {
+      "en": "Skip Certificate Check",
+      "zh-Hans": "跳过证书验证",
+      "zh-Hant": "略過憑證驗證"
+    },
+    "summary": {
+      "en": "Accepts the Realm server's certificate without checking it; unsafe.",
+      "zh-Hans": "不校验 Realm 服务器的证书，不安全。",
+      "zh-Hant": "不驗證 Realm 伺服器的憑證，不安全。"
+    }
+  },
+  "proxies[*].realm-opts.name-cert-verify": {
+    "title": {
+      "en": "Certificate Name",
+      "zh-Hans": "证书名称",
+      "zh-Hant": "憑證名稱"
+    },
+    "summary": {
+      "en": "Checks the Realm server's certificate against this name instead of the SNI.",
+      "zh-Hans": "用这个名称校验 Realm 服务器的证书，而不是 SNI。",
+      "zh-Hant": "用這個名稱驗證 Realm 伺服器的憑證，而不是 SNI。"
+    },
+    "example": "realm.example.com"
+  },
+  "proxies[*].realm-opts.fingerprint": {
+    "title": {
+      "en": "Certificate Fingerprint",
+      "zh-Hans": "证书指纹",
+      "zh-Hant": "憑證指紋"
+    },
+    "summary": {
+      "en": "Only accepts a Realm server certificate with this SHA-256 fingerprint.",
+      "zh-Hans": "只接受这个 SHA-256 指纹的 Realm 服务器证书。",
+      "zh-Hant": "只接受這個 SHA-256 指紋的 Realm 伺服器憑證。"
+    }
+  },
+  "proxies[*].realm-opts.certificate": {
+    "title": {
+      "en": "Client Certificate",
+      "zh-Hans": "客户端证书",
+      "zh-Hant": "用戶端憑證"
+    },
+    "summary": {
+      "en": "A client certificate for the Realm server, if it asks for one.",
+      "zh-Hans": "Realm 服务器要求时提供的客户端证书。",
+      "zh-Hant": "Realm 伺服器要求時提供的用戶端憑證。"
+    }
+  },
+  "proxies[*].realm-opts.private-key": {
+    "title": {
+      "en": "Client Private Key",
+      "zh-Hans": "客户端私钥",
+      "zh-Hant": "用戶端私鑰"
+    },
+    "summary": {
+      "en": "The private key of the Realm client certificate.",
+      "zh-Hans": "Realm 客户端证书的私钥。",
+      "zh-Hant": "Realm 用戶端憑證的私鑰。"
+    }
+  },
+  "proxies[*].realm-opts.alpn": {
+    "title": {
+      "en": "ALPN",
+      "zh-Hans": "ALPN",
+      "zh-Hant": "ALPN"
+    },
+    "summary": {
+      "en": "The application protocols offered to the Realm server.",
+      "zh-Hans": "连接 Realm 服务器时协商的应用层协议。",
+      "zh-Hant": "連線 Realm 伺服器時協商的應用層協定。"
+    },
+    "example": "h2"
+  },
+  "proxies[*].token": {
+    "title": {
+      "en": "Token (TUIC v4)",
+      "zh-Hans": "令牌（TUIC v4）",
+      "zh-Hant": "權杖（TUIC v4）"
+    },
+    "summary": {
+      "en": "Your user token for TUIC v4; leave it empty for v5.",
+      "zh-Hans": "TUIC v4 的用户令牌，用 v5 时不填。",
+      "zh-Hant": "TUIC v4 的使用者權杖，用 v5 時不填。"
+    }
+  },
+  "proxies[tuic].ip": {
+    "title": {
+      "en": "Server IP",
+      "zh-Hans": "服务器 IP",
+      "zh-Hant": "伺服器 IP"
+    },
+    "summary": {
+      "en": "Connects to this IP instead of looking up the server's domain.",
+      "zh-Hans": "直接用这个 IP 连接，不再解析服务器域名。",
+      "zh-Hant": "直接用這個 IP 連線，不再解析伺服器網域。"
+    },
+    "example": "203.0.113.10"
+  },
+  "proxies[*].heartbeat-interval": {
+    "title": {
+      "en": "Heartbeat Interval",
+      "zh-Hans": "心跳间隔",
+      "zh-Hant": "心跳間隔"
+    },
+    "summary": {
+      "en": "How often a heartbeat is sent to keep the connection alive.",
+      "zh-Hans": "多久发一次心跳，保持连接。",
+      "zh-Hant": "多久送一次心跳，保持連線。"
+    }
+  },
+  "proxies[*].reduce-rtt": {
+    "title": {
+      "en": "0-RTT Handshake",
+      "zh-Hans": "0-RTT 握手",
+      "zh-Hant": "0-RTT 交握"
+    },
+    "summary": {
+      "en": "Connects faster with a 0-RTT handshake, at some risk of replay.",
+      "zh-Hans": "用 0-RTT 握手加快连接，但有被重放的风险。",
+      "zh-Hant": "用 0-RTT 交握加快連線，但有被重放的風險。"
+    }
+  },
+  "proxies[*].request-timeout": {
+    "title": {
+      "en": "Connect Timeout",
+      "zh-Hans": "连接超时",
+      "zh-Hant": "連線逾時"
+    },
+    "summary": {
+      "en": "How long to wait when connecting to the server.",
+      "zh-Hans": "连接服务器的等待时间。",
+      "zh-Hant": "連線到伺服器的等待時間。"
+    }
+  },
+  "proxies[*].udp-relay-mode": {
+    "title": {
+      "en": "UDP Relay Mode",
+      "zh-Hans": "UDP 转发方式",
+      "zh-Hant": "UDP 轉送方式"
+    },
+    "summary": {
+      "en": "How UDP is carried: native datagrams or QUIC streams.",
+      "zh-Hans": "UDP 的转发方式：native 或 quic。",
+      "zh-Hant": "UDP 的轉送方式：native 或 quic。"
+    },
+    "presets": [
+      {
+        "value": "native",
+        "label": {
+          "en": "Native (datagrams)",
+          "zh-Hans": "原生（数据报）",
+          "zh-Hant": "原生（資料包）"
+        }
+      },
+      {
+        "value": "quic",
+        "label": {
+          "en": "QUIC streams",
+          "zh-Hans": "QUIC 流",
+          "zh-Hant": "QUIC 串流"
+        }
+      }
+    ]
+  },
+  "proxies[*].congestion-controller": {
+    "title": {
+      "en": "Congestion Control",
+      "zh-Hans": "拥塞控制",
+      "zh-Hant": "壅塞控制"
+    },
+    "summary": {
+      "en": "The congestion control algorithm for the QUIC connection.",
+      "zh-Hans": "QUIC 连接使用的拥塞控制算法。",
+      "zh-Hant": "QUIC 連線使用的壅塞控制演算法。"
+    },
+    "unset": {
+      "en": "new_reno",
+      "zh-Hans": "new_reno",
+      "zh-Hant": "new_reno"
+    },
+    "presets": [
+      {
+        "value": "cubic",
+        "label": {
+          "en": "CUBIC",
+          "zh-Hans": "CUBIC",
+          "zh-Hant": "CUBIC"
+        }
+      },
+      {
+        "value": "new_reno",
+        "label": {
+          "en": "NewReno",
+          "zh-Hans": "NewReno",
+          "zh-Hant": "NewReno"
+        }
+      },
+      {
+        "value": "bbr_meta_v1",
+        "label": {
+          "en": "BBR (Meta v1)",
+          "zh-Hans": "BBR（Meta v1）",
+          "zh-Hant": "BBR（Meta v1）"
+        }
+      },
+      {
+        "value": "bbr_meta_v2",
+        "label": {
+          "en": "BBR (Meta v2)",
+          "zh-Hans": "BBR（Meta v2）",
+          "zh-Hant": "BBR（Meta v2）"
+        }
+      },
+      {
+        "value": "bbr",
+        "label": {
+          "en": "BBR",
+          "zh-Hans": "BBR",
+          "zh-Hant": "BBR"
+        }
+      }
+    ]
+  },
+  "proxies[*].max-udp-relay-packet-size": {
+    "title": {
+      "en": "Max UDP Packet Size",
+      "zh-Hans": "UDP 最大包长",
+      "zh-Hant": "UDP 最大封包長度"
+    },
+    "summary": {
+      "en": "The largest UDP packet relayed, in bytes.",
+      "zh-Hans": "转发 UDP 的最大包长（字节）。",
+      "zh-Hant": "轉送 UDP 的最大封包長度（位元組）。"
+    }
+  },
+  "proxies[*].disable-sni": {
+    "title": {
+      "en": "Don't Send SNI",
+      "zh-Hans": "不发送 SNI",
+      "zh-Hant": "不送出 SNI"
+    },
+    "summary": {
+      "en": "Leaves the server name out of the handshake; the certificate is then not checked.",
+      "zh-Hans": "握手时不发送服务器名称，同时不再校验证书。",
+      "zh-Hant": "交握時不送出伺服器名稱，同時不再驗證憑證。"
+    }
+  },
+  "proxies[*].max-open-streams": {
+    "title": {
+      "en": "Max Open Streams",
+      "zh-Hans": "最多同时流数",
+      "zh-Hant": "最多同時串流數"
+    },
+    "summary": {
+      "en": "The most streams open at once on one connection.",
+      "zh-Hans": "一条连接上同时打开的流数上限。",
+      "zh-Hant": "一條連線上同時開啟的串流數上限。"
+    }
+  },
+  "proxies[*].max-datagram-frame-size": {
+    "title": {
+      "en": "Max Datagram Size",
+      "zh-Hans": "最大数据报长度",
+      "zh-Hant": "最大資料包長度"
+    },
+    "summary": {
+      "en": "The largest QUIC datagram frame, in bytes; leave it at the default.",
+      "zh-Hans": "QUIC 数据报帧的最大长度（字节），保持默认即可。",
+      "zh-Hant": "QUIC 資料包框架的最大長度（位元組），保持預設即可。"
+    }
+  },
+  "proxies[tuic].max-datagram-frame-size": {
+    "title": {
+      "en": "Max Datagram Size",
+      "zh-Hans": "最大数据报长度",
+      "zh-Hant": "最大資料包長度"
+    },
+    "summary": {
+      "en": "The largest QUIC datagram frame, in bytes, capped at 1400.",
+      "zh-Hans": "QUIC 数据报帧的最大长度（字节），上限 1400。",
+      "zh-Hant": "QUIC 資料包框架的最大長度（位元組），上限 1400。"
+    },
+    "unset": {
+      "en": "From the UDP packet size",
+      "zh-Hans": "按 UDP 包长计算",
+      "zh-Hant": "依 UDP 封包長度計算"
+    }
+  },
+  "proxies[*].udp-over-stream": {
+    "title": {
+      "en": "UDP over Stream",
+      "zh-Hans": "UDP 走数据流",
+      "zh-Hant": "UDP 走串流"
+    },
+    "summary": {
+      "en": "Carries UDP inside streams instead of datagrams.",
+      "zh-Hans": "用数据流而不是数据报转发 UDP。",
+      "zh-Hant": "用串流而不是資料包轉送 UDP。"
+    }
+  },
+  "proxies[*].udp-over-stream-version": {
+    "title": {
+      "en": "UDP over Stream Version",
+      "zh-Hans": "UDP 走数据流版本",
+      "zh-Hant": "UDP 走串流版本"
+    },
+    "summary": {
+      "en": "The UDP-over-stream protocol version; it must match the server.",
+      "zh-Hans": "UDP 走数据流的协议版本，须与服务器一致。",
+      "zh-Hant": "UDP 走串流的協定版本，須與伺服器一致。"
+    },
+    "presets": [
+      {
+        "value": "1",
+        "label": {
+          "en": "v1",
+          "zh-Hans": "v1",
+          "zh-Hant": "v1"
+        }
+      },
+      {
+        "value": "2",
+        "label": {
+          "en": "v2",
+          "zh-Hans": "v2",
+          "zh-Hant": "v2"
+        }
+      }
+    ]
+  },
+  "proxies[*].client-metadata": {
+    "title": {
+      "en": "Client Metadata",
+      "zh-Hans": "客户端元数据",
+      "zh-Hant": "用戶端中繼資料"
+    },
+    "summary": {
+      "en": "Information about this client sent to the server; nothing is sent unless you fill it in.",
+      "zh-Hans": "发给服务器的客户端信息，不填就不发送。",
+      "zh-Hant": "送給伺服器的用戶端資訊，不填就不送出。"
+    },
+    "unset": {
+      "en": "Not sent",
+      "zh-Hans": "不发送",
+      "zh-Hant": "不送出"
+    }
+  },
+  "proxies[*].idle-session-check-interval": {
+    "title": {
+      "en": "Idle Check Interval",
+      "zh-Hans": "空闲检查间隔",
+      "zh-Hant": "閒置檢查間隔"
+    },
+    "summary": {
+      "en": "How often idle sessions are checked.",
+      "zh-Hans": "多久检查一次空闲会话。",
+      "zh-Hant": "多久檢查一次閒置工作階段。"
+    }
+  },
+  "proxies[*].idle-session-timeout": {
+    "title": {
+      "en": "Idle Session Timeout",
+      "zh-Hans": "空闲会话超时",
+      "zh-Hant": "閒置工作階段逾時"
+    },
+    "summary": {
+      "en": "Closes sessions idle longer than this.",
+      "zh-Hans": "空闲超过这么久的会话会被关闭。",
+      "zh-Hant": "閒置超過這麼久的工作階段會被關閉。"
+    }
+  },
+  "proxies[*].min-idle-session": {
+    "title": {
+      "en": "Keep Idle Sessions",
+      "zh-Hans": "保留空闲会话",
+      "zh-Hant": "保留閒置工作階段"
+    },
+    "summary": {
+      "en": "How many idle sessions stay open at each check.",
+      "zh-Hans": "每次检查时至少保留几个空闲会话。",
+      "zh-Hant": "每次檢查時至少保留幾個閒置工作階段。"
+    }
+  },
+  "proxies[*].disable-reuse": {
+    "title": {
+      "en": "Don't Reuse Sessions",
+      "zh-Hans": "不复用会话",
+      "zh-Hant": "不重複使用工作階段"
+    },
+    "summary": {
+      "en": "Opens a new session for every connection instead of reusing idle ones.",
+      "zh-Hans": "每个连接都新建会话，不复用空闲的。",
+      "zh-Hant": "每個連線都新建工作階段，不重複使用閒置的。"
+    }
+  },
+  "proxies[masque].private-key": {
+    "title": {
+      "en": "Private Key",
+      "zh-Hans": "私钥",
+      "zh-Hant": "私鑰"
+    },
+    "summary": {
+      "en": "This device's ECDSA private key, in base64 without the PEM header and footer.",
+      "zh-Hans": "本机的 ECDSA 私钥，base64 格式，去掉 PEM 头尾。",
+      "zh-Hant": "本機的 ECDSA 私鑰，base64 格式，去掉 PEM 頭尾。"
+    }
+  },
+  "proxies[masque].network": {
+    "title": {
+      "en": "Connection Type",
+      "zh-Hans": "连接方式",
+      "zh-Hant": "連線方式"
+    },
+    "summary": {
+      "en": "h3 by default, h2 for MASQUE over HTTP/2, or h3-l4proxy, which carries no UDP.",
+      "zh-Hans": "默认 h3；h2 走 HTTP/2；h3-l4proxy 不支持 UDP。",
+      "zh-Hant": "預設 h3；h2 走 HTTP/2；h3-l4proxy 不支援 UDP。"
+    },
+    "presets": [
+      {
+        "value": "h3",
+        "label": {
+          "en": "HTTP/3",
+          "zh-Hans": "HTTP/3",
+          "zh-Hant": "HTTP/3"
+        }
+      },
+      {
+        "value": "h2",
+        "label": {
+          "en": "HTTP/2",
+          "zh-Hans": "HTTP/2",
+          "zh-Hant": "HTTP/2"
+        }
+      },
+      {
+        "value": "h3-l4proxy",
+        "label": {
+          "en": "HTTP/3 L4 proxy",
+          "zh-Hans": "HTTP/3 四层代理",
+          "zh-Hant": "HTTP/3 四層代理"
+        }
+      }
+    ]
+  },
+  "proxies[masque].name-cert-verify": {
+    "title": {
+      "en": "Certificate Name",
+      "zh-Hans": "证书名称",
+      "zh-Hant": "憑證名稱"
+    },
+    "summary": {
+      "en": "MASQUE doesn't check certificate names, so this has no effect.",
+      "zh-Hans": "MASQUE 不按名称校验证书，填了也不起作用。",
+      "zh-Hant": "MASQUE 不依名稱驗證憑證，填了也不起作用。"
+    }
+  },
+  "proxies[*].uri": {
+    "title": {
+      "en": "Connect URI",
+      "zh-Hans": "连接 URI",
+      "zh-Hant": "連線 URI"
+    },
+    "summary": {
+      "en": "The URI requested when the tunnel opens; leave it at the default.",
+      "zh-Hans": "建立隧道时请求的 URI，保持默认即可。",
+      "zh-Hant": "建立隧道時請求的 URI，保持預設即可。"
+    },
+    "example": "https://cloudflareaccess.com"
+  },
+  "proxies[*].port-range": {
+    "title": {
+      "en": "Port Range",
+      "zh-Hans": "端口范围",
+      "zh-Hant": "通訊埠範圍"
+    },
+    "summary": {
+      "en": "The server's port range; use it instead of a single port.",
+      "zh-Hans": "服务器的端口范围，与单个端口二选一。",
+      "zh-Hant": "伺服器的通訊埠範圍，與單一通訊埠二選一。"
+    },
+    "example": "2090-2099"
+  },
+  "proxies[*].transport": {
+    "title": {
+      "en": "Protocol",
+      "zh-Hans": "传输协议",
+      "zh-Hant": "傳輸協定"
+    },
+    "summary": {
+      "en": "TCP or UDP; it must match the server.",
+      "zh-Hans": "TCP 或 UDP，须与服务器一致。",
+      "zh-Hant": "TCP 或 UDP，須與伺服器一致。"
+    },
+    "presets": [
+      {
+        "value": "TCP",
+        "label": {
+          "en": "TCP",
+          "zh-Hans": "TCP",
+          "zh-Hant": "TCP"
+        }
+      },
+      {
+        "value": "UDP",
+        "label": {
+          "en": "UDP",
+          "zh-Hans": "UDP",
+          "zh-Hant": "UDP"
+        }
+      }
+    ]
+  },
+  "proxies[*].multiplexing": {
+    "title": {
+      "en": "Level",
+      "zh-Hans": "复用程度",
+      "zh-Hant": "多工程度"
+    },
+    "summary": {
+      "en": "How many connections share one link; OFF turns it off.",
+      "zh-Hans": "多个连接共用一条链路的程度，OFF 为关闭。",
+      "zh-Hant": "多個連線共用一條鏈路的程度，OFF 為關閉。"
+    },
+    "unset": {
+      "en": "Low",
+      "zh-Hans": "低",
+      "zh-Hant": "低"
+    },
+    "presets": [
+      {
+        "value": "MULTIPLEXING_DEFAULT",
+        "label": {
+          "en": "Default (Low)",
+          "zh-Hans": "默认（低）",
+          "zh-Hant": "預設（低）"
+        }
+      },
+      {
+        "value": "MULTIPLEXING_HIGH",
+        "label": {
+          "en": "High",
+          "zh-Hans": "高",
+          "zh-Hant": "高"
+        }
+      },
+      {
+        "value": "MULTIPLEXING_LOW",
+        "label": {
+          "en": "Low",
+          "zh-Hans": "低",
+          "zh-Hant": "低"
+        }
+      },
+      {
+        "value": "MULTIPLEXING_MIDDLE",
+        "label": {
+          "en": "Medium",
+          "zh-Hans": "中",
+          "zh-Hant": "中"
+        }
+      },
+      {
+        "value": "MULTIPLEXING_OFF",
+        "label": {
+          "en": "Off",
+          "zh-Hans": "关闭",
+          "zh-Hant": "關閉"
+        }
+      }
+    ]
+  },
+  "proxies[*].handshake-mode": {
+    "title": {
+      "en": "Handshake Mode",
+      "zh-Hans": "握手方式",
+      "zh-Hant": "交握方式"
+    },
+    "summary": {
+      "en": "STANDARD waits for the handshake; NO_WAIT uses a 0-RTT handshake.",
+      "zh-Hans": "STANDARD 等待握手完成；NO_WAIT 使用 0-RTT。",
+      "zh-Hant": "STANDARD 等待交握完成；NO_WAIT 使用 0-RTT。"
+    },
+    "unset": {
+      "en": "Standard",
+      "zh-Hans": "标准",
+      "zh-Hant": "標準"
+    },
+    "presets": [
+      {
+        "value": "HANDSHAKE_DEFAULT",
+        "label": {
+          "en": "Default (Standard)",
+          "zh-Hans": "默认（标准）",
+          "zh-Hant": "預設（標準）"
+        }
+      },
+      {
+        "value": "HANDSHAKE_NO_WAIT",
+        "label": {
+          "en": "No wait (0-RTT)",
+          "zh-Hans": "不等待（0-RTT）",
+          "zh-Hant": "不等待（0-RTT）"
+        }
+      },
+      {
+        "value": "HANDSHAKE_STANDARD",
+        "label": {
+          "en": "Standard (wait for the handshake)",
+          "zh-Hans": "标准（等握手完成）",
+          "zh-Hant": "標準（等交握完成）"
+        }
+      }
+    ]
+  },
+  "proxies[*].traffic-pattern": {
+    "title": {
+      "en": "Traffic Pattern",
+      "zh-Hans": "流量特征",
+      "zh-Hant": "流量特徵"
+    },
+    "summary": {
+      "en": "A base64 string that tunes how traffic looks, made as mieru's guide describes.",
+      "zh-Hans": "微调流量特征的 base64 字符串，按 mieru 说明生成。",
+      "zh-Hant": "微調流量特徵的 base64 字串，依 mieru 說明產生。"
+    }
+  },
+  "proxies[*].proto": {
+    "title": {
+      "en": "Protocol",
+      "zh-Hans": "协议",
+      "zh-Hant": "協定"
+    },
+    "summary": {
+      "en": "Connects to the server over UDP or TCP.",
+      "zh-Hans": "用 UDP 或 TCP 连接服务器。",
+      "zh-Hant": "用 UDP 或 TCP 連線伺服器。"
+    },
+    "presets": [
+      {
+        "value": "udp",
+        "label": {
+          "en": "UDP",
+          "zh-Hans": "UDP",
+          "zh-Hant": "UDP"
+        }
+      },
+      {
+        "value": "tcp",
+        "label": {
+          "en": "TCP",
+          "zh-Hans": "TCP",
+          "zh-Hant": "TCP"
+        }
+      }
+    ]
+  },
+  "proxies[*].dev": {
+    "title": {
+      "en": "Device Type",
+      "zh-Hans": "网卡类型",
+      "zh-Hant": "網路介面類型"
+    },
+    "summary": {
+      "en": "The virtual interface type; only tun is supported.",
+      "zh-Hans": "虚拟网卡类型，目前只支持 tun。",
+      "zh-Hant": "虛擬網路介面類型，目前只支援 tun。"
+    },
+    "presets": [
+      {
+        "value": "tun",
+        "label": {
+          "en": "TUN",
+          "zh-Hans": "TUN",
+          "zh-Hant": "TUN"
+        }
+      }
+    ]
+  },
+  "proxies[*].ca": {
+    "title": {
+      "en": "CA Certificate",
+      "zh-Hans": "CA 证书",
+      "zh-Hant": "CA 憑證"
+    },
+    "summary": {
+      "en": "The CA certificate, copied from the <ca> section of the .ovpn file.",
+      "zh-Hans": "CA 证书，从 .ovpn 的 <ca> 段复制。",
+      "zh-Hant": "CA 憑證，從 .ovpn 的 <ca> 段複製。"
+    }
+  },
+  "proxies[*].cert": {
+    "title": {
+      "en": "Client Certificate",
+      "zh-Hans": "客户端证书",
+      "zh-Hant": "用戶端憑證"
+    },
+    "summary": {
+      "en": "Copied from the <cert> section; not needed when you sign in with a user name and password.",
+      "zh-Hans": "从 <cert> 段复制；用账号密码登录可不填。",
+      "zh-Hant": "從 <cert> 段複製；用帳號密碼登入可不填。"
+    }
+  },
+  "proxies[openvpn].key": {
+    "title": {
+      "en": "Client Private Key",
+      "zh-Hans": "客户端私钥",
+      "zh-Hant": "用戶端私鑰"
+    },
+    "summary": {
+      "en": "Copied from the <key> section; not needed when you sign in with a user name and password.",
+      "zh-Hans": "从 <key> 段复制；用账号密码登录可不填。",
+      "zh-Hant": "從 <key> 段複製；用帳號密碼登入可不填。"
+    }
+  },
+  "proxies[*].tls-auth": {
+    "title": {
+      "en": "TLS Auth Key",
+      "zh-Hans": "TLS Auth 密钥",
+      "zh-Hant": "TLS Auth 金鑰"
+    },
+    "summary": {
+      "en": "Copied from the <tls-auth> section; use only one of the three TLS keys.",
+      "zh-Hans": "从 <tls-auth> 段复制，三种 TLS 密钥只能填一种。",
+      "zh-Hant": "從 <tls-auth> 段複製，三種 TLS 金鑰只能填一種。"
+    }
+  },
+  "proxies[*].key-direction": {
+    "title": {
+      "en": "Key Direction",
+      "zh-Hans": "密钥方向",
+      "zh-Hant": "金鑰方向"
+    },
+    "summary": {
+      "en": "Used with the TLS Auth key; copy key-direction from the .ovpn file.",
+      "zh-Hans": "配合 TLS Auth，照 .ovpn 里的 key-direction 填。",
+      "zh-Hant": "搭配 TLS Auth，照 .ovpn 裡的 key-direction 填。"
+    },
+    "unset": {
+      "en": "Both directions",
+      "zh-Hans": "双向",
+      "zh-Hant": "雙向"
+    },
+    "presets": [
+      {
+        "value": "0",
+        "label": {
+          "en": "Direction 0 (usual for servers)",
+          "zh-Hans": "方向 0（服务端常用）",
+          "zh-Hant": "方向 0（伺服器端常用）"
+        }
+      },
+      {
+        "value": "1",
+        "label": {
+          "en": "Direction 1 (usual for clients)",
+          "zh-Hans": "方向 1（客户端常用）",
+          "zh-Hant": "方向 1（用戶端常用）"
+        }
+      }
+    ]
+  },
+  "proxies[*].tls-crypt": {
+    "title": {
+      "en": "TLS Crypt Key",
+      "zh-Hans": "TLS Crypt 密钥",
+      "zh-Hant": "TLS Crypt 金鑰"
+    },
+    "summary": {
+      "en": "Copied from the <tls-crypt> section, without the tags; use only one of the three TLS keys.",
+      "zh-Hans": "从 <tls-crypt> 段复制，三种 TLS 密钥只能填一种。",
+      "zh-Hant": "從 <tls-crypt> 段複製，三種 TLS 金鑰只能填一種。"
+    }
+  },
+  "proxies[*].tls-crypt-v2": {
+    "title": {
+      "en": "TLS Crypt v2 Key",
+      "zh-Hans": "TLS Crypt v2",
+      "zh-Hant": "TLS Crypt v2"
+    },
+    "summary": {
+      "en": "The client key from the <tls-crypt-v2> section; use only one of the three TLS keys.",
+      "zh-Hans": "从 <tls-crypt-v2> 段复制，三种 TLS 密钥只能填一种。",
+      "zh-Hant": "從 <tls-crypt-v2> 段複製，三種 TLS 金鑰只能填一種。"
+    }
+  },
+  "proxies[*].data-ciphers": {
+    "title": {
+      "en": "Data Ciphers",
+      "zh-Hans": "数据加密候选",
+      "zh-Hant": "資料加密候選"
+    },
+    "summary": {
+      "en": "The ciphers offered to the server; the first one you both support is used.",
+      "zh-Hans": "与服务器协商的加密方式列表，取双方都支持的第一个。",
+      "zh-Hant": "與伺服器協商的加密方式清單，取雙方都支援的第一個。"
+    },
+    "presets": [
+      {
+        "value": "AES-128-GCM",
+        "label": {
+          "en": "AES-128-GCM",
+          "zh-Hans": "AES-128-GCM",
+          "zh-Hant": "AES-128-GCM"
+        }
+      },
+      {
+        "value": "AES-192-GCM",
+        "label": {
+          "en": "AES-192-GCM",
+          "zh-Hans": "AES-192-GCM",
+          "zh-Hant": "AES-192-GCM"
+        }
+      },
+      {
+        "value": "AES-256-GCM",
+        "label": {
+          "en": "AES-256-GCM",
+          "zh-Hans": "AES-256-GCM",
+          "zh-Hant": "AES-256-GCM"
+        }
+      },
+      {
+        "value": "AES-128-CBC",
+        "label": {
+          "en": "AES-128-CBC",
+          "zh-Hans": "AES-128-CBC",
+          "zh-Hant": "AES-128-CBC"
+        }
+      },
+      {
+        "value": "AES-192-CBC",
+        "label": {
+          "en": "AES-192-CBC",
+          "zh-Hans": "AES-192-CBC",
+          "zh-Hant": "AES-192-CBC"
+        }
+      },
+      {
+        "value": "AES-256-CBC",
+        "label": {
+          "en": "AES-256-CBC",
+          "zh-Hans": "AES-256-CBC",
+          "zh-Hant": "AES-256-CBC"
+        }
+      },
+      {
+        "value": "CHACHA20-POLY1305",
+        "label": {
+          "en": "CHACHA20-POLY1305",
+          "zh-Hans": "CHACHA20-POLY1305",
+          "zh-Hant": "CHACHA20-POLY1305"
+        }
+      },
+      {
+        "value": "AES-CBC",
+        "label": {
+          "en": "AES-CBC (as AES-128-CBC)",
+          "zh-Hans": "AES-CBC（按 AES-128-CBC）",
+          "zh-Hant": "AES-CBC（按 AES-128-CBC）"
+        }
+      }
+    ]
+  },
+  "proxies[*].data-ciphers-fallback": {
+    "title": {
+      "en": "Fallback Cipher",
+      "zh-Hans": "备用加密方式",
+      "zh-Hant": "備用加密方式"
+    },
+    "summary": {
+      "en": "The cipher used when negotiation fails.",
+      "zh-Hans": "协商失败时改用的加密方式。",
+      "zh-Hant": "協商失敗時改用的加密方式。"
+    },
+    "presets": [
+      {
+        "value": "AES-128-GCM",
+        "label": {
+          "en": "AES-128-GCM",
+          "zh-Hans": "AES-128-GCM",
+          "zh-Hant": "AES-128-GCM"
+        }
+      },
+      {
+        "value": "AES-192-GCM",
+        "label": {
+          "en": "AES-192-GCM",
+          "zh-Hans": "AES-192-GCM",
+          "zh-Hant": "AES-192-GCM"
+        }
+      },
+      {
+        "value": "AES-256-GCM",
+        "label": {
+          "en": "AES-256-GCM",
+          "zh-Hans": "AES-256-GCM",
+          "zh-Hant": "AES-256-GCM"
+        }
+      },
+      {
+        "value": "AES-128-CBC",
+        "label": {
+          "en": "AES-128-CBC",
+          "zh-Hans": "AES-128-CBC",
+          "zh-Hant": "AES-128-CBC"
+        }
+      },
+      {
+        "value": "AES-192-CBC",
+        "label": {
+          "en": "AES-192-CBC",
+          "zh-Hans": "AES-192-CBC",
+          "zh-Hant": "AES-192-CBC"
+        }
+      },
+      {
+        "value": "AES-256-CBC",
+        "label": {
+          "en": "AES-256-CBC",
+          "zh-Hans": "AES-256-CBC",
+          "zh-Hant": "AES-256-CBC"
+        }
+      },
+      {
+        "value": "CHACHA20-POLY1305",
+        "label": {
+          "en": "CHACHA20-POLY1305",
+          "zh-Hans": "CHACHA20-POLY1305",
+          "zh-Hant": "CHACHA20-POLY1305"
+        }
+      },
+      {
+        "value": "AES-CBC",
+        "label": {
+          "en": "AES-CBC (as AES-128-CBC)",
+          "zh-Hans": "AES-CBC（按 AES-128-CBC）",
+          "zh-Hant": "AES-CBC（按 AES-128-CBC）"
+        }
+      }
+    ]
+  },
+  "proxies[openvpn].auth": {
+    "title": {
+      "en": "Data Authentication",
+      "zh-Hans": "数据校验算法",
+      "zh-Hant": "資料驗證演算法"
+    },
+    "summary": {
+      "en": "The HMAC digest for data packets; ignored with AEAD ciphers such as GCM.",
+      "zh-Hans": "数据包的 HMAC 校验算法，GCM 等 AEAD 加密下忽略。",
+      "zh-Hant": "資料封包的 HMAC 驗證演算法，GCM 等 AEAD 加密下忽略。"
+    },
+    "presets": [
+      {
+        "value": "SHA256",
+        "label": {
+          "en": "SHA256",
+          "zh-Hans": "SHA256",
+          "zh-Hant": "SHA256"
+        }
+      },
+      {
+        "value": "SHA1",
+        "label": {
+          "en": "SHA1",
+          "zh-Hans": "SHA1",
+          "zh-Hant": "SHA1"
+        }
+      },
+      {
+        "value": "SHA384",
+        "label": {
+          "en": "SHA384",
+          "zh-Hans": "SHA384",
+          "zh-Hant": "SHA384"
+        }
+      },
+      {
+        "value": "SHA512",
+        "label": {
+          "en": "SHA512",
+          "zh-Hans": "SHA512",
+          "zh-Hant": "SHA512"
+        }
+      },
+      {
+        "value": "MD5",
+        "label": {
+          "en": "MD5",
+          "zh-Hans": "MD5",
+          "zh-Hant": "MD5"
+        }
+      }
+    ]
+  },
+  "proxies[*].comp-lzo": {
+    "title": {
+      "en": "LZO Compression",
+      "zh-Hans": "LZO 压缩",
+      "zh-Hant": "LZO 壓縮"
+    },
+    "summary": {
+      "en": "Compresses data with LZO; it must match the server.",
+      "zh-Hans": "用 LZO 压缩数据，须与服务器一致。",
+      "zh-Hant": "用 LZO 壓縮資料，須與伺服器一致。"
+    },
+    "unset": {
+      "en": "Off",
+      "zh-Hans": "关闭",
+      "zh-Hant": "關閉"
+    },
+    "presets": [
+      {
+        "value": "no",
+        "label": {
+          "en": "Off",
+          "zh-Hans": "关闭",
+          "zh-Hant": "關閉"
+        }
+      },
+      {
+        "value": "yes",
+        "label": {
+          "en": "On",
+          "zh-Hans": "开启",
+          "zh-Hant": "開啟"
+        }
+      },
+      {
+        "value": "adaptive",
+        "label": {
+          "en": "Adaptive",
+          "zh-Hans": "自适应",
+          "zh-Hant": "自動調適"
+        }
+      }
+    ]
+  },
+  "proxies[*].peer-info": {
+    "title": {
+      "en": "Peer Info",
+      "zh-Hans": "附加客户端信息",
+      "zh-Hant": "附加用戶端資訊"
+    },
+    "summary": {
+      "en": "Extra key-value pairs sent to the server, which can use them to admit clients.",
+      "zh-Hans": "附带发给服务器的键值，服务器可据此决定是否放行。",
+      "zh-Hant": "附帶送給伺服器的鍵值，伺服器可據此決定是否放行。"
+    }
+  },
+  "proxies[*].ping": {
+    "title": {
+      "en": "Ping Interval",
+      "zh-Hans": "保活间隔",
+      "zh-Hant": "保活間隔"
+    },
+    "summary": {
+      "en": "How often a keepalive ping is sent.",
+      "zh-Hans": "多久发一次保活包。",
+      "zh-Hant": "多久送一次保活封包。"
+    },
+    "unset": {
+      "en": "Off",
+      "zh-Hans": "关闭",
+      "zh-Hant": "關閉"
+    }
+  },
+  "proxies[*].ping-restart": {
+    "title": {
+      "en": "Restart After Silence",
+      "zh-Hans": "无响应重连",
+      "zh-Hant": "無回應重新連線"
+    },
+    "summary": {
+      "en": "Reconnects when nothing arrives for this long.",
+      "zh-Hans": "这么久收不到任何数据就重新连接。",
+      "zh-Hant": "這麼久收不到任何資料就重新連線。"
+    },
+    "unset": {
+      "en": "Off",
+      "zh-Hans": "关闭",
+      "zh-Hant": "關閉"
+    }
+  },
+  "proxies[*].tran-window": {
+    "title": {
+      "en": "Old Key Grace Period",
+      "zh-Hans": "旧密钥保留时间",
+      "zh-Hant": "舊金鑰保留時間"
+    },
+    "summary": {
+      "en": "How long the old key still works after a rekey; match the server's tran-window.",
+      "zh-Hans": "换新密钥后旧密钥还能用多久，应与服务器一致。",
+      "zh-Hant": "換新金鑰後舊金鑰還能用多久，應與伺服器一致。"
+    }
+  },
+  "proxies[*].quic-versions": {
+    "title": {
+      "en": "QUIC Versions",
+      "zh-Hans": "QUIC 版本",
+      "zh-Hant": "QUIC 版本"
+    },
+    "summary": {
+      "en": "The QUIC versions to use: v1, v2 or both.",
+      "zh-Hans": "使用的 QUIC 版本：v1、v2 或两者。",
+      "zh-Hant": "使用的 QUIC 版本：v1、v2 或兩者。"
+    },
+    "presets": [
+      {
+        "value": "v1",
+        "label": {
+          "en": "QUIC v1",
+          "zh-Hans": "QUIC v1",
+          "zh-Hant": "QUIC v1"
+        }
+      },
+      {
+        "value": "v2",
+        "label": {
+          "en": "QUIC v2",
+          "zh-Hans": "QUIC v2",
+          "zh-Hant": "QUIC v2"
+        }
+      }
+    ]
+  },
+  "proxies[*].zero-rtt": {
+    "title": {
+      "en": "0-RTT Handshake",
+      "zh-Hans": "0-RTT 握手",
+      "zh-Hant": "0-RTT 交握"
+    },
+    "summary": {
+      "en": "Connects faster with a 0-RTT handshake; turn it off if connections fail.",
+      "zh-Hans": "用 0-RTT 握手加快连接，连不上时关掉。",
+      "zh-Hant": "用 0-RTT 交握加快連線，連不上時關掉。"
+    }
+  },
+  "proxies[*].keep-alive-interval": {
+    "title": {
+      "en": "Keepalive Interval",
+      "zh-Hans": "心跳间隔",
+      "zh-Hant": "心跳間隔"
+    },
+    "summary": {
+      "en": "How often a keepalive is sent.",
+      "zh-Hans": "多久发一次心跳。",
+      "zh-Hant": "多久送一次心跳。"
+    },
+    "unset": {
+      "en": "Off",
+      "zh-Hans": "关闭",
+      "zh-Hant": "關閉"
+    }
+  },
+  "proxies[ssh].private-key": {
+    "title": {
+      "en": "Private Key",
+      "zh-Hans": "私钥",
+      "zh-Hant": "私鑰"
+    },
+    "summary": {
+      "en": "The private key used to sign in: its content or a file path.",
+      "zh-Hans": "登录用的私钥，填内容或文件路径。",
+      "zh-Hant": "登入用的私鑰，填內容或檔案路徑。"
+    }
+  },
+  "proxies[*].private-key-passphrase": {
+    "title": {
+      "en": "Key Passphrase",
+      "zh-Hans": "私钥密码",
+      "zh-Hant": "私鑰密碼"
+    },
+    "summary": {
+      "en": "The passphrase that unlocks the private key.",
+      "zh-Hans": "打开私钥用的密码。",
+      "zh-Hant": "開啟私鑰用的密碼。"
+    }
+  },
+  "proxies[*].host-key": {
+    "title": {
+      "en": "Trusted Host Keys",
+      "zh-Hans": "信任的主机公钥",
+      "zh-Hant": "信任的主機公鑰"
+    },
+    "summary": {
+      "en": "Only these host keys are accepted; leave it empty to accept any host.",
+      "zh-Hans": "只接受这些主机公钥，不填则接受任何主机。",
+      "zh-Hant": "只接受這些主機公鑰，不填則接受任何主機。"
+    },
+    "unset": {
+      "en": "Any host",
+      "zh-Hans": "接受任何主机",
+      "zh-Hant": "接受任何主機"
+    },
+    "example": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA..."
+  },
+  "proxies[*].host-key-algorithms": {
+    "title": {
+      "en": "Host Key Algorithms",
+      "zh-Hans": "主机密钥算法",
+      "zh-Hant": "主機金鑰演算法"
+    },
+    "summary": {
+      "en": "The host key algorithms accepted from the server.",
+      "zh-Hans": "允许服务器使用的主机密钥算法。",
+      "zh-Hant": "允許伺服器使用的主機金鑰演算法。"
+    },
+    "unset": {
+      "en": "Default list",
+      "zh-Hans": "默认算法",
+      "zh-Hant": "預設演算法"
+    },
+    "presets": [
+      {
+        "value": "rsa-sha2-256-cert-v01@openssh.com",
+        "label": {
+          "en": "rsa-sha2-256-cert-v01@openssh.com",
+          "zh-Hans": "rsa-sha2-256-cert-v01@openssh.com",
+          "zh-Hant": "rsa-sha2-256-cert-v01@openssh.com"
+        }
+      },
+      {
+        "value": "rsa-sha2-512-cert-v01@openssh.com",
+        "label": {
+          "en": "rsa-sha2-512-cert-v01@openssh.com",
+          "zh-Hans": "rsa-sha2-512-cert-v01@openssh.com",
+          "zh-Hant": "rsa-sha2-512-cert-v01@openssh.com"
+        }
+      },
+      {
+        "value": "ssh-rsa-cert-v01@openssh.com",
+        "label": {
+          "en": "ssh-rsa-cert-v01@openssh.com",
+          "zh-Hans": "ssh-rsa-cert-v01@openssh.com",
+          "zh-Hant": "ssh-rsa-cert-v01@openssh.com"
+        }
+      },
+      {
+        "value": "ssh-dss-cert-v01@openssh.com",
+        "label": {
+          "en": "ssh-dss-cert-v01@openssh.com",
+          "zh-Hans": "ssh-dss-cert-v01@openssh.com",
+          "zh-Hant": "ssh-dss-cert-v01@openssh.com"
+        }
+      },
+      {
+        "value": "ecdsa-sha2-nistp256-cert-v01@openssh.com",
+        "label": {
+          "en": "ecdsa-sha2-nistp256-cert-v01@openssh.com",
+          "zh-Hans": "ecdsa-sha2-nistp256-cert-v01@openssh.com",
+          "zh-Hant": "ecdsa-sha2-nistp256-cert-v01@openssh.com"
+        }
+      },
+      {
+        "value": "ecdsa-sha2-nistp384-cert-v01@openssh.com",
+        "label": {
+          "en": "ecdsa-sha2-nistp384-cert-v01@openssh.com",
+          "zh-Hans": "ecdsa-sha2-nistp384-cert-v01@openssh.com",
+          "zh-Hant": "ecdsa-sha2-nistp384-cert-v01@openssh.com"
+        }
+      },
+      {
+        "value": "ecdsa-sha2-nistp521-cert-v01@openssh.com",
+        "label": {
+          "en": "ecdsa-sha2-nistp521-cert-v01@openssh.com",
+          "zh-Hans": "ecdsa-sha2-nistp521-cert-v01@openssh.com",
+          "zh-Hant": "ecdsa-sha2-nistp521-cert-v01@openssh.com"
+        }
+      },
+      {
+        "value": "ssh-ed25519-cert-v01@openssh.com",
+        "label": {
+          "en": "ssh-ed25519-cert-v01@openssh.com",
+          "zh-Hans": "ssh-ed25519-cert-v01@openssh.com",
+          "zh-Hant": "ssh-ed25519-cert-v01@openssh.com"
+        }
+      },
+      {
+        "value": "ecdsa-sha2-nistp256",
+        "label": {
+          "en": "ecdsa-sha2-nistp256",
+          "zh-Hans": "ecdsa-sha2-nistp256",
+          "zh-Hant": "ecdsa-sha2-nistp256"
+        }
+      },
+      {
+        "value": "ecdsa-sha2-nistp384",
+        "label": {
+          "en": "ecdsa-sha2-nistp384",
+          "zh-Hans": "ecdsa-sha2-nistp384",
+          "zh-Hant": "ecdsa-sha2-nistp384"
+        }
+      },
+      {
+        "value": "ecdsa-sha2-nistp521",
+        "label": {
+          "en": "ecdsa-sha2-nistp521",
+          "zh-Hans": "ecdsa-sha2-nistp521",
+          "zh-Hant": "ecdsa-sha2-nistp521"
+        }
+      },
+      {
+        "value": "rsa-sha2-256",
+        "label": {
+          "en": "rsa-sha2-256",
+          "zh-Hans": "rsa-sha2-256",
+          "zh-Hant": "rsa-sha2-256"
+        }
+      },
+      {
+        "value": "rsa-sha2-512",
+        "label": {
+          "en": "rsa-sha2-512",
+          "zh-Hans": "rsa-sha2-512",
+          "zh-Hant": "rsa-sha2-512"
+        }
+      },
+      {
+        "value": "ssh-rsa",
+        "label": {
+          "en": "ssh-rsa",
+          "zh-Hans": "ssh-rsa",
+          "zh-Hant": "ssh-rsa"
+        }
+      },
+      {
+        "value": "ssh-dss",
+        "label": {
+          "en": "ssh-dss",
+          "zh-Hans": "ssh-dss",
+          "zh-Hant": "ssh-dss"
+        }
+      },
+      {
+        "value": "ssh-ed25519",
+        "label": {
+          "en": "ssh-ed25519",
+          "zh-Hans": "ssh-ed25519",
+          "zh-Hant": "ssh-ed25519"
+        }
+      },
+      {
+        "value": "sk-ecdsa-sha2-nistp256@openssh.com",
+        "label": {
+          "en": "sk-ecdsa-sha2-nistp256@openssh.com",
+          "zh-Hans": "sk-ecdsa-sha2-nistp256@openssh.com",
+          "zh-Hant": "sk-ecdsa-sha2-nistp256@openssh.com"
+        }
+      },
+      {
+        "value": "sk-ssh-ed25519@openssh.com",
+        "label": {
+          "en": "sk-ssh-ed25519@openssh.com",
+          "zh-Hans": "sk-ssh-ed25519@openssh.com",
+          "zh-Hant": "sk-ssh-ed25519@openssh.com"
+        }
+      },
+      {
+        "value": "sk-ecdsa-sha2-nistp256-cert-v01@openssh.com",
+        "label": {
+          "en": "sk-ecdsa-sha2-nistp256-cert-v01@openssh.com",
+          "zh-Hans": "sk-ecdsa-sha2-nistp256-cert-v01@openssh.com",
+          "zh-Hant": "sk-ecdsa-sha2-nistp256-cert-v01@openssh.com"
+        }
+      },
+      {
+        "value": "sk-ssh-ed25519-cert-v01@openssh.com",
+        "label": {
+          "en": "sk-ssh-ed25519-cert-v01@openssh.com",
+          "zh-Hans": "sk-ssh-ed25519-cert-v01@openssh.com",
+          "zh-Hant": "sk-ssh-ed25519-cert-v01@openssh.com"
+        }
+      }
+    ]
+  },
+  "proxies[sudoku].key": {
+    "title": {
+      "en": "Key",
+      "zh-Hans": "密钥",
+      "zh-Hant": "金鑰"
+    },
+    "summary": {
+      "en": "The private key of a sudoku key pair, or the same UUID the server uses.",
+      "zh-Hans": "用 sudoku 密钥对时填私钥，否则填与服务器相同的 UUID。",
+      "zh-Hant": "用 sudoku 金鑰對時填私鑰，否則填與伺服器相同的 UUID。"
+    }
+  },
+  "proxies[*].aead-method": {
+    "title": {
+      "en": "Encryption",
+      "zh-Hans": "加密方式",
+      "zh-Hant": "加密方式"
+    },
+    "summary": {
+      "en": "How data is encrypted; none leaves it unprotected and is not recommended.",
+      "zh-Hans": "数据加密方式；none 不加密，不建议。",
+      "zh-Hant": "資料加密方式；none 不加密，不建議。"
+    },
+    "presets": [
+      {
+        "value": "chacha20-poly1305",
+        "label": {
+          "en": "ChaCha20-Poly1305",
+          "zh-Hans": "ChaCha20-Poly1305",
+          "zh-Hant": "ChaCha20-Poly1305"
+        }
+      },
+      {
+        "value": "aes-128-gcm",
+        "label": {
+          "en": "AES-128-GCM",
+          "zh-Hans": "AES-128-GCM",
+          "zh-Hant": "AES-128-GCM"
+        }
+      },
+      {
+        "value": "none",
+        "label": {
+          "en": "None (no AEAD)",
+          "zh-Hans": "不加密（无 AEAD 保护）",
+          "zh-Hant": "不加密（無 AEAD 保護）"
+        }
+      }
+    ]
+  },
+  "proxies[*].padding-min": {
+    "title": {
+      "en": "Min Padding Rate",
+      "zh-Hans": "最小填充率",
+      "zh-Hant": "最小填充率"
+    },
+    "summary": {
+      "en": "The smallest share of padding, from 0 to 100.",
+      "zh-Hans": "最小填充率，0 到 100。",
+      "zh-Hant": "最小填充率，0 到 100。"
+    }
+  },
+  "proxies[*].padding-max": {
+    "title": {
+      "en": "Max Padding Rate",
+      "zh-Hans": "最大填充率",
+      "zh-Hant": "最大填充率"
+    },
+    "summary": {
+      "en": "The largest share of padding, from 0 to 100, no less than the minimum.",
+      "zh-Hans": "最大填充率，0 到 100，不小于最小值。",
+      "zh-Hant": "最大填充率，0 到 100，不小於最小值。"
+    }
+  },
+  "proxies[*].table-type": {
+    "title": {
+      "en": "Encoding Style",
+      "zh-Hans": "编码风格",
+      "zh-Hant": "編碼風格"
+    },
+    "summary": {
+      "en": "Whether traffic looks like text (ASCII) or random data; it must match the server.",
+      "zh-Hans": "流量看起来像文本还是随机数据，须与服务器一致。",
+      "zh-Hant": "流量看起來像文字還是隨機資料，須與伺服器一致。"
+    },
+    "presets": [
+      {
+        "value": "prefer_entropy",
+        "label": {
+          "en": "Prefer high entropy",
+          "zh-Hans": "偏向高熵",
+          "zh-Hant": "偏向高熵"
+        }
+      },
+      {
+        "value": "prefer_ascii",
+        "label": {
+          "en": "Prefer ASCII",
+          "zh-Hans": "偏向 ASCII",
+          "zh-Hant": "偏向 ASCII"
+        }
+      },
+      {
+        "value": "up_ascii_down_entropy",
+        "label": {
+          "en": "ASCII up, entropy down",
+          "zh-Hans": "上行 ASCII、下行高熵",
+          "zh-Hant": "上行 ASCII、下行高熵"
+        }
+      },
+      {
+        "value": "up_entropy_down_ascii",
+        "label": {
+          "en": "Entropy up, ASCII down",
+          "zh-Hans": "上行高熵、下行 ASCII",
+          "zh-Hant": "上行高熵、下行 ASCII"
+        }
+      }
+    ]
+  },
+  "proxies[*].custom-table": {
+    "title": {
+      "en": "Custom Byte Layout",
+      "zh-Hans": "自定义字节布局",
+      "zh-Hant": "自訂位元組佈局"
+    },
+    "summary": {
+      "en": "A byte layout with 2 x, 2 p and 4 v in any order; affects the random-data side only.",
+      "zh-Hans": "含 2 个 x、2 个 p、4 个 v 的字节布局，只影响随机方向。",
+      "zh-Hant": "含 2 個 x、2 個 p、4 個 v 的位元組佈局，只影響隨機方向。"
+    },
+    "example": "xpxvvpvv"
+  },
+  "proxies[*].custom-tables": {
+    "title": {
+      "en": "Custom Byte Layouts",
+      "zh-Hans": "多个字节布局",
+      "zh-Hant": "多個位元組佈局"
+    },
+    "summary": {
+      "en": "Several byte layouts to rotate through; when set, they replace the single layout.",
+      "zh-Hans": "轮换使用的多个字节布局，填了会取代单个布局。",
+      "zh-Hant": "輪流使用的多個位元組佈局，填了會取代單一佈局。"
+    },
+    "example": "vxpvxvvp"
+  },
+  "proxies[*].multiplex": {
+    "title": {
+      "en": "Mode",
+      "zh-Hans": "复用方式",
+      "zh-Hant": "多工方式"
+    },
+    "summary": {
+      "en": "off, auto (reuses the HTTP mask's connections) or on (several targets over one session).",
+      "zh-Hans": "off 关闭；auto 复用伪装连接；on 单会话多目标。",
+      "zh-Hant": "off 關閉；auto 重複使用偽裝連線；on 單一工作階段多目標。"
+    },
+    "presets": [
+      {
+        "value": "off",
+        "label": {
+          "en": "Off",
+          "zh-Hans": "关闭",
+          "zh-Hant": "關閉"
+        }
+      },
+      {
+        "value": "auto",
+        "label": {
+          "en": "Reuse the HTTP mask's connection",
+          "zh-Hans": "仅复用 HTTP 伪装连接",
+          "zh-Hant": "僅重用 HTTP 偽裝連線"
+        }
+      },
+      {
+        "value": "on",
+        "label": {
+          "en": "On (multiplexed)",
+          "zh-Hans": "开启多路复用",
+          "zh-Hant": "開啟多工"
+        }
+      }
+    ]
+  },
+  "proxies[*].enable-pure-downlink": {
+    "title": {
+      "en": "Pure Sudoku Downlink",
+      "zh-Hans": "纯 Sudoku 下行",
+      "zh-Hant": "純 Sudoku 下行"
+    },
+    "summary": {
+      "en": "On uses pure Sudoku encoding downstream; off saves bandwidth. It must match the server.",
+      "zh-Hans": "开启为纯 Sudoku 下行，关闭则省带宽，须与服务器一致。",
+      "zh-Hant": "開啟為純 Sudoku 下行，關閉則省頻寬，須與伺服器一致。"
+    }
+  },
+  "proxies[*].httpmask.disable": {
+    "title": {
+      "en": "Turn Off HTTP Mask",
+      "zh-Hans": "关闭 HTTP 伪装",
+      "zh-Hant": "關閉 HTTP 偽裝"
+    },
+    "summary": {
+      "en": "Turns off all HTTP disguise and tunnelling.",
+      "zh-Hans": "关闭所有 HTTP 伪装和隧道。",
+      "zh-Hant": "關閉所有 HTTP 偽裝和隧道。"
+    }
+  },
+  "proxies[*].httpmask.mode": {
+    "title": {
+      "en": "Mode",
+      "zh-Hans": "伪装方式",
+      "zh-Hant": "偽裝方式"
+    },
+    "summary": {
+      "en": "legacy by default; stream, poll, auto and ws can pass through a CDN.",
+      "zh-Hans": "默认 legacy；stream、poll、auto、ws 可走 CDN。",
+      "zh-Hant": "預設 legacy；stream、poll、auto、ws 可走 CDN。"
+    },
+    "unset": {
+      "en": "legacy",
+      "zh-Hans": "legacy",
+      "zh-Hant": "legacy"
+    },
+    "presets": [
+      {
+        "value": "legacy",
+        "label": {
+          "en": "Legacy",
+          "zh-Hans": "旧版",
+          "zh-Hant": "舊版"
+        }
+      },
+      {
+        "value": "stream",
+        "label": {
+          "en": "Stream",
+          "zh-Hans": "流式",
+          "zh-Hant": "串流"
+        }
+      },
+      {
+        "value": "poll",
+        "label": {
+          "en": "Poll",
+          "zh-Hans": "轮询",
+          "zh-Hant": "輪詢"
+        }
+      },
+      {
+        "value": "auto",
+        "label": {
+          "en": "Auto",
+          "zh-Hans": "自动",
+          "zh-Hant": "自動"
+        }
+      },
+      {
+        "value": "ws",
+        "label": {
+          "en": "WebSocket",
+          "zh-Hans": "WebSocket",
+          "zh-Hant": "WebSocket"
+        }
+      }
+    ]
+  },
+  "proxies[*].httpmask.tls": {
+    "title": {
+      "en": "HTTPS Mask",
+      "zh-Hans": "伪装走 HTTPS",
+      "zh-Hant": "偽裝走 HTTPS"
+    },
+    "summary": {
+      "en": "Uses HTTPS instead of HTTP; only for the stream, poll, auto and ws modes.",
+      "zh-Hans": "用 HTTPS 伪装，仅 stream/poll/auto/ws 生效。",
+      "zh-Hant": "用 HTTPS 偽裝，僅 stream/poll/auto/ws 生效。"
+    }
+  },
+  "proxies[*].httpmask.host": {
+    "title": {
+      "en": "Mask Host",
+      "zh-Hans": "伪装域名",
+      "zh-Hant": "偽裝網域"
+    },
+    "summary": {
+      "en": "Replaces the Host and SNI of the disguise; only for the tunnel modes.",
+      "zh-Hans": "替换伪装请求的 Host 和 SNI，仅隧道模式生效。",
+      "zh-Hant": "取代偽裝請求的 Host 和 SNI，僅隧道模式生效。"
+    },
+    "example": "example.com"
+  },
+  "proxies[*].httpmask.path-root": {
+    "title": {
+      "en": "Mask Path Prefix",
+      "zh-Hans": "伪装路径前缀",
+      "zh-Hant": "偽裝路徑前綴"
+    },
+    "summary": {
+      "en": "The first path segment of the HTTP tunnel; it must match the server.",
+      "zh-Hans": "HTTP 隧道路径的第一级前缀，须与服务器一致。",
+      "zh-Hant": "HTTP 隧道路徑的第一層前綴，須與伺服器一致。"
+    },
+    "example": "aabbcc"
+  },
+  "proxies[*].httpmask.multiplex": {
+    "title": {
+      "en": "Multiplexing (Old)",
+      "zh-Hans": "多路复用（旧）",
+      "zh-Hant": "多工（舊）"
+    },
+    "summary": {
+      "en": "The older place for Multiplexing; when set, it wins over it.",
+      "zh-Hans": "多路复用的旧写法，填了以它为准。",
+      "zh-Hant": "多工的舊寫法，填了以它為準。"
+    },
+    "presets": [
+      {
+        "value": "off",
+        "label": {
+          "en": "Off",
+          "zh-Hans": "关闭",
+          "zh-Hant": "關閉"
+        }
+      },
+      {
+        "value": "auto",
+        "label": {
+          "en": "Reuse the HTTP mask's connection",
+          "zh-Hans": "仅复用 HTTP 伪装连接",
+          "zh-Hant": "僅重用 HTTP 偽裝連線"
+        }
+      },
+      {
+        "value": "on",
+        "label": {
+          "en": "On (multiplexed)",
+          "zh-Hans": "开启多路复用",
+          "zh-Hant": "開啟多工"
+        }
+      }
+    ]
+  },
+  "proxies[*].http-mask": {
+    "title": {
+      "en": "HTTP Mask (Old)",
+      "zh-Hans": "HTTP 伪装（旧）",
+      "zh-Hant": "HTTP 偽裝（舊）"
+    },
+    "summary": {
+      "en": "The older switch for the HTTP mask; the HTTP mask settings win when both are set.",
+      "zh-Hans": "HTTP 伪装的旧开关，与新设置同时写时以新设置为准。",
+      "zh-Hant": "HTTP 偽裝的舊開關，與新設定同時寫時以新設定為準。"
+    }
+  },
+  "proxies[*].http-mask-mode": {
+    "title": {
+      "en": "Mask Mode (Old)",
+      "zh-Hans": "伪装方式（旧）",
+      "zh-Hant": "偽裝方式（舊）"
+    },
+    "summary": {
+      "en": "The older place for HTTP Mask Mode.",
+      "zh-Hans": "HTTP 伪装方式的旧写法。",
+      "zh-Hant": "HTTP 偽裝方式的舊寫法。"
+    },
+    "presets": [
+      {
+        "value": "legacy",
+        "label": {
+          "en": "Legacy",
+          "zh-Hans": "旧版",
+          "zh-Hant": "舊版"
+        }
+      },
+      {
+        "value": "stream",
+        "label": {
+          "en": "Stream",
+          "zh-Hans": "流式",
+          "zh-Hant": "串流"
+        }
+      },
+      {
+        "value": "poll",
+        "label": {
+          "en": "Poll",
+          "zh-Hans": "轮询",
+          "zh-Hant": "輪詢"
+        }
+      },
+      {
+        "value": "auto",
+        "label": {
+          "en": "Auto",
+          "zh-Hans": "自动",
+          "zh-Hant": "自動"
+        }
+      },
+      {
+        "value": "ws",
+        "label": {
+          "en": "WebSocket",
+          "zh-Hans": "WebSocket",
+          "zh-Hant": "WebSocket"
+        }
+      }
+    ]
+  },
+  "proxies[*].http-mask-tls": {
+    "title": {
+      "en": "HTTPS Mask (Old)",
+      "zh-Hans": "HTTPS 伪装（旧）",
+      "zh-Hant": "HTTPS 偽裝（舊）"
+    },
+    "summary": {
+      "en": "The older place for HTTPS Mask.",
+      "zh-Hans": "伪装走 HTTPS 的旧写法。",
+      "zh-Hant": "偽裝走 HTTPS 的舊寫法。"
+    }
+  },
+  "proxies[*].http-mask-host": {
+    "title": {
+      "en": "Mask Host (Old)",
+      "zh-Hans": "伪装域名（旧）",
+      "zh-Hant": "偽裝網域（舊）"
+    },
+    "summary": {
+      "en": "The older place for Mask Host.",
+      "zh-Hans": "伪装域名的旧写法。",
+      "zh-Hant": "偽裝網域的舊寫法。"
+    },
+    "example": "example.com"
+  },
+  "proxies[*].http-mask-multiplex": {
+    "title": {
+      "en": "Mode (Old)",
+      "zh-Hans": "复用方式（旧）",
+      "zh-Hant": "多工方式（舊）"
+    },
+    "summary": {
+      "en": "The older place for Multiplexing; when set, it wins over it.",
+      "zh-Hans": "多路复用的旧写法，填了以它为准。",
+      "zh-Hant": "多工的舊寫法，填了以它為準。"
+    },
+    "presets": [
+      {
+        "value": "off",
+        "label": {
+          "en": "Off",
+          "zh-Hans": "关闭",
+          "zh-Hant": "關閉"
+        }
+      },
+      {
+        "value": "auto",
+        "label": {
+          "en": "Reuse the HTTP mask's connection",
+          "zh-Hans": "仅复用 HTTP 伪装连接",
+          "zh-Hant": "僅重用 HTTP 偽裝連線"
+        }
+      },
+      {
+        "value": "on",
+        "label": {
+          "en": "On (multiplexed)",
+          "zh-Hans": "开启多路复用",
+          "zh-Hant": "開啟多工"
+        }
+      }
+    ]
+  },
+  "proxies[*].path-root": {
+    "title": {
+      "en": "Mask Path Prefix (Old)",
+      "zh-Hans": "路径前缀（旧）",
+      "zh-Hant": "路徑前綴（舊）"
+    },
+    "summary": {
+      "en": "The older place for Mask Path Prefix.",
+      "zh-Hans": "伪装路径前缀的旧写法。",
+      "zh-Hant": "偽裝路徑前綴的舊寫法。"
+    },
+    "example": "aabbcc"
+  },
+  "proxies[*].auth-key": {
+    "title": {
+      "en": "Auth Key",
+      "zh-Hans": "登录密钥",
+      "zh-Hant": "登入金鑰"
+    },
+    "summary": {
+      "en": "A Tailscale or Headscale auth key; without one, the log shows a sign-in link on first start.",
+      "zh-Hans": "Tailscale 或 Headscale 的登录密钥；不填则日志给出登录链接。",
+      "zh-Hant": "Tailscale 或 Headscale 的登入金鑰；不填則日誌給出登入連結。"
+    }
+  },
+  "proxies[*].control-url": {
+    "title": {
+      "en": "Control Server",
+      "zh-Hans": "控制服务器",
+      "zh-Hant": "控制伺服器"
+    },
+    "summary": {
+      "en": "Your own Headscale server's address; leave it empty for Tailscale's.",
+      "zh-Hans": "自建 Headscale 时填它的地址，不填用 Tailscale 官方。",
+      "zh-Hant": "自架 Headscale 時填它的位址，不填用 Tailscale 官方。"
+    },
+    "unset": {
+      "en": "Tailscale",
+      "zh-Hans": "Tailscale 官方",
+      "zh-Hant": "Tailscale 官方"
+    },
+    "example": "https://headscale.example.com"
+  },
+  "proxies[*].hostname": {
+    "title": {
+      "en": "Device Name",
+      "zh-Hans": "设备名称",
+      "zh-Hant": "裝置名稱"
+    },
+    "summary": {
+      "en": "The name this device shows in the virtual network.",
+      "zh-Hans": "本设备在虚拟网络里显示的名称。",
+      "zh-Hant": "本裝置在虛擬網路裡顯示的名稱。"
+    },
+    "unset": {
+      "en": "Automatic",
+      "zh-Hans": "自动",
+      "zh-Hant": "自動"
+    }
+  },
+  "proxies[*].state-dir": {
+    "title": {
+      "en": "State Folder",
+      "zh-Hans": "状态目录",
+      "zh-Hant": "狀態目錄"
+    },
+    "summary": {
+      "en": "The folder that keeps this node's sign-in and identity.",
+      "zh-Hans": "保存本节点登录状态和身份的目录。",
+      "zh-Hant": "儲存本節點登入狀態和身分的目錄。"
+    },
+    "unset": {
+      "en": "Default location",
+      "zh-Hans": "默认位置",
+      "zh-Hant": "預設位置"
+    }
+  },
+  "proxies[*].ephemeral": {
+    "title": {
+      "en": "Ephemeral Node",
+      "zh-Hans": "临时设备",
+      "zh-Hant": "臨時裝置"
+    },
+    "summary": {
+      "en": "Signs in as an ephemeral node that leaves the network when it goes offline.",
+      "zh-Hans": "以临时设备登录，离线后自动从网络里移除。",
+      "zh-Hant": "以臨時裝置登入，離線後自動從網路中移除。"
+    }
+  },
+  "proxies[*].accept-routes": {
+    "title": {
+      "en": "Accept Subnet Routes",
+      "zh-Hans": "接受子网路由",
+      "zh-Hant": "接受子網路路由"
+    },
+    "summary": {
+      "en": "Uses the subnet routes other devices publish in your tailnet.",
+      "zh-Hans": "使用网络里其他设备发布的子网路由。",
+      "zh-Hant": "使用網路中其他裝置發布的子網路路由。"
+    },
+    "unset": {
+      "en": "As last time; on at first",
+      "zh-Hans": "沿用上次，首次开启",
+      "zh-Hant": "沿用上次，首次開啟"
+    }
+  },
+  "proxies[*].exit-node": {
+    "title": {
+      "en": "Exit Node",
+      "zh-Hans": "出口节点",
+      "zh-Hant": "出口節點"
+    },
+    "summary": {
+      "en": "Reaches the internet through this device: its IP, or auto:any to pick one.",
+      "zh-Hans": "经这台设备访问公网：填它的 IP，或 auto:any 自动选。",
+      "zh-Hant": "經這台裝置存取網際網路：填它的 IP，或 auto:any 自動選。"
+    },
+    "example": "100.64.0.1",
+    "presets": [
+      {
+        "value": "auto:any",
+        "label": {
+          "en": "Pick automatically",
+          "zh-Hans": "自动选择",
+          "zh-Hant": "自動選擇"
+        }
+      }
+    ]
+  },
+  "proxies[*].exit-node-allow-lan-access": {
+    "title": {
+      "en": "Allow LAN Access",
+      "zh-Hans": "允许访问局域网",
+      "zh-Hant": "允許存取區域網路"
+    },
+    "summary": {
+      "en": "Keeps your local network reachable while using an exit node.",
+      "zh-Hans": "使用出口节点时仍可访问本地局域网。",
+      "zh-Hant": "使用出口節點時仍可存取本地區域網路。"
+    },
+    "unset": {
+      "en": "As last time; off at first",
+      "zh-Hans": "沿用上次，首次关闭",
+      "zh-Hant": "沿用上次，首次關閉"
+    }
+  },
+  "proxies[*].health-check": {
+    "title": {
+      "en": "Health Check",
+      "zh-Hans": "健康检查",
+      "zh-Hant": "健康檢查"
+    },
+    "summary": {
+      "en": "Checks the connection when idle, so a dead one is noticed early.",
+      "zh-Hans": "空闲时定期检查连接，及早发现断线。",
+      "zh-Hant": "閒置時定期檢查連線，及早發現斷線。"
+    }
+  },
+  "proxies[*].quic": {
+    "title": {
+      "en": "Use QUIC",
+      "zh-Hans": "使用 QUIC",
+      "zh-Hant": "使用 QUIC"
+    },
+    "summary": {
+      "en": "Connects over QUIC (HTTP/3) instead of HTTP/2.",
+      "zh-Hans": "用 QUIC（HTTP/3）连接，而不是 HTTP/2。",
+      "zh-Hant": "用 QUIC（HTTP/3）連線，而不是 HTTP/2。"
+    }
+  },
+  "proxies[*].max-connections": {
+    "title": {
+      "en": "Max Connections",
+      "zh-Hans": "最多连接数",
+      "zh-Hant": "最多連線數"
+    },
+    "summary": {
+      "en": "The most connections kept to the server; can't be used with Max Streams.",
+      "zh-Hans": "与服务器保持的最多连接数，不能与最多流数同用。",
+      "zh-Hant": "與伺服器保持的最多連線數，不能與最多串流數同用。"
+    }
+  },
+  "proxies[*].min-streams": {
+    "title": {
+      "en": "Min Streams per Connection",
+      "zh-Hans": "单连接最少流数",
+      "zh-Hant": "單一連線最少串流數"
+    },
+    "summary": {
+      "en": "A connection carries at least this many streams before another opens.",
+      "zh-Hans": "一条连接至少承载这么多流才开新连接。",
+      "zh-Hant": "一條連線至少承載這麼多串流才開新連線。"
+    }
+  },
+  "proxies[*].max-streams": {
+    "title": {
+      "en": "Max Streams per Connection",
+      "zh-Hans": "单连接最多流数",
+      "zh-Hant": "單一連線最多串流數"
+    },
+    "summary": {
+      "en": "A connection carries at most this many streams before another opens.",
+      "zh-Hans": "一条连接最多承载这么多流，满了再开新连接。",
+      "zh-Hant": "一條連線最多承載這麼多串流，滿了再開新連線。"
+    }
+  },
+  "proxies[zerotier].network": {
+    "title": {
+      "en": "Network ID",
+      "zh-Hans": "网络 ID",
+      "zh-Hant": "網路 ID"
+    },
+    "summary": {
+      "en": "The ZeroTier network to join: 16 hexadecimal characters.",
+      "zh-Hans": "要加入的 ZeroTier 网络 ID，16 位十六进制。",
+      "zh-Hant": "要加入的 ZeroTier 網路 ID，16 位十六進位。"
+    },
+    "example": "0123456789abcdef"
+  },
+  "proxies[*].identity-secret": {
+    "title": {
+      "en": "Node Identity",
+      "zh-Hans": "节点身份",
+      "zh-Hant": "節點身分"
+    },
+    "summary": {
+      "en": "This node's identity (the contents of identity.secret); a new one is made if empty.",
+      "zh-Hans": "本节点的身份（identity.secret 内容），不填自动生成。",
+      "zh-Hant": "本節點的身分（identity.secret 內容），不填自動產生。"
+    },
+    "unset": {
+      "en": "Created automatically",
+      "zh-Hans": "自动生成",
+      "zh-Hant": "自動產生"
+    }
+  },
+  "proxies[*].planet": {
+    "title": {
+      "en": "Planet File",
+      "zh-Hans": "Planet 文件",
+      "zh-Hant": "Planet 檔案"
+    },
+    "summary": {
+      "en": "A private Planet file that replaces the built-in root servers.",
+      "zh-Hans": "私有 Planet 文件路径，替换内置的根服务器。",
+      "zh-Hant": "私有 Planet 檔案路徑，取代內建的根伺服器。"
+    },
+    "unset": {
+      "en": "Built-in",
+      "zh-Hans": "内置",
+      "zh-Hant": "內建"
+    }
+  },
+  "proxies[zerotier].mtu": {
+    "title": {
+      "en": "MTU",
+      "zh-Hans": "MTU",
+      "zh-Hant": "MTU"
+    },
+    "summary": {
+      "en": "A local MTU; it can't exceed the MTU the network's controller gives.",
+      "zh-Hans": "本地 MTU，不能超过控制器下发的值。",
+      "zh-Hant": "本地 MTU，不能超過控制器下發的值。"
+    },
+    "unset": {
+      "en": "From the controller",
+      "zh-Hans": "控制器下发",
+      "zh-Hant": "控制器下發"
+    }
+  },
+  "proxies[*].physical-mtu": {
+    "title": {
+      "en": "Physical MTU",
+      "zh-Hans": "物理 MTU",
+      "zh-Hant": "實體 MTU"
+    },
+    "summary": {
+      "en": "The largest UDP payload ZeroTier sends on the real network, 510 to 10324.",
+      "zh-Hans": "ZeroTier 在实际网络上发送的 UDP 最大长度（510–10324）。",
+      "zh-Hant": "ZeroTier 在實際網路上送出的 UDP 最大長度（510–10324）。"
+    }
+  },
+  "proxies[*].primary-port": {
+    "title": {
+      "en": "Primary Port",
+      "zh-Hans": "主端口",
+      "zh-Hant": "主要通訊埠"
+    },
+    "summary": {
+      "en": "The main UDP port; 0 picks a free one.",
+      "zh-Hans": "主 UDP 端口，0 为自动选择。",
+      "zh-Hant": "主要 UDP 通訊埠，0 為自動選擇。"
+    },
+    "unset": {
+      "en": "Automatic",
+      "zh-Hans": "自动",
+      "zh-Hant": "自動"
+    }
+  },
+  "proxies[*].secondary-port": {
+    "title": {
+      "en": "Secondary Port",
+      "zh-Hans": "第二端口",
+      "zh-Hant": "第二通訊埠"
+    },
+    "summary": {
+      "en": "A second UDP port; 0 picks a free one and -1 turns it off.",
+      "zh-Hans": "第二 UDP 端口，0 为自动，-1 为不用。",
+      "zh-Hant": "第二 UDP 通訊埠，0 為自動，-1 為不用。"
+    },
+    "unset": {
+      "en": "Automatic",
+      "zh-Hans": "自动",
+      "zh-Hant": "自動"
+    }
+  },
+  "proxies[*].tcp-fallback-mode": {
+    "title": {
+      "en": "TCP Relay Fallback",
+      "zh-Hans": "TCP 中继回退",
+      "zh-Hant": "TCP 中繼回退"
+    },
+    "summary": {
+      "en": "auto uses the relay when UDP fails, force always uses it, disable never does.",
+      "zh-Hans": "auto 在 UDP 失败时用中继；force 只用；disable 不用。",
+      "zh-Hant": "auto 在 UDP 失敗時用中繼；force 只用；disable 不用。"
+    },
+    "presets": [
+      {
+        "value": "auto",
+        "label": {
+          "en": "Relay when UDP fails",
+          "zh-Hans": "UDP 不通时走中继",
+          "zh-Hant": "UDP 不通時走中繼"
+        }
+      },
+      {
+        "value": "force",
+        "label": {
+          "en": "Relay only",
+          "zh-Hans": "只走中继",
+          "zh-Hant": "只走中繼"
+        }
+      },
+      {
+        "value": "disable",
+        "label": {
+          "en": "No relay",
+          "zh-Hans": "不用中继",
+          "zh-Hant": "不用中繼"
+        }
+      }
+    ]
+  },
+  "proxies[*].tcp-fallback-relay": {
+    "title": {
+      "en": "TCP Relay Server",
+      "zh-Hans": "TCP 中继服务器",
+      "zh-Hant": "TCP 中繼伺服器"
+    },
+    "summary": {
+      "en": "The relay used when falling back to TCP.",
+      "zh-Hans": "回退到 TCP 时使用的中继服务器。",
+      "zh-Hant": "回退到 TCP 時使用的中繼伺服器。"
+    },
+    "example": "204.80.128.1:443"
+  },
+  "proxies[*].remote-trace-target": {
+    "title": {
+      "en": "Trace Target Node",
+      "zh-Hans": "诊断接收节点",
+      "zh-Hant": "診斷接收節點"
+    },
+    "summary": {
+      "en": "The ZeroTier node ID that receives diagnostic traces.",
+      "zh-Hans": "接收诊断跟踪信息的 ZeroTier 节点 ID。",
+      "zh-Hant": "接收診斷追蹤資訊的 ZeroTier 節點 ID。"
+    },
+    "example": "0123456789"
+  },
+  "proxies[*].remote-trace-level": {
+    "title": {
+      "en": "Trace Level",
+      "zh-Hans": "诊断级别",
+      "zh-Hant": "診斷級別"
+    },
+    "summary": {
+      "en": "How much is traced: 0 normal, 10 verbose, 15 rules, 20 debug, 30 everything.",
+      "zh-Hans": "跟踪级别：0 普通、10 详细、15 规则、20 调试、30 最详。",
+      "zh-Hant": "追蹤級別：0 普通、10 詳細、15 規則、20 除錯、30 最詳。"
+    },
+    "presets": [
+      {
+        "value": "0",
+        "label": {
+          "en": "Normal",
+          "zh-Hans": "普通",
+          "zh-Hant": "普通"
+        }
+      },
+      {
+        "value": "10",
+        "label": {
+          "en": "Verbose",
+          "zh-Hans": "详细",
+          "zh-Hant": "詳細"
+        }
+      },
+      {
+        "value": "15",
+        "label": {
+          "en": "Rules",
+          "zh-Hans": "规则",
+          "zh-Hant": "規則"
+        }
+      },
+      {
+        "value": "20",
+        "label": {
+          "en": "Debug",
+          "zh-Hans": "调试",
+          "zh-Hant": "除錯"
+        }
+      },
+      {
+        "value": "30",
+        "label": {
+          "en": "Very verbose",
+          "zh-Hans": "极详细",
+          "zh-Hant": "極詳細"
+        }
+      }
+    ]
+  },
+  "proxies[*].low-bandwidth": {
+    "title": {
+      "en": "Low Bandwidth Mode",
+      "zh-Hans": "低带宽模式",
+      "zh-Hant": "低頻寬模式"
+    },
+    "summary": {
+      "en": "Sends fewer background messages to save data.",
+      "zh-Hans": "减少后台消息，节省流量。",
+      "zh-Hant": "減少背景訊息，節省流量。"
+    }
+  },
+  "proxies[*].encrypted-hello": {
+    "title": {
+      "en": "Encrypted HELLO",
+      "zh-Hans": "加密 HELLO 包",
+      "zh-Hant": "加密 HELLO 封包"
+    },
+    "summary": {
+      "en": "Encrypts ZeroTier's HELLO packets too.",
+      "zh-Hans": "把 ZeroTier 的 HELLO 握手包也加密。",
+      "zh-Hant": "把 ZeroTier 的 HELLO 交握封包也加密。"
+    }
+  },
+  "proxies[*].orbit": {
+    "title": {
+      "en": "Moons",
+      "zh-Hans": "Moon 根服务器",
+      "zh-Hant": "Moon 根伺服器"
+    },
+    "summary": {
+      "en": "Private Moon root servers to join.",
+      "zh-Hans": "要加入的私有 Moon 根服务器。",
+      "zh-Hant": "要加入的私有 Moon 根伺服器。"
+    }
+  },
+  "proxies[*].orbit[].world": {
+    "title": {
+      "en": "Moon World ID",
+      "zh-Hans": "Moon ID",
+      "zh-Hant": "Moon ID"
+    },
+    "summary": {
+      "en": "The Moon's world ID: 16 hexadecimal characters.",
+      "zh-Hans": "Moon 的 World ID，16 位十六进制。",
+      "zh-Hant": "Moon 的 World ID，16 位十六進位。"
+    },
+    "example": "0123456789abcdef"
+  },
+  "proxies[*].orbit[].seed": {
+    "title": {
+      "en": "Moon Root Node",
+      "zh-Hans": "Moon 根节点",
+      "zh-Hant": "Moon 根節點"
+    },
+    "summary": {
+      "en": "The node ID of the Moon's root: 10 hexadecimal characters.",
+      "zh-Hans": "Moon 根节点的节点 ID，10 位十六进制。",
+      "zh-Hant": "Moon 根節點的節點 ID，10 位十六進位。"
+    },
+    "example": "0123456789"
+  },
+  "proxies[zerotier].dns": {
+    "title": {
+      "en": "DNS Servers",
+      "zh-Hans": "DNS 服务器",
+      "zh-Hant": "DNS 伺服器"
+    },
+    "summary": {
+      "en": "Replaces the network's DNS servers when Resolve DNS Remotely is on.",
+      "zh-Hans": "开启远程解析后，取代控制器下发的 DNS 服务器。",
+      "zh-Hant": "開啟遠端解析後，取代控制器下發的 DNS 伺服器。"
+    },
+    "unset": {
+      "en": "From the controller",
+      "zh-Hans": "控制器下发",
+      "zh-Hant": "控制器下發"
+    },
+    "example": "10.147.17.1"
+  },
+  "proxies[*].forward": {
+    "title": {
+      "en": "Forward Mode",
+      "zh-Hans": "转发模式",
+      "zh-Hant": "轉送模式"
+    },
+    "summary": {
+      "en": "Leaves the destination out, so the relay sends traffic to its own fixed target.",
+      "zh-Hans": "不告诉服务器目标，由服务器转到它设定的地址。",
+      "zh-Hant": "不告訴伺服器目標，由伺服器轉到它設定的位址。"
+    }
+  },
+  "proxies[*].mux": {
+    "title": {
+      "en": "Share a TCP Connection",
+      "zh-Hans": "共用 TCP 连接",
+      "zh-Hant": "共用 TCP 連線"
+    },
+    "summary": {
+      "en": "Carries many connections over one TCP connection.",
+      "zh-Hans": "多个连接共用一条 TCP 连接。",
+      "zh-Hant": "多個連線共用一條 TCP 連線。"
+    }
+  },
+  "proxies[*].network-name": {
+    "title": {
+      "en": "Network Name",
+      "zh-Hans": "网络名称",
+      "zh-Hant": "網路名稱"
+    },
+    "summary": {
+      "en": "The EasyTier network to join.",
+      "zh-Hans": "要加入的 EasyTier 网络名称。",
+      "zh-Hant": "要加入的 EasyTier 網路名稱。"
+    }
+  },
+  "proxies[*].network-secret": {
+    "title": {
+      "en": "Network Secret",
+      "zh-Hans": "网络密码",
+      "zh-Hant": "網路密碼"
+    },
+    "summary": {
+      "en": "The network's password; it must match the other nodes.",
+      "zh-Hans": "网络的密码，须与其他节点一致。",
+      "zh-Hant": "網路的密碼，須與其他節點一致。"
+    }
+  },
+  "proxies[*].ipv4": {
+    "title": {
+      "en": "Virtual IPv4 Address",
+      "zh-Hans": "虚拟 IPv4 地址",
+      "zh-Hant": "虛擬 IPv4 位址"
+    },
+    "summary": {
+      "en": "This device's IPv4 address in the virtual network.",
+      "zh-Hans": "本设备在虚拟网络里的 IPv4 地址。",
+      "zh-Hant": "本裝置在虛擬網路裡的 IPv4 位址。"
+    },
+    "example": "10.144.144.2/24"
+  },
+  "proxies[*].dhcp": {
+    "title": {
+      "en": "Assign Address Automatically",
+      "zh-Hans": "自动分配地址",
+      "zh-Hant": "自動分配位址"
+    },
+    "summary": {
+      "en": "Gets a virtual IPv4 address automatically instead of a fixed one.",
+      "zh-Hans": "自动获取虚拟 IPv4 地址，不用手动填写。",
+      "zh-Hant": "自動取得虛擬 IPv4 位址，不用手動填寫。"
+    },
+    "unset": {
+      "en": "On when no IPv4 is set",
+      "zh-Hans": "未填 IPv4 时开启",
+      "zh-Hant": "未填 IPv4 時開啟"
+    }
+  },
+  "proxies[easytier].peers": {
+    "title": {
+      "en": "Peers",
+      "zh-Hans": "对端地址",
+      "zh-Hant": "對端位址"
+    },
+    "summary": {
+      "en": "The nodes to connect to first.",
+      "zh-Hans": "先要连接的节点地址。",
+      "zh-Hant": "先要連線的節點位址。"
+    },
+    "example": "tcp://203.0.113.10:11010"
+  },
+  "proxies[*].listeners": {
+    "title": {
+      "en": "Listen Addresses",
+      "zh-Hans": "监听地址",
+      "zh-Hant": "監聽位址"
+    },
+    "summary": {
+      "en": "Addresses other nodes can connect to on this device.",
+      "zh-Hans": "本机监听的地址，供其他节点连入。",
+      "zh-Hant": "本機監聽的位址，供其他節點連入。"
+    },
+    "unset": {
+      "en": "Not listening",
+      "zh-Hans": "不监听",
+      "zh-Hant": "不監聽"
+    },
+    "example": "tcp://0.0.0.0:11010"
+  },
+  "proxies[*].no-listener": {
+    "title": {
+      "en": "Don't Listen",
+      "zh-Hans": "不监听",
+      "zh-Hant": "不監聽"
+    },
+    "summary": {
+      "en": "Turns off listening entirely; can't be used with Listen Addresses.",
+      "zh-Hans": "完全不监听，不能与监听地址同用。",
+      "zh-Hant": "完全不監聽，不能與監聽位址同用。"
+    },
+    "unset": {
+      "en": "Listen only if addresses are set",
+      "zh-Hans": "填了监听地址才监听",
+      "zh-Hant": "填了監聽位址才監聽"
+    }
+  },
+  "proxies[*].mapped-listeners": {
+    "title": {
+      "en": "Public Addresses",
+      "zh-Hans": "对外地址",
+      "zh-Hant": "對外位址"
+    },
+    "summary": {
+      "en": "The public addresses others use to reach this device, when ports are mapped.",
+      "zh-Hans": "有端口映射时，告诉其他节点从哪个公网地址连入。",
+      "zh-Hant": "有通訊埠對應時，告訴其他節點從哪個公開位址連入。"
+    },
+    "example": "tcp://203.0.113.10:11223"
+  },
+  "proxies[*].exit-nodes": {
+    "title": {
+      "en": "Exit Nodes",
+      "zh-Hans": "出口节点",
+      "zh-Hant": "出口節點"
+    },
+    "summary": {
+      "en": "Virtual IPs of nodes that carry internet traffic, in order of preference.",
+      "zh-Hans": "承担上网流量的节点虚拟 IP，按顺序优先。",
+      "zh-Hant": "承擔上網流量的節點虛擬 IP，依順序優先。"
+    },
+    "example": "10.144.144.1"
+  },
+  "proxies[*].proxy-networks": {
+    "title": {
+      "en": "Shared Subnets",
+      "zh-Hans": "分享的子网",
+      "zh-Hant": "分享的子網路"
+    },
+    "summary": {
+      "en": "Local subnets shared with the virtual network.",
+      "zh-Hans": "把这些本地子网分享给虚拟网络。",
+      "zh-Hant": "把這些本地子網路分享給虛擬網路。"
+    },
+    "example": "10.0.0.0/24"
+  },
+  "proxies[*].instance-name": {
+    "title": {
+      "en": "Instance Name",
+      "zh-Hans": "实例名称",
+      "zh-Hant": "執行個體名稱"
+    },
+    "summary": {
+      "en": "Tells apart several EasyTier instances on one device.",
+      "zh-Hans": "区分同一设备上多个实例的名称。",
+      "zh-Hant": "區分同一裝置上多個執行個體的名稱。"
+    },
+    "unset": {
+      "en": "Same as the node name",
+      "zh-Hans": "与节点名称相同",
+      "zh-Hant": "與節點名稱相同"
+    }
+  },
+  "proxies[*].accept-dns": {
+    "title": {
+      "en": "Magic DNS",
+      "zh-Hans": "虚拟网络域名解析",
+      "zh-Hant": "虛擬網路網域解析"
+    },
+    "summary": {
+      "en": "Resolves other nodes by name in the virtual network.",
+      "zh-Hans": "按名称解析虚拟网络里的其他节点。",
+      "zh-Hant": "依名稱解析虛擬網路裡的其他節點。"
+    },
+    "unset": {
+      "en": "Off",
+      "zh-Hans": "关闭",
+      "zh-Hant": "關閉"
+    }
+  },
+  "proxies[*].enable-exit-node": {
+    "title": {
+      "en": "Act as Exit Node",
+      "zh-Hans": "作为出口节点",
+      "zh-Hant": "作為出口節點"
+    },
+    "summary": {
+      "en": "Lets other nodes reach the internet through this device.",
+      "zh-Hans": "允许其他节点经本机访问公网。",
+      "zh-Hant": "允許其他節點經本機存取網際網路。"
+    },
+    "unset": {
+      "en": "Off",
+      "zh-Hans": "关闭",
+      "zh-Hant": "關閉"
+    }
+  },
+  "proxies[*].enable-encryption": {
+    "title": {
+      "en": "Encryption",
+      "zh-Hans": "加密通信",
+      "zh-Hant": "加密通訊"
+    },
+    "summary": {
+      "en": "Encrypts traffic between nodes; it must match the other nodes.",
+      "zh-Hans": "加密节点间的通信，须与其他节点一致。",
+      "zh-Hant": "加密節點間的通訊，須與其他節點一致。"
+    },
+    "unset": {
+      "en": "On",
+      "zh-Hans": "开启",
+      "zh-Hant": "開啟"
+    }
+  },
+  "proxies[*].encryption-algorithm": {
+    "title": {
+      "en": "Encryption Algorithm",
+      "zh-Hans": "加密算法",
+      "zh-Hant": "加密演算法"
+    },
+    "summary": {
+      "en": "The encryption algorithm; it must match the other nodes.",
+      "zh-Hans": "加密使用的算法，须与其他节点一致。",
+      "zh-Hant": "加密使用的演算法，須與其他節點一致。"
+    },
+    "unset": {
+      "en": "aes-gcm",
+      "zh-Hans": "aes-gcm",
+      "zh-Hant": "aes-gcm"
+    },
+    "presets": [
+      {
+        "value": "aes-gcm",
+        "label": {
+          "en": "AES-GCM",
+          "zh-Hans": "AES-GCM",
+          "zh-Hant": "AES-GCM"
+        }
+      },
+      {
+        "value": "xor",
+        "label": {
+          "en": "XOR",
+          "zh-Hans": "XOR",
+          "zh-Hant": "XOR"
+        }
+      }
+    ]
+  },
+  "proxies[*].private-mode": {
+    "title": {
+      "en": "Private Mode",
+      "zh-Hans": "私有模式",
+      "zh-Hant": "私有模式"
+    },
+    "summary": {
+      "en": "Only nodes of this network may handshake with or relay through this device.",
+      "zh-Hans": "只允许本网络的节点经本机握手和中转。",
+      "zh-Hant": "只允許本網路的節點經本機交握和中繼。"
+    },
+    "unset": {
+      "en": "Off",
+      "zh-Hans": "关闭",
+      "zh-Hant": "關閉"
+    }
+  },
+  "proxies[*].latency-first": {
+    "title": {
+      "en": "Lowest Latency First",
+      "zh-Hans": "延迟优先",
+      "zh-Hant": "延遲優先"
+    },
+    "summary": {
+      "en": "Prefers the lowest-latency path over the fewest hops.",
+      "zh-Hans": "优先走延迟最低的路径，而非最少跳数。",
+      "zh-Hant": "優先走延遲最低的路徑，而非最少跳數。"
+    },
+    "unset": {
+      "en": "Off",
+      "zh-Hans": "关闭",
+      "zh-Hant": "關閉"
+    }
+  },
+  "proxies[*].disable-p2p": {
+    "title": {
+      "en": "Relay Only",
+      "zh-Hans": "只走中转",
+      "zh-Hant": "只走中繼"
+    },
+    "summary": {
+      "en": "Never connects to other nodes directly; everything goes through relays.",
+      "zh-Hans": "不直连其他节点，全部经中转。",
+      "zh-Hant": "不直連其他節點，全部經中繼。"
+    },
+    "unset": {
+      "en": "Off",
+      "zh-Hans": "关闭",
+      "zh-Hant": "關閉"
+    }
+  },
+  "proxies[*].enable-kcp-proxy": {
+    "title": {
+      "en": "TCP over KCP",
+      "zh-Hans": "TCP 走 KCP",
+      "zh-Hant": "TCP 走 KCP"
+    },
+    "summary": {
+      "en": "Carries TCP over KCP, which is faster on lossy networks.",
+      "zh-Hans": "用 KCP 转发 TCP，丢包多的网络下更快。",
+      "zh-Hant": "用 KCP 轉送 TCP，封包遺失多的網路下更快。"
+    },
+    "unset": {
+      "en": "Off",
+      "zh-Hans": "关闭",
+      "zh-Hant": "關閉"
+    }
+  },
+  "proxies[*].disable-kcp-input": {
+    "title": {
+      "en": "Refuse KCP In",
+      "zh-Hans": "拒绝 KCP 转入",
+      "zh-Hant": "拒絕 KCP 轉入"
+    },
+    "summary": {
+      "en": "Doesn't let other nodes use KCP to reach this device.",
+      "zh-Hans": "不接受其他节点用 KCP 转发到本机。",
+      "zh-Hant": "不接受其他節點用 KCP 轉送到本機。"
+    },
+    "unset": {
+      "en": "Off",
+      "zh-Hans": "关闭",
+      "zh-Hant": "關閉"
+    }
+  },
+  "proxies[*].enable-quic-proxy": {
+    "title": {
+      "en": "TCP over QUIC",
+      "zh-Hans": "TCP 走 QUIC",
+      "zh-Hant": "TCP 走 QUIC"
+    },
+    "summary": {
+      "en": "Carries TCP over QUIC, which is faster on lossy networks.",
+      "zh-Hans": "用 QUIC 转发 TCP，丢包多的网络下更快。",
+      "zh-Hant": "用 QUIC 轉送 TCP，封包遺失多的網路下更快。"
+    },
+    "unset": {
+      "en": "Off",
+      "zh-Hans": "关闭",
+      "zh-Hant": "關閉"
+    }
+  },
+  "proxies[*].disable-quic-input": {
+    "title": {
+      "en": "Refuse QUIC In",
+      "zh-Hans": "拒绝 QUIC 转入",
+      "zh-Hant": "拒絕 QUIC 轉入"
+    },
+    "summary": {
+      "en": "Doesn't let other nodes use QUIC to reach this device.",
+      "zh-Hans": "不接受其他节点用 QUIC 转发到本机。",
+      "zh-Hant": "不接受其他節點用 QUIC 轉送到本機。"
+    },
+    "unset": {
+      "en": "Off",
+      "zh-Hans": "关闭",
+      "zh-Hant": "關閉"
+    }
+  },
+  "proxies[easytier].mtu": {
+    "title": {
+      "en": "MTU",
+      "zh-Hans": "MTU",
+      "zh-Hant": "MTU"
+    },
+    "summary": {
+      "en": "The largest packet the virtual interface sends.",
+      "zh-Hans": "虚拟网卡一次能发的最大包长。",
+      "zh-Hant": "虛擬網路介面一次能送的最大封包長度。"
+    },
+    "unset": {
+      "en": "Automatic",
+      "zh-Hans": "自动",
+      "zh-Hant": "自動"
+    }
+  },
+  "proxies[*].tld-dns-zone": {
+    "title": {
+      "en": "Domain Suffix",
+      "zh-Hans": "域名后缀",
+      "zh-Hant": "網域後綴"
+    },
+    "summary": {
+      "en": "The domain suffix for node names in the virtual network.",
+      "zh-Hans": "虚拟网络里节点名称的域名后缀。",
+      "zh-Hant": "虛擬網路裡節點名稱的網域後綴。"
+    },
+    "example": "et.net."
+  },
+  "proxies[*].secure-mode": {
+    "title": {
+      "en": "Secure Mode",
+      "zh-Hans": "安全模式",
+      "zh-Hant": "安全模式"
+    },
+    "summary": {
+      "en": "Verifies nodes with key pairs.",
+      "zh-Hans": "用密钥对验证节点身份。",
+      "zh-Hant": "用金鑰對驗證節點身分。"
+    },
+    "unset": {
+      "en": "On when keys are set",
+      "zh-Hans": "填了密钥时开启",
+      "zh-Hant": "填了金鑰時開啟"
+    }
+  },
+  "proxies[*].local-private-key": {
+    "title": {
+      "en": "Local Private Key",
+      "zh-Hans": "本机私钥",
+      "zh-Hant": "本機私鑰"
+    },
+    "summary": {
+      "en": "This device's private key for secure mode, in base64.",
+      "zh-Hans": "安全模式下本机的私钥（base64）。",
+      "zh-Hant": "安全模式下本機的私鑰（base64）。"
+    }
+  },
+  "proxies[*].local-public-key": {
+    "title": {
+      "en": "Local Public Key",
+      "zh-Hans": "本机公钥",
+      "zh-Hant": "本機公鑰"
+    },
+    "summary": {
+      "en": "This device's public key for secure mode; it needs the private key too.",
+      "zh-Hans": "安全模式下本机的公钥，需同时填私钥。",
+      "zh-Hant": "安全模式下本機的公鑰，需同時填私鑰。"
+    }
+  },
+  "proxies[openvpn].cipher": {
+    "title": {
+      "en": "Cipher",
+      "zh-Hans": "加密方式",
+      "zh-Hant": "加密方式"
+    },
+    "summary": {
+      "en": "The data channel cipher; with Data Ciphers set, the negotiated one is used.",
+      "zh-Hans": "数据通道的加密方式；填了加密候选时按协商结果。",
+      "zh-Hant": "資料通道的加密方式；填了加密候選時依協商結果。"
+    },
+    "presets": [
+      {
+        "value": "AES-128-GCM",
+        "label": {
+          "en": "AES-128-GCM",
+          "zh-Hans": "AES-128-GCM",
+          "zh-Hant": "AES-128-GCM"
+        }
+      },
+      {
+        "value": "AES-192-GCM",
+        "label": {
+          "en": "AES-192-GCM",
+          "zh-Hans": "AES-192-GCM",
+          "zh-Hant": "AES-192-GCM"
+        }
+      },
+      {
+        "value": "AES-256-GCM",
+        "label": {
+          "en": "AES-256-GCM",
+          "zh-Hans": "AES-256-GCM",
+          "zh-Hant": "AES-256-GCM"
+        }
+      },
+      {
+        "value": "AES-128-CBC",
+        "label": {
+          "en": "AES-128-CBC",
+          "zh-Hans": "AES-128-CBC",
+          "zh-Hant": "AES-128-CBC"
+        }
+      },
+      {
+        "value": "AES-192-CBC",
+        "label": {
+          "en": "AES-192-CBC",
+          "zh-Hans": "AES-192-CBC",
+          "zh-Hant": "AES-192-CBC"
+        }
+      },
+      {
+        "value": "AES-256-CBC",
+        "label": {
+          "en": "AES-256-CBC",
+          "zh-Hans": "AES-256-CBC",
+          "zh-Hant": "AES-256-CBC"
+        }
+      },
+      {
+        "value": "CHACHA20-POLY1305",
+        "label": {
+          "en": "CHACHA20-POLY1305",
+          "zh-Hans": "CHACHA20-POLY1305",
+          "zh-Hant": "CHACHA20-POLY1305"
+        }
+      }
+    ]
+  },
+  "proxies[openvpn].udp": {
+    "title": {
+      "en": "UDP Relay",
+      "zh-Hans": "UDP 转发",
+      "zh-Hant": "UDP 轉送"
+    },
+    "summary": {
+      "en": "OpenVPN nodes always relay UDP, so this switch has no effect.",
+      "zh-Hans": "OpenVPN 节点总会转发 UDP，这个开关不起作用。",
+      "zh-Hant": "OpenVPN 節點總會轉送 UDP，這個開關不起作用。"
+    }
+  },
+  "proxies[masque].sni": {
+    "title": {
+      "en": "SNI",
+      "zh-Hans": "SNI 域名",
+      "zh-Hant": "SNI 網域"
+    },
+    "summary": {
+      "en": "The domain sent in the TLS handshake; leave it empty for Cloudflare's default.",
+      "zh-Hans": "TLS 握手时发送的域名，不填用 Cloudflare 的默认值。",
+      "zh-Hant": "TLS 交握時送出的網域，不填用 Cloudflare 的預設值。"
+    },
+    "unset": {
+      "en": "Cloudflare's default",
+      "zh-Hans": "Cloudflare 默认",
+      "zh-Hant": "Cloudflare 預設"
+    }
+  },
+  "proxies[*].amnezia-wg-option": {
+    "title": {
+      "en": "AmneziaWG",
+      "zh-Hans": "AmneziaWG",
+      "zh-Hant": "AmneziaWG"
+    },
+    "summary": {
+      "en": "Filling any of these turns on AmneziaWG disguise; they must match the server.",
+      "zh-Hans": "填了就启用 AmneziaWG 抗识别，须与服务器一致。",
+      "zh-Hant": "填了就啟用 AmneziaWG 抗識別，須與伺服器一致。"
+    }
+  },
+  "proxies[*].ip-stack": {
+    "title": {
+      "en": "IP Stack",
+      "zh-Hans": "IP 协议栈",
+      "zh-Hant": "IP 協定堆疊"
+    },
+    "summary": {
+      "en": "The network stack that runs inside the tunnel.",
+      "zh-Hans": "隧道内部使用的网络协议栈。",
+      "zh-Hant": "隧道內部使用的網路協定堆疊。"
+    }
+  },
+  "proxies[*].realm-opts": {
+    "title": {
+      "en": "Realm",
+      "zh-Hans": "Realm",
+      "zh-Hant": "Realm"
+    },
+    "summary": {
+      "en": "Reaches a server behind NAT through a Realm server.",
+      "zh-Hans": "借助 Realm 服务器连接 NAT 后面的服务器。",
+      "zh-Hant": "藉助 Realm 伺服器連線 NAT 後面的伺服器。"
+    }
+  },
+  "proxies[*].httpmask": {
+    "title": {
+      "en": "HTTP Mask",
+      "zh-Hans": "HTTP 伪装",
+      "zh-Hant": "HTTP 偽裝"
+    },
+    "summary": {
+      "en": "Disguises traffic as HTTP; some modes can pass through a CDN.",
+      "zh-Hans": "把流量伪装成 HTTP，部分方式可走 CDN。",
+      "zh-Hant": "把流量偽裝成 HTTP，部分方式可走 CDN。"
+    }
+  },
+  "proxies[anytls].ech-opts": {
+    "title": {
+      "en": "ECH",
+      "zh-Hans": "ECH",
+      "zh-Hant": "ECH"
+    },
+    "summary": {
+      "en": "Hides the domain in the TLS handshake with ECH.",
+      "zh-Hans": "用 ECH 隐藏 TLS 握手里的域名。",
+      "zh-Hant": "用 ECH 隱藏 TLS 交握裡的網域。"
+    }
+  },
+  "proxies[hysteria].ech-opts": {
+    "title": {
+      "en": "ECH",
+      "zh-Hans": "ECH",
+      "zh-Hant": "ECH"
+    },
+    "summary": {
+      "en": "Hides the domain in the TLS handshake with ECH.",
+      "zh-Hans": "用 ECH 隐藏 TLS 握手里的域名。",
+      "zh-Hant": "用 ECH 隱藏 TLS 交握裡的網域。"
+    }
+  },
+  "proxies[hysteria2].ech-opts": {
+    "title": {
+      "en": "ECH",
+      "zh-Hans": "ECH",
+      "zh-Hant": "ECH"
+    },
+    "summary": {
+      "en": "Hides the domain in the TLS handshake with ECH.",
+      "zh-Hans": "用 ECH 隐藏 TLS 握手里的域名。",
+      "zh-Hant": "用 ECH 隱藏 TLS 交握裡的網域。"
+    }
+  },
+  "proxies[trusttunnel].ech-opts": {
+    "title": {
+      "en": "ECH",
+      "zh-Hans": "ECH",
+      "zh-Hant": "ECH"
+    },
+    "summary": {
+      "en": "Hides the domain in the TLS handshake with ECH.",
+      "zh-Hans": "用 ECH 隐藏 TLS 握手里的域名。",
+      "zh-Hant": "用 ECH 隱藏 TLS 交握裡的網域。"
+    }
+  },
+  "proxies[tuic].ech-opts": {
+    "title": {
+      "en": "ECH",
+      "zh-Hans": "ECH",
+      "zh-Hant": "ECH"
+    },
+    "summary": {
+      "en": "Hides the domain in the TLS handshake with ECH.",
+      "zh-Hans": "用 ECH 隐藏 TLS 握手里的域名。",
+      "zh-Hant": "用 ECH 隱藏 TLS 交握裡的網域。"
+    }
+  },
+  "proxies[anytls].jls-opts": {
+    "title": {
+      "en": "JLS",
+      "zh-Hans": "JLS",
+      "zh-Hant": "JLS"
+    },
+    "summary": {
+      "en": "Disguises the TLS handshake with JLS; it must match the server.",
+      "zh-Hans": "用 JLS 伪装 TLS 握手，须与服务器一致。",
+      "zh-Hant": "用 JLS 偽裝 TLS 交握，須與伺服器一致。"
+    }
+  },
+  "proxies[anytls].restls-opts": {
+    "title": {
+      "en": "Restls",
+      "zh-Hans": "Restls",
+      "zh-Hant": "Restls"
+    },
+    "summary": {
+      "en": "Disguises the TLS handshake with Restls; it must match the server.",
+      "zh-Hans": "用 Restls 伪装 TLS 握手，须与服务器一致。",
+      "zh-Hant": "用 Restls 偽裝 TLS 交握，須與伺服器一致。"
+    }
+  },
+  "proxies[anytls].shadow-tls-opts": {
+    "title": {
+      "en": "ShadowTLS",
+      "zh-Hans": "ShadowTLS",
+      "zh-Hant": "ShadowTLS"
+    },
+    "summary": {
+      "en": "Disguises the TLS handshake with ShadowTLS; it must match the server.",
+      "zh-Hans": "用 ShadowTLS 伪装 TLS 握手，须与服务器一致。",
+      "zh-Hant": "用 ShadowTLS 偽裝 TLS 交握，須與伺服器一致。"
+    }
+  },
+  "proxies[anytls].smux": {
+    "title": {
+      "en": "sing-mux",
+      "zh-Hans": "sing-mux",
+      "zh-Hant": "sing-mux"
+    },
+    "summary": {
+      "en": "Carries many connections inside one (sing-mux); the server must support it.",
+      "zh-Hans": "把多条连接合在一条里传（sing-mux），需服务器支持。",
+      "zh-Hant": "把多條連線合在一條裡傳（sing-mux），需伺服器支援。"
+    }
+  },
+  "proxies[easytier].smux": {
+    "title": {
+      "en": "sing-mux",
+      "zh-Hans": "sing-mux",
+      "zh-Hant": "sing-mux"
+    },
+    "summary": {
+      "en": "Carries many connections inside one (sing-mux); the server must support it.",
+      "zh-Hans": "把多条连接合在一条里传（sing-mux），需服务器支持。",
+      "zh-Hant": "把多條連線合在一條裡傳（sing-mux），需伺服器支援。"
+    }
+  },
+  "proxies[gost-relay].smux": {
+    "title": {
+      "en": "sing-mux",
+      "zh-Hans": "sing-mux",
+      "zh-Hant": "sing-mux"
+    },
+    "summary": {
+      "en": "Carries many connections inside one (sing-mux); the server must support it.",
+      "zh-Hans": "把多条连接合在一条里传（sing-mux），需服务器支持。",
+      "zh-Hant": "把多條連線合在一條裡傳（sing-mux），需伺服器支援。"
+    }
+  },
+  "proxies[hysteria].smux": {
+    "title": {
+      "en": "sing-mux",
+      "zh-Hans": "sing-mux",
+      "zh-Hant": "sing-mux"
+    },
+    "summary": {
+      "en": "Carries many connections inside one (sing-mux); the server must support it.",
+      "zh-Hans": "把多条连接合在一条里传（sing-mux），需服务器支持。",
+      "zh-Hant": "把多條連線合在一條裡傳（sing-mux），需伺服器支援。"
+    }
+  },
+  "proxies[hysteria2].smux": {
+    "title": {
+      "en": "sing-mux",
+      "zh-Hans": "sing-mux",
+      "zh-Hant": "sing-mux"
+    },
+    "summary": {
+      "en": "Carries many connections inside one (sing-mux); the server must support it.",
+      "zh-Hans": "把多条连接合在一条里传（sing-mux），需服务器支持。",
+      "zh-Hant": "把多條連線合在一條裡傳（sing-mux），需伺服器支援。"
+    }
+  },
+  "proxies[masque].smux": {
+    "title": {
+      "en": "sing-mux",
+      "zh-Hans": "sing-mux",
+      "zh-Hant": "sing-mux"
+    },
+    "summary": {
+      "en": "Carries many connections inside one (sing-mux); the server must support it.",
+      "zh-Hans": "把多条连接合在一条里传（sing-mux），需服务器支持。",
+      "zh-Hant": "把多條連線合在一條裡傳（sing-mux），需伺服器支援。"
+    }
+  },
+  "proxies[mieru].smux": {
+    "title": {
+      "en": "sing-mux",
+      "zh-Hans": "sing-mux",
+      "zh-Hant": "sing-mux"
+    },
+    "summary": {
+      "en": "Carries many connections inside one (sing-mux); the server must support it.",
+      "zh-Hans": "把多条连接合在一条里传（sing-mux），需服务器支持。",
+      "zh-Hant": "把多條連線合在一條裡傳（sing-mux），需伺服器支援。"
+    }
+  },
+  "proxies[openvpn].smux": {
+    "title": {
+      "en": "sing-mux",
+      "zh-Hans": "sing-mux",
+      "zh-Hant": "sing-mux"
+    },
+    "summary": {
+      "en": "Carries many connections inside one (sing-mux); the server must support it.",
+      "zh-Hans": "把多条连接合在一条里传（sing-mux），需服务器支持。",
+      "zh-Hant": "把多條連線合在一條裡傳（sing-mux），需伺服器支援。"
+    }
+  },
+  "proxies[shadowquic].smux": {
+    "title": {
+      "en": "sing-mux",
+      "zh-Hans": "sing-mux",
+      "zh-Hant": "sing-mux"
+    },
+    "summary": {
+      "en": "Carries many connections inside one (sing-mux); the server must support it.",
+      "zh-Hans": "把多条连接合在一条里传（sing-mux），需服务器支持。",
+      "zh-Hant": "把多條連線合在一條裡傳（sing-mux），需伺服器支援。"
+    }
+  },
+  "proxies[ssh].smux": {
+    "title": {
+      "en": "sing-mux",
+      "zh-Hans": "sing-mux",
+      "zh-Hant": "sing-mux"
+    },
+    "summary": {
+      "en": "Carries many connections inside one (sing-mux); the server must support it.",
+      "zh-Hans": "把多条连接合在一条里传（sing-mux），需服务器支持。",
+      "zh-Hant": "把多條連線合在一條裡傳（sing-mux），需伺服器支援。"
+    }
+  },
+  "proxies[sudoku].smux": {
+    "title": {
+      "en": "sing-mux",
+      "zh-Hans": "sing-mux",
+      "zh-Hant": "sing-mux"
+    },
+    "summary": {
+      "en": "Carries many connections inside one (sing-mux); the server must support it.",
+      "zh-Hans": "把多条连接合在一条里传（sing-mux），需服务器支持。",
+      "zh-Hant": "把多條連線合在一條裡傳（sing-mux），需伺服器支援。"
+    }
+  },
+  "proxies[tailscale].smux": {
+    "title": {
+      "en": "sing-mux",
+      "zh-Hans": "sing-mux",
+      "zh-Hant": "sing-mux"
+    },
+    "summary": {
+      "en": "Carries many connections inside one (sing-mux); the server must support it.",
+      "zh-Hans": "把多条连接合在一条里传（sing-mux），需服务器支持。",
+      "zh-Hant": "把多條連線合在一條裡傳（sing-mux），需伺服器支援。"
+    }
+  },
+  "proxies[trusttunnel].smux": {
+    "title": {
+      "en": "sing-mux",
+      "zh-Hans": "sing-mux",
+      "zh-Hant": "sing-mux"
+    },
+    "summary": {
+      "en": "Carries many connections inside one (sing-mux); the server must support it.",
+      "zh-Hans": "把多条连接合在一条里传（sing-mux），需服务器支持。",
+      "zh-Hant": "把多條連線合在一條裡傳（sing-mux），需伺服器支援。"
+    }
+  },
+  "proxies[tuic].smux": {
+    "title": {
+      "en": "sing-mux",
+      "zh-Hans": "sing-mux",
+      "zh-Hant": "sing-mux"
+    },
+    "summary": {
+      "en": "Carries many connections inside one (sing-mux); the server must support it.",
+      "zh-Hans": "把多条连接合在一条里传（sing-mux），需服务器支持。",
+      "zh-Hant": "把多條連線合在一條裡傳（sing-mux），需伺服器支援。"
+    }
+  },
+  "proxies[wireguard].smux": {
+    "title": {
+      "en": "sing-mux",
+      "zh-Hans": "sing-mux",
+      "zh-Hant": "sing-mux"
+    },
+    "summary": {
+      "en": "Carries many connections inside one (sing-mux); the server must support it.",
+      "zh-Hans": "把多条连接合在一条里传（sing-mux），需服务器支持。",
+      "zh-Hant": "把多條連線合在一條裡傳（sing-mux），需伺服器支援。"
+    }
+  },
+  "proxies[zerotier].smux": {
+    "title": {
+      "en": "sing-mux",
+      "zh-Hans": "sing-mux",
+      "zh-Hant": "sing-mux"
+    },
+    "summary": {
+      "en": "Carries many connections inside one (sing-mux); the server must support it.",
+      "zh-Hans": "把多条连接合在一条里传（sing-mux），需服务器支持。",
+      "zh-Hant": "把多條連線合在一條裡傳（sing-mux），需伺服器支援。"
+    }
+  },
+  "proxies[anytls].smux.brutal-opts": {
+    "title": {
+      "en": "TCP Brutal",
+      "zh-Hans": "TCP Brutal",
+      "zh-Hant": "TCP Brutal"
+    },
+    "summary": {
+      "en": "Sends multiplexed traffic at a fixed rate with TCP Brutal; the server must support it.",
+      "zh-Hans": "用 TCP Brutal 按固定速率发送，需服务器支持。",
+      "zh-Hant": "用 TCP Brutal 依固定速率送出，需伺服器支援。"
+    }
+  },
+  "proxies[easytier].smux.brutal-opts": {
+    "title": {
+      "en": "TCP Brutal",
+      "zh-Hans": "TCP Brutal",
+      "zh-Hant": "TCP Brutal"
+    },
+    "summary": {
+      "en": "Sends multiplexed traffic at a fixed rate with TCP Brutal; the server must support it.",
+      "zh-Hans": "用 TCP Brutal 按固定速率发送，需服务器支持。",
+      "zh-Hant": "用 TCP Brutal 依固定速率送出，需伺服器支援。"
+    }
+  },
+  "proxies[gost-relay].smux.brutal-opts": {
+    "title": {
+      "en": "TCP Brutal",
+      "zh-Hans": "TCP Brutal",
+      "zh-Hant": "TCP Brutal"
+    },
+    "summary": {
+      "en": "Sends multiplexed traffic at a fixed rate with TCP Brutal; the server must support it.",
+      "zh-Hans": "用 TCP Brutal 按固定速率发送，需服务器支持。",
+      "zh-Hant": "用 TCP Brutal 依固定速率送出，需伺服器支援。"
+    }
+  },
+  "proxies[hysteria].smux.brutal-opts": {
+    "title": {
+      "en": "TCP Brutal",
+      "zh-Hans": "TCP Brutal",
+      "zh-Hant": "TCP Brutal"
+    },
+    "summary": {
+      "en": "Sends multiplexed traffic at a fixed rate with TCP Brutal; the server must support it.",
+      "zh-Hans": "用 TCP Brutal 按固定速率发送，需服务器支持。",
+      "zh-Hant": "用 TCP Brutal 依固定速率送出，需伺服器支援。"
+    }
+  },
+  "proxies[hysteria2].smux.brutal-opts": {
+    "title": {
+      "en": "TCP Brutal",
+      "zh-Hans": "TCP Brutal",
+      "zh-Hant": "TCP Brutal"
+    },
+    "summary": {
+      "en": "Sends multiplexed traffic at a fixed rate with TCP Brutal; the server must support it.",
+      "zh-Hans": "用 TCP Brutal 按固定速率发送，需服务器支持。",
+      "zh-Hant": "用 TCP Brutal 依固定速率送出，需伺服器支援。"
+    }
+  },
+  "proxies[masque].smux.brutal-opts": {
+    "title": {
+      "en": "TCP Brutal",
+      "zh-Hans": "TCP Brutal",
+      "zh-Hant": "TCP Brutal"
+    },
+    "summary": {
+      "en": "Sends multiplexed traffic at a fixed rate with TCP Brutal; the server must support it.",
+      "zh-Hans": "用 TCP Brutal 按固定速率发送，需服务器支持。",
+      "zh-Hant": "用 TCP Brutal 依固定速率送出，需伺服器支援。"
+    }
+  },
+  "proxies[mieru].smux.brutal-opts": {
+    "title": {
+      "en": "TCP Brutal",
+      "zh-Hans": "TCP Brutal",
+      "zh-Hant": "TCP Brutal"
+    },
+    "summary": {
+      "en": "Sends multiplexed traffic at a fixed rate with TCP Brutal; the server must support it.",
+      "zh-Hans": "用 TCP Brutal 按固定速率发送，需服务器支持。",
+      "zh-Hant": "用 TCP Brutal 依固定速率送出，需伺服器支援。"
+    }
+  },
+  "proxies[openvpn].smux.brutal-opts": {
+    "title": {
+      "en": "TCP Brutal",
+      "zh-Hans": "TCP Brutal",
+      "zh-Hant": "TCP Brutal"
+    },
+    "summary": {
+      "en": "Sends multiplexed traffic at a fixed rate with TCP Brutal; the server must support it.",
+      "zh-Hans": "用 TCP Brutal 按固定速率发送，需服务器支持。",
+      "zh-Hant": "用 TCP Brutal 依固定速率送出，需伺服器支援。"
+    }
+  },
+  "proxies[shadowquic].smux.brutal-opts": {
+    "title": {
+      "en": "TCP Brutal",
+      "zh-Hans": "TCP Brutal",
+      "zh-Hant": "TCP Brutal"
+    },
+    "summary": {
+      "en": "Sends multiplexed traffic at a fixed rate with TCP Brutal; the server must support it.",
+      "zh-Hans": "用 TCP Brutal 按固定速率发送，需服务器支持。",
+      "zh-Hant": "用 TCP Brutal 依固定速率送出，需伺服器支援。"
+    }
+  },
+  "proxies[ssh].smux.brutal-opts": {
+    "title": {
+      "en": "TCP Brutal",
+      "zh-Hans": "TCP Brutal",
+      "zh-Hant": "TCP Brutal"
+    },
+    "summary": {
+      "en": "Sends multiplexed traffic at a fixed rate with TCP Brutal; the server must support it.",
+      "zh-Hans": "用 TCP Brutal 按固定速率发送，需服务器支持。",
+      "zh-Hant": "用 TCP Brutal 依固定速率送出，需伺服器支援。"
+    }
+  },
+  "proxies[sudoku].smux.brutal-opts": {
+    "title": {
+      "en": "TCP Brutal",
+      "zh-Hans": "TCP Brutal",
+      "zh-Hant": "TCP Brutal"
+    },
+    "summary": {
+      "en": "Sends multiplexed traffic at a fixed rate with TCP Brutal; the server must support it.",
+      "zh-Hans": "用 TCP Brutal 按固定速率发送，需服务器支持。",
+      "zh-Hant": "用 TCP Brutal 依固定速率送出，需伺服器支援。"
+    }
+  },
+  "proxies[tailscale].smux.brutal-opts": {
+    "title": {
+      "en": "TCP Brutal",
+      "zh-Hans": "TCP Brutal",
+      "zh-Hant": "TCP Brutal"
+    },
+    "summary": {
+      "en": "Sends multiplexed traffic at a fixed rate with TCP Brutal; the server must support it.",
+      "zh-Hans": "用 TCP Brutal 按固定速率发送，需服务器支持。",
+      "zh-Hant": "用 TCP Brutal 依固定速率送出，需伺服器支援。"
+    }
+  },
+  "proxies[trusttunnel].smux.brutal-opts": {
+    "title": {
+      "en": "TCP Brutal",
+      "zh-Hans": "TCP Brutal",
+      "zh-Hant": "TCP Brutal"
+    },
+    "summary": {
+      "en": "Sends multiplexed traffic at a fixed rate with TCP Brutal; the server must support it.",
+      "zh-Hans": "用 TCP Brutal 按固定速率发送，需服务器支持。",
+      "zh-Hant": "用 TCP Brutal 依固定速率送出，需伺服器支援。"
+    }
+  },
+  "proxies[tuic].smux.brutal-opts": {
+    "title": {
+      "en": "TCP Brutal",
+      "zh-Hans": "TCP Brutal",
+      "zh-Hant": "TCP Brutal"
+    },
+    "summary": {
+      "en": "Sends multiplexed traffic at a fixed rate with TCP Brutal; the server must support it.",
+      "zh-Hans": "用 TCP Brutal 按固定速率发送，需服务器支持。",
+      "zh-Hant": "用 TCP Brutal 依固定速率送出，需伺服器支援。"
+    }
+  },
+  "proxies[wireguard].smux.brutal-opts": {
+    "title": {
+      "en": "TCP Brutal",
+      "zh-Hans": "TCP Brutal",
+      "zh-Hant": "TCP Brutal"
+    },
+    "summary": {
+      "en": "Sends multiplexed traffic at a fixed rate with TCP Brutal; the server must support it.",
+      "zh-Hans": "用 TCP Brutal 按固定速率发送，需服务器支持。",
+      "zh-Hant": "用 TCP Brutal 依固定速率送出，需伺服器支援。"
+    }
+  },
+  "proxies[zerotier].smux.brutal-opts": {
+    "title": {
+      "en": "TCP Brutal",
+      "zh-Hans": "TCP Brutal",
+      "zh-Hant": "TCP Brutal"
+    },
+    "summary": {
+      "en": "Sends multiplexed traffic at a fixed rate with TCP Brutal; the server must support it.",
+      "zh-Hans": "用 TCP Brutal 按固定速率发送，需服务器支持。",
+      "zh-Hant": "用 TCP Brutal 依固定速率送出，需伺服器支援。"
+    }
+  },
+  "proxies[trusttunnel].alpn": {
+    "title": {
+      "en": "ALPN",
+      "zh-Hans": "ALPN",
+      "zh-Hant": "ALPN"
+    },
+    "summary": {
+      "en": "Application protocols offered in the TLS handshake, in order of preference.",
+      "zh-Hans": "TLS 握手时提供的应用层协议，按优先顺序。",
+      "zh-Hant": "TLS 交握時提供的應用層協定，依優先順序。"
+    },
+    "unset": {
+      "en": "h2 (h3 over QUIC)",
+      "zh-Hans": "h2（QUIC 时为 h3）",
+      "zh-Hant": "h2（QUIC 時為 h3）"
+    }
+  }
+}

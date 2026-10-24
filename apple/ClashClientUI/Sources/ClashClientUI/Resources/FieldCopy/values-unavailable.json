@@ -1,0 +1,24 @@
+{
+  "values": {
+    "easytier": {
+      "en": "EasyTier isn't built into the iPhone, iPad and Apple TV version; such a node refuses every connection.",
+      "zh-Hans": "iPhone、iPad 和 Apple TV 版没有内置 EasyTier，这种节点会拒绝所有连接。",
+      "zh-Hant": "iPhone、iPad 和 Apple TV 版沒有內建 EasyTier，這種節點會拒絕所有連線。"
+    },
+    "faketcp": {
+      "en": "FakeTCP only works on Linux, so every connection through this node fails here; pick UDP if the server offers it.",
+      "zh-Hans": "FakeTCP 只能在 Linux 上用，这里经过这个节点的连接都会失败；服务器支持的话改用 UDP。",
+      "zh-Hant": "FakeTCP 只能在 Linux 上用，這裡經過這個節點的連線都會失敗；伺服器支援的話改用 UDP。"
+    },
+    "redir": {
+      "en": "Apple doesn't let apps open a redirect listener, so this listener won't open here.",
+      "zh-Hans": "苹果不允许 App 打开重定向监听，这里打不开这种监听。",
+      "zh-Hant": "Apple 不允許 App 開啟重新導向監聽，這裡開不了這種監聽。"
+    },
+    "tproxy": {
+      "en": "Transparent proxying is Linux-only, so this listener won't open here.",
+      "zh-Hans": "透明代理只有 Linux 支持，这里打不开这种监听。",
+      "zh-Hant": "透明代理只有 Linux 支援，這裡開不了這種監聽。"
+    }
+  }
+}

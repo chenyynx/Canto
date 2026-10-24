@@ -1,0 +1,2142 @@
+{
+  "proxy-groups": {
+    "summary": {
+      "en": "Put nodes into groups used by manual choice, speed tests or failover.",
+      "zh-Hans": "把节点分组，按手动选择、自动测速或故障转移使用。",
+      "zh-Hant": "把節點分組，依手動選擇、自動測速或故障轉移使用。"
+    },
+    "title": {
+      "en": "Proxy Groups",
+      "zh-Hans": "代理分组",
+      "zh-Hant": "代理群組"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    }
+  },
+  "proxy-groups[*].default-selected": {
+    "summary": {
+      "en": "The node chosen at start; if empty or missing, the first one is used.",
+      "zh-Hans": "启动时默认选中的节点，不填或不存在时选第一个。",
+      "zh-Hant": "啟動時預設選取的節點，不填或不存在時選第一個。"
+    },
+    "title": {
+      "en": "Selected by Default",
+      "zh-Hans": "默认选中",
+      "zh-Hant": "預設選取"
+    },
+    "unset": {
+      "en": "First in the list",
+      "zh-Hans": "第一个",
+      "zh-Hant": "第一個"
+    }
+  },
+  "proxy-groups[*].disable-udp": {
+    "summary": {
+      "en": "This group doesn't carry UDP traffic.",
+      "zh-Hans": "这个组不转发 UDP 流量。",
+      "zh-Hant": "這個群組不轉送 UDP 流量。"
+    },
+    "title": {
+      "en": "Turn Off UDP",
+      "zh-Hans": "禁用 UDP",
+      "zh-Hant": "停用 UDP"
+    }
+  },
+  "proxy-groups[*].empty-fallback": {
+    "summary": {
+      "en": "Used when the group has no nodes; only a node name, not a group.",
+      "zh-Hans": "组里没有节点时改用它，只能填节点名。",
+      "zh-Hant": "群組裡沒有節點時改用它，只能填節點名稱。"
+    },
+    "title": {
+      "en": "When Empty",
+      "zh-Hans": "空组时使用",
+      "zh-Hant": "空群組時使用"
+    },
+    "unset": {
+      "en": "Direct",
+      "zh-Hans": "直连",
+      "zh-Hant": "直連"
+    }
+  },
+  "proxy-groups[*].exclude-filter": {
+    "example": "(?i)过期|剩余|expire",
+    "summary": {
+      "en": "Drop nodes whose names match; a regex works, like 过期|剩余.",
+      "zh-Hans": "去掉名字匹配的节点，可用正则，如 过期|剩余。",
+      "zh-Hant": "去掉名稱符合的節點，可用規則運算式，如 過期|剩餘。"
+    },
+    "title": {
+      "en": "Leave Out Nodes",
+      "zh-Hans": "排除节点",
+      "zh-Hant": "排除節點"
+    }
+  },
+  "proxy-groups[*].exclude-type": {
+    "presets": [
+      {
+        "label": {
+          "en": "Direct",
+          "zh-Hans": "直连",
+          "zh-Hant": "直連"
+        },
+        "value": "Direct"
+      },
+      {
+        "label": {
+          "en": "Reject",
+          "zh-Hans": "拒绝",
+          "zh-Hant": "拒絕"
+        },
+        "value": "Reject"
+      },
+      {
+        "label": {
+          "en": "Reject silently",
+          "zh-Hans": "拒绝（静默丢弃）",
+          "zh-Hant": "拒絕（靜默丟棄）"
+        },
+        "value": "RejectDrop"
+      },
+      {
+        "label": {
+          "en": "Compatible (same as Direct)",
+          "zh-Hans": "兼容（等同直连）",
+          "zh-Hant": "相容（等同直連）"
+        },
+        "value": "Compatible"
+      },
+      {
+        "label": {
+          "en": "Pass (leave this rule)",
+          "zh-Hans": "跳过（跳出这条规则）",
+          "zh-Hant": "略過（跳出這條規則）"
+        },
+        "value": "Pass"
+      },
+      {
+        "label": {
+          "en": "Pass (stay in sub-rules)",
+          "zh-Hans": "跳过（留在子规则）",
+          "zh-Hant": "略過（留在子規則）"
+        },
+        "value": "PassRule"
+      },
+      {
+        "label": {
+          "en": "Rematch",
+          "zh-Hans": "重新匹配",
+          "zh-Hant": "重新比對"
+        },
+        "value": "Rematch"
+      },
+      {
+        "label": {
+          "en": "DNS",
+          "zh-Hans": "DNS",
+          "zh-Hant": "DNS"
+        },
+        "value": "Dns"
+      },
+      {
+        "label": {
+          "en": "Manual choice",
+          "zh-Hans": "手动选择",
+          "zh-Hant": "手動選擇"
+        },
+        "value": "Selector"
+      },
+      {
+        "label": {
+          "en": "First that works",
+          "zh-Hans": "故障转移",
+          "zh-Hant": "故障轉移"
+        },
+        "value": "Fallback"
+      },
+      {
+        "label": {
+          "en": "Fastest, tested",
+          "zh-Hans": "自动选最快",
+          "zh-Hant": "自動選最快"
+        },
+        "value": "URLTest"
+      },
+      {
+        "label": {
+          "en": "Load balance",
+          "zh-Hans": "负载均衡",
+          "zh-Hant": "負載平衡"
+        },
+        "value": "LoadBalance"
+      },
+      {
+        "label": {
+          "en": "Shadowsocks",
+          "zh-Hans": "Shadowsocks",
+          "zh-Hant": "Shadowsocks"
+        },
+        "value": "Shadowsocks"
+      },
+      {
+        "label": {
+          "en": "ShadowsocksR",
+          "zh-Hans": "ShadowsocksR",
+          "zh-Hant": "ShadowsocksR"
+        },
+        "value": "ShadowsocksR"
+      },
+      {
+        "label": {
+          "en": "Snell",
+          "zh-Hans": "Snell",
+          "zh-Hant": "Snell"
+        },
+        "value": "Snell"
+      },
+      {
+        "label": {
+          "en": "SOCKS5",
+          "zh-Hans": "SOCKS5",
+          "zh-Hant": "SOCKS5"
+        },
+        "value": "Socks5"
+      },
+      {
+        "label": {
+          "en": "HTTP",
+          "zh-Hans": "HTTP",
+          "zh-Hant": "HTTP"
+        },
+        "value": "Http"
+      },
+      {
+        "label": {
+          "en": "VMess",
+          "zh-Hans": "VMess",
+          "zh-Hant": "VMess"
+        },
+        "value": "Vmess"
+      },
+      {
+        "label": {
+          "en": "VLESS",
+          "zh-Hans": "VLESS",
+          "zh-Hant": "VLESS"
+        },
+        "value": "Vless"
+      },
+      {
+        "label": {
+          "en": "Trojan",
+          "zh-Hans": "Trojan",
+          "zh-Hant": "Trojan"
+        },
+        "value": "Trojan"
+      },
+      {
+        "label": {
+          "en": "Hysteria",
+          "zh-Hans": "Hysteria",
+          "zh-Hant": "Hysteria"
+        },
+        "value": "Hysteria"
+      },
+      {
+        "label": {
+          "en": "Hysteria 2",
+          "zh-Hans": "Hysteria 2",
+          "zh-Hant": "Hysteria 2"
+        },
+        "value": "Hysteria2"
+      },
+      {
+        "label": {
+          "en": "WireGuard",
+          "zh-Hans": "WireGuard",
+          "zh-Hant": "WireGuard"
+        },
+        "value": "WireGuard"
+      },
+      {
+        "label": {
+          "en": "TUIC",
+          "zh-Hans": "TUIC",
+          "zh-Hant": "TUIC"
+        },
+        "value": "Tuic"
+      },
+      {
+        "label": {
+          "en": "SSH",
+          "zh-Hans": "SSH",
+          "zh-Hant": "SSH"
+        },
+        "value": "Ssh"
+      },
+      {
+        "label": {
+          "en": "Mieru",
+          "zh-Hans": "Mieru",
+          "zh-Hant": "Mieru"
+        },
+        "value": "Mieru"
+      },
+      {
+        "label": {
+          "en": "AnyTLS",
+          "zh-Hans": "AnyTLS",
+          "zh-Hant": "AnyTLS"
+        },
+        "value": "AnyTLS"
+      },
+      {
+        "label": {
+          "en": "Sudoku",
+          "zh-Hans": "Sudoku",
+          "zh-Hant": "Sudoku"
+        },
+        "value": "Sudoku"
+      },
+      {
+        "label": {
+          "en": "MASQUE",
+          "zh-Hans": "MASQUE",
+          "zh-Hant": "MASQUE"
+        },
+        "value": "Masque"
+      },
+      {
+        "label": {
+          "en": "TrustTunnel",
+          "zh-Hans": "TrustTunnel",
+          "zh-Hant": "TrustTunnel"
+        },
+        "value": "TrustTunnel"
+      },
+      {
+        "label": {
+          "en": "ShadowQUIC",
+          "zh-Hans": "ShadowQUIC",
+          "zh-Hant": "ShadowQUIC"
+        },
+        "value": "ShadowQuic"
+      },
+      {
+        "label": {
+          "en": "OpenVPN",
+          "zh-Hans": "OpenVPN",
+          "zh-Hant": "OpenVPN"
+        },
+        "value": "OpenVPN"
+      },
+      {
+        "label": {
+          "en": "Tailscale",
+          "zh-Hans": "Tailscale",
+          "zh-Hant": "Tailscale"
+        },
+        "value": "Tailscale"
+      },
+      {
+        "label": {
+          "en": "ZeroTier",
+          "zh-Hans": "ZeroTier",
+          "zh-Hant": "ZeroTier"
+        },
+        "value": "ZeroTier"
+      },
+      {
+        "label": {
+          "en": "EasyTier",
+          "zh-Hans": "EasyTier",
+          "zh-Hant": "EasyTier"
+        },
+        "value": "EasyTier"
+      },
+      {
+        "label": {
+          "en": "GOST Relay",
+          "zh-Hans": "GOST Relay",
+          "zh-Hant": "GOST Relay"
+        },
+        "value": "GostRelay"
+      }
+    ],
+    "summary": {
+      "en": "Drop nodes that use these protocol types.",
+      "zh-Hans": "去掉这些协议类型的节点。",
+      "zh-Hant": "去掉這些協定類型的節點。"
+    },
+    "title": {
+      "en": "Leave Out Protocols",
+      "zh-Hans": "排除协议",
+      "zh-Hant": "排除協定"
+    }
+  },
+  "proxy-groups[*].expected-status": {
+    "example": "204",
+    "summary": {
+      "en": "A node counts as working only with these HTTP status codes, like 204.",
+      "zh-Hans": "测速时只有返回这些状态码才算可用，如 204。",
+      "zh-Hant": "測速時只有回傳這些狀態碼才算可用，如 204。"
+    },
+    "title": {
+      "en": "Expected Status",
+      "zh-Hans": "期望状态码",
+      "zh-Hant": "預期狀態碼"
+    },
+    "unset": {
+      "en": "Any",
+      "zh-Hans": "不限",
+      "zh-Hant": "不限"
+    }
+  },
+  "proxy-groups[*].filter": {
+    "example": "(?i)港|hk",
+    "summary": {
+      "en": "Keep only nodes whose names match; nodes listed by hand stay. A regex works.",
+      "zh-Hans": "只留名字匹配的节点，手动列出的不受影响，可用正则。",
+      "zh-Hant": "只留名稱符合的節點，手動列出的不受影響，可用規則運算式。"
+    },
+    "title": {
+      "en": "Only Matching Nodes",
+      "zh-Hans": "筛选节点",
+      "zh-Hant": "篩選節點"
+    }
+  },
+  "proxy-groups[*].hidden": {
+    "summary": {
+      "en": "Hide this group in interfaces that support it; rules can still use it.",
+      "zh-Hans": "在支持的界面里隐藏这个组，规则照常可用。",
+      "zh-Hant": "在支援的介面裡隱藏這個群組，規則照常可用。"
+    },
+    "title": {
+      "en": "Hidden",
+      "zh-Hans": "隐藏",
+      "zh-Hant": "隱藏"
+    }
+  },
+  "proxy-groups[*].icon": {
+    "example": "https://example.com/icon.png",
+    "summary": {
+      "en": "An image address shown as this group's icon.",
+      "zh-Hans": "这个组显示的图标，填图片网址。",
+      "zh-Hant": "這個群組顯示的圖示，填圖片網址。"
+    },
+    "title": {
+      "en": "Icon",
+      "zh-Hans": "图标",
+      "zh-Hant": "圖示"
+    }
+  },
+  "proxy-groups[*].include-all": {
+    "summary": {
+      "en": "Add every node and proxy source automatically, sorted by name.",
+      "zh-Hans": "自动加入所有节点和代理集合，按名称排序。",
+      "zh-Hant": "自動加入所有節點和代理集合，依名稱排序。"
+    },
+    "title": {
+      "en": "Include Everything",
+      "zh-Hans": "包含全部",
+      "zh-Hant": "包含全部"
+    }
+  },
+  "proxy-groups[*].include-all-providers": {
+    "summary": {
+      "en": "Add every proxy source automatically; the Proxy Sources list is then ignored.",
+      "zh-Hans": "自动加入所有代理集合，此时“代理集合”一项不再生效。",
+      "zh-Hant": "自動加入所有代理集合，此時「代理集合」一項不再生效。"
+    },
+    "title": {
+      "en": "Include All Sources",
+      "zh-Hans": "包含全部代理集合",
+      "zh-Hant": "包含全部代理集合"
+    }
+  },
+  "proxy-groups[*].include-all-proxies": {
+    "summary": {
+      "en": "Add every node automatically, sorted by name.",
+      "zh-Hans": "自动加入所有节点，按名称排序。",
+      "zh-Hant": "自動加入所有節點，依名稱排序。"
+    },
+    "title": {
+      "en": "Include All Nodes",
+      "zh-Hans": "包含全部节点",
+      "zh-Hant": "包含全部節點"
+    }
+  },
+  "proxy-groups[*].interval": {
+    "example": "300",
+    "presets": [
+      {
+        "label": {
+          "en": "1 minute",
+          "zh-Hans": "1 分钟",
+          "zh-Hant": "1 分鐘"
+        },
+        "value": "60"
+      },
+      {
+        "label": {
+          "en": "5 minutes",
+          "zh-Hans": "5 分钟",
+          "zh-Hant": "5 分鐘"
+        },
+        "value": "300"
+      },
+      {
+        "label": {
+          "en": "10 minutes",
+          "zh-Hans": "10 分钟",
+          "zh-Hant": "10 分鐘"
+        },
+        "value": "600"
+      },
+      {
+        "label": {
+          "en": "30 minutes",
+          "zh-Hans": "30 分钟",
+          "zh-Hant": "30 分鐘"
+        },
+        "value": "1800"
+      },
+      {
+        "label": {
+          "en": "1 hour",
+          "zh-Hans": "1 小时",
+          "zh-Hant": "1 小時"
+        },
+        "value": "3600"
+      }
+    ],
+    "summary": {
+      "en": "How often to test automatically.",
+      "zh-Hans": "多久自动测一次速。",
+      "zh-Hant": "多久自動測一次速。"
+    },
+    "title": {
+      "en": "Test Interval",
+      "zh-Hans": "测速间隔",
+      "zh-Hant": "測速間隔"
+    }
+  },
+  "proxy-groups[select].interval": {
+    "example": "300",
+    "presets": [
+      {
+        "label": {
+          "en": "1 minute",
+          "zh-Hans": "1 分钟",
+          "zh-Hant": "1 分鐘"
+        },
+        "value": "60"
+      },
+      {
+        "label": {
+          "en": "5 minutes",
+          "zh-Hans": "5 分钟",
+          "zh-Hant": "5 分鐘"
+        },
+        "value": "300"
+      },
+      {
+        "label": {
+          "en": "10 minutes",
+          "zh-Hans": "10 分钟",
+          "zh-Hant": "10 分鐘"
+        },
+        "value": "600"
+      },
+      {
+        "label": {
+          "en": "30 minutes",
+          "zh-Hans": "30 分钟",
+          "zh-Hant": "30 分鐘"
+        },
+        "value": "1800"
+      },
+      {
+        "label": {
+          "en": "1 hour",
+          "zh-Hans": "1 小时",
+          "zh-Hant": "1 小時"
+        },
+        "value": "3600"
+      }
+    ],
+    "summary": {
+      "en": "How often to test this group's nodes; unwritten, a manual group isn't tested.",
+      "zh-Hans": "多久测一次这个组的节点；不写的话，手动选择的组不自动测。",
+      "zh-Hant": "多久測一次這個群組的節點；不寫的話，手動選擇的群組不自動測。"
+    },
+    "title": {
+      "en": "Test Interval",
+      "zh-Hans": "测速间隔",
+      "zh-Hant": "測速間隔"
+    },
+    "unset": {
+      "en": "Not tested",
+      "zh-Hans": "不自动测速",
+      "zh-Hant": "不自動測速"
+    },
+    "unsetOverrides": true
+  },
+  "proxy-groups[*].lazy": {
+    "summary": {
+      "en": "Don't test while this group isn't in use, saving data and battery.",
+      "zh-Hans": "没用到这个组时不测速，省流量和电量。",
+      "zh-Hant": "沒用到這個群組時不測速，省流量和電量。"
+    },
+    "title": {
+      "en": "Skip Tests When Unused",
+      "zh-Hans": "闲置不测速",
+      "zh-Hant": "閒置不測速"
+    }
+  },
+  "proxy-groups[*].max-failed-times": {
+    "summary": {
+      "en": "After this many failures in a row, test again right away.",
+      "zh-Hans": "连续失败这么多次后立即重新测速。",
+      "zh-Hant": "連續失敗這麼多次後立即重新測速。"
+    },
+    "title": {
+      "en": "Failures Before Retest",
+      "zh-Hans": "失败次数上限",
+      "zh-Hant": "失敗次數上限"
+    },
+    "unset": {
+      "en": "5 times",
+      "zh-Hans": "5 次",
+      "zh-Hant": "5 次"
+    }
+  },
+  "proxy-groups[*].name": {
+    "example": "Auto",
+    "summary": {
+      "en": "The group's name; rules and other groups refer to it by this name.",
+      "zh-Hans": "分组的名字，规则和其他分组靠它引用。",
+      "zh-Hant": "群組的名稱，規則和其他群組靠它引用。"
+    },
+    "title": {
+      "en": "Name",
+      "zh-Hans": "名称",
+      "zh-Hant": "名稱"
+    }
+  },
+  "proxy-groups[*].proxies": {
+    "summary": {
+      "en": "The nodes or other groups in this group, in order.",
+      "zh-Hans": "组里包含的节点或其他分组，按顺序排列。",
+      "zh-Hant": "群組裡包含的節點或其他群組，依順序排列。"
+    },
+    "title": {
+      "en": "Nodes and Groups",
+      "zh-Hans": "节点和分组",
+      "zh-Hant": "節點和群組"
+    }
+  },
+  "proxy-groups[*].strategy": {
+    "presets": [
+      {
+        "label": {
+          "en": "Same node per destination",
+          "zh-Hans": "按目标固定",
+          "zh-Hant": "依目標固定"
+        },
+        "value": "consistent-hashing"
+      },
+      {
+        "label": {
+          "en": "Take turns",
+          "zh-Hans": "轮流分配",
+          "zh-Hant": "輪流分配"
+        },
+        "value": "round-robin"
+      },
+      {
+        "label": {
+          "en": "Same node per source and destination",
+          "zh-Hans": "按来源和目标固定",
+          "zh-Hant": "依來源和目標固定"
+        },
+        "value": "sticky-sessions"
+      }
+    ],
+    "summary": {
+      "en": "Keep one node per destination, take turns, or keep one per source and destination.",
+      "zh-Hans": "按目标固定节点、轮流分配，或按来源和目标固定。",
+      "zh-Hant": "依目標固定節點、輪流分配，或依來源和目標固定。"
+    },
+    "title": {
+      "en": "Balancing Strategy",
+      "zh-Hans": "负载均衡策略",
+      "zh-Hant": "負載平衡策略"
+    }
+  },
+  "proxy-groups[*].hash-key": {
+    "presets": [
+      {
+        "label": {
+          "en": "Proxy account",
+          "zh-Hans": "代理账号",
+          "zh-Hant": "代理帳號"
+        },
+        "value": "in-user"
+      }
+    ],
+    "summary": {
+      "en": "Keep one node per proxy account; Take turns can't use it.",
+      "zh-Hans": "按代理账号固定节点；「轮流分配」不能用。",
+      "zh-Hant": "依代理帳號固定節點；「輪流分配」不能用。"
+    },
+    "title": {
+      "en": "Keep Node By",
+      "zh-Hans": "固定依据",
+      "zh-Hant": "固定依據"
+    },
+    "unset": {
+      "en": "Same as the strategy",
+      "zh-Hans": "跟随策略",
+      "zh-Hant": "跟隨策略"
+    }
+  },
+  "proxy-groups[*].timeout": {
+    "presets": [
+      {
+        "label": {
+          "en": "1 second",
+          "zh-Hans": "1 秒",
+          "zh-Hant": "1 秒"
+        },
+        "value": "1000"
+      },
+      {
+        "label": {
+          "en": "3 seconds",
+          "zh-Hans": "3 秒",
+          "zh-Hant": "3 秒"
+        },
+        "value": "3000"
+      },
+      {
+        "label": {
+          "en": "5 seconds",
+          "zh-Hans": "5 秒",
+          "zh-Hant": "5 秒"
+        },
+        "value": "5000"
+      },
+      {
+        "label": {
+          "en": "10 seconds",
+          "zh-Hans": "10 秒",
+          "zh-Hant": "10 秒"
+        },
+        "value": "10000"
+      }
+    ],
+    "summary": {
+      "en": "How long one test may take before it counts as failed.",
+      "zh-Hans": "单次测速等多久算失败。",
+      "zh-Hant": "單次測速等多久算失敗。"
+    },
+    "title": {
+      "en": "Test Timeout",
+      "zh-Hans": "测速超时",
+      "zh-Hant": "測速逾時"
+    },
+    "unset": {
+      "en": "5 seconds",
+      "zh-Hans": "5 秒",
+      "zh-Hant": "5 秒"
+    }
+  },
+  "proxy-groups[*].tolerance": {
+    "example": "50",
+    "presets": [
+      {
+        "label": {
+          "en": "50 ms",
+          "zh-Hans": "50 毫秒",
+          "zh-Hant": "50 毫秒"
+        },
+        "value": "50"
+      },
+      {
+        "label": {
+          "en": "100 ms",
+          "zh-Hans": "100 毫秒",
+          "zh-Hant": "100 毫秒"
+        },
+        "value": "100"
+      },
+      {
+        "label": {
+          "en": "150 ms",
+          "zh-Hans": "150 毫秒",
+          "zh-Hant": "150 毫秒"
+        },
+        "value": "150"
+      }
+    ],
+    "summary": {
+      "en": "Switch only when another node is faster by at least this much.",
+      "zh-Hans": "新节点要快过这么多才切换，避免频繁跳动。",
+      "zh-Hant": "新節點要快過這麼多才切換，避免頻繁跳動。"
+    },
+    "title": {
+      "en": "Switch Tolerance",
+      "zh-Hans": "切换容差",
+      "zh-Hant": "切換容差"
+    }
+  },
+  "proxy-groups[*].type": {
+    "presets": [
+      {
+        "label": {
+          "en": "Manual choice",
+          "zh-Hans": "手动选择",
+          "zh-Hant": "手動選擇"
+        },
+        "value": "select"
+      },
+      {
+        "label": {
+          "en": "Fastest, tested",
+          "zh-Hans": "自动选最快",
+          "zh-Hant": "自動選最快"
+        },
+        "value": "url-test"
+      },
+      {
+        "label": {
+          "en": "First that works",
+          "zh-Hans": "故障转移",
+          "zh-Hant": "故障轉移"
+        },
+        "value": "fallback"
+      },
+      {
+        "label": {
+          "en": "Load balance",
+          "zh-Hans": "负载均衡",
+          "zh-Hant": "負載平衡"
+        },
+        "value": "load-balance"
+      }
+    ],
+    "summary": {
+      "en": "Manual choice, fastest by test, first that works, or load balancing.",
+      "zh-Hans": "手动选择、自动测速、故障转移或负载均衡。",
+      "zh-Hant": "手動選擇、自動測速、故障轉移或負載平衡。"
+    },
+    "title": {
+      "en": "Type",
+      "zh-Hans": "类型",
+      "zh-Hant": "類型"
+    }
+  },
+  "proxy-groups[*].url": {
+    "example": "https://www.gstatic.com/generate_204",
+    "presets": [
+      {
+        "label": {
+          "en": "Google",
+          "zh-Hans": "Google",
+          "zh-Hant": "Google"
+        },
+        "value": "https://www.gstatic.com/generate_204"
+      },
+      {
+        "label": {
+          "en": "Cloudflare",
+          "zh-Hans": "Cloudflare",
+          "zh-Hant": "Cloudflare"
+        },
+        "value": "https://cp.cloudflare.com/generate_204"
+      }
+    ],
+    "summary": {
+      "en": "The web address visited to measure each node's delay.",
+      "zh-Hans": "测试节点延迟时访问的网址。",
+      "zh-Hant": "測試節點延遲時存取的網址。"
+    },
+    "title": {
+      "en": "Test URL",
+      "zh-Hans": "测速地址",
+      "zh-Hant": "測速網址"
+    }
+  },
+  "proxy-groups[*].use": {
+    "summary": {
+      "en": "Add the nodes from these proxy sources to the group.",
+      "zh-Hans": "把这些代理集合里的节点加入组内。",
+      "zh-Hant": "把這些代理集合裡的節點加入群組。"
+    },
+    "title": {
+      "en": "Proxy Sources",
+      "zh-Hans": "代理集合",
+      "zh-Hant": "代理集合"
+    }
+  },
+  "proxy-providers": {
+    "summary": {
+      "en": "Sets of nodes read from a link, a file or written inline.",
+      "zh-Hans": "从链接、文件或直接写入读取的一组节点。",
+      "zh-Hant": "從連結、檔案或直接寫入讀取的一組節點。"
+    },
+    "title": {
+      "en": "Proxy Sources",
+      "zh-Hans": "代理集合",
+      "zh-Hant": "代理集合"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    }
+  },
+  "proxy-providers.*.age-secret-key": {
+    "summary": {
+      "en": "An age secret key for opening an encrypted node list.",
+      "zh-Hans": "用来解开 age 加密节点列表的私钥。",
+      "zh-Hant": "用來解開 age 加密節點列表的私鑰。"
+    },
+    "title": {
+      "en": "Decryption Key",
+      "zh-Hans": "解密密钥",
+      "zh-Hant": "解密金鑰"
+    }
+  },
+  "proxy-providers.*.dialer-proxy": {
+    "summary": {
+      "en": "Every node in this source connects through this proxy first.",
+      "zh-Hans": "这个集合里的节点都先经过这个代理再连接。",
+      "zh-Hant": "這個集合裡的節點都先經過這個代理再連線。"
+    },
+    "title": {
+      "en": "Connect Through",
+      "zh-Hans": "前置代理",
+      "zh-Hant": "前置代理"
+    }
+  },
+  "proxy-providers.*.exclude-filter": {
+    "example": "(?i)过期|剩余|expire",
+    "summary": {
+      "en": "Drop nodes whose names match; a regex works, like 过期|剩余.",
+      "zh-Hans": "去掉名字匹配的节点，可用正则，如 过期|剩余。",
+      "zh-Hant": "去掉名稱符合的節點，可用規則運算式，如 過期|剩餘。"
+    },
+    "title": {
+      "en": "Leave Out Nodes",
+      "zh-Hans": "排除节点",
+      "zh-Hant": "排除節點"
+    }
+  },
+  "proxy-providers.*.exclude-type": {
+    "presets": [
+      {
+        "label": {
+          "en": "Shadowsocks",
+          "zh-Hans": "Shadowsocks",
+          "zh-Hant": "Shadowsocks"
+        },
+        "value": "ss"
+      },
+      {
+        "label": {
+          "en": "ShadowsocksR",
+          "zh-Hans": "ShadowsocksR",
+          "zh-Hant": "ShadowsocksR"
+        },
+        "value": "ssr"
+      },
+      {
+        "label": {
+          "en": "SOCKS5",
+          "zh-Hans": "SOCKS5",
+          "zh-Hant": "SOCKS5"
+        },
+        "value": "socks5"
+      },
+      {
+        "label": {
+          "en": "HTTP",
+          "zh-Hans": "HTTP",
+          "zh-Hant": "HTTP"
+        },
+        "value": "http"
+      },
+      {
+        "label": {
+          "en": "VMess",
+          "zh-Hans": "VMess",
+          "zh-Hant": "VMess"
+        },
+        "value": "vmess"
+      },
+      {
+        "label": {
+          "en": "VLESS",
+          "zh-Hans": "VLESS",
+          "zh-Hant": "VLESS"
+        },
+        "value": "vless"
+      },
+      {
+        "label": {
+          "en": "Snell",
+          "zh-Hans": "Snell",
+          "zh-Hant": "Snell"
+        },
+        "value": "snell"
+      },
+      {
+        "label": {
+          "en": "Trojan",
+          "zh-Hans": "Trojan",
+          "zh-Hant": "Trojan"
+        },
+        "value": "trojan"
+      },
+      {
+        "label": {
+          "en": "Hysteria",
+          "zh-Hans": "Hysteria",
+          "zh-Hant": "Hysteria"
+        },
+        "value": "hysteria"
+      },
+      {
+        "label": {
+          "en": "Hysteria 2",
+          "zh-Hans": "Hysteria 2",
+          "zh-Hant": "Hysteria 2"
+        },
+        "value": "hysteria2"
+      },
+      {
+        "label": {
+          "en": "WireGuard",
+          "zh-Hans": "WireGuard",
+          "zh-Hant": "WireGuard"
+        },
+        "value": "wireguard"
+      },
+      {
+        "label": {
+          "en": "TUIC",
+          "zh-Hans": "TUIC",
+          "zh-Hant": "TUIC"
+        },
+        "value": "tuic"
+      },
+      {
+        "label": {
+          "en": "ShadowQUIC",
+          "zh-Hans": "ShadowQUIC",
+          "zh-Hant": "ShadowQUIC"
+        },
+        "value": "shadowquic"
+      },
+      {
+        "label": {
+          "en": "GOST Relay",
+          "zh-Hans": "GOST Relay",
+          "zh-Hant": "GOST Relay"
+        },
+        "value": "gost-relay"
+      },
+      {
+        "label": {
+          "en": "Direct",
+          "zh-Hans": "直连",
+          "zh-Hant": "直連"
+        },
+        "value": "direct"
+      },
+      {
+        "label": {
+          "en": "DNS (to built-in DNS)",
+          "zh-Hans": "DNS（交给内置 DNS）",
+          "zh-Hant": "DNS（交給內建 DNS）"
+        },
+        "value": "dns"
+      },
+      {
+        "label": {
+          "en": "Reject",
+          "zh-Hans": "拒绝",
+          "zh-Hant": "拒絕"
+        },
+        "value": "reject"
+      },
+      {
+        "label": {
+          "en": "Rematch",
+          "zh-Hans": "重新匹配",
+          "zh-Hant": "重新比對"
+        },
+        "value": "rematch"
+      },
+      {
+        "label": {
+          "en": "SSH",
+          "zh-Hans": "SSH",
+          "zh-Hant": "SSH"
+        },
+        "value": "ssh"
+      },
+      {
+        "label": {
+          "en": "Mieru",
+          "zh-Hans": "Mieru",
+          "zh-Hant": "Mieru"
+        },
+        "value": "mieru"
+      },
+      {
+        "label": {
+          "en": "AnyTLS",
+          "zh-Hans": "AnyTLS",
+          "zh-Hant": "AnyTLS"
+        },
+        "value": "anytls"
+      },
+      {
+        "label": {
+          "en": "Sudoku",
+          "zh-Hans": "Sudoku",
+          "zh-Hant": "Sudoku"
+        },
+        "value": "sudoku"
+      },
+      {
+        "label": {
+          "en": "MASQUE",
+          "zh-Hans": "MASQUE",
+          "zh-Hant": "MASQUE"
+        },
+        "value": "masque"
+      },
+      {
+        "label": {
+          "en": "TrustTunnel",
+          "zh-Hans": "TrustTunnel",
+          "zh-Hant": "TrustTunnel"
+        },
+        "value": "trusttunnel"
+      },
+      {
+        "label": {
+          "en": "OpenVPN",
+          "zh-Hans": "OpenVPN",
+          "zh-Hant": "OpenVPN"
+        },
+        "value": "openvpn"
+      },
+      {
+        "label": {
+          "en": "Tailscale",
+          "zh-Hans": "Tailscale",
+          "zh-Hant": "Tailscale"
+        },
+        "value": "tailscale"
+      },
+      {
+        "label": {
+          "en": "ZeroTier",
+          "zh-Hans": "ZeroTier",
+          "zh-Hant": "ZeroTier"
+        },
+        "value": "zerotier"
+      },
+      {
+        "label": {
+          "en": "EasyTier",
+          "zh-Hans": "EasyTier",
+          "zh-Hant": "EasyTier"
+        },
+        "value": "easytier"
+      }
+    ],
+    "summary": {
+      "en": "Drop nodes whose type is one of these.",
+      "zh-Hans": "去掉这些协议类型的节点。",
+      "zh-Hant": "去掉這些協定類型的節點。"
+    },
+    "title": {
+      "en": "Leave Out Protocols",
+      "zh-Hans": "排除协议",
+      "zh-Hant": "排除協定"
+    }
+  },
+  "proxy-providers.*.filter": {
+    "example": "(?i)港|hk",
+    "summary": {
+      "en": "Keep only nodes whose names match; a regex works, like (?i)港|hk.",
+      "zh-Hans": "只留名字匹配的节点，可用正则，如 (?i)港|hk。",
+      "zh-Hant": "只留名稱符合的節點，可用規則運算式，如 (?i)港|hk。"
+    },
+    "title": {
+      "en": "Only Matching Nodes",
+      "zh-Hans": "筛选节点",
+      "zh-Hant": "篩選節點"
+    }
+  },
+  "proxy-providers.*.header": {
+    "summary": {
+      "en": "Custom HTTP headers sent when downloading, such as User-Agent.",
+      "zh-Hans": "下载时附带的自定义 HTTP 请求头，如 User-Agent。",
+      "zh-Hant": "下載時附帶的自訂 HTTP 標頭，如 User-Agent。"
+    },
+    "title": {
+      "en": "Request Headers",
+      "zh-Hans": "请求头",
+      "zh-Hant": "請求標頭"
+    }
+  },
+  "proxy-providers.*.health-check": {
+    "summary": {
+      "en": "Tests this source's nodes for delay on a schedule.",
+      "zh-Hans": "定时测试集合里节点的延迟。",
+      "zh-Hant": "定時測試集合裡節點的延遲。"
+    },
+    "title": {
+      "en": "Health Check",
+      "zh-Hans": "健康检查",
+      "zh-Hant": "健康檢查"
+    }
+  },
+  "proxy-providers.*.health-check.enable": {
+    "summary": {
+      "en": "Test this source's nodes for delay on a schedule.",
+      "zh-Hans": "定时测试这个集合里节点的延迟。",
+      "zh-Hant": "定時測試這個集合裡節點的延遲。"
+    },
+    "title": {
+      "en": "Turn On Health Check",
+      "zh-Hans": "开启健康检查",
+      "zh-Hant": "開啟健康檢查"
+    }
+  },
+  "proxy-providers.*.health-check.expected-status": {
+    "example": "204",
+    "summary": {
+      "en": "A node counts as working only with these HTTP status codes, like 204.",
+      "zh-Hans": "测速时只有返回这些状态码才算可用，如 204。",
+      "zh-Hant": "測速時只有回傳這些狀態碼才算可用，如 204。"
+    },
+    "title": {
+      "en": "Expected Status",
+      "zh-Hans": "期望状态码",
+      "zh-Hant": "預期狀態碼"
+    },
+    "unset": {
+      "en": "Any",
+      "zh-Hans": "不限",
+      "zh-Hant": "不限"
+    }
+  },
+  "proxy-providers.*.health-check.interval": {
+    "presets": [
+      {
+        "label": {
+          "en": "1 minute",
+          "zh-Hans": "1 分钟",
+          "zh-Hant": "1 分鐘"
+        },
+        "value": "60"
+      },
+      {
+        "label": {
+          "en": "5 minutes",
+          "zh-Hans": "5 分钟",
+          "zh-Hant": "5 分鐘"
+        },
+        "value": "300"
+      },
+      {
+        "label": {
+          "en": "10 minutes",
+          "zh-Hans": "10 分钟",
+          "zh-Hant": "10 分鐘"
+        },
+        "value": "600"
+      },
+      {
+        "label": {
+          "en": "30 minutes",
+          "zh-Hans": "30 分钟",
+          "zh-Hant": "30 分鐘"
+        },
+        "value": "1800"
+      }
+    ],
+    "summary": {
+      "en": "How often to test.",
+      "zh-Hans": "多久测一次速。",
+      "zh-Hant": "多久測一次速。"
+    },
+    "title": {
+      "en": "Test Interval",
+      "zh-Hans": "测速间隔",
+      "zh-Hant": "測速間隔"
+    },
+    "unset": {
+      "en": "5 minutes",
+      "zh-Hans": "5 分钟",
+      "zh-Hant": "5 分鐘"
+    }
+  },
+  "proxy-providers.*.health-check.lazy": {
+    "summary": {
+      "en": "Don't test while this source's nodes aren't in use.",
+      "zh-Hans": "没用到这个集合的节点时不测速。",
+      "zh-Hant": "沒用到這個集合的節點時不測速。"
+    },
+    "title": {
+      "en": "Skip Tests When Unused",
+      "zh-Hans": "闲置不测速",
+      "zh-Hant": "閒置不測速"
+    }
+  },
+  "proxy-providers.*.health-check.timeout": {
+    "presets": [
+      {
+        "label": {
+          "en": "1 second",
+          "zh-Hans": "1 秒",
+          "zh-Hant": "1 秒"
+        },
+        "value": "1000"
+      },
+      {
+        "label": {
+          "en": "3 seconds",
+          "zh-Hans": "3 秒",
+          "zh-Hant": "3 秒"
+        },
+        "value": "3000"
+      },
+      {
+        "label": {
+          "en": "5 seconds",
+          "zh-Hans": "5 秒",
+          "zh-Hant": "5 秒"
+        },
+        "value": "5000"
+      },
+      {
+        "label": {
+          "en": "10 seconds",
+          "zh-Hans": "10 秒",
+          "zh-Hant": "10 秒"
+        },
+        "value": "10000"
+      }
+    ],
+    "summary": {
+      "en": "How long one test may take before it counts as failed.",
+      "zh-Hans": "单次测速等多久算失败。",
+      "zh-Hant": "單次測速等多久算失敗。"
+    },
+    "title": {
+      "en": "Test Timeout",
+      "zh-Hans": "测速超时",
+      "zh-Hant": "測速逾時"
+    },
+    "unset": {
+      "en": "5 seconds",
+      "zh-Hans": "5 秒",
+      "zh-Hant": "5 秒"
+    }
+  },
+  "proxy-providers.*.health-check.url": {
+    "example": "https://www.gstatic.com/generate_204",
+    "presets": [
+      {
+        "label": {
+          "en": "Google",
+          "zh-Hans": "Google",
+          "zh-Hant": "Google"
+        },
+        "value": "https://www.gstatic.com/generate_204"
+      },
+      {
+        "label": {
+          "en": "Cloudflare",
+          "zh-Hans": "Cloudflare",
+          "zh-Hant": "Cloudflare"
+        },
+        "value": "https://cp.cloudflare.com/generate_204"
+      }
+    ],
+    "summary": {
+      "en": "The web address visited to measure delay; no tests run without one.",
+      "zh-Hans": "测延迟时访问的网址，不填就不测速。",
+      "zh-Hant": "測延遲時存取的網址，不填就不測速。"
+    },
+    "title": {
+      "en": "Test URL",
+      "zh-Hans": "测速地址",
+      "zh-Hant": "測速網址"
+    },
+    "unset": {
+      "en": "Not tested",
+      "zh-Hans": "不测速",
+      "zh-Hant": "不測速"
+    }
+  },
+  "proxy-providers.*.interval": {
+    "example": "3600",
+    "presets": [
+      {
+        "label": {
+          "en": "1 hour",
+          "zh-Hans": "1 小时",
+          "zh-Hant": "1 小時"
+        },
+        "value": "3600"
+      },
+      {
+        "label": {
+          "en": "6 hours",
+          "zh-Hans": "6 小时",
+          "zh-Hant": "6 小時"
+        },
+        "value": "21600"
+      },
+      {
+        "label": {
+          "en": "12 hours",
+          "zh-Hans": "12 小时",
+          "zh-Hant": "12 小時"
+        },
+        "value": "43200"
+      },
+      {
+        "label": {
+          "en": "1 day",
+          "zh-Hans": "1 天",
+          "zh-Hant": "1 天"
+        },
+        "value": "86400"
+      },
+      {
+        "label": {
+          "en": "No automatic update",
+          "zh-Hans": "不自动更新",
+          "zh-Hant": "不自動更新"
+        },
+        "value": "0"
+      }
+    ],
+    "summary": {
+      "en": "How often to update; 0 never updates automatically.",
+      "zh-Hans": "多久更新一次，0 为不自动更新。",
+      "zh-Hant": "多久更新一次，0 為不自動更新。"
+    },
+    "title": {
+      "en": "Update Interval",
+      "zh-Hans": "更新间隔",
+      "zh-Hant": "更新間隔"
+    },
+    "unset": {
+      "en": "No automatic update",
+      "zh-Hans": "不自动更新",
+      "zh-Hant": "不自動更新"
+    }
+  },
+  "proxy-providers.*.override": {
+    "summary": {
+      "en": "Change settings on every node in this source at once.",
+      "zh-Hans": "统一修改这个集合里所有节点的设置。",
+      "zh-Hant": "統一修改這個集合裡所有節點的設定。"
+    },
+    "title": {
+      "en": "Override Nodes",
+      "zh-Hans": "覆写节点",
+      "zh-Hant": "覆寫節點"
+    }
+  },
+  "proxy-providers.*.override.additional-prefix": {
+    "example": "HK | ",
+    "summary": {
+      "en": "Text added in front of every node name in this source.",
+      "zh-Hans": "加在每个节点名前面的文字。",
+      "zh-Hant": "加在每個節點名稱前面的文字。"
+    },
+    "title": {
+      "en": "Name Prefix",
+      "zh-Hans": "名称前缀",
+      "zh-Hant": "名稱前綴"
+    }
+  },
+  "proxy-providers.*.override.additional-suffix": {
+    "example": " | backup",
+    "summary": {
+      "en": "Text added after every node name in this source.",
+      "zh-Hans": "加在每个节点名后面的文字。",
+      "zh-Hant": "加在每個節點名稱後面的文字。"
+    },
+    "title": {
+      "en": "Name Suffix",
+      "zh-Hans": "名称后缀",
+      "zh-Hant": "名稱後綴"
+    }
+  },
+  "proxy-providers.*.override.dialer-proxy": {
+    "summary": {
+      "en": "Every node in this source connects through this proxy first.",
+      "zh-Hans": "给所有节点设置先经过的前置代理。",
+      "zh-Hant": "為所有節點設定先經過的前置代理。"
+    },
+    "title": {
+      "en": "Connect Through",
+      "zh-Hans": "前置代理",
+      "zh-Hant": "前置代理"
+    }
+  },
+  "proxy-providers.*.override.down": {
+    "example": "100 Mbps",
+    "summary": {
+      "en": "Download bandwidth for the Hysteria nodes in this source, such as 100 Mbps.",
+      "zh-Hans": "给集合里 Hysteria 节点设置的下载带宽，如 100 Mbps。",
+      "zh-Hant": "為集合裡 Hysteria 節點設定的下載頻寬，如 100 Mbps。"
+    },
+    "title": {
+      "en": "Download Bandwidth",
+      "zh-Hans": "下载带宽",
+      "zh-Hant": "下載頻寬"
+    }
+  },
+  "proxy-providers.*.override.interface-name": {
+    "example": "en0",
+    "summary": {
+      "en": "Send these nodes' traffic out of this network interface.",
+      "zh-Hans": "这些节点的流量从这个网卡出去。",
+      "zh-Hant": "這些節點的流量從這個網卡出去。"
+    },
+    "title": {
+      "en": "Network Interface",
+      "zh-Hans": "出口网卡",
+      "zh-Hant": "出口網卡"
+    }
+  },
+  "proxy-providers.*.override.ip-version": {
+    "presets": [
+      {
+        "label": {
+          "en": "Both",
+          "zh-Hans": "双栈",
+          "zh-Hant": "雙堆疊"
+        },
+        "value": "dual"
+      },
+      {
+        "label": {
+          "en": "IPv4 only",
+          "zh-Hans": "仅 IPv4",
+          "zh-Hant": "僅 IPv4"
+        },
+        "value": "ipv4"
+      },
+      {
+        "label": {
+          "en": "Prefer IPv4",
+          "zh-Hans": "优先 IPv4",
+          "zh-Hant": "優先 IPv4"
+        },
+        "value": "ipv4-prefer"
+      },
+      {
+        "label": {
+          "en": "IPv6 only",
+          "zh-Hans": "仅 IPv6",
+          "zh-Hant": "僅 IPv6"
+        },
+        "value": "ipv6"
+      },
+      {
+        "label": {
+          "en": "Prefer IPv6",
+          "zh-Hans": "优先 IPv6",
+          "zh-Hant": "優先 IPv6"
+        },
+        "value": "ipv6-prefer"
+      }
+    ],
+    "summary": {
+      "en": "Which IP version these nodes use to reach their servers.",
+      "zh-Hans": "这些节点连接服务器时用 IPv4 还是 IPv6。",
+      "zh-Hant": "這些節點連線伺服器時用 IPv4 還是 IPv6。"
+    },
+    "title": {
+      "en": "IP Version",
+      "zh-Hans": "IP 版本",
+      "zh-Hant": "IP 版本"
+    }
+  },
+  "proxy-providers.*.override.mptcp": {
+    "summary": {
+      "en": "Set Multipath TCP on every node in this source.",
+      "zh-Hans": "给这个集合的所有节点设置多路径 TCP。",
+      "zh-Hant": "為這個集合的所有節點設定多路徑 TCP。"
+    },
+    "title": {
+      "en": "Multipath TCP",
+      "zh-Hans": "多路径 TCP",
+      "zh-Hant": "多路徑 TCP"
+    }
+  },
+  "proxy-providers.*.override.name-cert-verify": {
+    "summary": {
+      "en": "The name checked in each node's certificate, without changing the SNI.",
+      "zh-Hans": "证书校验时对照的域名，不改 SNI。",
+      "zh-Hant": "憑證驗證時對照的網域，不改 SNI。"
+    },
+    "title": {
+      "en": "Certificate Name",
+      "zh-Hans": "证书校验域名",
+      "zh-Hant": "憑證驗證網域"
+    }
+  },
+  "proxy-providers.*.override.override-expr": {
+    "example": ".name = \"[P1] \" + .name",
+    "summary": {
+      "en": "yq-style expressions that edit each node, applied after the fields above.",
+      "zh-Hans": "用 yq 风格的表达式改写每个节点，在上面各项之后执行。",
+      "zh-Hant": "用 yq 風格的運算式改寫每個節點，在上面各項之後執行。"
+    },
+    "title": {
+      "en": "Override Expressions",
+      "zh-Hans": "覆写表达式",
+      "zh-Hant": "覆寫運算式"
+    }
+  },
+  "proxy-providers.*.override.proxy-name": {
+    "summary": {
+      "en": "Replace parts of node names using patterns.",
+      "zh-Hans": "按规则替换节点名称中的文字。",
+      "zh-Hant": "依規則取代節點名稱中的文字。"
+    },
+    "title": {
+      "en": "Rename Nodes",
+      "zh-Hans": "节点改名",
+      "zh-Hant": "節點改名"
+    }
+  },
+  "proxy-providers.*.override.proxy-name[].pattern": {
+    "example": "IPLC-(.*?)倍",
+    "summary": {
+      "en": "The text or regular expression to replace in node names.",
+      "zh-Hans": "要在节点名里替换的文字或正则。",
+      "zh-Hant": "要在節點名稱裡取代的文字或規則運算式。"
+    },
+    "title": {
+      "en": "Find",
+      "zh-Hans": "查找",
+      "zh-Hant": "尋找"
+    }
+  },
+  "proxy-providers.*.override.proxy-name[].target": {
+    "example": "iplc x $1",
+    "summary": {
+      "en": "The replacement text; $1 inserts what the first group matched.",
+      "zh-Hans": "替换成的文字，$1 代表正则第一组匹配的内容。",
+      "zh-Hant": "取代成的文字，$1 代表規則運算式第一組符合的內容。"
+    },
+    "title": {
+      "en": "Replace With",
+      "zh-Hans": "替换为",
+      "zh-Hant": "取代為"
+    }
+  },
+  "proxy-providers.*.override.routing-mark": {
+    "summary": {
+      "en": "A routing mark for these nodes' traffic; Linux only.",
+      "zh-Hans": "给这些节点的流量加路由标记，仅 Linux。",
+      "zh-Hant": "為這些節點的流量加路由標記，僅 Linux。"
+    },
+    "title": {
+      "en": "Routing Mark",
+      "zh-Hans": "路由标记",
+      "zh-Hant": "路由標記"
+    }
+  },
+  "proxy-providers.*.override.skip-cert-verify": {
+    "summary": {
+      "en": "Don't check TLS certificates for these nodes; this is unsafe.",
+      "zh-Hans": "这些节点不验证 TLS 证书，有安全风险。",
+      "zh-Hant": "這些節點不驗證 TLS 憑證，有安全風險。"
+    },
+    "title": {
+      "en": "Skip Certificate Check",
+      "zh-Hans": "跳过证书验证",
+      "zh-Hant": "略過憑證驗證"
+    }
+  },
+  "proxy-providers.*.override.tfo": {
+    "summary": {
+      "en": "Set TCP Fast Open on every node in this source.",
+      "zh-Hans": "给这个集合的所有节点设置 TCP 快速打开。",
+      "zh-Hant": "為這個集合的所有節點設定 TCP 快速開啟。"
+    },
+    "title": {
+      "en": "TCP Fast Open",
+      "zh-Hans": "TCP 快速打开",
+      "zh-Hant": "TCP 快速開啟"
+    }
+  },
+  "proxy-providers.*.override.udp": {
+    "summary": {
+      "en": "Allow or block UDP on every node in this source.",
+      "zh-Hans": "给这个集合的所有节点开启或关闭 UDP。",
+      "zh-Hant": "為這個集合的所有節點開啟或關閉 UDP。"
+    },
+    "title": {
+      "en": "UDP",
+      "zh-Hans": "UDP",
+      "zh-Hant": "UDP"
+    }
+  },
+  "proxy-providers.*.override.udp-over-tcp": {
+    "summary": {
+      "en": "Carry UDP inside TCP on every Shadowsocks node in this source.",
+      "zh-Hans": "给这个集合的 Shadowsocks 节点设置 UDP over TCP。",
+      "zh-Hant": "為這個集合的 Shadowsocks 節點設定 UDP over TCP。"
+    },
+    "title": {
+      "en": "UDP over TCP",
+      "zh-Hans": "UDP over TCP",
+      "zh-Hant": "UDP over TCP"
+    }
+  },
+  "proxy-providers.*.override.up": {
+    "example": "50 Mbps",
+    "summary": {
+      "en": "Upload bandwidth for the Hysteria nodes in this source, such as 50 Mbps.",
+      "zh-Hans": "给集合里 Hysteria 节点设置的上传带宽，如 50 Mbps。",
+      "zh-Hant": "為集合裡 Hysteria 節點設定的上傳頻寬，如 50 Mbps。"
+    },
+    "title": {
+      "en": "Upload Bandwidth",
+      "zh-Hans": "上传带宽",
+      "zh-Hant": "上傳頻寬"
+    }
+  },
+  "proxy-providers.*.path": {
+    "example": "./providers/hk.yaml",
+    "summary": {
+      "en": "Where the downloaded file is kept; empty names it after the link.",
+      "zh-Hans": "下载文件的保存位置，不填按链接自动命名。",
+      "zh-Hant": "下載檔案的儲存位置，不填依連結自動命名。"
+    },
+    "title": {
+      "en": "Save Path",
+      "zh-Hans": "保存路径",
+      "zh-Hant": "儲存路徑"
+    },
+    "unset": {
+      "en": "Automatic",
+      "zh-Hans": "自动",
+      "zh-Hant": "自動"
+    }
+  },
+  "proxy-providers.*.payload": {
+    "summary": {
+      "en": "Nodes written here; used for the inline type, or when download fails.",
+      "zh-Hans": "写在这里的节点，用于直接写入类型或下载失败时。",
+      "zh-Hant": "寫在這裡的節點，用於直接寫入類型或下載失敗時。"
+    },
+    "title": {
+      "en": "Inline Nodes",
+      "zh-Hans": "直接写入的节点",
+      "zh-Hant": "直接寫入的節點"
+    }
+  },
+  "proxy-providers.*.proxy": {
+    "summary": {
+      "en": "The proxy or group used to download and update this source.",
+      "zh-Hans": "下载和更新时经过的代理或分组。",
+      "zh-Hant": "下載和更新時經過的代理或群組。"
+    },
+    "title": {
+      "en": "Proxy",
+      "zh-Hans": "下载所用代理",
+      "zh-Hant": "下載所用代理"
+    },
+    "unset": {
+      "en": "Direct",
+      "zh-Hans": "直连",
+      "zh-Hant": "直連"
+    }
+  },
+  "proxy-providers.*.size-limit": {
+    "summary": {
+      "en": "The largest download allowed, in bytes; 0 means no limit.",
+      "zh-Hans": "允许下载的最大字节数，0 为不限。",
+      "zh-Hant": "允許下載的最大位元組數，0 為不限。"
+    },
+    "title": {
+      "en": "Size Limit",
+      "zh-Hans": "大小上限",
+      "zh-Hant": "大小上限"
+    },
+    "unset": {
+      "en": "No limit",
+      "zh-Hans": "不限",
+      "zh-Hant": "不限"
+    }
+  },
+  "proxy-providers.*.type": {
+    "presets": [
+      {
+        "label": {
+          "en": "Link",
+          "zh-Hans": "链接",
+          "zh-Hant": "連結"
+        },
+        "value": "http"
+      },
+      {
+        "label": {
+          "en": "File",
+          "zh-Hans": "文件",
+          "zh-Hant": "檔案"
+        },
+        "value": "file"
+      },
+      {
+        "label": {
+          "en": "Written here",
+          "zh-Hans": "直接写入",
+          "zh-Hant": "直接寫入"
+        },
+        "value": "inline"
+      }
+    ],
+    "summary": {
+      "en": "Where the nodes come from: a link, a file, or written inline.",
+      "zh-Hans": "节点从哪里来：链接、文件还是直接写在这里。",
+      "zh-Hant": "節點從哪裡來：連結、檔案還是直接寫在這裡。"
+    },
+    "title": {
+      "en": "Type",
+      "zh-Hans": "类型",
+      "zh-Hant": "類型"
+    }
+  },
+  "proxy-providers.*.url": {
+    "example": "https://example.com/sub",
+    "summary": {
+      "en": "The link to download nodes from; needed for the link type.",
+      "zh-Hans": "下载节点的链接，链接类型必填。",
+      "zh-Hant": "下載節點的連結，連結類型必填。"
+    },
+    "title": {
+      "en": "Link",
+      "zh-Hans": "链接",
+      "zh-Hant": "連結"
+    }
+  },
+  "rule-providers": {
+    "summary": {
+      "en": "Lists of domains or IPs, from a link, a file or written inline, used by rules.",
+      "zh-Hans": "从链接、文件或直接写入读取的规则列表，供规则引用。",
+      "zh-Hant": "從連結、檔案或直接寫入讀取的規則列表，供規則引用。"
+    },
+    "title": {
+      "en": "Rule Sets",
+      "zh-Hans": "规则集合",
+      "zh-Hant": "規則集合"
+    },
+    "unset": {
+      "en": "None",
+      "zh-Hans": "无",
+      "zh-Hant": "無"
+    }
+  },
+  "rule-providers.*.behavior": {
+    "presets": [
+      {
+        "label": {
+          "en": "Domains",
+          "zh-Hans": "域名",
+          "zh-Hant": "網域"
+        },
+        "value": "domain"
+      },
+      {
+        "label": {
+          "en": "IP ranges",
+          "zh-Hans": "IP 段",
+          "zh-Hant": "IP 段"
+        },
+        "value": "ipcidr"
+      },
+      {
+        "label": {
+          "en": "Full rules",
+          "zh-Hans": "完整规则",
+          "zh-Hant": "完整規則"
+        },
+        "value": "classical"
+      }
+    ],
+    "summary": {
+      "en": "What the list holds: domains, IP ranges, or full rules; match the file.",
+      "zh-Hans": "列表里是域名、IP 段还是完整规则，须与文件一致。",
+      "zh-Hant": "列表裡是網域、IP 段還是完整規則，須與檔案一致。"
+    },
+    "title": {
+      "en": "Content Kind",
+      "zh-Hans": "内容类型",
+      "zh-Hant": "內容類型"
+    }
+  },
+  "rule-providers.*.format": {
+    "presets": [
+      {
+        "label": {
+          "en": "YAML",
+          "zh-Hans": "YAML",
+          "zh-Hant": "YAML"
+        },
+        "value": "yaml"
+      },
+      {
+        "label": {
+          "en": "Plain text",
+          "zh-Hans": "纯文本",
+          "zh-Hant": "純文字"
+        },
+        "value": "text"
+      },
+      {
+        "label": {
+          "en": "MRS (binary)",
+          "zh-Hans": "MRS（二进制）",
+          "zh-Hant": "MRS（二進位）"
+        },
+        "value": "mrs"
+      }
+    ],
+    "summary": {
+      "en": "yaml, text or mrs; mrs only holds domains or IP ranges.",
+      "zh-Hans": "yaml、text 或 mrs；mrs 只能装域名或 IP 段。",
+      "zh-Hant": "yaml、text 或 mrs；mrs 只能裝網域或 IP 段。"
+    },
+    "title": {
+      "en": "File Format",
+      "zh-Hans": "文件格式",
+      "zh-Hant": "檔案格式"
+    }
+  },
+  "rule-providers.*.header": {
+    "summary": {
+      "en": "Custom HTTP headers sent when downloading, such as User-Agent.",
+      "zh-Hans": "下载时附带的自定义 HTTP 请求头，如 User-Agent。",
+      "zh-Hant": "下載時附帶的自訂 HTTP 標頭，如 User-Agent。"
+    },
+    "title": {
+      "en": "Request Headers",
+      "zh-Hans": "请求头",
+      "zh-Hant": "請求標頭"
+    }
+  },
+  "rule-providers.*.interval": {
+    "example": "86400",
+    "presets": [
+      {
+        "label": {
+          "en": "1 hour",
+          "zh-Hans": "1 小时",
+          "zh-Hant": "1 小時"
+        },
+        "value": "3600"
+      },
+      {
+        "label": {
+          "en": "12 hours",
+          "zh-Hans": "12 小时",
+          "zh-Hant": "12 小時"
+        },
+        "value": "43200"
+      },
+      {
+        "label": {
+          "en": "1 day",
+          "zh-Hans": "1 天",
+          "zh-Hant": "1 天"
+        },
+        "value": "86400"
+      },
+      {
+        "label": {
+          "en": "1 week",
+          "zh-Hans": "1 周",
+          "zh-Hant": "1 週"
+        },
+        "value": "604800"
+      },
+      {
+        "label": {
+          "en": "No automatic update",
+          "zh-Hans": "不自动更新",
+          "zh-Hant": "不自動更新"
+        },
+        "value": "0"
+      }
+    ],
+    "summary": {
+      "en": "How often to update; 0 never updates automatically.",
+      "zh-Hans": "多久更新一次，0 为不自动更新。",
+      "zh-Hant": "多久更新一次，0 為不自動更新。"
+    },
+    "title": {
+      "en": "Update Interval",
+      "zh-Hans": "更新间隔",
+      "zh-Hant": "更新間隔"
+    },
+    "unset": {
+      "en": "No automatic update",
+      "zh-Hans": "不自动更新",
+      "zh-Hant": "不自動更新"
+    }
+  },
+  "rule-providers.*.path": {
+    "example": "./rules/google.yaml",
+    "summary": {
+      "en": "Where the downloaded file is kept; empty names it after the link.",
+      "zh-Hans": "下载文件的保存位置，不填按链接自动命名。",
+      "zh-Hant": "下載檔案的儲存位置，不填依連結自動命名。"
+    },
+    "title": {
+      "en": "Save Path",
+      "zh-Hans": "保存路径",
+      "zh-Hant": "儲存路徑"
+    },
+    "unset": {
+      "en": "Automatic",
+      "zh-Hans": "自动",
+      "zh-Hant": "自動"
+    }
+  },
+  "rule-providers.*.path-in-bundle": {
+    "example": "geo/geosite/cn.mrs",
+    "summary": {
+      "en": "When the file is missing, unpack it from this path in BundleMRS.7z.",
+      "zh-Hans": "本地文件不存在时，从 BundleMRS.7z 的这个路径解压。",
+      "zh-Hant": "本機檔案不存在時，從 BundleMRS.7z 的這個路徑解壓縮。"
+    },
+    "title": {
+      "en": "Path in Bundle",
+      "zh-Hans": "包内路径",
+      "zh-Hant": "套件內路徑"
+    }
+  },
+  "rule-providers.*.payload": {
+    "example": "DOMAIN-SUFFIX,google.com",
+    "summary": {
+      "en": "Rules written here, used when the type is inline.",
+      "zh-Hans": "写在这里的规则，直接写入类型时使用。",
+      "zh-Hant": "寫在這裡的規則，直接寫入類型時使用。"
+    },
+    "title": {
+      "en": "Inline Rules",
+      "zh-Hans": "直接写入的规则",
+      "zh-Hant": "直接寫入的規則"
+    }
+  },
+  "rule-providers.*.proxy": {
+    "summary": {
+      "en": "The proxy or group used to download and update this rule set.",
+      "zh-Hans": "下载和更新时经过的代理或分组。",
+      "zh-Hant": "下載和更新時經過的代理或群組。"
+    },
+    "title": {
+      "en": "Proxy",
+      "zh-Hans": "下载所用代理",
+      "zh-Hant": "下載所用代理"
+    },
+    "unset": {
+      "en": "Direct",
+      "zh-Hans": "直连",
+      "zh-Hant": "直連"
+    }
+  },
+  "rule-providers.*.size-limit": {
+    "summary": {
+      "en": "The largest download allowed, in bytes; 0 means no limit.",
+      "zh-Hans": "允许下载的最大字节数，0 为不限。",
+      "zh-Hant": "允許下載的最大位元組數，0 為不限。"
+    },
+    "title": {
+      "en": "Size Limit",
+      "zh-Hans": "大小上限",
+      "zh-Hant": "大小上限"
+    },
+    "unset": {
+      "en": "No limit",
+      "zh-Hans": "不限",
+      "zh-Hant": "不限"
+    }
+  },
+  "rule-providers.*.type": {
+    "presets": [
+      {
+        "label": {
+          "en": "Link",
+          "zh-Hans": "链接",
+          "zh-Hant": "連結"
+        },
+        "value": "http"
+      },
+      {
+        "label": {
+          "en": "File",
+          "zh-Hans": "文件",
+          "zh-Hant": "檔案"
+        },
+        "value": "file"
+      },
+      {
+        "label": {
+          "en": "Written here",
+          "zh-Hans": "直接写入",
+          "zh-Hant": "直接寫入"
+        },
+        "value": "inline"
+      }
+    ],
+    "summary": {
+      "en": "Where the rules come from: a link, a file, or written inline.",
+      "zh-Hans": "规则从哪里来：链接、文件还是直接写在这里。",
+      "zh-Hant": "規則從哪裡來：連結、檔案還是直接寫在這裡。"
+    },
+    "title": {
+      "en": "Type",
+      "zh-Hans": "类型",
+      "zh-Hant": "類型"
+    }
+  },
+  "rule-providers.*.url": {
+    "example": "https://example.com/rules.yaml",
+    "summary": {
+      "en": "The link to download the rules from; needed for the link type.",
+      "zh-Hans": "下载规则的链接，链接类型必填。",
+      "zh-Hant": "下載規則的連結，連結類型必填。"
+    },
+    "title": {
+      "en": "Link",
+      "zh-Hans": "链接",
+      "zh-Hant": "連結"
+    }
+  }
+}

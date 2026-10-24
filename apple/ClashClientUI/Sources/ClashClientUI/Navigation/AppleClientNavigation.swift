@@ -1,0 +1,233 @@
+ 
+ 
+ 
+ 
+ 
+public enum AppleClientDestination: Hashable, Sendable {
+    public typealias UtilitiesDestination = ClashUtilitiesDestination
+    public typealias MoreDestination = ClashMoreDestination
+
+    case home
+    case profiles
+    case profileImport
+    case profileDetail(id: String)
+     
+     
+    case modules
+    case proxies
+    case rules
+    case activeRules
+    case dnsQuery
+    case configuration
+    case utilities(UtilitiesDestination)
+    case more(MoreDestination)
+
+     
+     
+    public static let catalogDestinations: [Self] = [
+        .profiles,
+        .proxies,
+        .rules,
+        .configuration,
+    ]
+        + ClashUtilitiesCatalog.sections
+            .flatMap(\.destinations)
+            .map(Self.utilities)
+        + ClashMoreCatalog.sections
+            .flatMap(\.destinations)
+            .map(Self.more)
+
+     
+     
+     
+     
+     
+     
+     
+    public var root: ClashRootDestination {
+        switch self {
+        case .home, .configuration:
+            .home
+        case .proxies:
+            .proxies
+         
+         
+        case .rules, .activeRules:
+            .rules
+        case .profiles, .profileImport, .profileDetail, .modules:
+            .profiles
+         
+         
+        case .dnsQuery:
+            .more
+        case .utilities(let destination):
+            switch destination {
+             
+             
+             
+             
+             
+            case .activity: .activity
+            case .connections, .requests, .logs: .activity
+             
+             
+            case .root, .networkQuality,
+                 .stun, .dnsQuery, .proxyShare, .runtime, .diagnosticsInbox:
+                .utilities
+            case .providers: .utilities
+            }
+        case .more(let destination):
+            switch destination {
+            case .about: .about
+             
+             
+             
+            case .root, .geoResources, .storage,
+                 .onDemand, .tunnel,
+                 .tunnelAndRoutes, .clientSettings,
+                 .appearance, .developer:
+                .more
+            }
+        }
+    }
+
+     
+     
+     
+     
+     
+     
+    public var isRoot: Bool {
+        self == root.productDestination
+    }
+
+    public var title: String {
+        switch self {
+        case .home:
+            ClashRootDestination.home.title
+        case .profiles:
+            "Profiles"
+        case .profileImport:
+             
+             
+            "Add Profile"
+        case .profileDetail:
+            "Profile"
+        case .modules:
+            "Modules"
+        case .proxies:
+            "Proxies"
+        case .rules:
+            "Rules"
+        case .activeRules:
+            "Active Rules"
+        case .dnsQuery:
+            "DNS Query"
+        case .configuration:
+            "Configuration"
+        case .utilities(let destination):
+            destination.title
+        case .more(let destination):
+            destination.title
+        }
+    }
+}
+
+public extension ClashRootDestination {
+     
+     
+     
+     
+    var productDestination: AppleClientDestination {
+        switch self {
+        case .home: .home
+        case .proxies: .proxies
+        case .rules: .rules
+        case .activity: .utilities(.activity)
+        case .profiles: .profiles
+        case .utilities: .utilities(.root)
+        case .more: .more(.root)
+        case .about: .more(.about)
+        }
+    }
+}
+
+ 
+ 
+ 
+ 
+ 
+public struct AppleClientNavigationState: Equatable, Sendable {
+    public private(set) var selectedRoot: ClashRootDestination
+    public private(set) var path: [AppleClientDestination]
+
+    public init(
+        selectedRoot: ClashRootDestination = .home,
+        path: [AppleClientDestination] = []
+    ) {
+        self.selectedRoot = selectedRoot
+        self.path = []
+        _ = replacePath(path)
+    }
+
+    public var destination: AppleClientDestination {
+        path.last ?? selectedRoot.productDestination
+    }
+
+    public mutating func selectRoot(_ root: ClashRootDestination) {
+        selectedRoot = root
+        path.removeAll()
+    }
+
+    public mutating func navigate(to destination: AppleClientDestination) {
+        guard !destination.isRoot else {
+            selectRoot(destination.root)
+            return
+        }
+        selectedRoot = destination.root
+        path = [destination]
+    }
+
+    public mutating func push(_ destination: AppleClientDestination) {
+        guard !destination.isRoot else {
+            selectRoot(destination.root)
+            return
+        }
+        if selectedRoot != destination.root {
+            selectedRoot = destination.root
+            path.removeAll()
+        }
+        path.append(destination)
+    }
+
+    public mutating func pop() {
+        guard !path.isEmpty else {
+            return
+        }
+        path.removeLast()
+    }
+
+    @discardableResult
+    public mutating func replacePath(
+        _ newPath: [AppleClientDestination]
+    ) -> Bool {
+        guard let first = newPath.first else {
+            path.removeAll()
+            return true
+        }
+        guard !first.isRoot,
+              newPath.allSatisfy({
+                  !$0.isRoot && $0.root == first.root
+              })
+        else {
+            return false
+        }
+        selectedRoot = first.root
+        path = newPath
+        return true
+    }
+
+    public mutating func popToRoot() {
+        path.removeAll()
+    }
+}
