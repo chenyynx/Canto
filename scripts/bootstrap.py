@@ -19,7 +19,13 @@ def checkout(name, pin):
         path.parent.mkdir(parents=True,exist_ok=True)
         run('git','clone',pin['repository'],str(path))
     remote=subprocess.check_output(['git','remote','get-url','origin'],cwd=path,text=True).strip()
-    if remote!=pin['repository']: raise RuntimeError('Unexpected dependency origin')
+    if remote!=pin['repository']:
+        # pin 换仓（例如切到自有镜像）时，缓存里的 checkout 仍指旧 origin。
+        # 只有工作区干净才允许丢弃重克隆；有本地改动说明是人为修改，不能悄悄删。
+        if subprocess.check_output(['git','status','--porcelain','--untracked-files=no'],cwd=path):
+            raise RuntimeError('Dependency origin changed and checkout has local changes')
+        shutil.rmtree(path)
+        run('git','clone',pin['repository'],str(path))
     if subprocess.check_output(['git','status','--porcelain','--untracked-files=no'],cwd=path):
         raise RuntimeError('Dependency checkout contains changes')
     run('git','fetch','origin',pin['revision'],cwd=path)

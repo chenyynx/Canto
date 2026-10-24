@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "kernel": {
-    "repository": "https://github.com/ProjectClash/Clash.git",
+    "repository": "https://github.com/chenyynx/Canto-Core.git",
     "revision": "d1aff39c8ede58fb7fb7ded32ec82611cd6a92c8"
   },
   "adapter": {
-    "repository": "https://github.com/ProjectClash/Clash-Adapter.git",
+    "repository": "https://github.com/chenyynx/Canto-Adapter.git",
     "revision": "bdf40d4148eca4ead785fe54d724abd79d020876"
   },
   "gomobile": "github.com/sagernet/gomobile/cmd/gomobile@v0.1.13",

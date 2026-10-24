@@ -1798,7 +1798,7 @@ final class ProfileActivationCoordinator {
          
         let (reusableProviders, reuseSource) = reusableProvidersDirectory(for: profile)
         activationReuseSource = reuseSource
-        let profileStore = self.profileStore
+        let profileStoreSnapshot = self.profileStore
         let publication = try await buildPublishActivate(
             profile: profile,
             merged: prepared,
@@ -1816,7 +1816,7 @@ final class ProfileActivationCoordinator {
              
              
             beforePublish: storedAtStart == nil ? nil : { [profileID = profile.id] in
-                let current = profileStore.load().first(where: { $0.id == profileID })
+                let current = profileStoreSnapshot.load().first(where: { $0.id == profileID })
                 guard current != nil else {
                     throw PipelineError.sourceUnavailable("the profile is no longer available")
                 }
@@ -1900,7 +1900,7 @@ final class ProfileActivationCoordinator {
          
          
         let written: Bool = try ProfileStore.withWriteLock {
-            let profiles = profileStore.load()
+            let profiles = profileStoreSnapshot.load()
             let otherLabels = profiles.filter { $0.id != profile.id }.map(\.label)
             let sidecarExists = FileManager.default.fileExists(atPath: sidecarURL(profileID: profile.id).path)
             guard let current = profiles.first(where: { $0.id == profile.id }) else {
@@ -1911,7 +1911,7 @@ final class ProfileActivationCoordinator {
                 var fresh = profile
                 applyActivationOwned(&fresh)
                 applyFetchOwned(&fresh, otherLabels: otherLabels)
-                try profileStore.upsert(fresh)
+                try profileStoreSnapshot.upsert(fresh)
                 if keepsSource, !givenSource || !sidecarExists {
                     try placeSidecar()
                 }
@@ -1922,7 +1922,7 @@ final class ProfileActivationCoordinator {
              
              
             let sourceUnchanged = sourceIsAsItWas(current)
-            try profileStore.updateIfPresent(id: profile.id) { record in
+            try profileStoreSnapshot.updateIfPresent(id: profile.id) { record in
                 applyActivationOwned(&record)
                 if sourceUnchanged { applyFetchOwned(&record, otherLabels: otherLabels) }
             }
