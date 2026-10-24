@@ -453,11 +453,14 @@ public final class ClashLogStore: @unchecked Sendable {
     public func append(
         _ message: String,
         stream: ClashLogStream = .app,
-        level: ClashLogLevel = .info
+        level: ClashLogLevel = .info,
+        force: Bool = false
     ) {
-         
-         
-        if let settings, !ClashLogSettings.isRecording(from: settings) { return }
+
+
+
+
+        if !force, let settings, !ClashLogSettings.isRecording(from: settings) { return }
          
          
          

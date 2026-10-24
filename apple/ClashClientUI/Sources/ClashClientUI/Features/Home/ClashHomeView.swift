@@ -114,6 +114,8 @@ public struct ClashHomeView<Icon: View>: View, Equatable {
     private var regularShellScrollsContent
     @Environment(\.clashRegularShellOwnsCanvas)
     private var regularShellOwnsCanvas
+    @Environment(\.cantoBridge)
+    private var cantoBridge: CantoBridgeProxy?
 
     private let snapshot: AppleClientSnapshot
     private let actions: AppleClientActions
@@ -368,6 +370,15 @@ public struct ClashHomeView<Icon: View>: View, Equatable {
         } else {
             commonContent
             runtimeConfigurationContent
+            cantoContent
+        }
+    }
+
+    @ViewBuilder
+    private var cantoContent: some View {
+        if let cantoBridge {
+            CantoHomeCard(proxy: cantoBridge, palette: palette, icon: icon)
+                .padding(.top, ClashTheme.Spacing.cardGap)
         }
     }
 

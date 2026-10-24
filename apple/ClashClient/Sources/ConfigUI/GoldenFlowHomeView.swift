@@ -138,6 +138,8 @@ struct GoldenFlowHomeAdapter: View {
     @ObservedObject var command: ClashCommandClient
     @ObservedObject var nodes: NodesModel
     @ObservedObject var stats: StatsModel
+    /// Canto 控制面桥（未启用/未装配时为 nil → 首页 Canto 卡隐藏）
+    var cantoBridge: ClashClientUI.CantoBridgeProxy?
     let profileRefreshToken: Int
      
      
@@ -234,6 +236,7 @@ struct GoldenFlowHomeAdapter: View {
         command: ClashCommandClient,
         nodes: NodesModel,
         stats: StatsModel,
+        cantoBridge: ClashClientUI.CantoBridgeProxy? = nil,
         profiles: ProfilesViewModel,
         profileRefreshToken: Int,
         pendingSessionPage:
@@ -269,6 +272,7 @@ struct GoldenFlowHomeAdapter: View {
         self.openDNSQuery = openDNSQuery
         self.rebind = rebind
         self.profiles = profiles
+        self.cantoBridge = cantoBridge
     }
 
     var body: some View {
@@ -294,6 +298,7 @@ struct GoldenFlowHomeAdapter: View {
             ClashSymbolImage(symbol: symbol)
         }
         .equatable()
+        .cantoBridge(cantoBridge)
          
          
         .environment(\.clashHomeIssueOpensAccount, true)
@@ -1171,21 +1176,7 @@ struct GoldenFlowHomeAdapter: View {
                 ),
                 traffic: ClashClientUI.ClashPerfExperiment.freezesTrafficFigures
                     ? AppleClientTrafficSnapshot()
-                    : AppleClientTrafficSnapshot(
-                    uploadBytesPerSecond: command.traffic.upload,
-                    downloadBytesPerSecond: command.traffic.download,
-                    uploadTotalBytes: command.traffic.uploadTotal,
-                    downloadTotalBytes: command.traffic.downloadTotal,
-                     
-                     
-                     
-                    uploadRatesBytesPerSecond:
-                        command.traffic.uploadHistory,
-                    downloadRatesBytesPerSecond:
-                        command.traffic.downloadHistory,
-                    coreStartedAtUnixSeconds:
-                        command.runtimeDiagnostics?.startTimeUnix ?? 0
-                ),
+                    : .zero,
                 proxyGroupCount: timedTally?.proxyGroups ?? 0,
                 proxyCount: timedTally?.proxies ?? 0,
                 ruleCount: timedTally?.rules ?? 0,

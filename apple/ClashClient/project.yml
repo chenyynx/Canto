@@ -632,6 +632,8 @@ targets:
     - path: ../ClashClientUI/Sources/ClashClientUI/Features/Widgets/ClashWidgetInterfaceAccounting.swift
       group: Shared
     - Shared
+    - path: ../CantoAgentKit/Sources/CantoAgentKit
+      group: CantoAgentKit
     - path: ../ClashClientUI/Sources/ClashClientUI/Features/Tunnel/ClashTunnelRouteShaping.swift
     - path: Resources/PrivacyInfo.xcprivacy
       buildPhase: resources

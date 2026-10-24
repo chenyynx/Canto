@@ -6,6 +6,8 @@ import WidgetKit
 
 @main
 struct ClashClientApp: App {
+    // P4：APNs 注册与静默推送唤醒（AppDelegate 挂钩）
+    @UIApplicationDelegateAdaptor(CantoPushService.self) private var cantoPushDelegate
     init() {
          
          
@@ -194,17 +196,27 @@ struct AppShellView: View {
     @StateObject private var stun = STUNTestModel()
     @StateObject private var connections = ConnectionsModel()
     @StateObject private var proxyShare = ProxyShareModel()
+    @StateObject private var trafficFeed = ClashClientUI.ClashTrafficFeed(traffic: .zero)
     @StateObject private var profileImports = ProfileImportRouter()
     @State private var navigationState = ClashClientUI.AppleClientNavigationState()
-     
-     
-     
+
+
+
     @State private var activityLens: ClashActivityLens = .connections
+
+    // MARK: Canto（远程 Agent 控制面）装配
+    // P2 全组件装配：身份库 → 配对/连接器/执行器 → 总桥（UI 经环境取用）。
+    // init 是 MainActor（View struct），可直接 assemble。
+    @State private var cantoBridgeController: CantoBridgeController?
 
     init() {
         let vpn = VPNController()
         _vpn = StateObject(wrappedValue: vpn)
-        _profiles = StateObject(wrappedValue: ProfilesViewModel(vpn: vpn, downloader: Self.downloader()))
+        let profiles = ProfilesViewModel(vpn: vpn, downloader: Self.downloader())
+        _profiles = StateObject(wrappedValue: profiles)
+        _cantoBridgeController = State(
+            initialValue: CantoBridgeController.assemble(vpn: vpn, profiles: profiles)
+        )
     }
 
      
@@ -384,6 +396,10 @@ struct AppShellView: View {
 
     var body: some View {
         debugGateShell
+            // CantoPushService 作为 AppDelegate 会在 didFinishLaunching 里把自己设为
+            // UNUserNotificationCenter 的 delegate；启动完成后恢复 Clash 的 delegate，
+            // 否则上游的通知点击与前台展示会被吞掉。
+            .task { ClashNotificationCenterDelegate.install() }
             .task { await collectResidentProfilesIfRequested() }
             .task { await applySoftMemoryLimitIfRequested() }
             .task { await logFootprintIfRequested() }
@@ -680,6 +696,11 @@ struct AppShellView: View {
              
              
             ICloudAutoBackup.shared.setForeground(phase == .active)
+            // P4：配对状态下注册 APNs（含被静默推送拉起的冷启动场景——
+            // scenePhase 转变时重试注册，幂等）
+            if phase != .background, cantoBridgeController?.isPaired == true {
+                CantoPushService.shared.registerIfNeeded()
+            }
             watchForPendingCompiles(phase == .active)
              
              
@@ -1004,6 +1025,20 @@ struct AppShellView: View {
          
          
         .environment(\.clashShellLayout, shellLayout)
+        .environment(\.clashTrafficFeed, trafficFeed)
+        .onReceive(command.$traffic) { traffic in
+            guard !ClashClientUI.ClashPerfExperiment.freezesTrafficFigures else { return }
+            trafficFeed.traffic = ClashClientUI.AppleClientTrafficSnapshot(
+                uploadBytesPerSecond: traffic.upload,
+                downloadBytesPerSecond: traffic.download,
+                uploadTotalBytes: traffic.uploadTotal,
+                downloadTotalBytes: traffic.downloadTotal,
+                uploadRatesBytesPerSecond: traffic.uploadHistory,
+                downloadRatesBytesPerSecond: traffic.downloadHistory,
+                coreStartedAtUnixSeconds:
+                    command.runtimeDiagnostics?.startTimeUnix ?? 0
+            )
+        }
 
          
          
@@ -1049,7 +1084,13 @@ struct AppShellView: View {
 
     private var compactTabShell: some View {
         TabView(selection: appTabSelection) {
-            homeRoot
+            // 2026-10-15：包 ClashFeatureNavigationContainer（与 utilities/more
+            // tab 同款）——首页此前没有任何 NavigationStack，Canto 卡的
+            // NavigationLink 静默无效（点击无反应）。包上后原生 push 生效，
+            // 其余卡片走 navigate(to:) 根切换不受影响。
+            ClashFeatureNavigationContainer {
+                homeRoot
+            }
             .tabItem {
                  
                  
@@ -1273,6 +1314,7 @@ struct AppShellView: View {
             command: command,
             nodes: nodes,
             stats: stats,
+            cantoBridge: cantoBridgeController.map(ClashClientUI.CantoBridgeProxy.init),
             profiles: profiles,
             profileRefreshToken: profileRefreshToken,
             pendingSessionPage: $pendingSessionPage,

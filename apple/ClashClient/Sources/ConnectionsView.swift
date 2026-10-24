@@ -58,7 +58,9 @@ struct ConnectionsView: View {
                     }
                 case .copyText(let value):
                     ClashClipboard.copy(value, feedback: feedback, operation: "connections.copy")
-                case .clearRequests, .clearLogs, .exportLogs, .setLogRecording, .setLogRetention,
+                case .clearRequests:
+                    model.clearRequestHistory()
+                case .clearLogs, .exportLogs, .setLogRecording, .setLogRetention,
                      .setLogSeverityFilter, .setLogLevelDirective, .openLogSettings:
                     break
                 }

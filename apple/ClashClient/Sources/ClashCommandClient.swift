@@ -1941,7 +1941,17 @@ return
     private func beginDiagnosticRequest() -> DiagnosticRequest? {
         let read: () async throws -> ClashRuntimeDiagnostics
         if let runtimeDiagnosticsReader { read = runtimeDiagnosticsReader }
-        else if let providerSession { read = { try await ClashClient(session: providerSession).runtimeDiagnostics() } }
+        else if let providerSession {
+            read = {
+                do {
+                    return try await ClashClient(session: providerSession).runtimeDiagnostics()
+                } catch {
+                    // 2026-10-22：重签环境下 provider message 被系统静默丢弃
+                    //（扩展根本收不到），诊断改读扩展按需写出的文件快照。
+                    return try await ClashClient.runtimeDiagnosticsFromAppGroup()
+                }
+            }
+        }
         else { return nil }
         scheduledDiagnosticsTask?.cancel(); scheduledDiagnosticsTask = nil
         runtimeDiagnosticsRequest &+= 1
@@ -3094,7 +3104,9 @@ return
         closeNativeControlAttempt()
         isConnected = false
         lastError = error.localizedDescription
-        noteConnectFailure("connect-failed:" + error.localizedDescription)
+        // session 状态一起记：能区分「消息发不出去」和「发出去没人回」。
+        let sessionStatus = providerSession.map { ClashClient.statusName($0.status) } ?? "nil"
+        noteConnectFailure("connect-failed:" + error.localizedDescription + " session=\(sessionStatus)")
          
          
         isReopeningControlSession = false

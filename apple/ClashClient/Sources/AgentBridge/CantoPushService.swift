@@ -124,7 +124,7 @@ final class CantoPushService: NSObject, UIApplicationDelegate, UNUserNotificatio
         let cantoPayload = userInfo["canto"] as? [String: Any]
         if isSilent, cantoPayload?["dev"] != nil {
             ClashLogStore.shared.append("canto push: wake received", stream: .app, level: .info)
-            DispatchQueue.main.async { self.onWake?() }
+            DispatchQueue.main.async { Self.shared.onWake?() }
             completionHandler(.newData)
             return
         }

@@ -76,12 +76,24 @@ enum ClashCommandCompatibilityError: LocalizedError, Equatable {
     case invalidPeerRange(minimum: Int32, current: Int32)
     case incompatible(localMinimum: Int32, localCurrent: Int32, peerMinimum: Int32, peerCurrent: Int32)
 
+
+
+    case transportNotReady
+    case transportNoReply
+    case malformedHello(String)
+
     var errorDescription: String? {
         switch self {
         case let .invalidPeerRange(minimum, current):
             return "Extension returned an invalid command schema range \(minimum)...\(current)."
         case let .incompatible(localMinimum, localCurrent, peerMinimum, peerCurrent):
             return "App command schema \(localMinimum)...\(localCurrent) is incompatible with Extension \(peerMinimum)...\(peerCurrent). Reinstall or update Clash."
+        case .transportNotReady:
+            return "The tunnel is not ready to receive commands yet."
+        case .transportNoReply:
+            return "The tunnel extension did not reply to the command session."
+        case let .malformedHello(reply):
+            return "The tunnel extension replied with an unreadable hello: \(reply)"
         }
     }
 }
@@ -649,17 +661,29 @@ private actor ClashIPCChannel {
     static let shared = ClashIPCChannel()
     static let timeoutNanoseconds: UInt64 = 15_000_000_000
 
+    private enum Outcome {
+        case reply(Data)
+        case emptyReply
+        case failure(NSError)
+        case timeout
+    }
+
     private struct Pending {
         let id: UUID
         let session: NETunnelProviderSession
         let data: Data
         let timeoutNanoseconds: UInt64
+        let began: DispatchTime
         let continuation: CheckedContinuation<Data?, Never>
     }
 
     private var queue: [Pending] = []
     private var current: Pending?
     private var timeoutTask: Task<Void, Never>?
+    // 诊断日志抑制：同样的失败 2s 内只记一条，被压掉的条数补在下一行。
+    // 没有它，「每秒重试」会把日志预算写穿（app 流只有 128KB）。
+    private var lastOutcomeLog: (text: String, at: Date)?
+    private var suppressedOutcomeLogs = 0
 
     func send(
         session: NETunnelProviderSession,
@@ -672,37 +696,104 @@ private actor ClashIPCChannel {
                 session: session,
                 data: data,
                 timeoutNanoseconds: timeoutNanoseconds,
+                began: DispatchTime.now(),
                 continuation: continuation
             ))
             startNextIfNeeded()
         }
     }
 
+    /// `ClashClient.send` 在 session 非 active 时会静默返回 nil——2026-10-21 的
+    /// 日志证明这条路径会让「压根没发」看起来和「扩展不回包」一模一样。
+    func noteSkipped(status: String) {
+        logOutcome("skipped session-not-active", status: status)
+    }
+
     private func startNextIfNeeded() {
         guard current == nil, !queue.isEmpty else { return }
         let pending = queue.removeFirst()
         current = pending
+        let status = ClashClient.statusName(pending.session.status)
         do {
             try pending.session.sendProviderMessage(pending.data) { [weak self] reply in
-                Task { await self?.finish(id: pending.id, reply: reply) }
+                Task {
+                    await self?.finish(
+                        id: pending.id,
+                        outcome: reply.map(Outcome.reply) ?? .emptyReply,
+                        status: status
+                    )
+                }
             }
         } catch {
-            finish(id: pending.id, reply: nil)
+            // 2026-10-21：底层错误必须可见——sendProviderMessage 抛出的
+            // NSError（domain/code）此前被吞成 nil reply，导致「扩展不回包」
+            // 无法与「发送即失败」区分。
+            let nsError = error as NSError
+            NSLog(
+                "canto-ipc sendProviderMessage failed domain=%@ code=%d msg=%@",
+                nsError.domain, nsError.code,
+                nsError.localizedDescription
+            )
+            logOutcome(
+                "send failed domain=\(nsError.domain) code=\(nsError.code) msg=\(nsError.localizedDescription)",
+                status: status
+            )
+            finish(id: pending.id, outcome: .failure(nsError), status: status)
             return
         }
         timeoutTask = Task { [weak self] in
             try? await Task.sleep(nanoseconds: pending.timeoutNanoseconds)
-            await self?.finish(id: pending.id, reply: nil)
+            await self?.finish(id: pending.id, outcome: .timeout, status: status)
         }
     }
 
-    private func finish(id: UUID, reply: Data?) {
+    private func finish(id: UUID, outcome: Outcome, status: String) {
         guard let pending = current, pending.id == id else { return }
         timeoutTask?.cancel()
         timeoutTask = nil
         current = nil
+        let elapsed = Self.milliseconds(since: pending.began)
+        let reply: Data?
+        switch outcome {
+        case let .reply(data):
+            reply = data
+        case .emptyReply:
+            logOutcome("reply empty elapsed=\(elapsed)ms", status: status)
+            reply = nil
+        case .failure:
+            // domain/code 与耗时已在 startNextIfNeeded 的 catch 里记过。
+            reply = nil
+        case .timeout:
+            logOutcome("timeout elapsed=\(elapsed)ms", status: status)
+            reply = nil
+        }
         pending.continuation.resume(returning: reply)
         startNextIfNeeded()
+    }
+
+    /// 强制写入（不受「日志录制」开关影响）：这条通道的诊断信息是排查
+    /// 「VPN 已连但显示未连接」的唯一线索，用户关掉日志录制也必须留下。
+    private func logOutcome(_ text: String, status: String) {
+        let now = Date()
+        if let last = lastOutcomeLog, last.text == text, now.timeIntervalSince(last.at) < 2 {
+            suppressedOutcomeLogs += 1
+            return
+        }
+        let suffix = suppressedOutcomeLogs > 0 ? " suppressed=\(suppressedOutcomeLogs)" : ""
+        suppressedOutcomeLogs = 0
+        lastOutcomeLog = (text, now)
+        ClashLogStore.shared.append(
+            "ipc \(text) status=\(status)\(suffix)",
+            stream: .app,
+            level: .warning,
+            force: true
+        )
+    }
+
+    private static func milliseconds(since began: DispatchTime) -> Int {
+        let now = DispatchTime.now().uptimeNanoseconds
+        guard now >= began.uptimeNanoseconds else { return 0 }
+        return Int((now - began.uptimeNanoseconds) / 1_000_000)
     }
 }
 
@@ -719,9 +810,14 @@ struct ClashClient {
         _ payload: [String: Any],
         timeoutNanoseconds: UInt64 = ClashIPCChannel.timeoutNanoseconds
     ) async -> Data? {
-        guard isVPNActive,
-              let data = try? JSONSerialization.data(withJSONObject: payload)
-        else { return nil }
+        guard let data = try? JSONSerialization.data(withJSONObject: payload) else {
+            return nil
+        }
+        guard isVPNActive else {
+            // 这条分支以前是静默的；它和「扩展不回包」在日志里无法区分。
+            await ClashIPCChannel.shared.noteSkipped(status: Self.statusName(session.status))
+            return nil
+        }
         return await ClashIPCChannel.shared.send(
             session: session,
             data: data,
@@ -729,19 +825,115 @@ struct ClashClient {
         )
     }
 
+    static func statusName(_ status: NEVPNStatus) -> String {
+        switch status {
+        case .invalid: return "invalid"
+        case .disconnected: return "disconnected"
+        case .connecting: return "connecting"
+        case .connected: return "connected"
+        case .reasserting: return "reasserting"
+        case .disconnecting: return "disconnecting"
+        @unknown default: return "unknown(\(status.rawValue))"
+        }
+    }
+
     func hello() async throws -> ClashCommandHello {
-        guard let data = await send(["cmd": "hello"]) else {
-            throw ClashCommandCompatibilityError.invalidPeerRange(minimum: 0, current: 0)
+        guard await waitUntilActive(upToNanoseconds: 3_000_000_000) else {
+            ClashLogStore.shared.append(
+                "control hello not-ready status=\(Self.statusName(session.status))",
+                stream: .app, level: .warning, force: true
+            )
+            throw ClashCommandCompatibilityError.transportNotReady
+        }
+        ClashLogStore.shared.append(
+            "control hello begin status=\(Self.statusName(session.status))",
+            stream: .app, level: .info, force: true
+        )
+        // 2026-10-21：session 变 connected 不等于扩展已跑完 startTunnel
+        //（配置解析 + TUN + 控制面 1-2s）。此前一次 15s 硬等会整段落空，
+        // 现在改为 2s 短超时 + 5 次重试（累计约 12s），覆盖扩展启动窗口。
+        var lastReply: Data?
+        for attempt in 0..<5 {
+            if let data = await send(
+                ["cmd": "hello"],
+                timeoutNanoseconds: 2_000_000_000
+            ) {
+                lastReply = data
+                break
+            }
+            if attempt < 4 {
+                try? await Task.sleep(nanoseconds: 500_000_000)
+            }
+        }
+        guard let data = lastReply else {
+            // 兜底：扩展启动时会把 hello 写进 App Group 并每 60s 刷新。
+            // 消息通道被系统拒绝时（重签环境），直接拿文件里的
+            // schema 去连 clash.sock——连接/流量/节点/日志就能恢复显示。
+            if let fallback = Self.appGroupHello() {
+                ClashLogStore.shared.append(
+                    "control hello ok source=app-group-file age=\(Int(fallback.age))s core=\(fallback.hello.coreVersion)",
+                    stream: .app, level: .warning, force: true
+                )
+                return fallback.hello
+            }
+            ClashLogStore.shared.append(
+                "control hello failed status=\(Self.statusName(session.status)) fallback=unavailable",
+                stream: .app, level: .warning, force: true
+            )
+            throw ClashCommandCompatibilityError.transportNoReply
         }
         do {
             let hello = try JSONDecoder().decode(ClashCommandHello.self, from: data)
             try hello.validate()
+            ClashLogStore.shared.append(
+                "control hello ok peer=\(hello.minSchemaVersion)...\(hello.schemaVersion) core=\(hello.coreVersion)",
+                stream: .app, level: .info
+            )
             return hello
         } catch let error as ClashCommandCompatibilityError {
             throw error
         } catch {
-            throw ClashCommandCompatibilityError.invalidPeerRange(minimum: 0, current: 0)
+            let raw = String(data: data.prefix(200), encoding: .utf8) ?? "<binary>"
+            throw ClashCommandCompatibilityError.malformedHello(raw)
         }
+    }
+
+    /// 隧道刚变 connected 的头几十毫秒内，session 状态与扩展消息通道尚未就绪，
+    /// 立即发 hello 会直接拿到 nil（旧代码把它误报成 schema 0...0）。
+    /// 这里按需轮询等待，最多 3 秒。
+    private func waitUntilActive(upToNanoseconds limit: UInt64) async -> Bool {
+        if isVPNActive { return true }
+        let step: UInt64 = 100_000_000
+        var waited: UInt64 = 0
+        while waited < limit {
+            try? await Task.sleep(nanoseconds: step)
+            waited += step
+            if isVPNActive { return true }
+        }
+        return isVPNActive
+    }
+
+    /// 读扩展写下的 hello 兜底文件。心跳 60s 一次，超过 180s 视为扩展已不在
+    /// （避免 VPN 重启后拿到上一次进程的陈旧 schema）。
+    private static func appGroupHello(now: Date = Date()) -> (hello: ClashCommandHello, age: TimeInterval)? {
+        guard let container = ClashAppIdentifiers.resolvedAppGroupContainer
+            ?? ClashAppIdentifiers.appGroupContainer,
+            let payload = CantoIpcHelloFile.read(in: container)
+        else { return nil }
+        let age = now.timeIntervalSince1970 - Double(payload.writtenAtUnix)
+        guard age >= -5, age <= CantoIpcHelloFile.maximumAgeSeconds else { return nil }
+        let hello = ClashCommandHello(
+            schemaVersion: payload.schemaVersion,
+            minSchemaVersion: payload.minSchemaVersion,
+            coreVersion: payload.coreVersion,
+            capabilities: payload.capabilities
+        )
+        do {
+            try hello.validate()
+        } catch {
+            return nil
+        }
+        return (hello, age)
     }
 
 
@@ -751,6 +943,48 @@ struct ClashClient {
             throw URLError(.cannotConnectToHost)
         }
         return try JSONDecoder().decode(ClashRuntimeDiagnostics.self, from: data)
+    }
+
+    /// provider message 被系统拒绝时的诊断读取：先落请求标记（扩展 1s 轮询），
+    /// 再等扩展把同一份 JSON 写进共享容器。连接列表的运行时身份确认依赖它。
+    static func runtimeDiagnosticsFromAppGroup() async throws -> ClashRuntimeDiagnostics {
+        guard let container = ClashAppIdentifiers.resolvedAppGroupContainer
+            ?? ClashAppIdentifiers.appGroupContainer
+        else { throw URLError(.cannotConnectToHost) }
+        CantoIpcDiagnosticsFile.request(in: container)
+        let deadline = Date().addingTimeInterval(2.5)
+        while Date() < deadline {
+            if Task.isCancelled { throw CancellationError() }
+            try? await Task.sleep(nanoseconds: 200_000_000)
+            if let sample = CantoIpcDiagnosticsFile.read(in: container),
+               sample.age <= CantoIpcDiagnosticsFile.maximumAgeSeconds {
+                do {
+                    let diagnostics = try JSONDecoder().decode(ClashRuntimeDiagnostics.self, from: sample.data)
+                    noteFileDiagnostics("ipc diagnostics ok source=app-group-file age=\(Int(sample.age))s")
+                    return diagnostics
+                } catch {
+                    throw URLError(.cannotParseResponse)
+                }
+            }
+        }
+        noteFileDiagnostics("ipc diagnostics failed source=app-group-file age=timeout")
+        throw URLError(.timedOut)
+    }
+
+    private static let diagnosticsFileLogLock = NSLock()
+    private static var lastDiagnosticsFileLog: (message: String, at: Date)?
+
+    /// 文件通道是否生效对排查很关键，但每次诊断请求都记会刷屏：同一内容 60s 一条。
+    private static func noteFileDiagnostics(_ message: String) {
+        diagnosticsFileLogLock.lock()
+        let now = Date()
+        let shouldLog = ControlConnectFailureLogGate.shouldLog(
+            message, after: lastDiagnosticsFileLog, now: now
+        )
+        if shouldLog { lastDiagnosticsFileLog = (message, now) }
+        diagnosticsFileLogLock.unlock()
+        guard shouldLog else { return }
+        ClashLogStore.shared.append(message, stream: .app, level: .warning, force: true)
     }
 
     func forceGarbageCollection() async throws {

@@ -84,6 +84,14 @@ final class ExtensionProvider: NSObject {
             root: ClashAppIdentifiers.appGroupContainer ?? FileManager.default.temporaryDirectory
         )
     )
+
+    /// Canto App↔EC 指令通道（mailbox v2）：独立文件域 canto/mailbox/，
+    /// HMAC+nonce+时间戳鉴权；不触碰 widget mailbox 任何路径。
+    lazy var cantoMailbox = CantoMailboxService(
+        root: ClashAppIdentifiers.appGroupContainer ?? FileManager.default.temporaryDirectory,
+        defaults: UserDefaults(suiteName: ClashAppIdentifiers.appGroup) ?? .standard,
+        control: CantoAgentControlService(provider: self)
+    )
 #endif
     private var service: ClashBoxService?
      
@@ -136,6 +144,12 @@ final class ExtensionProvider: NSObject {
     private var pathRecoveredSinceApply = false
     private var appliedInterfaceName: String?
     private var pathReapplyTask: Task<Void, Never>?
+    /// 控制通道兜底：provider message 被系统拒绝时，App 读 App Group 里的
+    /// hello 文件直接连 socket（见 CantoIpcHelloFile）。
+    private var ipcHelloHeartbeat: Task<Void, Never>?
+    /// 诊断快照中继：App 用请求标记表达「现在要」，扩展按需写文件
+    /// （见 CantoIpcDiagnosticsFile）。
+    private var diagnosticsRelayTask: Task<Void, Never>?
 #if os(macOS)
      
      
@@ -761,6 +775,8 @@ final class ExtensionProvider: NSObject {
             try await start0(samplingToken: &samplingToken, userInitiated: userInitiated)
             try lifecycle.didStart()
             startupMemorySampler.mark("tunnel-up", token: samplingToken)
+            startIpcHelloHeartbeat()
+            startDiagnosticsRelay()
             await operationGate.leave()
         } catch {
              
@@ -807,6 +823,61 @@ final class ExtensionProvider: NSObject {
             await operationGate.leave()
             throw error
         }
+    }
+
+    // MARK: - 控制通道兜底（App Group hello 文件）
+
+    /// 扩展启动完成时写一份 hello 到共享容器，之后每 60s 刷新。
+    /// `writtenAtUnix` 就是「扩展还活着」的证明：App 只在 180s 内采信。
+    private func startIpcHelloHeartbeat() {
+        guard let container = ClashAppIdentifiers.resolvedAppGroupContainer else {
+            ClashLogStore.shared.append(
+                "ipc hello file skipped: no shared app group container",
+                stream: .app, level: .warning, force: true
+            )
+            return
+        }
+        let startedAtUnix = Int64(Date().timeIntervalSince1970)
+        writeIpcHelloFile(container: container, startedAtUnix: startedAtUnix)
+        ipcHelloHeartbeat?.cancel()
+        ipcHelloHeartbeat = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: CantoIpcHelloFile.heartbeatNanoseconds)
+                guard !Task.isCancelled, let self else { return }
+                self.writeIpcHelloFile(container: container, startedAtUnix: startedAtUnix)
+            }
+        }
+    }
+
+    /// 诊断中继循环：1s 轮询一次请求标记，新鲜就用当前 service 生成诊断 JSON。
+    /// 不用定时无条件写——避免 VPN 常驻时每秒写闪存。
+    private func startDiagnosticsRelay() {
+        guard let container = ClashAppIdentifiers.resolvedAppGroupContainer else { return }
+        diagnosticsRelayTask?.cancel()
+        diagnosticsRelayTask = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: 1_000_000_000)
+                guard !Task.isCancelled, let self else { return }
+                guard let age = CantoIpcDiagnosticsFile.requestAge(in: container),
+                      age <= CantoIpcDiagnosticsFile.requestLifetimeSeconds
+                else { continue }
+                guard let service = self.currentService else { continue }
+                CantoIpcDiagnosticsFile.write(self.runtimeDiagnosticsData(service), in: container)
+            }
+        }
+    }
+
+    private func writeIpcHelloFile(container: URL, startedAtUnix: Int64) {
+        let payload = CantoIpcHelloFile.Payload(
+            schemaVersion: ClashCommandSchemaVersion,
+            minSchemaVersion: ClashCommandSchemaMinVersion,
+            coreVersion: ClashVersion(),
+            capabilities: ["stun-v1", ProviderReloadEnvelope.capability],
+            processIdentifier: ProcessInfo.processInfo.processIdentifier,
+            startedAtUnix: startedAtUnix,
+            writtenAtUnix: Int64(Date().timeIntervalSince1970)
+        )
+        CantoIpcHelloFile.write(payload, in: container)
     }
 
     private func start0(
@@ -1426,6 +1497,11 @@ final class ExtensionProvider: NSObject {
          
          
         let stopBegan = DispatchTime.now()
+        // 心跳必须停：否则扩展停了文件还新鲜，App 会拿过期 hello 去连 socket。
+        ipcHelloHeartbeat?.cancel()
+        ipcHelloHeartbeat = nil
+        diagnosticsRelayTask?.cancel()
+        diagnosticsRelayTask = nil
         await operationGate.enter()
         let gateWaitMs = Self.milliseconds(since: stopBegan)
         guard lifecycle.beginStop() else {
