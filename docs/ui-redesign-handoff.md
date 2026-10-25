@@ -6,7 +6,7 @@
 
 ## 2. 仓库与分支
 
-- 工作副本：`/data/hako/Hako-Client`（目录名仍叫 Hako，`/data/hako` 属 root 不可写）
+- 工作副本：`/data/canto/Canto`（2026-10-25 本地目录已迁移并改名为 Canto）
 - 分支：`sync/upstream-full-20261024`（全量同步工作分支），工作区应保持干净
 - 回滚：tag `pre-sync-20261024`（c7a63dc）
 - 仓库（均公开）：
@@ -67,7 +67,7 @@
 
 ## 6. 关键路径
 
-- App 入口：`/data/hako/Hako-Client/apple/ClashClient/Sources/ClashClientApp.swift`
+- App 入口：`/data/canto/Canto/apple/ClashClient/Sources/ClashClientApp.swift`
 - 首页：`apple/ClashClient/Sources/ConfigUI/GoldenFlowHomeView.swift`、`apple/ClashClientUI/Sources/ClashClientUI/Features/Home/ClashHomeView.swift`
 - Canto 卡：`apple/ClashClientUI/Sources/ClashClientUI/Features/Canto/CantoHomeCard.swift`
 - 主题/图标：`apple/ClashClientUI/Sources/ClashClientUI/ClashTheme.swift`、`ClashSymbol`
@@ -84,12 +84,12 @@
 ## 8. 新会话提示词（直接粘贴）
 
 ```
-读 /data/hako/Hako-Client/docs/ui-redesign-handoff.md 和 /data/hako/Hako-Client/docs/upstream-full-sync-task-sheet.md。
+读 /data/canto/Canto/docs/ui-redesign-handoff.md 和 /data/canto/Canto/docs/upstream-full-sync-task-sheet.md。
 
 任务：先派多个子代理并行审查客户端现有功能，产出功能清单 docs/feature-inventory.md，把清单给我确认；**先不要改 UI 代码**。
 
 子代理按域拆分：首页仪表盘、连接/请求、配置/订阅/策略、日志/诊断、设置/系统集成、Canto/Agent、内核能力面、UI 主题与组件。
 每条统一格式：功能名 / 用户入口 / 代码位置 / 实现状态（可用｜半成品｜仅内核无 UI）/ 备注。
 
-约束：工作副本 /data/hako/Hako-Client，分支 sync/upstream-full-20261024，工作区保持干净；不 push main、不合并；不写 token。
+约束：工作副本 /data/canto/Canto，分支 sync/upstream-full-20261024，工作区保持干净；不 push main、不合并；不写 token。
 ```

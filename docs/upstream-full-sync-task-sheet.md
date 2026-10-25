@@ -9,7 +9,7 @@
 
 - 以 `ProjectClash/Clash-Client@3b8ea95` 为树基座全量导入。
 - 保留本地改动：P0 文件通道/IPC 修复、Agent/Canto、CI、构建标识、连接流优化。
-- 品牌层已完成：产品名 Canto，Hako/Anchor 功能名全部清掉；上游 `Clash*` 内部代码名保留。
+- 品牌层已完成：产品名 Canto，旧产品名/功能名全部清掉；上游 `Clash*` 内部代码名保留。
 - 不做全局 Clash→Canto 改名；内部保留 upstream 的 `Clash*` 命名，避免每次同步重跑改名。
 
 ## 2. 上游事实（2026-10-24 实测）
