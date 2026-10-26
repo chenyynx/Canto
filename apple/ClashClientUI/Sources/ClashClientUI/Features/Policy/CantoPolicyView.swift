@@ -36,7 +36,7 @@ public struct CantoPolicyItem: Identifiable, Equatable {
 public struct CantoPolicyView: View {
     // 74 是默认字号下的视觉基线；大字号下文字换行撑高时，
     // 最小高度跟着放大，避免固定高度把文字挤在一起。
-    @ScaledMetric(relativeTo: .body) private var minimumRowHeight: CGFloat = 74
+    @ScaledMetric(relativeTo: .body) private var minimumRowHeight: CGFloat = 66
 
     private let title: String
     private let items: [CantoPolicyItem]
@@ -96,7 +96,7 @@ public struct CantoPolicyView: View {
     private var header: some View {
         HStack(alignment: .center, spacing: CantoTheme.Spacing.standard) {
             Text(clash: .copy(title))
-                .font(.largeTitle.weight(.black))
+                .font(CantoTheme.Typography.pageTitle)
                 .foregroundStyle(CantoTheme.Palette.ink)
                 .fixedSize(horizontal: false, vertical: true)
                 .accessibilityAddTraits(.isHeader)
@@ -107,9 +107,11 @@ public struct CantoPolicyView: View {
             Image(systemName: "ellipsis")
                 .font(.system(size: 16, weight: .semibold))
                 .foregroundStyle(CantoTheme.Palette.ink)
-                .frame(width: 36, height: 36)
+                .frame(width: 32, height: 32)
                 .background(Circle().fill(CantoTheme.Palette.card))
-                .shadow(color: .black.opacity(0.035), radius: 10, x: 0, y: 2)
+                .overlay(
+                    Circle().stroke(CantoTheme.Palette.separator, lineWidth: 1)
+                )
                 .accessibilityHidden(true)
         }
     }
@@ -140,7 +142,7 @@ public struct CantoPolicyView: View {
                             if let latency = item.latency, !latency.isEmpty {
                                 // 延迟是数字，用等宽数字避免数值变化时行内抖动。
                                 Text(verbatim: latency)
-                                    .font(CantoTheme.Typography.rowSubtitle.monospacedDigit())
+                                    .font(CantoTheme.Typography.caption.monospacedDigit())
                                     .foregroundStyle(CantoTheme.Palette.secondaryInk)
                                     .fixedSize(horizontal: true, vertical: false)
                             }
@@ -152,7 +154,7 @@ public struct CantoPolicyView: View {
                 Spacer(minLength: CantoTheme.Spacing.compact)
 
                 Text(clash: .copy("select"))
-                    .font(CantoTheme.Typography.rowSubtitle)
+                    .font(CantoTheme.Typography.caption)
                     .foregroundStyle(
                         item.isSelected
                             ? CantoTheme.Palette.accent
@@ -167,7 +169,7 @@ public struct CantoPolicyView: View {
             .frame(maxWidth: .infinity, minHeight: minimumRowHeight, alignment: .leading)
             .background(shape.fill(CantoTheme.Palette.card))
             .clipShape(shape)
-            .shadow(color: .black.opacity(0.035), radius: 10, x: 0, y: 2)
+            .overlay(shape.stroke(CantoTheme.Palette.separator, lineWidth: 1))
             .contentShape(shape)
         }
         .buttonStyle(.plain)
@@ -177,25 +179,20 @@ public struct CantoPolicyView: View {
 
     private func iconWell(for item: CantoPolicyItem) -> some View {
         Image(systemName: item.systemImage)
-            .font(.system(size: 17, weight: .semibold))
-            .foregroundStyle(item.tint)
-            .frame(width: 36, height: 36)
-            .background(
-                RoundedRectangle(cornerRadius: 11, style: .continuous)
-                    .fill(item.tint.opacity(0.12))
+            .font(.system(size: 18, weight: .regular))
+            .foregroundStyle(
+                item.isSelected
+                    ? CantoTheme.Palette.accent
+                    : CantoTheme.Palette.secondaryInk
             )
+            .frame(width: 22, height: 22)
             .accessibilityHidden(true)
     }
 
     private var chevron: some View {
-        Circle()
-            .fill(CantoTheme.Palette.canvas)
-            .frame(width: 22, height: 22)
-            .overlay(
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 9, weight: .semibold))
-                    .foregroundStyle(CantoTheme.Palette.secondaryInk)
-            )
+        Image(systemName: "chevron.right")
+            .font(.system(size: 9, weight: .semibold))
+            .foregroundStyle(CantoTheme.Palette.secondaryInk)
             .accessibilityHidden(true)
     }
 

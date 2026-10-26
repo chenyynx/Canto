@@ -6,7 +6,7 @@ public struct CantoChevron: View {
 
     public var body: some View {
         Image(systemName: "chevron.right")
-            .font(.footnote.weight(.semibold))
+            .font(.system(size: 10, weight: .semibold))
             .foregroundStyle(CantoTheme.Palette.secondaryInk)
             .accessibilityHidden(true)
     }

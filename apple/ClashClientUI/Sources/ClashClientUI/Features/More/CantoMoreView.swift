@@ -59,7 +59,7 @@ public struct CantoMoreView: View {
 
     private var title: some View {
         Text(clash: .copy("More"))
-            .font(.largeTitle.weight(.black))
+            .font(CantoTheme.Typography.pageTitle)
             .foregroundStyle(CantoTheme.Palette.ink)
             .frame(maxWidth: .infinity, alignment: .leading)
             .accessibilityAddTraits(.isHeader)
@@ -99,7 +99,7 @@ public struct CantoMoreView: View {
                 title: title(for: destination),
                 subtitle: subtitle(for: destination),
                 systemImage: destination.systemImage,
-                iconTint: destination.iconTint,
+                iconTint: CantoTheme.Palette.secondaryInk,
                 showsDivider: showsDivider
             )
         }

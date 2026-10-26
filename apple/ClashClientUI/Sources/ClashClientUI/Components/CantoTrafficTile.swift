@@ -5,9 +5,9 @@ public enum CantoTrafficDirection {
     case download
 }
 
-// 仪表双流量卡：上传绿、下载紫，白字压在渐变上，右下角箭头只是装饰性水印。
+// 仪表双流量卡：扁平白卡，数字为主，方向只用一个语义色小箭头。
 public struct CantoTrafficTile: View {
-    @ScaledMetric(relativeTo: .body) private var tileHeight: CGFloat = 88
+    @ScaledMetric(relativeTo: .body) private var tileHeight: CGFloat = 78
 
     private let direction: CantoTrafficDirection
     private let label: String
@@ -28,42 +28,37 @@ public struct CantoTrafficTile: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: CantoTheme.Spacing.tight) {
-            Text(label)
-                .font(CantoTheme.Typography.caption)
-                .foregroundStyle(.white.opacity(0.9))
+            HStack(spacing: CantoTheme.Spacing.tight) {
+                Image(systemName: direction.symbolName)
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(direction.tint)
+                    .accessibilityHidden(true)
+                Text(label)
+                    .font(CantoTheme.Typography.caption)
+                    .foregroundStyle(CantoTheme.Palette.secondaryInk)
+            }
+
             Text(value)
                 .font(CantoTheme.Typography.metric)
-                .foregroundStyle(.white)
+                .foregroundStyle(CantoTheme.Palette.ink)
                 .lineLimit(1)
-                // 数值是等宽字体，列宽被网格二次压缩时宁可整体缩小也不截断数字。
-                .minimumScaleFactor(0.6)
-            Spacer(minLength: CantoTheme.Spacing.tight)
+                .minimumScaleFactor(0.65)
+
             Text(caption)
                 .font(CantoTheme.Typography.caption)
-                .foregroundStyle(.white.opacity(0.8))
-                .fixedSize(horizontal: false, vertical: true)
+                .foregroundStyle(CantoTheme.Palette.secondaryInk)
+                .lineLimit(1)
         }
-        .padding(.horizontal, CantoTheme.Spacing.standard)
-        .padding(.vertical, CantoTheme.Spacing.row)
+        .padding(CantoTheme.Spacing.standard)
         .frame(maxWidth: .infinity, minHeight: tileHeight, alignment: .leading)
         .background(
-            LinearGradient(
-                gradient: Gradient(colors: direction.gradientColors),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
+            RoundedRectangle(cornerRadius: CantoTheme.Radius.card, style: .continuous)
+                .fill(CantoTheme.Palette.card)
         )
-        .clipShape(RoundedRectangle(cornerRadius: CantoTheme.Radius.card, style: .continuous))
-        .overlay(alignment: .bottomTrailing) {
-            Image(systemName: direction.symbolName)
-                .font(.system(size: 26, weight: .semibold))
-                .foregroundStyle(.white.opacity(0.28))
-                .frame(width: 44, height: 44)
-                .padding(.trailing, CantoTheme.Spacing.compact)
-                .padding(.bottom, CantoTheme.Spacing.tight)
-                .allowsHitTesting(false)
-                .accessibilityHidden(true)
-        }
+        .overlay(
+            RoundedRectangle(cornerRadius: CantoTheme.Radius.card, style: .continuous)
+                .stroke(CantoTheme.Palette.separator, lineWidth: 1)
+        )
         .accessibilityElement(children: .combine)
     }
 }
@@ -71,26 +66,15 @@ public struct CantoTrafficTile: View {
 private extension CantoTrafficDirection {
     var symbolName: String {
         switch self {
-        case .upload:
-            return "arrow.up"
-        case .download:
-            return "arrow.down"
+        case .upload: return "arrow.up"
+        case .download: return "arrow.down"
         }
     }
 
-    // 任务单指定色值，不跟随深浅色主题变化：两块卡在两种外观下都要保持同一识别度。
-    var gradientColors: [Color] {
+    var tint: Color {
         switch self {
-        case .upload:
-            return [
-                Color(red: 0x63 / 255.0, green: 0xD6 / 255.0, blue: 0xA0 / 255.0),
-                Color(red: 0x45 / 255.0, green: 0xC0 / 255.0, blue: 0x8A / 255.0)
-            ]
-        case .download:
-            return [
-                Color(red: 0x8A / 255.0, green: 0x7B / 255.0, blue: 0xF7 / 255.0),
-                Color(red: 0x6A / 255.0, green: 0x5A / 255.0, blue: 0xE8 / 255.0)
-            ]
+        case .upload: return CantoTheme.Palette.success
+        case .download: return CantoTheme.Palette.accent
         }
     }
 }

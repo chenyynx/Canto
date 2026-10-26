@@ -50,23 +50,19 @@ public struct CantoGroupRow<Trailing: View>: View {
     public var body: some View {
         HStack(spacing: CantoTheme.Spacing.row) {
             Image(systemName: systemImage)
-                .font(.system(size: 16, weight: .semibold))
+                .font(.system(size: 18, weight: .regular))
                 .foregroundStyle(iconTint)
-                .frame(width: 32, height: 32)
-                .background(
-                    RoundedRectangle(cornerRadius: 9, style: .continuous)
-                        .fill(iconTint.opacity(0.12))
-                )
+                .frame(width: 22, height: 22)
                 .accessibilityHidden(true)
 
-            VStack(alignment: .leading, spacing: CantoTheme.Spacing.tight) {
+            VStack(alignment: .leading, spacing: 2) {
                 Text(title)
                     .font(CantoTheme.Typography.rowTitle)
                     .foregroundStyle(CantoTheme.Palette.ink)
                     .fixedSize(horizontal: false, vertical: true)
                 if let subtitle, !subtitle.isEmpty {
                     Text(subtitle)
-                        .font(CantoTheme.Typography.rowSubtitle)
+                        .font(CantoTheme.Typography.caption)
                         .foregroundStyle(CantoTheme.Palette.secondaryInk)
                         .fixedSize(horizontal: false, vertical: true)
                 }
@@ -78,14 +74,14 @@ public struct CantoGroupRow<Trailing: View>: View {
             trailing
         }
         .padding(.horizontal, CantoTheme.Spacing.standard)
-        .padding(.vertical, CantoTheme.Spacing.row)
-        .frame(maxWidth: .infinity, minHeight: 60, alignment: .leading)
+        .padding(.vertical, 10)
+        .frame(maxWidth: .infinity, minHeight: 52, alignment: .leading)
         .overlay(alignment: .bottom) {
             if showsDivider {
                 Rectangle()
                     .fill(CantoTheme.Palette.separator)
                     .frame(height: 1)
-                    .padding(.leading, 32 + CantoTheme.Spacing.row + CantoTheme.Spacing.standard)
+                    .padding(.leading, 22 + CantoTheme.Spacing.row + CantoTheme.Spacing.standard)
             }
         }
     }

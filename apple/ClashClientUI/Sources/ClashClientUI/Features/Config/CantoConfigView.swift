@@ -120,7 +120,7 @@ public struct CantoConfigView: View {
     private var header: some View {
         HStack(alignment: .center, spacing: CantoTheme.Spacing.compact) {
             Text(clash: .copy("Config"))
-                .font(.largeTitle.weight(.black))
+                .font(CantoTheme.Typography.pageTitle)
                 .foregroundStyle(CantoTheme.Palette.ink)
                 .accessibilityAddTraits(.isHeader)
 
@@ -129,10 +129,13 @@ public struct CantoConfigView: View {
             // 给定 API 只有行选中回调，没有“更多”动作：保留概念图里的圆形
             // 外观，但不做成可点但无响应的假按钮。
             Image(systemName: "ellipsis")
-                .font(.system(size: 17, weight: .semibold))
-                .foregroundStyle(CantoTheme.Palette.ink)
-                .frame(width: 44, height: 44)
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundStyle(CantoTheme.Palette.secondaryInk)
+                .frame(width: 32, height: 32)
                 .background(Circle().fill(CantoTheme.Palette.card))
+                .overlay(
+                    Circle().stroke(CantoTheme.Palette.separator, lineWidth: 1)
+                )
                 .accessibilityHidden(true)
         }
     }
@@ -146,7 +149,7 @@ public struct CantoConfigView: View {
                 "All Nodes",
                 subtitle: counted("%@ nodes", model.nodeCount),
                 systemImage: "server.rack",
-                tint: CantoTheme.Palette.accent,
+                tint: CantoTheme.Palette.secondaryInk,
                 showsDivider: true
             )
             row(
@@ -154,7 +157,7 @@ public struct CantoConfigView: View {
                 "Filter Nodes",
                 subtitle: copy("Filter by region, protocol, or latency"),
                 systemImage: "line.3.horizontal.decrease.circle",
-                tint: CantoTheme.Palette.accent,
+                tint: CantoTheme.Palette.secondaryInk,
                 showsDivider: true
             )
             row(
@@ -162,7 +165,7 @@ public struct CantoConfigView: View {
                 "Proxy Chain",
                 subtitle: copy("Chain proxies in order"),
                 systemImage: "link",
-                tint: CantoTheme.Palette.accent,
+                tint: CantoTheme.Palette.secondaryInk,
                 showsDivider: false
             )
         }
@@ -175,7 +178,7 @@ public struct CantoConfigView: View {
                 "Rules",
                 subtitle: counted("%@ rules", model.ruleCount),
                 systemImage: "list.bullet.rectangle",
-                tint: CantoTheme.Palette.accent,
+                tint: CantoTheme.Palette.secondaryInk,
                 showsDivider: true
             )
             row(
@@ -183,7 +186,7 @@ public struct CantoConfigView: View {
                 "Rule Sets",
                 subtitle: copy("Rule Providers") + " · " + copy("Sub-rules"),
                 systemImage: "square.stack.3d.up",
-                tint: CantoTheme.Palette.accent,
+                tint: CantoTheme.Palette.secondaryInk,
                 showsDivider: false
             )
         }
@@ -196,7 +199,7 @@ public struct CantoConfigView: View {
                 "Modules",
                 subtitle: counted("%@ modules", model.moduleCount),
                 systemImage: "shippingbox",
-                tint: CantoTheme.Palette.accent,
+                tint: CantoTheme.Palette.secondaryInk,
                 showsDivider: false
             )
         }
@@ -213,7 +216,7 @@ public struct CantoConfigView: View {
                     suffix: "From modules and profiles"
                 ),
                 systemImage: "arrow.triangle.2.circlepath",
-                tint: CantoTheme.Palette.warning,
+                tint: CantoTheme.Palette.secondaryInk,
                 showsDivider: false
             )
         }
@@ -230,7 +233,7 @@ public struct CantoConfigView: View {
                     suffix: "From modules and profiles"
                 ),
                 systemImage: "curlybraces",
-                tint: CantoTheme.Palette.warning,
+                tint: CantoTheme.Palette.secondaryInk,
                 showsDivider: false
             )
         }
@@ -243,7 +246,7 @@ public struct CantoConfigView: View {
                 "Decrypted Domains",
                 subtitle: counted("%@ domains", model.mitmCount),
                 systemImage: "lock.open",
-                tint: CantoTheme.Palette.success,
+                tint: CantoTheme.Palette.secondaryInk,
                 showsDivider: true
             )
             row(
@@ -251,7 +254,7 @@ public struct CantoConfigView: View {
                 "MitM Configuration",
                 subtitle: copy("Certificates and hostnames"),
                 systemImage: "checkmark.shield",
-                tint: CantoTheme.Palette.success,
+                tint: CantoTheme.Palette.secondaryInk,
                 showsDivider: false
             )
         }
@@ -264,7 +267,7 @@ public struct CantoConfigView: View {
                 "DNS Servers",
                 subtitle: copy("Resolvers and policies"),
                 systemImage: "network",
-                tint: CantoTheme.Palette.accent,
+                tint: CantoTheme.Palette.secondaryInk,
                 showsDivider: true
             )
             row(
@@ -272,7 +275,7 @@ public struct CantoConfigView: View {
                 "Domain, IP & Stack Mapping",
                 subtitle: copy("Local mappings and IP stack"),
                 systemImage: "arrow.left.arrow.right",
-                tint: CantoTheme.Palette.accent,
+                tint: CantoTheme.Palette.secondaryInk,
                 showsDivider: false
             )
         }
@@ -285,7 +288,7 @@ public struct CantoConfigView: View {
                 "Quick Edit",
                 subtitle: copy("Edit the active profile"),
                 systemImage: "square.and.pencil",
-                tint: CantoTheme.Palette.warning,
+                tint: CantoTheme.Palette.secondaryInk,
                 showsDivider: true
             )
             row(
@@ -293,7 +296,7 @@ public struct CantoConfigView: View {
                 "All Profiles",
                 subtitle: profilesSubtitle,
                 systemImage: "doc.on.doc",
-                tint: CantoTheme.Palette.accent,
+                tint: CantoTheme.Palette.secondaryInk,
                 showsDivider: true
             )
             row(
@@ -322,7 +325,7 @@ public struct CantoConfigView: View {
                 "Advanced Config",
                 subtitle: copy("Overrides, certificates, and runtime"),
                 systemImage: "slider.horizontal.3",
-                tint: CantoTheme.Palette.warning,
+                tint: CantoTheme.Palette.secondaryInk,
                 showsDivider: true
             )
             row(
@@ -330,7 +333,7 @@ public struct CantoConfigView: View {
                 "Apple TV",
                 subtitle: copy("Pair and manage Apple TV"),
                 systemImage: "appletv",
-                tint: CantoTheme.Palette.accent,
+                tint: CantoTheme.Palette.secondaryInk,
                 showsDivider: true
             )
             row(
@@ -352,7 +355,7 @@ public struct CantoConfigView: View {
     ) -> some View {
         VStack(alignment: .leading, spacing: CantoTheme.Spacing.row) {
             Text(clash: .copy(titleKey))
-                .font(.title2.bold())
+                .font(CantoTheme.Typography.sectionTitle)
                 .foregroundStyle(CantoTheme.Palette.ink)
                 .accessibilityAddTraits(.isHeader)
 

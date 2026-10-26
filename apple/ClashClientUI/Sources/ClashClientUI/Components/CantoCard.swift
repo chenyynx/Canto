@@ -20,7 +20,6 @@ public struct CantoCard<Content: View>: View {
             .background(shape.fill(CantoTheme.Palette.card))
             .clipShape(shape)
             .overlay(shape.stroke(CantoTheme.Palette.separator, lineWidth: 1))
-            .shadow(color: .black.opacity(0.04), radius: 10, x: 0, y: 2)
     }
 
     private var shape: RoundedRectangle {

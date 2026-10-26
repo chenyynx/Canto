@@ -16,8 +16,10 @@ public struct CantoDashboardView: View {
     public var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(alignment: .leading, spacing: CantoTheme.Spacing.section) {
-                header
-                profileRow
+                VStack(alignment: .leading, spacing: CantoTheme.Spacing.row) {
+                    header
+                    profileRow
+                }
                 connectionNotice
                 traffic
                 shortcuts
@@ -64,14 +66,19 @@ public struct CantoDashboardView: View {
             }
 
             Button(action: model.onSelectMode) {
-                HStack(spacing: CantoTheme.Spacing.tight) {
+                HStack(spacing: 5) {
                     Text(verbatim: model.modeTitle)
-                        .font(CantoTheme.Typography.rowTitle)
+                        .font(CantoTheme.Typography.caption.weight(.medium))
                     Image(systemName: "chevron.down")
-                        .font(CantoTheme.Typography.caption.weight(.semibold))
+                        .font(.system(size: 8, weight: .semibold))
                 }
                 .foregroundStyle(CantoTheme.Palette.accent)
-                .contentShape(Rectangle())
+                .padding(.horizontal, 10)
+                .padding(.vertical, 5)
+                .background(
+                    Capsule().fill(CantoTheme.Palette.accent.opacity(0.08))
+                )
+                .contentShape(Capsule())
             }
             .buttonStyle(.plain)
             .accessibilityElement(children: .combine)
@@ -116,13 +123,13 @@ public struct CantoDashboardView: View {
         if let title = model.profileTitle, let action = model.onOpenProfiles {
             Button(action: action) {
                 HStack(spacing: CantoTheme.Spacing.compact) {
-                    Image(systemName: "person.crop.circle")
-                        .font(.system(size: 17, weight: .semibold))
-                        .foregroundStyle(CantoTheme.Palette.accent)
+                    Image(systemName: "doc.text")
+                        .font(.system(size: 14, weight: .regular))
+                        .foregroundStyle(CantoTheme.Palette.secondaryInk)
                         .accessibilityHidden(true)
 
                     Text(verbatim: title)
-                        .font(CantoTheme.Typography.rowTitle)
+                        .font(CantoTheme.Typography.rowSubtitle)
                         .foregroundStyle(CantoTheme.Palette.ink)
                         .lineLimit(2)
                         .truncationMode(.middle)
@@ -131,7 +138,7 @@ public struct CantoDashboardView: View {
                     Spacer(minLength: CantoTheme.Spacing.compact)
 
                     Image(systemName: accessorySymbol)
-                        .font(CantoTheme.Typography.caption.weight(.semibold))
+                        .font(.system(size: 10, weight: .semibold))
                         .foregroundStyle(
                             model.profileAccessory == .add
                                 ? CantoTheme.Palette.accent
@@ -139,23 +146,7 @@ public struct CantoDashboardView: View {
                         )
                         .accessibilityHidden(true)
                 }
-                .padding(.horizontal, CantoTheme.Spacing.standard)
-                .padding(.vertical, CantoTheme.Spacing.row)
-                .frame(maxWidth: .infinity, minHeight: 48, alignment: .leading)
-                .background(
-                    RoundedRectangle(
-                        cornerRadius: CantoTheme.Radius.control,
-                        style: .continuous
-                    )
-                    .fill(CantoTheme.Palette.card)
-                )
-                .overlay(
-                    RoundedRectangle(
-                        cornerRadius: CantoTheme.Radius.control,
-                        style: .continuous
-                    )
-                    .stroke(CantoTheme.Palette.separator, lineWidth: 1)
-                )
+                .frame(maxWidth: .infinity, minHeight: 32, alignment: .leading)
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
@@ -223,25 +214,14 @@ public struct CantoDashboardView: View {
                         cornerRadius: CantoTheme.Radius.control,
                         style: .continuous
                     )
-                    .fill(
-                        (notice.isDestructive
-                            ? CantoTheme.Palette.danger
-                            : CantoTheme.Palette.warning)
-                            .opacity(0.12)
-                    )
+                    .fill(CantoTheme.Palette.card)
                 )
                 .overlay(
                     RoundedRectangle(
                         cornerRadius: CantoTheme.Radius.control,
                         style: .continuous
                     )
-                    .stroke(
-                        (notice.isDestructive
-                            ? CantoTheme.Palette.danger
-                            : CantoTheme.Palette.warning)
-                            .opacity(0.28),
-                        lineWidth: 1
-                    )
+                    .stroke(CantoTheme.Palette.separator, lineWidth: 1)
                 )
                 .contentShape(Rectangle())
             }
@@ -286,12 +266,8 @@ public struct CantoDashboardView: View {
     @ViewBuilder
     private var cantoCard: some View {
         if let bridge = model.cantoBridge, let onOpen = model.onOpenCanto {
-            CantoHomeCard(
-                proxy: bridge,
-                palette: .cantoPreview,
-                onOpen: onOpen
-            ) { symbol in
-                Image(systemName: symbol.rawValue)
+            CantoGroup {
+                CantoAgentRow(proxy: bridge, onOpen: onOpen)
             }
         }
     }
@@ -319,11 +295,37 @@ public struct CantoDashboardView: View {
                         title: ClashCopy.string(shortcut.titleKey, locale: locale),
                         subtitle: nil,
                         systemImage: shortcut.systemImage,
-                        tint: shortcut.tint,
+                        tint: CantoTheme.Palette.accent,
                         action: { model.onShortcut(shortcut) }
                     )
                 }
             }
         }
+    }
+}
+
+/// Canto Agent 的紧凑入口：复用设置页的分组行，不再用首页大卡片。
+private struct CantoAgentRow: View {
+    @ObservedObject var proxy: CantoBridgeProxy
+    let onOpen: (CantoCardPage) -> Void
+    @Environment(\.locale) private var locale
+
+    var body: some View {
+        Button {
+            onOpen(proxy.bridge.isPaired ? .settings : .pairing)
+        } label: {
+            CantoGroupRow(
+                title: ClashCopy.string("Canto Agent", locale: locale),
+                subtitle: CantoPhaseCopy.statusLine(
+                    proxy.bridge.phase,
+                    locale: locale
+                ),
+                systemImage: "sparkles",
+                iconTint: CantoTheme.Palette.accent,
+                showsDivider: false
+            )
+        }
+        .buttonStyle(.plain)
+        .accessibilityIdentifier("home.card.canto")
     }
 }
