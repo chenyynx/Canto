@@ -196,7 +196,13 @@ public struct ClashMacRootView: View {
                 },
                 profileTitle: ClashCopy.string(for: chip.title, locale: locale),
                 profileAccessory: chip.accessory == .add ? .add : .picker,
-                onOpenProfiles: { cantoProfilePicker = true },
+                onOpenProfiles: {
+                    if chip.accessory == .add {
+                        cantoSheet = .profiles
+                    } else {
+                        cantoProfilePicker = true
+                    }
+                },
                 connectionNotice: home.connection.issue.map { issue in
                     CantoDashboardNotice(
                         message: ClashCopy.string(for: issue.text, locale: locale),
@@ -445,7 +451,12 @@ public struct ClashMacRootView: View {
     private func performCantoPrimaryAction(_ action: ClashHomePrimaryAction) {
         switch action {
         case .openProfiles:
-            cantoProfilePicker = true
+            if snapshot.selectedProfile == nil
+                || snapshot.home.selectedProfileIsSystemFallback {
+                cantoSheet = .profiles
+            } else {
+                cantoProfilePicker = true
+            }
         case .connect, .retry, .retryProxy:
             Task { @MainActor in
                 try? await actions.perform(.connection(.connect), allowedBy: snapshot)
