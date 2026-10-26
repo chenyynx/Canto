@@ -133,6 +133,10 @@ jobs:
         # 让 CI 能发现只在 macOS 条件编译里出现的 API 问题。
         run: swift test --package-path apple/ClashClientUI
 
+      - name: swift build (ClashMacClient)
+        # Mac 外壳不在 Xcode 主工程里，单独编一次，避免 Mac 线悄悄腐烂。
+        run: swift build --package-path apple/ClashMacClient
+
       - name: Upload xcodebuild log on failure
         if: failure()
         uses: actions/upload-artifact@v4
@@ -152,6 +156,8 @@ jobs:
       - uses: swift-actions/setup-swift@v2
         with:
           swift-version: '6.0'
+      - name: Validate localization tables
+        run: python3 scripts/check_localization.py
       - name: swift test (CantoAgentKit)
         working-directory: apple/CantoAgentKit
         run: swift test

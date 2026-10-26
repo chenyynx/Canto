@@ -1,4 +1,27 @@
+import Foundation
 import SwiftUI
+
+/// 配置页「数量 · 来源」副标题的纯格式化逻辑。
+///
+/// 单独抽出来是为了让“计数未知时不能出现 nil/Optional”有单测兜底，
+/// 视图只负责把结果交给 `CantoGroupRow`。
+enum CantoConfigCountText {
+    static func subtitle(
+        format: String,
+        count: Int?,
+        suffix: String,
+        locale: Locale
+    ) -> String {
+        let suffix = ClashCopy.string(suffix, locale: locale)
+        guard let count else { return suffix }
+        let counted = ClashCopy.format(
+            format,
+            locale: locale,
+            ClashCopy.count(count, locale: locale)
+        )
+        return "\(counted) · \(suffix)"
+    }
+}
 
 /// 配置页的顶层入口。
 public enum CantoConfigDestination: String, CaseIterable, Identifiable, Sendable {
@@ -391,8 +414,11 @@ public struct CantoConfigView: View {
         _ count: Int?,
         suffix: String
     ) -> String {
-        let suffix = copy(suffix)
-        guard let counted = counted(format, count) else { return suffix }
-        return "\(counted) · \(suffix)"
+        CantoConfigCountText.subtitle(
+            format: format,
+            count: count,
+            suffix: suffix,
+            locale: locale
+        )
     }
 }
