@@ -290,7 +290,8 @@ struct GoldenFlowHomeAdapter: View {
     private var cantoDashboard: some View {
         let traffic = command.traffic
         let unit = ClashThroughputUnit.stored(in: .standard)
-        let subtitle = presentation.subtitle.trimmingCharacters(in: .whitespacesAndNewlines)
+        let subtitle = ClashCopy.string(for: presentation.subtitle, locale: locale)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
 
         return CantoDashboardView(
             model: CantoDashboardModel(
@@ -298,9 +299,7 @@ struct GoldenFlowHomeAdapter: View {
                 isConnected: command.isConnected,
                 connectionLabel: ClashCopy.string("Connection", locale: locale),
                 modeTitle: outboundModeTitle,
-                connectionSubtitle: subtitle.isEmpty
-                    ? nil
-                    : ClashCopy.string(subtitle, locale: locale),
+                connectionSubtitle: subtitle.isEmpty ? nil : subtitle,
                 uploadLabel: ClashCopy.string("Upload", locale: locale),
                 uploadValue: ClashThroughputFormatter.rate(traffic.upload, unit: unit),
                 uploadCaption: ClashThroughputFormatter.usage(traffic.uploadTotal),
@@ -391,6 +390,7 @@ struct GoldenFlowHomeAdapter: View {
     var body: some View {
 
 
+        let homeSnapshot = presentedHomeSnapshot ?? sharedSnapshot
         cantoDashboard
         .cantoBridge(cantoBridge)
          
