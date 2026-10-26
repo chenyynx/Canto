@@ -1,28 +1,25 @@
 import SwiftUI
 
-/// Canto 仪表页骨架：字标 + 连接开关、模式行、双流量卡与快捷方式网格。
+/// Canto 仪表页骨架：字标 + 连接开关、档案入口、模式行、连接异常、双流量卡、
+/// Canto Agent 卡与快捷方式网格。
 ///
 /// 只负责布局与无障碍，数据与动作全部来自 `CantoDashboardModel`；
 /// 顶部安全区与页面背景延伸由外层壳负责。
 public struct CantoDashboardView: View {
     private let model: CantoDashboardModel
 
-    /// `model.isConnected` 是不可变值，而 `Toggle` 需要可变绑定：
-    /// 本地状态先承接用户操作，`onChange` 再回调宿主；宿主刷新
-    /// `isConnected` 时以外部值为准回写本地状态。
-    @State private var connected: Bool
-    @Environment(\.locale) private var locale
-
     public init(model: CantoDashboardModel) {
         self.model = model
-        _connected = State(initialValue: model.isConnected)
     }
 
     public var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(alignment: .leading, spacing: CantoTheme.Spacing.section) {
                 header
+                profileRow
+                connectionNotice
                 traffic
+                cantoCard
                 shortcuts
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -31,16 +28,21 @@ public struct CantoDashboardView: View {
             .padding(.bottom, CantoTheme.Spacing.section)
         }
         .background(CantoTheme.Palette.canvas)
-        .onChange(of: connected) { isOn in
-            guard isOn != model.isConnected else { return }
-            model.onToggleConnection()
-        }
-        .onChange(of: model.isConnected) { isOn in
-            connected = isOn
-        }
     }
 
     // MARK: - 顶部
+
+    /// 开关直接读写宿主注入的状态：动作失败或宿主拒绝时，开关会跟着真实状态回弹，
+    /// 不会出现“界面已打开、内核仍未连接”的假状态。
+    private var connectionBinding: Binding<Bool> {
+        Binding(
+            get: { model.isConnected },
+            set: { isOn in
+                guard isOn != model.isConnected else { return }
+                model.onToggleConnection()
+            }
+        )
+    }
 
     private var header: some View {
         VStack(alignment: .leading, spacing: CantoTheme.Spacing.compact) {
@@ -53,9 +55,10 @@ public struct CantoDashboardView: View {
 
                 Spacer(minLength: 0)
 
-                Toggle(model.connectionLabel, isOn: $connected)
+                Toggle(model.connectionLabel, isOn: connectionBinding)
                     .labelsHidden()
                     .tint(CantoTheme.Palette.accent)
+                    .disabled(!model.isConnectionToggleEnabled)
                     .accessibilityLabel(Text(verbatim: model.connectionLabel))
             }
 
@@ -79,6 +82,168 @@ public struct CantoDashboardView: View {
                     .foregroundStyle(CantoTheme.Palette.secondaryInk)
                     .accessibilityLabel(Text(verbatim: connectionSubtitle))
             }
+
+            connectionAction
+        }
+    }
+
+    @ViewBuilder
+    private var connectionAction: some View {
+        if let title = model.connectionActionTitle,
+           let action = model.onConnectionAction {
+            Button(action: action) {
+                Text(verbatim: title)
+                    .font(CantoTheme.Typography.caption.weight(.semibold))
+                    .foregroundStyle(CantoTheme.Palette.accent)
+                    .padding(.horizontal, CantoTheme.Spacing.row)
+                    .padding(.vertical, 6)
+                    .background(
+                        Capsule().fill(CantoTheme.Palette.accent.opacity(0.1))
+                    )
+                    .contentShape(Capsule())
+            }
+            .buttonStyle(.plain)
+            .disabled(!model.connectionActionEnabled)
+            .accessibilityLabel(Text(verbatim: title))
+        }
+    }
+
+    // MARK: - 档案入口
+
+    @ViewBuilder
+    private var profileRow: some View {
+        if let title = model.profileTitle, let action = model.onOpenProfiles {
+            Button(action: action) {
+                HStack(spacing: CantoTheme.Spacing.compact) {
+                    Image(systemName: "person.crop.circle")
+                        .font(.system(size: 17, weight: .semibold))
+                        .foregroundStyle(CantoTheme.Palette.accent)
+                        .accessibilityHidden(true)
+
+                    Text(verbatim: title)
+                        .font(CantoTheme.Typography.rowTitle)
+                        .foregroundStyle(CantoTheme.Palette.ink)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+
+                    Spacer(minLength: CantoTheme.Spacing.compact)
+
+                    Image(systemName: accessorySymbol)
+                        .font(CantoTheme.Typography.caption.weight(.semibold))
+                        .foregroundStyle(
+                            model.profileAccessory == .add
+                                ? CantoTheme.Palette.accent
+                                : CantoTheme.Palette.secondaryInk
+                        )
+                        .accessibilityHidden(true)
+                }
+                .padding(.horizontal, CantoTheme.Spacing.standard)
+                .padding(.vertical, CantoTheme.Spacing.row)
+                .frame(maxWidth: .infinity, minHeight: 48, alignment: .leading)
+                .background(
+                    RoundedRectangle(
+                        cornerRadius: CantoTheme.Radius.control,
+                        style: .continuous
+                    )
+                    .fill(CantoTheme.Palette.card)
+                )
+                .overlay(
+                    RoundedRectangle(
+                        cornerRadius: CantoTheme.Radius.control,
+                        style: .continuous
+                    )
+                    .stroke(CantoTheme.Palette.separator, lineWidth: 1)
+                )
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(Text(verbatim: title))
+        }
+    }
+
+    private var accessorySymbol: String {
+        switch model.profileAccessory {
+        case .add:
+            return "plus.circle.fill"
+        case .picker, .none:
+            return "chevron.up.chevron.down"
+        }
+    }
+
+    // MARK: - 连接异常
+
+    @ViewBuilder
+    private var connectionNotice: some View {
+        if let notice = model.connectionNotice {
+            Button(action: notice.action) {
+                HStack(alignment: .top, spacing: CantoTheme.Spacing.row) {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(
+                            notice.isDestructive
+                                ? CantoTheme.Palette.danger
+                                : CantoTheme.Palette.warning
+                        )
+                        .accessibilityHidden(true)
+
+                    VStack(alignment: .leading, spacing: CantoTheme.Spacing.tight) {
+                        Text(verbatim: notice.message)
+                            .font(CantoTheme.Typography.rowSubtitle)
+                            .foregroundStyle(CantoTheme.Palette.ink)
+                            .fixedSize(horizontal: false, vertical: true)
+
+                        if let actionTitle = notice.actionTitle {
+                            Text(verbatim: actionTitle)
+                                .font(CantoTheme.Typography.caption.weight(.semibold))
+                                .foregroundStyle(
+                                    notice.isDestructive
+                                        ? CantoTheme.Palette.danger
+                                        : CantoTheme.Palette.warning
+                                )
+                        }
+                    }
+                    .multilineTextAlignment(.leading)
+
+                    Spacer(minLength: CantoTheme.Spacing.compact)
+
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundStyle(CantoTheme.Palette.secondaryInk)
+                        .padding(.top, CantoTheme.Spacing.tight)
+                        .accessibilityHidden(true)
+                }
+                .padding(CantoTheme.Spacing.standard)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(
+                    RoundedRectangle(
+                        cornerRadius: CantoTheme.Radius.control,
+                        style: .continuous
+                    )
+                    .fill(
+                        (notice.isDestructive
+                            ? CantoTheme.Palette.danger
+                            : CantoTheme.Palette.warning)
+                            .opacity(0.12)
+                    )
+                )
+                .overlay(
+                    RoundedRectangle(
+                        cornerRadius: CantoTheme.Radius.control,
+                        style: .continuous
+                    )
+                    .stroke(
+                        (notice.isDestructive
+                            ? CantoTheme.Palette.danger
+                            : CantoTheme.Palette.warning)
+                            .opacity(0.28),
+                        lineWidth: 1
+                    )
+                )
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityElement(children: .combine)
         }
     }
 
@@ -95,7 +260,7 @@ public struct CantoDashboardView: View {
             .frame(maxWidth: .infinity)
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(
-                Text(verbatim: "\(model.uploadLabel) \(model.uploadValue)，\(model.uploadCaption)")
+                Text(verbatim: "\(model.uploadLabel) \(model.uploadValue), \(model.uploadCaption)")
             )
 
             CantoTrafficTile(
@@ -107,8 +272,23 @@ public struct CantoDashboardView: View {
             .frame(maxWidth: .infinity)
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(
-                Text(verbatim: "\(model.downloadLabel) \(model.downloadValue)，\(model.downloadCaption)")
+                Text(verbatim: "\(model.downloadLabel) \(model.downloadValue), \(model.downloadCaption)")
             )
+        }
+    }
+
+    // MARK: - Canto Agent
+
+    @ViewBuilder
+    private var cantoCard: some View {
+        if let bridge = model.cantoBridge, let onOpen = model.onOpenCanto {
+            CantoHomeCard(
+                proxy: bridge,
+                palette: .cantoPreview,
+                onOpen: onOpen
+            ) { symbol in
+                Image(systemName: symbol.rawValue)
+            }
         }
     }
 

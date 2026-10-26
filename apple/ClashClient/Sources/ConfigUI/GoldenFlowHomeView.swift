@@ -223,6 +223,18 @@ struct GoldenFlowHomeAdapter: View {
     @StateObject private var shortcutStore = CantoShortcutStore()
     @State private var showsShortcutEditor = false
     @State private var showsModePicker = false
+    @State private var cantoCardRoute: CantoCardRoute?
+
+    /// `CantoCardPage` 本身不是 Identifiable，包一层只为了让 `.sheet(item:)` 能驱动。
+    private struct CantoCardRoute: Identifiable {
+        let page: CantoCardPage
+        var id: String {
+            switch page {
+            case .pairing: return "pairing"
+            case .settings: return "settings"
+            }
+        }
+    }
      
      
      
@@ -292,6 +304,19 @@ struct GoldenFlowHomeAdapter: View {
         let unit = ClashThroughputUnit.stored(in: .standard)
         let subtitle = ClashCopy.string(for: presentation.subtitle, locale: locale)
             .trimmingCharacters(in: .whitespacesAndNewlines)
+        let snapshot = presentedHomeSnapshot ?? sharedSnapshot
+        let profileChip = ClashHomeProfileChipPresenter.presentation(
+            selectedProfile: snapshot.selectedProfile,
+            isSystemFallback: snapshot.home.selectedProfileIsSystemFallback
+        )
+        let issue = presentation.issue.map { issue in
+            CantoDashboardNotice(
+                message: ClashCopy.string(for: issue.text, locale: locale),
+                actionTitle: ClashCopy.string("View Details", locale: locale),
+                isDestructive: issue.kind.lineTapResetsVPNProfile,
+                action: { presentConnectionIssue() }
+            )
+        }
 
         return CantoDashboardView(
             model: CantoDashboardModel(
@@ -300,6 +325,22 @@ struct GoldenFlowHomeAdapter: View {
                 connectionLabel: ClashCopy.string("Connection", locale: locale),
                 modeTitle: outboundModeTitle,
                 connectionSubtitle: subtitle.isEmpty ? nil : subtitle,
+                isConnectionToggleEnabled: !snapshot.home.isProfileActionInFlight,
+                connectionActionTitle: presentation.primaryActionTitle.map {
+                    ClashCopy.string($0, locale: locale)
+                },
+                connectionActionEnabled: presentation.primaryActionEnabled,
+                onConnectionAction: {
+                    performPrimaryAction(presentation.primaryAction)
+                },
+                profileTitle: ClashCopy.string(for: profileChip.title, locale: locale),
+                profileAccessory: profileChip.accessory == .add ? .add : .picker,
+                onOpenProfiles: openProfiles,
+                connectionNotice: issue,
+                cantoBridge: currentProfile == nil ? nil : cantoBridge,
+                onOpenCanto: { page in
+                    cantoCardRoute = CantoCardRoute(page: page)
+                },
                 uploadLabel: ClashCopy.string("Upload", locale: locale),
                 uploadValue: ClashThroughputFormatter.rate(traffic.upload, unit: unit),
                 uploadCaption: ClashThroughputFormatter.usage(traffic.uploadTotal),
@@ -315,6 +356,9 @@ struct GoldenFlowHomeAdapter: View {
                 onShortcut: openShortcut
             )
         )
+        .sheet(item: $cantoCardRoute) { route in
+            cantoCardSheet(route.page)
+        }
         .sheet(isPresented: $showsShortcutEditor) {
             CantoShortcutEditorView(store: shortcutStore)
         }
@@ -341,6 +385,41 @@ struct GoldenFlowHomeAdapter: View {
             Button(role: .cancel) {} label: {
                 Text(verbatim: ClashCopy.string("Cancel", locale: locale))
             }
+        }
+    }
+
+    @ViewBuilder
+    private func cantoCardSheet(_ page: CantoCardPage) -> some View {
+        if let bridge = cantoBridge {
+            NavigationView {
+                Group {
+                    switch page {
+                    case .pairing:
+                        CantoPairingView(
+                            proxy: bridge,
+                            palette: .cantoPreview,
+                            onPaired: { cantoCardRoute = nil }
+                        )
+                    case .settings:
+                        CantoSettingsView(
+                            proxy: bridge,
+                            profile: CantoAgentProfile(agentID: bridge.bridge.agentID),
+                            palette: .cantoPreview,
+                            onForget: { cantoCardRoute = nil }
+                        )
+                    }
+                }
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button(role: .cancel) {
+                            cantoCardRoute = nil
+                        } label: {
+                            Text(verbatim: ClashCopy.string("Cancel", locale: locale))
+                        }
+                    }
+                }
+            }
+            .navigationViewStyle(StackNavigationViewStyle())
         }
     }
 

@@ -189,6 +189,7 @@ struct AppShellView: View {
      
      
     @StateObject private var profiles: ProfilesViewModel
+    @StateObject private var configCounts = CantoConfigCountsModel()
     @StateObject private var command = ClashCommandClient()
     @StateObject private var stats = StatsModel()
     @StateObject private var nodes = NodesModel()
@@ -1096,7 +1097,41 @@ struct AppShellView: View {
                 model: cantoConfigModel,
                 onSelect: handleConfigDestination
             )
+            .task(id: configCountsKey) {
+                refreshConfigCounts()
+            }
+            .onReceive(
+                NotificationCenter.default.publisher(for: ModuleStore.didChange)
+            ) { _ in
+                refreshConfigCounts()
+            }
+            .onReceive(
+                NotificationCenter.default.publisher(for: ModuleStore.recordsDidChange)
+            ) { _ in
+                refreshConfigCounts()
+            }
+            .onReceive(
+                NotificationCenter.default.publisher(for: ScriptLibrary.didChange)
+            ) { _ in
+                refreshConfigCounts()
+            }
         }
+    }
+
+    private var configCountsKey: String {
+        "\(activeProfile?.id ?? "-")|\(profiles.savedConfigurationGeneration)|\(command.isConnected)"
+    }
+
+    private var activeProfile: Profile? {
+        profiles.profiles.first { $0.id == profiles.activeProfileID }
+    }
+
+    private func refreshConfigCounts() {
+        configCounts.refresh(
+            profile: activeProfile,
+            profiles: profiles,
+            container: profiles.appGroupContainer
+        )
     }
 
     @ViewBuilder
@@ -1110,10 +1145,14 @@ struct AppShellView: View {
     }
 
     private var cantoConfigModel: CantoConfigModel {
-        let activeProfile = profiles.profiles.first { $0.id == profiles.activeProfileID }
         let nodeCount = nodes.groups.reduce(0) { $0 + $1.memberTotal }
         return CantoConfigModel(
             nodeCount: nodeCount,
+            ruleCount: configCounts.ruleCount,
+            moduleCount: configCounts.moduleCount,
+            rewriteCount: configCounts.rewriteCount,
+            scriptCount: configCounts.scriptCount,
+            mitmCount: configCounts.mitmCount,
             profileName: activeProfile?.label ?? "",
             profileCount: profiles.profiles.count
         )
@@ -1121,17 +1160,30 @@ struct AppShellView: View {
 
     private func handleConfigDestination(_ destination: CantoConfigDestination) {
         switch destination {
-        case .nodes, .dns:
+        case .nodes:
             navigate(to: .proxies)
         case .rules:
             navigate(to: .rules)
         case .modules, .rewrite, .scripts, .mitm:
-            navigate(to: .modules)
+            openProfileCentre(.modules)
         case .files, .profiles, .appleTV:
-            navigate(to: .profiles)
-        case .advanced, .externalController:
+            openProfileCentre(.profiles)
+        case .dns, .advanced:
+            if let id = activeProfile?.id {
+                openProfileCentre(.profileDetail(id: id))
+            } else {
+                openProfileCentre(.profiles)
+            }
+        case .externalController:
             navigate(to: .more(.clientSettings))
         }
+    }
+
+    /// 配置页的「所有配置文件 / 模块 / 快速编辑」都落到既有的档案中心，
+    /// 不复制一套新页面；在 iPad 侧栏里用 sheet 打开，避免与配置根互相递归。
+    private func openProfileCentre(_ destination: AppNavigationDestination) {
+        presentationRecovery.supersede()
+        profileSheets.raise(.centre(destination))
     }
 
     private func handleMoreDestination(_ destination: CantoMoreDestination) {
@@ -1256,28 +1308,12 @@ struct AppShellView: View {
          
          
         case .profiles:
-            ShellProfileCenter(
-                profiles: profiles,
-                importRouter: profileImports,
-                initialDestination: .profiles,
-                ownsNavigationContainer: false,
-                onActiveRuntimeChanged: activeRuntimeDidChange,
-                selections: command
-            )
-            .equatable()
-         
-         
-         
+            configTabContent
+
+
+
         case .proxies:
-            SessionProxiesRailRoot(
-                vpn: vpn,
-                command: command,
-                nodes: nodes,
-                profiles: profiles,
-                profileRefreshToken: profileRefreshToken,
-                avoidsLiveProviderStore: false,
-                stagedGroup: $railProxiesGroup
-            )
+            policyTabContent
         case .rules:
             SessionRulesRailRoot(
                 command: command,
@@ -1299,7 +1335,7 @@ struct AppShellView: View {
         case .utilities:
             utilitiesRoot(ownsNavigationContainer: false)
         case .more:
-            moreRoot(ownsNavigationContainer: false)
+            CantoMoreView(onSelect: handleMoreDestination)
         case .about:
             regularDestination(for: .more(.about))
         }

@@ -153,6 +153,14 @@ public struct CantoConfigView: View {
                 subtitle: counted("%@ rules", model.ruleCount),
                 systemImage: "list.bullet.rectangle",
                 tint: CantoTheme.Palette.accent,
+                showsDivider: true
+            )
+            row(
+                .rules,
+                "Rule Sets",
+                subtitle: copy("Rule Providers") + " · " + copy("Sub-rules"),
+                systemImage: "square.stack.3d.up",
+                tint: CantoTheme.Palette.accent,
                 showsDivider: false
             )
         }
@@ -176,7 +184,11 @@ public struct CantoConfigView: View {
             row(
                 .rewrite,
                 "Rewrite",
-                subtitle: "\(counted("%@ rewrites", model.rewriteCount)) · \(copy("From modules and profiles"))",
+                subtitle: countedSubtitle(
+                    "%@ rewrites",
+                    model.rewriteCount,
+                    suffix: "From modules and profiles"
+                ),
                 systemImage: "arrow.triangle.2.circlepath",
                 tint: CantoTheme.Palette.warning,
                 showsDivider: false
@@ -189,7 +201,11 @@ public struct CantoConfigView: View {
             row(
                 .scripts,
                 "Scripts",
-                subtitle: "\(counted("%@ scripts", model.scriptCount)) · \(copy("From modules and profiles"))",
+                subtitle: countedSubtitle(
+                    "%@ scripts",
+                    model.scriptCount,
+                    suffix: "From modules and profiles"
+                ),
                 systemImage: "curlybraces",
                 tint: CantoTheme.Palette.warning,
                 showsDivider: false
@@ -367,5 +383,16 @@ public struct CantoConfigView: View {
             locale: locale,
             ClashCopy.count(count, locale: locale)
         )
+    }
+
+    /// 计数未知时只保留来源说明，不把 `nil` 拼进副标题。
+    private func countedSubtitle(
+        _ format: String,
+        _ count: Int?,
+        suffix: String
+    ) -> String {
+        let suffix = copy(suffix)
+        guard let counted = counted(format, count) else { return suffix }
+        return "\(counted) · \(suffix)"
     }
 }

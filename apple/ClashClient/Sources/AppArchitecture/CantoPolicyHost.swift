@@ -43,7 +43,7 @@ struct CantoPolicyHost: View {
                     systemImage: symbol(for: group.type),
                     tint: tint(for: index),
                     isSelected: group.fixed != nil,
-                    latency: nodes.delays[group.now].map { "\($0) ms" }
+                    latency: nodes.delays[now].map { "\($0) ms" }
                 )
             }
     }
