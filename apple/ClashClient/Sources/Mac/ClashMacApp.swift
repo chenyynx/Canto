@@ -5373,6 +5373,17 @@ private final class ClashMacSceneModel: ObservableObject {
             guard case .setOutboundMode(let mode) = action else { return }
             await self?.changeOutboundMode(mode, from: .window)
         }
+        let proxies = AppleClientActions(capability: .proxies) {
+            [weak self] action in
+            guard let self, case .proxies(let command) = action else { return }
+            switch command {
+            case .select(let group, let member):
+                await self.nodes.select(group: group, name: member)
+                self.refreshSnapshot()
+            default:
+                break
+            }
+        }
         let utilities = AppleClientActions(capability: .utilities) {
             action in
             guard case .openUtility = action else { return }
@@ -5404,6 +5415,7 @@ private final class ClashMacSceneModel: ObservableObject {
             profiles,
             selection,
             routing,
+            proxies,
             utilities,
             more,
             activity,

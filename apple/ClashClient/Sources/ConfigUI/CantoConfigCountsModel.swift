@@ -21,7 +21,9 @@ final class CantoConfigCountsModel: ObservableObject {
     func refresh(
         profile: Profile?,
         profiles: ProfilesViewModel,
-        container: URL?
+        container: URL?,
+        isConnected: Bool,
+        forceRuleRefresh: Bool = false
     ) {
         moduleGeneration &+= 1
         let moduleGeneration = moduleGeneration
@@ -43,8 +45,15 @@ final class CantoConfigCountsModel: ObservableObject {
 
         // 规则数来自当前档案的生效 YAML；大配置的解析要几秒，放在 detached 任务里。
         // 同一档案/同一保存代次只解析一次，配置页反复出现时不重复扫 YAML。
-        let key = "\(profile.id)|\(profiles.savedConfigurationGeneration)"
-        if ruleKey != key {
+        let key = [
+            profile.id,
+            String(profiles.savedConfigurationGeneration),
+            isConnected ? "connected" : "offline",
+            profile.activeRevision ?? "-",
+            profile.selectedScriptID ?? "-",
+            profile.postMergeScriptID ?? "-",
+        ].joined(separator: "|")
+        if forceRuleRefresh || ruleKey != key {
             ruleKey = key
             ruleGeneration &+= 1
             let ruleGeneration = ruleGeneration
@@ -55,6 +64,8 @@ final class CantoConfigCountsModel: ObservableObject {
                 }.value
                 guard let self, self.ruleGeneration == ruleGeneration else { return }
                 self.ruleCount = count
+                // 读不到时不要把 nil 当成已缓存结果，下次刷新还要重试。
+                if count == nil { self.ruleKey = nil }
             }
         }
 

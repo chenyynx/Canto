@@ -1138,17 +1138,17 @@ struct AppShellView: View {
             .onReceive(
                 NotificationCenter.default.publisher(for: ModuleStore.didChange)
             ) { _ in
-                refreshConfigCounts()
+                refreshConfigCounts(forceRuleRefresh: true)
             }
             .onReceive(
                 NotificationCenter.default.publisher(for: ModuleStore.recordsDidChange)
             ) { _ in
-                refreshConfigCounts()
+                refreshConfigCounts(forceRuleRefresh: true)
             }
             .onReceive(
                 NotificationCenter.default.publisher(for: ScriptLibrary.didChange)
             ) { _ in
-                refreshConfigCounts()
+                refreshConfigCounts(forceRuleRefresh: true)
             }
         }
     }
@@ -1161,11 +1161,33 @@ struct AppShellView: View {
         profiles.profiles.first { $0.id == profiles.activeProfileID }
     }
 
-    private func refreshConfigCounts() {
+    /// 内核还没有 node summary 时的离线兜底：把各组成员去重，
+    /// 排除“成员其实是下级组”的项，并补上隐藏成员。
+    private func offlineNodeCount() -> Int? {
+        guard !nodes.groups.isEmpty else { return nil }
+        let groupNames = Set(nodes.groups.map { $0.name })
+        var names = Set<String>()
+        for group in nodes.groups {
+            for name in group.members
+            where !group.memberGroupNames.contains(name)
+                && !groupNames.contains(name) {
+                names.insert(name)
+            }
+            for name in group.hiddenMembers
+            where !groupNames.contains(name) {
+                names.insert(name)
+            }
+        }
+        return names.isEmpty ? nil : names.count
+    }
+
+    private func refreshConfigCounts(forceRuleRefresh: Bool = false) {
         configCounts.refresh(
             profile: activeProfile,
             profiles: profiles,
-            container: profiles.appGroupContainer
+            container: profiles.appGroupContainer,
+            isConnected: command.isConnected,
+            forceRuleRefresh: forceRuleRefresh
         )
     }
 
@@ -1177,9 +1199,6 @@ struct AppShellView: View {
             default:
                 CantoMoreView(onSelect: handleMoreDestination)
             }
-        }
-        .sheet(item: $moreSheet) { sheet in
-            moreSheetContent(sheet)
         }
     }
 
@@ -1227,10 +1246,7 @@ struct AppShellView: View {
     private var cantoConfigModel: CantoConfigModel {
         // 运行中的 node summary 是去重后的节点数；未连接时退化为组成员并集，
         // 不把每个策略组的成员数相加，避免同一节点被重复计数。
-        let nodeCount: Int? = command.nodeSummary?.nodes
-            ?? (nodes.groups.isEmpty
-                ? nil
-                : Set(nodes.groups.flatMap { $0.members }).count)
+        let nodeCount: Int? = command.nodeSummary?.nodes ?? offlineNodeCount()
         return CantoConfigModel(
             nodeCount: nodeCount,
             ruleCount: configCounts.ruleCount,
@@ -1389,6 +1405,9 @@ struct AppShellView: View {
                 .tag(AppTab.more)
         }
         .accessibilityIdentifier("app.compact-tabs")
+        .sheet(item: $moreSheet) { sheet in
+            moreSheetContent(sheet)
+        }
     }
 
     @ViewBuilder
@@ -1601,7 +1620,13 @@ struct AppShellView: View {
             },
             openModules: { navigate(to: .modules) },
             openLANShare: { navigate(to: .utilities(.proxyShare)) },
-            openDiagnostics: { navigate(to: .utilities(.diagnosticsInbox)) },
+            openDiagnostics: {
+                if shellLayout == .compactTabs {
+                    moreSheet = .utility(.diagnosticsInbox)
+                } else {
+                    navigate(to: .utilities(.diagnosticsInbox))
+                }
+            },
             rebind: rebind
         )
     }
