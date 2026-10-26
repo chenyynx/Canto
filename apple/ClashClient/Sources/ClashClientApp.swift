@@ -1357,16 +1357,10 @@ struct AppShellView: View {
              
             openThroughDoor: { door, open in openThroughDoor(door, open) },
             openProfiles: {
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                if shellLayout == .regularSidebar, ProfileCenterPolicy.hasUserProfile(profiles.profiles) {
+                if shellLayout == .compactTabs {
+                    navigationState.selectRoot(.profiles)
+                } else if shellLayout == .regularSidebar,
+                          ProfileCenterPolicy.hasUserProfile(profiles.profiles) {
                     isPickingProfile = true
                 } else {
                     navigate(to: .profiles)
@@ -1376,14 +1370,16 @@ struct AppShellView: View {
             openRules: { navigate(to: .rules) },
             openActiveRules: { navigate(to: .activeRules) },
             openLogs: {
-                 
-                 
-                 
-                 
                 activityLens = .logs
                 navigate(to: .utilities(.activity))
             },
             openDNSQuery: { navigate(to: .dnsQuery) },
+            openRequests: {
+                activityLens = .requests
+                navigate(to: .utilities(.activity))
+            },
+            openModules: { navigate(to: .modules) },
+            openLANShare: { navigate(to: .utilities(.proxyShare)) },
             rebind: rebind
         )
     }
@@ -2105,7 +2101,10 @@ struct AppShellView: View {
          
          
         if destination == .proxies, shellLayout == .compactTabs {
-            pendingSessionPage = .proxies
+            navigationState.selectRoot(.proxies)
+        }
+        if destination == .rules, shellLayout == .compactTabs {
+            navigationState.selectRoot(.rules)
         }
     }
 

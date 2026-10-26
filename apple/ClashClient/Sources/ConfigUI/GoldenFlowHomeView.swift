@@ -162,6 +162,9 @@ struct GoldenFlowHomeAdapter: View {
      
     let openLogs: () -> Void
     let openDNSQuery: () -> Void
+    let openRequests: () -> Void
+    let openModules: () -> Void
+    let openLANShare: () -> Void
     let rebind: () -> Void
 
      
@@ -217,6 +220,9 @@ struct GoldenFlowHomeAdapter: View {
      
     @State private var modeRefusal: OutboundModeRefusal?
     @State private var pendingProxiesGroup: String?
+    @StateObject private var shortcutStore = CantoShortcutStore()
+    @State private var showsShortcutEditor = false
+    @State private var showsModePicker = false
      
      
      
@@ -252,6 +258,9 @@ struct GoldenFlowHomeAdapter: View {
         openActiveRules: @escaping () -> Void,
         openLogs: @escaping () -> Void,
         openDNSQuery: @escaping () -> Void,
+        openRequests: @escaping () -> Void,
+        openModules: @escaping () -> Void,
+        openLANShare: @escaping () -> Void,
         rebind: @escaping () -> Void
     ) {
         self.vpn = vpn
@@ -270,34 +279,119 @@ struct GoldenFlowHomeAdapter: View {
         self.openActiveRules = openActiveRules
         self.openLogs = openLogs
         self.openDNSQuery = openDNSQuery
+        self.openRequests = openRequests
+        self.openModules = openModules
+        self.openLANShare = openLANShare
         self.rebind = rebind
         self.profiles = profiles
         self.cantoBridge = cantoBridge
     }
 
+    private var cantoDashboard: some View {
+        let traffic = command.traffic
+        let unit = ClashThroughputUnit.stored(in: .standard)
+        let subtitle = presentation.subtitle.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        return CantoDashboardView(
+            model: CantoDashboardModel(
+                brandTitle: "CANTO",
+                isConnected: command.isConnected,
+                connectionLabel: ClashCopy.string("Connection", locale: locale),
+                modeTitle: outboundModeTitle,
+                connectionSubtitle: subtitle.isEmpty
+                    ? nil
+                    : ClashCopy.string(subtitle, locale: locale),
+                uploadLabel: ClashCopy.string("Upload", locale: locale),
+                uploadValue: ClashThroughputFormatter.rate(traffic.upload, unit: unit),
+                uploadCaption: ClashThroughputFormatter.usage(traffic.uploadTotal),
+                downloadLabel: ClashCopy.string("Download", locale: locale),
+                downloadValue: ClashThroughputFormatter.rate(traffic.download, unit: unit),
+                downloadCaption: ClashThroughputFormatter.usage(traffic.downloadTotal),
+                shortcutsTitle: ClashCopy.string("Shortcuts", locale: locale),
+                shortcutsEditTitle: ClashCopy.string("Edit", locale: locale),
+                shortcuts: shortcutStore.shortcuts,
+                onToggleConnection: toggleConnection,
+                onSelectMode: { showsModePicker = true },
+                onEditShortcuts: { showsShortcutEditor = true },
+                onShortcut: openShortcut
+            )
+        )
+        .sheet(isPresented: $showsShortcutEditor) {
+            CantoShortcutEditorView(store: shortcutStore)
+        }
+        .confirmationDialog(
+            ClashCopy.string("Outbound Mode", locale: locale),
+            isPresented: $showsModePicker,
+            titleVisibility: .visible
+        ) {
+            Button {
+                setOutboundMode(Profile.OutboundMode.rule.rawValue)
+            } label: {
+                Text(verbatim: ClashCopy.string("Rule", locale: locale))
+            }
+            Button {
+                setOutboundMode(Profile.OutboundMode.global.rawValue)
+            } label: {
+                Text(verbatim: ClashCopy.string("Global", locale: locale))
+            }
+            Button {
+                setOutboundMode(Profile.OutboundMode.direct.rawValue)
+            } label: {
+                Text(verbatim: ClashCopy.string("Direct", locale: locale))
+            }
+            Button(role: .cancel) {} label: {
+                Text(verbatim: ClashCopy.string("Cancel", locale: locale))
+            }
+        }
+    }
+
+    private var outboundModeTitle: String {
+        switch configuredMode {
+        case .rule:
+            ClashCopy.string("Rule", locale: locale)
+        case .global:
+            ClashCopy.string("Global", locale: locale)
+        case .direct:
+            ClashCopy.string("Direct", locale: locale)
+        }
+    }
+
+    private func toggleConnection() {
+        if case .none = presentation.primaryAction {
+            performPrimaryAction(command.isConnected ? .disconnect : .connect)
+        } else {
+            performPrimaryAction(presentation.primaryAction)
+        }
+    }
+
+    private func openShortcut(_ shortcut: CantoShortcut) {
+        switch shortcut {
+        case .nodes:
+            openProxies()
+        case .requests:
+            openRequests()
+        case .dnsRecords:
+            openDNSQuery()
+        case .profiles:
+            openProfiles()
+        case .modules, .scripts:
+            openModules()
+        case .lanShare:
+            openLANShare()
+        case .rules:
+            openRules()
+        case .cantoAgent:
+            // Canto Agent 的配对/设置页还没有从仪表直达的路由；先落到配置中心。
+            openProfiles()
+        case .diagnostics:
+            openLogs()
+        }
+    }
+
     var body: some View {
 
 
-        let homeSnapshot = presentedHomeSnapshot ?? sharedSnapshot
-        ClashClientUI.ClashHomeView(
-            snapshot: homeSnapshot,
-            actions: sharedActions,
-            presentationClass: shellLayout == .regularSidebar
-                ? .regularTouch
-                : .compactTouch,
-            palette: ClashClientUI.ClashProductPalette.clashProduct,
-            customizationPresentation: { content in
-                AnyView(HomeCustomizationEditModePresenter(content: content))
-            },
-             
-             
-            clearedLostPresentation: { [presentationRecovery] in
-                presentationRecovery.noteDroppedByTheDoor(["cardCustomization"])
-            }
-        ) { symbol in
-            ClashSymbolImage(symbol: symbol)
-        }
-        .equatable()
+        cantoDashboard
         .cantoBridge(cantoBridge)
          
          

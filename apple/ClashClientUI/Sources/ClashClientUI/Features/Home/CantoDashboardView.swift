@@ -26,8 +26,8 @@ public struct CantoDashboardView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 18)
-            .padding(.top, 58)
-            .padding(.bottom, 96)
+            .padding(.top, CantoTheme.Spacing.standard)
+            .padding(.bottom, CantoTheme.Spacing.section)
         }
         .background(CantoTheme.Palette.canvas)
         .onChange(of: connected) { isOn in
