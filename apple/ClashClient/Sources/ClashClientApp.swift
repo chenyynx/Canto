@@ -1084,7 +1084,7 @@ struct AppShellView: View {
 
     @ViewBuilder
     private var policyTabContent: some View {
-        regularRoot(for: .proxies)
+        CantoPolicyHost(nodes: nodes)
     }
 
     @ViewBuilder
@@ -1092,7 +1092,10 @@ struct AppShellView: View {
         if navigationState.selectedRoot == .rules {
             regularRoot(for: .rules)
         } else {
-            regularRoot(for: .profiles)
+            CantoConfigView(
+                model: cantoConfigModel,
+                onSelect: handleConfigDestination
+            )
         }
     }
 
@@ -1102,7 +1105,68 @@ struct AppShellView: View {
         case .utilities, .activity:
             utilitiesRoot(ownsNavigationContainer: true)
         default:
-            moreRoot(ownsNavigationContainer: true)
+            CantoMoreView(onSelect: handleMoreDestination)
+        }
+    }
+
+    private var cantoConfigModel: CantoConfigModel {
+        let activeProfile = profiles.profiles.first { $0.id == profiles.activeProfileID }
+        let nodeCount = nodes.groups.reduce(0) { $0 + $1.memberTotal }
+        return CantoConfigModel(
+            nodeCount: nodeCount,
+            profileName: activeProfile?.label ?? "",
+            profileCount: profiles.profiles.count
+        )
+    }
+
+    private func handleConfigDestination(_ destination: CantoConfigDestination) {
+        switch destination {
+        case .nodes, .dns:
+            navigate(to: .proxies)
+        case .rules:
+            navigate(to: .rules)
+        case .modules, .rewrite, .scripts, .mitm:
+            navigate(to: .modules)
+        case .files, .profiles, .appleTV:
+            navigate(to: .profiles)
+        case .advanced, .externalController:
+            navigate(to: .more(.clientSettings))
+        }
+    }
+
+    private func handleMoreDestination(_ destination: CantoMoreDestination) {
+        switch destination {
+        case .vpn:
+            navigate(to: .more(.tunnel))
+        case .onDemand:
+            navigate(to: .more(.onDemand))
+        case .clientSettings, .externalController:
+            navigate(to: .more(.clientSettings))
+        case .appearance:
+            navigate(to: .more(.appearance))
+        case .storage:
+            navigate(to: .more(.storage))
+        case .backup:
+            navigate(to: .profiles)
+        case .geo:
+            navigate(to: .more(.geoResources))
+        case .networkQuality:
+            navigate(to: .utilities(.networkQuality))
+        case .stun:
+            navigate(to: .utilities(.stun))
+        case .dnsQuery:
+            navigate(to: .dnsQuery)
+        case .lanShare:
+            navigate(to: .utilities(.proxyShare))
+        case .runtime:
+            navigate(to: .utilities(.runtime))
+        case .diagnostics:
+            navigate(to: .utilities(.diagnosticsInbox))
+        case .logs:
+            activityLens = .logs
+            navigate(to: .utilities(.activity))
+        case .about:
+            navigate(to: .more(.about))
         }
     }
 
