@@ -6,6 +6,8 @@ Clash.xcframework
 *.xcodeproj/
 *.xcworkspace/
 xcuserdata/
+__pycache__/
+*.pyc
 # Generated from project.yml by XcodeGen.
 apple/ClashClient/**/*.plist
 apple/ClashClient/**/*.entitlements

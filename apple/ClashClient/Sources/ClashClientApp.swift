@@ -1308,9 +1308,9 @@ struct AppShellView: View {
          
          
         case .profiles:
-            configTabContent
-
-
+            // `configTabContent` 在 .rules 分支会回调 `regularRoot`；用 AnyView 断开
+            // 两个 `some View` 之间的递归推断（否则 Swift 报 opaque type self-reference）。
+            AnyView(configTabContent)
 
         case .proxies:
             policyTabContent

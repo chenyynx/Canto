@@ -14,6 +14,7 @@ final class CantoConfigCountsModel: ObservableObject {
     @Published private(set) var mitmCount: Int?
 
     private var generation: UInt64 = 0
+    private var countedProfileID: String?
 
     func refresh(
         profile: Profile?,
@@ -23,8 +24,12 @@ final class CantoConfigCountsModel: ObservableObject {
         generation &+= 1
         let generation = generation
 
-        guard let profile else {
+        if countedProfileID != profile?.id {
+            countedProfileID = profile?.id
             ruleCount = nil
+        }
+
+        guard let profile else {
             moduleCount = nil
             rewriteCount = nil
             scriptCount = nil
@@ -99,7 +104,7 @@ final class CantoConfigCountsModel: ObservableObject {
         let mitm = await store.publishedGlobalManifest()?
             .mitmHosts.items
             .filter { !$0.entry.excluded }
-            .count ?? 0
+            .count
 
         return ModuleCounts(
             moduleCount: state.modules.count,
