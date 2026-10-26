@@ -9,6 +9,7 @@ import SwiftUI
 /// + 宿主汇总的 CantoAgentProfile（id / 名称 / 指纹 / endpoint）。
 public struct CantoSettingsView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.locale) private var locale
 
     @ObservedObject private var proxy: CantoBridgeProxy
     private var bridge: any CantoBridgeObservable { proxy.bridge }
@@ -59,7 +60,7 @@ public struct CantoSettingsView: View {
             Button(role: .cancel) {
                 confirmsForget = false
             } label: {
-                Text(clash: .copy("取消"))
+                Text(clash: .copy("Cancel"))
             }
         } message: {
             Text(
@@ -77,7 +78,7 @@ public struct CantoSettingsView: View {
             if hasIdentity {
                 VStack(spacing: ClashClientUI.ClashTheme.Spacing.row) {
                     CantoValueRow(
-                        title: "名称",
+                        title: "Name",
                         value: profile.displayName,
                         symbol: .serverRack,
                         monospaced: false
@@ -93,13 +94,13 @@ public struct CantoSettingsView: View {
                         symbol: .shieldLefthalfFilled
                     )
                     CantoValueRow(
-                        title: "端点",
+                        title: "Endpoints",
                         value: profile.displayEndpoint,
                         symbol: .network
                     )
                     CantoValueRow(
-                        title: "会话",
-                        value: CantoPhaseCopy.statusLine(bridge.phase),
+                        title: "Session",
+                        value: CantoPhaseCopy.statusLine(bridge.phase, locale: locale),
                         symbol: .arrowTriangle2Circlepath,
                         monospaced: false,
                         selectable: false
@@ -193,7 +194,7 @@ public struct CantoSettingsView: View {
                     .disabled(isUndoing)
                     .accessibilityIdentifier("canto.settings.undo")
                     if let undoError {
-                        Text(clash: .copy(undoError))
+                        Text(verbatim: undoError)
                             .font(.footnote)
                             .foregroundStyle(.secondary)
                     }
@@ -250,10 +251,15 @@ struct CantoActivityRow: View {
                 alignment: .leading,
                 spacing: ClashClientUI.ClashTheme.Spacing.tight
             ) {
-                Text(clash: .copy(CantoActivityPresentation.title(for: entry.op)))
-                    .font(.body)
-                    .foregroundStyle(.primary)
-                    .fixedSize(horizontal: false, vertical: true)
+                Text(
+                    verbatim: CantoActivityPresentation.title(
+                        for: entry.op,
+                        locale: locale
+                    )
+                )
+                .font(.body)
+                .foregroundStyle(.primary)
+                .fixedSize(horizontal: false, vertical: true)
                 Text(
                     verbatim: CantoActivityPresentation.relativeTime(
                         entry.at,
@@ -267,7 +273,7 @@ struct CantoActivityRow: View {
             Spacer(minLength: ClashClientUI.ClashTheme.Spacing.compact)
 
             ClashClientUI.ClashStatusBadge(
-                title: CantoActivityPresentation.statusLine(entry.status),
+                title: CantoActivityPresentation.statusKey(entry.status) ?? entry.status,
                 tint: CantoActivityPresentation.statusTint(entry.status),
                 role: .status,
                 categoryFill: palette.raisedFill,

@@ -154,7 +154,7 @@ struct CantoQRScannerView: View {
                 guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
                 openURL(url)
             } label: {
-                Text(ClashCopy.key("前往系统设置"))
+                Text(ClashCopy.key("Open Settings"))
             }
             .buttonStyle(.bordered)
             .accessibilityIdentifier("canto.pair.scanner.settings")

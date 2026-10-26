@@ -159,7 +159,7 @@ public struct CantoPairingView: View {
                 Button {
                     connect(withURI: token)
                 } label: {
-                    Text(clash: .copy("连接"))
+                    Text(clash: .copy("Connect"))
                         .frame(maxWidth: .infinity)
                 }
                 .clashPrimaryActionButtonStyle()
@@ -192,7 +192,7 @@ public struct CantoPairingView: View {
             .accessibilityIdentifier("canto.pair.connecting")
         case .paired(let name):
             Label {
-                Text(clash: .format("已连接 %@", [name]))
+                Text(verbatim: ClashCopy.format("已连接 %@", locale: locale, name))
                     .font(.footnote)
             } icon: {
                 CantoSymbolImage(symbol: .checkmarkCircleFill)
@@ -304,7 +304,7 @@ public struct CantoPairingView: View {
     private func deviceDetail(_ agent: CantoBonjourAgent) -> String {
         let tail = String(agent.id.suffix(4))
         let host = URL(string: agent.endpoint)?.host ?? agent.endpoint
-        return "指纹 …\(tail) · \(host)"
+        return ClashCopy.format("指纹 …%@ · %@", locale: locale, tail, host)
     }
 
     // MARK: SAS 确认
@@ -367,7 +367,9 @@ public struct CantoPairingView: View {
                     sasConfirmed: { await decision.wait() }
                 )
                 finishBonjourPairing(
-                    failure: result.accepted ? nil : "电脑端拒绝了这次配对",
+                    failure: result.accepted
+                        ? nil
+                        : ClashCopy.string("电脑端拒绝了这次配对", locale: locale),
                     agentName: result.agentName ?? agent.name
                 )
             } catch {
@@ -389,7 +391,9 @@ public struct CantoPairingView: View {
             restartToken += 1
         } else {
             pendingDevice = nil
-            tokenPhase = .paired(agentName ?? "Agent")
+            tokenPhase = .paired(
+                agentName ?? ClashCopy.string("Agent", locale: locale)
+            )
             onPaired?()
         }
     }
@@ -399,7 +403,12 @@ public struct CantoPairingView: View {
         let uri = raw.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !uri.isEmpty, tokenPhase != .connecting else { return }
         guard uri.hasPrefix("canto://pair") else {
-            tokenPhase = .failed("这不是配对口令：应以 canto://pair 开头")
+            tokenPhase = .failed(
+                ClashCopy.string(
+                    "这不是配对口令：应以 canto://pair 开头",
+                    locale: locale
+                )
+            )
             return
         }
         tokenPhase = .connecting
@@ -409,7 +418,14 @@ public struct CantoPairingView: View {
                 tokenPhase = .failed(reason)
                 restartToken += 1
             } else if bridge.isPaired {
-                tokenPhase = .paired(bridge.agentID.map { "Agent …\(String($0.suffix(4)))" } ?? "Agent")
+                let pairedName = bridge.agentID.map {
+                    ClashCopy.format(
+                        "Agent …%@",
+                        locale: locale,
+                        String($0.suffix(4))
+                    )
+                } ?? ClashCopy.string("Agent", locale: locale)
+                tokenPhase = .paired(pairedName)
                 token = ""
                 onPaired?()
             } else {
@@ -431,6 +447,8 @@ enum CantoTokenPhase: Equatable {
 
 /// SAS 确认：显示 6 位确认码 + 「确认连接」「取消」。
 struct CantoSASConfirmSheet: View {
+    @Environment(\.locale) private var locale
+
     let deviceName: String
     let fingerprintTail: String
     let code: String?
@@ -448,9 +466,15 @@ struct CantoSASConfirmSheet: View {
                 VStack(spacing: ClashClientUI.ClashTheme.Spacing.compact) {
                     Text(verbatim: deviceName)
                         .font(.title3.weight(.semibold))
-                    Text(verbatim: "设备指纹 …\(fingerprintTail)")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
+                    Text(
+                        verbatim: ClashCopy.format(
+                            "设备指纹 …%@",
+                            locale: locale,
+                            fingerprintTail
+                        )
+                    )
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
                 }
 
                 codeBlock
@@ -480,7 +504,7 @@ struct CantoSASConfirmSheet: View {
             Spacer(minLength: 0)
 
             ClashClientUI.ClashDialogActionBar(
-                cancelTitle: "取消",
+                cancelTitle: "Cancel",
                 onCancel: onCancel,
                 confirmTitle: "确认连接",
                 confirmDisabled: isWaiting,

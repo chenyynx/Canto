@@ -52,6 +52,19 @@ public struct CantoAgentProfile: Equatable, Sendable {
         return "Agent"
     }
 
+    /// 本地化后的称呼；「Agent」是产品名词，三种语言保持原样。
+    public func shortName(locale: Locale) -> String {
+        if let agentName, !agentName.isEmpty { return agentName }
+        if let agentID, !agentID.isEmpty {
+            return ClashCopy.format(
+                "Agent %@",
+                locale: locale,
+                String(agentID.suffix(4))
+            )
+        }
+        return ClashCopy.string("Agent", locale: locale)
+    }
+
     public var displayID: String { value(agentID) }
     public var displayName: String { value(agentName) }
     public var displayFingerprint: String { value(fingerprint) }
@@ -73,7 +86,18 @@ public struct CantoAgentProfile: Equatable, Sendable {
 
 /// CantoSessionPhase → 首页卡状态行/副行文案。
 public enum CantoPhaseCopy {
-    /// 卡片大字状态行。
+    /// 状态行本地化键：复用 App 既有词条，仅 Suspended 为本功能新增。
+    static func statusKey(_ phase: CantoSessionPhase) -> String {
+        switch phase {
+        case .idle: return "Not Connected"
+        case .connecting: return "Connecting…"
+        case .connected: return "Connected"
+        case .suspended: return "Suspended"
+        case .failed: return "Connection failed"
+        }
+    }
+
+    /// 卡片大字状态行（未本地化的中文源串，保留给既有调用方）。
     public static func statusLine(_ phase: CantoSessionPhase) -> String {
         switch phase {
         case .idle: return "未连接"
@@ -82,6 +106,11 @@ public enum CantoPhaseCopy {
         case .suspended: return "已挂起"
         case .failed: return "连接失败"
         }
+    }
+
+    /// 本地化后的状态行：首页卡与设置页共用。
+    public static func statusLine(_ phase: CantoSessionPhase, locale: Locale) -> String {
+        ClashCopy.string(statusKey(phase), locale: locale)
     }
 
     /// 卡片灰色副行；profile/activity 由宿主提供。
@@ -94,11 +123,18 @@ public enum CantoPhaseCopy {
     ) -> String {
         switch phase {
         case .idle:
-            return "节点、订阅、规则都由你的 Agent 管理维护"
+            return ClashCopy.string(
+                "节点、订阅、规则都由你的 Agent 管理维护",
+                locale: locale
+            )
         case .connecting:
-            return "正在与 \(profile.shortName) 建立加密会话"
+            return ClashCopy.format(
+                "正在与 %@ 建立加密会话",
+                locale: locale,
+                profile.shortName(locale: locale)
+            )
         case .connected, .suspended:
-            var pieces = [profile.shortName]
+            var pieces = [profile.shortName(locale: locale)]
             if let activity {
                 pieces.append(
                     CantoActivityPresentation.relativeTime(
@@ -107,9 +143,13 @@ public enum CantoPhaseCopy {
                         locale: locale
                     )
                 )
-                pieces.append(CantoActivityPresentation.title(for: activity.op))
+                pieces.append(
+                    CantoActivityPresentation.title(for: activity.op, locale: locale)
+                )
             } else {
-                pieces.append("等待你的 Agent 指令")
+                pieces.append(
+                    ClashCopy.string("等待你的 Agent 指令", locale: locale)
+                )
             }
             return pieces.joined(separator: " · ")
         case .failed(let reason):
@@ -131,9 +171,49 @@ public enum CantoPhaseCopy {
 
 // MARK: - 操作记录文案
 
-/// CantoActivityEntry 的展示映射：op → 中文标题，status → 徽标。
+/// CantoActivityEntry 的展示映射：op → 标题，status → 徽标。
 public enum CantoActivityPresentation {
-    /// 已知 op 的中文标题；未知 op 原样显示（便于排查）。
+    /// 已知 op 的本地化键；Close Connection / DNS Query 复用 App 既有词条。
+    static func titleKey(for op: String) -> String? {
+        switch op {
+        case "core.state.get", "app.state.get":
+            return "Read Status"
+        case "core.proxy.list", "app.proxy.list":
+            return "Read Proxies"
+        case "core.proxy.select", "app.proxy.select", "app.node.select":
+            return "Switch Proxy"
+        case "core.proxy.delay", "app.proxy.delay", "app.node.test":
+            return "Test Proxy Latency"
+        case "core.mode.set", "app.mode.set":
+            return "Switch Outbound Mode"
+        case "core.conn.list", "app.conn.list":
+            return "Read Connections"
+        case "core.conn.close", "app.conn.close":
+            return "Close Connection"
+        case "core.rules.list", "app.rules.list":
+            return "Read Rules"
+        case "core.rules.set", "app.rules.set":
+            return "Modify Rules"
+        case "core.provider.update", "app.subscription.update":
+            return "Update Subscription"
+        case "core.dns.query", "app.dns.query":
+            return "DNS Query"
+        case "core.probe", "app.probe":
+            return "Connectivity Probe"
+        case "core.log.tail", "app.log.tail":
+            return "Read Logs"
+        case "core.config.reload", "app.profile.reload":
+            return "Reload Configuration"
+        case "pairing.completed":
+            return "Pairing Complete"
+        case "pairing.failed":
+            return "Pairing Failed"
+        default:
+            return nil
+        }
+    }
+
+    /// 已知 op 的中文标题（未本地化源串，保留给既有调用方）；未知 op 原样显示。
     public static func title(for op: String) -> String {
         switch op {
         case "core.state.get", "app.state.get":
@@ -173,7 +253,23 @@ public enum CantoActivityPresentation {
         }
     }
 
-    /// status：applied | deferred | rejected
+    /// 本地化后的 op 标题；未知 op 原样显示（便于排查）。
+    public static func title(for op: String, locale: Locale) -> String {
+        guard let key = titleKey(for: op) else { return op }
+        return ClashCopy.string(key, locale: locale)
+    }
+
+    /// status：applied | deferred | rejected 的本地化键；未知 status 原样显示。
+    static func statusKey(_ status: String) -> String? {
+        switch status {
+        case "applied": return "Applied"
+        case "deferred": return "Deferred"
+        case "rejected": return "Rejected"
+        default: return nil
+        }
+    }
+
+    /// status：applied | deferred | rejected（未本地化中文源串，保留给既有调用方）
     public static func statusLine(_ status: String) -> String {
         switch status {
         case "applied": return "已执行"

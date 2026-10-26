@@ -146,7 +146,7 @@ public struct CantoHomeCard<Icon: View>: View {
                     .controlSize(.small)
                     .accessibilityHidden(true)
             }
-            Text(clash: .copy(CantoPhaseCopy.statusLine(bridge.phase)))
+            Text(verbatim: CantoPhaseCopy.statusLine(bridge.phase, locale: locale))
                 .font(
                     dynamicTypeSize.isAccessibilitySize
                         ? .title3.weight(.bold)
