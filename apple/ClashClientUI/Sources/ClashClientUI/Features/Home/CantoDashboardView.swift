@@ -20,8 +20,8 @@ public struct CantoDashboardView: View {
                 profileRow
                 connectionNotice
                 traffic
-                cantoCard
                 shortcuts
+                cantoCard
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 18)

@@ -13,23 +13,27 @@ final class CantoConfigCountsModel: ObservableObject {
     @Published private(set) var scriptCount: Int?
     @Published private(set) var mitmCount: Int?
 
-    private var generation: UInt64 = 0
+    private var moduleGeneration: UInt64 = 0
+    private var ruleGeneration: UInt64 = 0
     private var countedProfileID: String?
+    private var ruleKey: String?
 
     func refresh(
         profile: Profile?,
         profiles: ProfilesViewModel,
         container: URL?
     ) {
-        generation &+= 1
-        let generation = generation
+        moduleGeneration &+= 1
+        let moduleGeneration = moduleGeneration
 
         if countedProfileID != profile?.id {
             countedProfileID = profile?.id
+            ruleKey = nil
             ruleCount = nil
         }
 
         guard let profile else {
+            ruleGeneration &+= 1
             moduleCount = nil
             rewriteCount = nil
             scriptCount = nil
@@ -38,13 +42,20 @@ final class CantoConfigCountsModel: ObservableObject {
         }
 
         // 规则数来自当前档案的生效 YAML；大配置的解析要几秒，放在 detached 任务里。
-        Task { [weak self] in
-            let yaml = await profiles.loadEffectiveYAML(for: profile)
-            let count = await Task.detached(priority: .utility) {
-                ProfileConfigTally.make(sourceYAML: yaml)?.rules
-            }.value
-            guard let self, self.generation == generation else { return }
-            self.ruleCount = count
+        // 同一档案/同一保存代次只解析一次，配置页反复出现时不重复扫 YAML。
+        let key = "\(profile.id)|\(profiles.savedConfigurationGeneration)"
+        if ruleKey != key {
+            ruleKey = key
+            ruleGeneration &+= 1
+            let ruleGeneration = ruleGeneration
+            Task { [weak self] in
+                let yaml = await profiles.loadEffectiveYAML(for: profile)
+                let count = await Task.detached(priority: .utility) {
+                    ProfileConfigTally.make(sourceYAML: yaml)?.rules
+                }.value
+                guard let self, self.ruleGeneration == ruleGeneration else { return }
+                self.ruleCount = count
+            }
         }
 
         // 模块、复写、脚本、MitM 都是容器级数据，与当前档案无关；
@@ -56,15 +67,14 @@ final class CantoConfigCountsModel: ObservableObject {
             mitmCount = nil
             return
         }
-        let libraryScriptCount = ScriptLibrary.load().count
         Task { [weak self] in
             let counts = await Task.detached(priority: .utility) {
                 await Self.readModuleCounts(
                     container: container,
-                    libraryScriptCount: libraryScriptCount
+                    libraryScriptCount: ScriptLibrary.load().count
                 )
             }.value
-            guard let self, self.generation == generation else { return }
+            guard let self, self.moduleGeneration == moduleGeneration else { return }
             self.moduleCount = counts.moduleCount
             self.rewriteCount = counts.rewriteCount
             self.scriptCount = counts.scriptCount

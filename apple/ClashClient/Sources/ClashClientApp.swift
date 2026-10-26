@@ -1166,7 +1166,13 @@ struct AppShellView: View {
             navigate(to: .rules)
         case .modules, .rewrite, .scripts, .mitm:
             openProfileCentre(.modules)
-        case .files, .profiles, .appleTV:
+        case .files:
+            if let id = activeProfile?.id {
+                openProfileCentre(.profileDetail(id: id))
+            } else {
+                openProfileCentre(.profiles)
+            }
+        case .profiles, .appleTV:
             openProfileCentre(.profiles)
         case .dns, .advanced:
             if let id = activeProfile?.id {
@@ -1199,7 +1205,7 @@ struct AppShellView: View {
         case .storage:
             navigate(to: .more(.storage))
         case .backup:
-            navigate(to: .profiles)
+            openProfileCentre(.profiles)
         case .geo:
             navigate(to: .more(.geoResources))
         case .networkQuality:
