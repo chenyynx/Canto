@@ -7,6 +7,7 @@ import SwiftUI
 /// 顶部安全区与页面背景延伸由外层壳负责。
 public struct CantoDashboardView: View {
     private let model: CantoDashboardModel
+    @Environment(\.locale) private var locale
 
     public init(model: CantoDashboardModel) {
         self.model = model
@@ -123,8 +124,9 @@ public struct CantoDashboardView: View {
                     Text(verbatim: title)
                         .font(CantoTheme.Typography.rowTitle)
                         .foregroundStyle(CantoTheme.Palette.ink)
-                        .lineLimit(1)
+                        .lineLimit(2)
                         .truncationMode(.middle)
+                        .fixedSize(horizontal: false, vertical: true)
 
                     Spacer(minLength: CantoTheme.Spacing.compact)
 
@@ -159,6 +161,7 @@ public struct CantoDashboardView: View {
             .buttonStyle(.plain)
             .accessibilityElement(children: .combine)
             .accessibilityLabel(Text(verbatim: title))
+            .accessibilityIdentifier("canto.dashboard.profile")
         }
     }
 
@@ -244,6 +247,7 @@ public struct CantoDashboardView: View {
             }
             .buttonStyle(.plain)
             .accessibilityElement(children: .combine)
+            .accessibilityIdentifier("canto.dashboard.issue")
         }
     }
 

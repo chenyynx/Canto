@@ -317,6 +317,18 @@ struct GoldenFlowHomeAdapter: View {
                 action: { presentConnectionIssue() }
             )
         }
+        // 开关本身已经表达 connect/disconnect；只有需要额外确认的动作
+        // （VPN 授权重试、取消、打开档案）才在状态行下方再显示一个按钮。
+        let showsExtraAction: Bool = {
+            switch presentation.primaryAction {
+            case .none, .disconnect:
+                return false
+            case .connect:
+                return vpn.systemVPNAuthorization != nil
+            case .cancel, .retry, .retryProxy, .openProfiles:
+                return true
+            }
+        }()
 
         return CantoDashboardView(
             model: CantoDashboardModel(
@@ -326,9 +338,11 @@ struct GoldenFlowHomeAdapter: View {
                 modeTitle: outboundModeTitle,
                 connectionSubtitle: subtitle.isEmpty ? nil : subtitle,
                 isConnectionToggleEnabled: !snapshot.home.isProfileActionInFlight,
-                connectionActionTitle: presentation.primaryActionTitle.map {
-                    ClashCopy.string($0, locale: locale)
-                },
+                connectionActionTitle: showsExtraAction
+                    ? presentation.primaryActionTitle.map {
+                        ClashCopy.string($0, locale: locale)
+                    }
+                    : nil,
                 connectionActionEnabled: presentation.primaryActionEnabled,
                 onConnectionAction: {
                     performPrimaryAction(presentation.primaryAction)

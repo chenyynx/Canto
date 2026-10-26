@@ -56,9 +56,13 @@ public struct CantoPolicyView: View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(alignment: .leading, spacing: CantoTheme.Spacing.section) {
                 header
-                LazyVStack(spacing: 9) {
-                    ForEach(items) { item in
-                        row(for: item)
+                if items.isEmpty {
+                    emptyState
+                } else {
+                    LazyVStack(spacing: 9) {
+                        ForEach(items) { item in
+                            row(for: item)
+                        }
                     }
                 }
             }
@@ -68,6 +72,23 @@ public struct CantoPolicyView: View {
             .padding(.bottom, CantoTheme.Spacing.section)
         }
         .background(CantoTheme.Palette.canvas)
+    }
+
+    // MARK: - 空态
+
+    private var emptyState: some View {
+        CantoCard {
+            HStack(spacing: CantoTheme.Spacing.row) {
+                Image(systemName: "square.stack.3d.up")
+                    .font(.system(size: 18, weight: .semibold))
+                    .foregroundStyle(CantoTheme.Palette.secondaryInk)
+                    .accessibilityHidden(true)
+                Text(clash: .copy("No nodes"))
+                    .font(CantoTheme.Typography.rowSubtitle)
+                    .foregroundStyle(CantoTheme.Palette.secondaryInk)
+                Spacer(minLength: 0)
+            }
+        }
     }
 
     // MARK: - 顶部
