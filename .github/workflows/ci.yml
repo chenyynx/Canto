@@ -128,6 +128,11 @@ jobs:
           fi
           echo "构建通过"
 
+      - name: swift test (ClashClientUI)
+        # 纯逻辑单测（快捷方式持久化等）；同时编译 macOS 分支，
+        # 让 CI 能发现只在 macOS 条件编译里出现的 API 问题。
+        run: swift test --package-path apple/ClashClientUI
+
       - name: Upload xcodebuild log on failure
         if: failure()
         uses: actions/upload-artifact@v4
