@@ -28,11 +28,8 @@ public enum ClashRootSidebarGroup: String, CaseIterable, Hashable, Sendable {
     public var title: String? {
         switch self {
         case .primary, .hub, .footer: nil
-        case .session: "Session"
-         
-         
-         
-        case .configuration: "sidebar.band.configuration"
+        case .session: nil
+        case .configuration: nil
         }
     }
 }
@@ -105,7 +102,7 @@ public enum ClashRootDestination: String, CaseIterable, Hashable, Identifiable, 
      
      
      
-    public static let pendingShellHoist: Set<ClashRootDestination> = []
+    public static let pendingShellHoist: Set<ClashRootDestination> = [.rules, .activity, .utilities, .about]
 
      
      
@@ -123,11 +120,11 @@ public enum ClashRootDestination: String, CaseIterable, Hashable, Identifiable, 
 
     public var title: String {
         switch self {
-        case .home: "Home"
-        case .proxies: "Proxies"
+        case .home: "Dashboard"
+        case .proxies: "Policy"
         case .rules: "Rules"
         case .activity: "Activity"
-        case .profiles: "Profiles"
+        case .profiles: "Config"
          
          
          
@@ -144,7 +141,7 @@ public enum ClashRootDestination: String, CaseIterable, Hashable, Identifiable, 
      
     public var pageTitle: String {
         switch self {
-        case .profiles: "Profile Center"
+        case .profiles: "Config"
         default: title
         }
     }

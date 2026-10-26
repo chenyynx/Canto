@@ -15,9 +15,28 @@ import UIKit
  
  
 enum AppTab: String, CaseIterable, Hashable, Sendable {
-    case home
-    case utilities
+    case dashboard
+    case policy
+    case config
     case more
+
+    var title: String {
+        switch self {
+        case .dashboard: "Dashboard"
+        case .policy: "Policy"
+        case .config: "Config"
+        case .more: "More"
+        }
+    }
+
+    var systemImage: String {
+        switch self {
+        case .dashboard: "speedometer"
+        case .policy: "square.stack.3d.up.fill"
+        case .config: "slider.horizontal.3"
+        case .more: "ellipsis.circle.fill"
+        }
+    }
 }
 typealias AppNavigationDestination = ClashClientUI.AppleClientDestination
 
@@ -68,16 +87,9 @@ enum AppShellLayoutSelector {
     static func compactHandoff(
         for selectedRoot: ClashClientUI.ClashRootDestination
     ) -> AppShellCompactHandoff? {
-        switch selectedRoot {
-        case .proxies: .proxiesSheet
-        case .rules: .rulesSheet
-        case .profiles: .profileCenter
-         
-         
-         
-        case .home, .utilities, .more, .activity, .about:
-            nil
-        }
+        // 四 Tab 之后 proxies/rules/profiles 都是一级 Tab，不再需要转成 sheet。
+        _ = selectedRoot
+        return nil
     }
 }
 

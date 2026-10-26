@@ -1082,33 +1082,65 @@ struct AppShellView: View {
         )
     }
 
+    @ViewBuilder
+    private var policyTabContent: some View {
+        regularRoot(for: .proxies)
+    }
+
+    @ViewBuilder
+    private var configTabContent: some View {
+        if navigationState.selectedRoot == .rules {
+            regularRoot(for: .rules)
+        } else {
+            regularRoot(for: .profiles)
+        }
+    }
+
+    @ViewBuilder
+    private var moreTabContent: some View {
+        switch navigationState.selectedRoot {
+        case .utilities, .activity:
+            utilitiesRoot(ownsNavigationContainer: true)
+        default:
+            moreRoot(ownsNavigationContainer: true)
+        }
+    }
+
     private var compactTabShell: some View {
         TabView(selection: appTabSelection) {
-            // 2026-10-15：包 ClashFeatureNavigationContainer（与 utilities/more
-            // tab 同款）——首页此前没有任何 NavigationStack，Canto 卡的
-            // NavigationLink 静默无效（点击无反应）。包上后原生 push 生效，
-            // 其余卡片走 navigate(to:) 根切换不受影响。
             ClashFeatureNavigationContainer {
                 homeRoot
             }
             .tabItem {
-                 
-                 
                 Label {
-                    Text("Home")
+                    Text("Dashboard")
                 } icon: {
-                    ClashSymbolImage(symbol: .catCircleFill)
+                    Image(systemName: AppTab.dashboard.systemImage)
                 }
             }
-            .tag(AppTab.home)
+            .tag(AppTab.dashboard)
 
-            utilitiesRoot(ownsNavigationContainer: true)
-                .tabItem { Label("Utilities", systemImage: ClashSymbol.briefcaseCircleFill.name) }
-                .tag(AppTab.utilities)
+            ClashFeatureNavigationContainer {
+                policyTabContent
+            }
+            .tabItem {
+                Label("Policy", systemImage: AppTab.policy.systemImage)
+            }
+            .tag(AppTab.policy)
 
-            moreRoot(ownsNavigationContainer: true)
-            .tabItem { Label("More", systemImage: ClashSymbol.ellipsisCircleFill.name) }
-            .tag(AppTab.more)
+            ClashFeatureNavigationContainer {
+                configTabContent
+            }
+            .tabItem {
+                Label("Config", systemImage: AppTab.config.systemImage)
+            }
+            .tag(AppTab.config)
+
+            moreTabContent
+                .tabItem {
+                    Label("More", systemImage: AppTab.more.systemImage)
+                }
+                .tag(AppTab.more)
         }
         .accessibilityIdentifier("app.compact-tabs")
     }
@@ -1406,9 +1438,10 @@ struct AppShellView: View {
         for root: ClashClientUI.ClashRootDestination
     ) -> AppTab {
         switch root {
-        case .home, .proxies, .rules, .profiles: .home
-        case .activity, .utilities: .utilities
-        case .more, .about: .more
+        case .home: .dashboard
+        case .proxies: .policy
+        case .profiles, .rules: .config
+        case .more, .about, .activity, .utilities: .more
         }
     }
 
@@ -1416,8 +1449,9 @@ struct AppShellView: View {
         for tab: AppTab
     ) -> ClashClientUI.ClashRootDestination {
         switch tab {
-        case .home: .home
-        case .utilities: .utilities
+        case .dashboard: .home
+        case .policy: .proxies
+        case .config: .profiles
         case .more: .more
         }
     }

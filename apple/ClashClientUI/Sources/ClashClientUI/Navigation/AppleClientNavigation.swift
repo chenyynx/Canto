@@ -106,7 +106,7 @@ public enum AppleClientDestination: Hashable, Sendable {
         case .home:
             ClashRootDestination.home.title
         case .profiles:
-            "Profiles"
+            "Config"
         case .profileImport:
              
              
@@ -116,7 +116,7 @@ public enum AppleClientDestination: Hashable, Sendable {
         case .modules:
             "Modules"
         case .proxies:
-            "Proxies"
+            "Policy"
         case .rules:
             "Rules"
         case .activeRules:
