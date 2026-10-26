@@ -146,6 +146,18 @@ struct DisclaimerView: View {
         "Clash does not provide any proxy service and is not responsible for the third-party services you configure it with."
 }
 
+private enum CantoMoreSheet: Identifiable {
+    case more(ClashMoreDestination)
+    case utility(ClashUtilitiesDestination)
+
+    var id: String {
+        switch self {
+        case .more(let destination): return "more.\(destination.rawValue)"
+        case .utility(let destination): return "utility.\(destination.rawValue)"
+        }
+    }
+}
+
 struct AppShellView: View {
     @Environment(\.scenePhase) private var scenePhase
      
@@ -204,6 +216,7 @@ struct AppShellView: View {
 
 
     @State private var activityLens: ClashActivityLens = .connections
+    @State private var moreSheet: CantoMoreSheet?
 
     // MARK: Canto（远程 Agent 控制面）装配
     // P2 全组件装配：身份库 → 配对/连接器/执行器 → 总桥（UI 经环境取用）。
@@ -1091,7 +1104,29 @@ struct AppShellView: View {
     @ViewBuilder
     private var configTabContent: some View {
         if navigationState.selectedRoot == .rules {
-            regularRoot(for: .rules)
+            VStack(spacing: 0) {
+                HStack {
+                    Button {
+                        navigationState.selectRoot(.profiles)
+                    } label: {
+                        HStack(spacing: CantoTheme.Spacing.tight) {
+                            Image(systemName: "chevron.left")
+                            Text("Config")
+                        }
+                        .font(CantoTheme.Typography.rowSubtitle.weight(.semibold))
+                        .foregroundStyle(CantoTheme.Palette.accent)
+                        .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("canto.config.back")
+                    Spacer(minLength: 0)
+                }
+                .padding(.horizontal, 18)
+                .padding(.vertical, CantoTheme.Spacing.compact)
+                .background(CantoTheme.Palette.canvas)
+
+                regularRoot(for: .rules)
+            }
         } else {
             CantoConfigView(
                 model: cantoConfigModel,
@@ -1134,18 +1169,68 @@ struct AppShellView: View {
         )
     }
 
-    @ViewBuilder
     private var moreTabContent: some View {
-        switch navigationState.selectedRoot {
-        case .utilities, .activity:
-            utilitiesRoot(ownsNavigationContainer: true)
-        default:
-            CantoMoreView(onSelect: handleMoreDestination)
+        Group {
+            switch navigationState.selectedRoot {
+            case .utilities, .activity:
+                utilitiesRoot(ownsNavigationContainer: true)
+            default:
+                CantoMoreView(onSelect: handleMoreDestination)
+            }
+        }
+        .sheet(item: $moreSheet) { sheet in
+            moreSheetContent(sheet)
         }
     }
 
+    @ViewBuilder
+    private func moreSheetContent(_ sheet: CantoMoreSheet) -> some View {
+        NavigationView {
+            Group {
+                switch sheet {
+                case .more(let destination):
+                    GoldenFlowMoreDestinationAdapter(
+                        vpn: vpn,
+                        command: command,
+                        preferences: preferences,
+                        destination: destination,
+                        usesRegularDetailLayout: false,
+                        profileID: activeProfile?.id
+                    )
+                case .utility(let destination):
+                    GoldenFlowUtilitiesDestinationAdapter(
+                        vpn: vpn,
+                        command: command,
+                        connections: connections,
+                        networkQuality: networkQuality,
+                        stun: stun,
+                        proxyShare: proxyShare,
+                        destination: destination,
+                        activityLens: $activityLens,
+                        usesRegularDetailLayout: false
+                    )
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(role: .cancel) {
+                        moreSheet = nil
+                    } label: {
+                        Text("Cancel")
+                    }
+                }
+            }
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+    }
+
     private var cantoConfigModel: CantoConfigModel {
-        let nodeCount = nodes.groups.reduce(0) { $0 + $1.memberTotal }
+        // 运行中的 node summary 是去重后的节点数；未连接时退化为组成员并集，
+        // 不把每个策略组的成员数相加，避免同一节点被重复计数。
+        let nodeCount: Int? = command.nodeSummary?.nodes
+            ?? (nodes.groups.isEmpty
+                ? nil
+                : Set(nodes.groups.flatMap { $0.members }).count)
         return CantoConfigModel(
             nodeCount: nodeCount,
             ruleCount: configCounts.ruleCount,
@@ -1154,7 +1239,7 @@ struct AppShellView: View {
             scriptCount: configCounts.scriptCount,
             mitmCount: configCounts.mitmCount,
             profileName: activeProfile?.label ?? "",
-            profileCount: profiles.profiles.count
+            profileCount: profiles.hasLoadedProfiles ? profiles.profiles.count : nil
         )
     }
 
@@ -1181,7 +1266,7 @@ struct AppShellView: View {
                 openProfileCentre(.profiles)
             }
         case .externalController:
-            navigate(to: .more(.clientSettings))
+            handleMoreDestination(.externalController)
         }
     }
 
@@ -1193,6 +1278,45 @@ struct AppShellView: View {
     }
 
     private func handleMoreDestination(_ destination: CantoMoreDestination) {
+        // iPhone 的 Tab 外壳没有侧栏详情列，不能只改 navigationState：
+        // 把现有二级页装进带关闭按钮的 sheet，入口才真正可见、可返回。
+        if shellLayout == .compactTabs {
+            switch destination {
+            case .vpn:
+                moreSheet = .more(.tunnel)
+            case .onDemand:
+                moreSheet = .more(.onDemand)
+            case .clientSettings, .externalController:
+                moreSheet = .more(.clientSettings)
+            case .appearance:
+                moreSheet = .more(.appearance)
+            case .storage:
+                moreSheet = .more(.storage)
+            case .backup:
+                openProfileCentre(.profiles)
+            case .geo:
+                moreSheet = .more(.geoResources)
+            case .networkQuality:
+                moreSheet = .utility(.networkQuality)
+            case .stun:
+                moreSheet = .utility(.stun)
+            case .dnsQuery:
+                moreSheet = .utility(.dnsQuery)
+            case .lanShare:
+                moreSheet = .utility(.proxyShare)
+            case .runtime:
+                moreSheet = .utility(.runtime)
+            case .diagnostics:
+                moreSheet = .utility(.diagnosticsInbox)
+            case .logs:
+                activityLens = .logs
+                moreSheet = .utility(.activity)
+            case .about:
+                moreSheet = .more(.about)
+            }
+            return
+        }
+
         switch destination {
         case .vpn:
             navigate(to: .more(.tunnel))
@@ -1462,16 +1586,7 @@ struct AppShellView: View {
              
              
             openThroughDoor: { door, open in openThroughDoor(door, open) },
-            openProfiles: {
-                if shellLayout == .compactTabs {
-                    navigationState.selectRoot(.profiles)
-                } else if shellLayout == .regularSidebar,
-                          ProfileCenterPolicy.hasUserProfile(profiles.profiles) {
-                    isPickingProfile = true
-                } else {
-                    navigate(to: .profiles)
-                }
-            },
+            openProfiles: { openProfileCentre(.profiles) },
             openProxies: { navigate(to: .proxies) },
             openRules: { navigate(to: .rules) },
             openActiveRules: { navigate(to: .activeRules) },
@@ -1486,6 +1601,7 @@ struct AppShellView: View {
             },
             openModules: { navigate(to: .modules) },
             openLANShare: { navigate(to: .utilities(.proxyShare)) },
+            openDiagnostics: { navigate(to: .utilities(.diagnosticsInbox)) },
             rebind: rebind
         )
     }

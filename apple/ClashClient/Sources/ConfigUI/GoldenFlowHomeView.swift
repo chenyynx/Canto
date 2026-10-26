@@ -133,6 +133,7 @@ struct GoldenFlowHomeAdapter: View {
     private var locale
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.clashShellLayout) private var shellLayout
+    @Environment(\.clashThroughputUnit) private var throughputUnit
 
     @ObservedObject var vpn: VPNController
     @ObservedObject var command: ClashCommandClient
@@ -165,6 +166,7 @@ struct GoldenFlowHomeAdapter: View {
     let openRequests: () -> Void
     let openModules: () -> Void
     let openLANShare: () -> Void
+    let openDiagnostics: () -> Void
     let rebind: () -> Void
 
      
@@ -273,6 +275,7 @@ struct GoldenFlowHomeAdapter: View {
         openRequests: @escaping () -> Void,
         openModules: @escaping () -> Void,
         openLANShare: @escaping () -> Void,
+        openDiagnostics: @escaping () -> Void,
         rebind: @escaping () -> Void
     ) {
         self.vpn = vpn
@@ -294,6 +297,7 @@ struct GoldenFlowHomeAdapter: View {
         self.openRequests = openRequests
         self.openModules = openModules
         self.openLANShare = openLANShare
+        self.openDiagnostics = openDiagnostics
         self.rebind = rebind
         self.profiles = profiles
         self.cantoBridge = cantoBridge
@@ -301,7 +305,7 @@ struct GoldenFlowHomeAdapter: View {
 
     private var cantoDashboard: some View {
         let traffic = command.traffic
-        let unit = ClashThroughputUnit.stored(in: .standard)
+        let unit = throughputUnit
         let subtitle = ClashCopy.string(for: presentation.subtitle, locale: locale)
             .trimmingCharacters(in: .whitespacesAndNewlines)
         let snapshot = presentedHomeSnapshot ?? sharedSnapshot
@@ -365,7 +369,13 @@ struct GoldenFlowHomeAdapter: View {
                 shortcutsEditTitle: ClashCopy.string("Edit", locale: locale),
                 shortcuts: shortcutStore.shortcuts,
                 onToggleConnection: toggleConnection,
-                onSelectMode: { showsModePicker = true },
+                onSelectMode: {
+                    if currentProfile == nil {
+                        openProfiles()
+                    } else {
+                        showsModePicker = true
+                    }
+                },
                 onEditShortcuts: { showsShortcutEditor = true },
                 onShortcut: openShortcut
             )
@@ -374,7 +384,9 @@ struct GoldenFlowHomeAdapter: View {
             cantoCardSheet(route.page)
         }
         .sheet(isPresented: $showsShortcutEditor) {
-            CantoShortcutEditorView(store: shortcutStore)
+            CantoShortcutEditorView(store: shortcutStore) {
+                showsShortcutEditor = false
+            }
         }
         .confirmationDialog(
             ClashCopy.string("Outbound Mode", locale: locale),
@@ -473,10 +485,15 @@ struct GoldenFlowHomeAdapter: View {
         case .rules:
             openRules()
         case .cantoAgent:
-            // Canto Agent 的配对/设置页还没有从仪表直达的路由；先落到配置中心。
-            openProfiles()
+            if let bridge = cantoBridge {
+                cantoCardRoute = CantoCardRoute(
+                    page: bridge.bridge.isPaired ? .settings : .pairing
+                )
+            } else {
+                openProfiles()
+            }
         case .diagnostics:
-            openLogs()
+            openDiagnostics()
         }
     }
 

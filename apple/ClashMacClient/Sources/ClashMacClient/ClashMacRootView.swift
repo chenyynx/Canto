@@ -27,6 +27,7 @@ public struct ClashMacRootView: View {
     @Binding private var navigationRequest:
         ClashMacSecondaryDestination?
     @Environment(\.locale) private var locale
+    @Environment(\.clashThroughputUnit) private var throughputUnit
     @StateObject private var cantoShortcuts = CantoShortcutStore()
     @State private var cantoModePicker = false
     @State private var cantoShortcutEditor = false
@@ -175,7 +176,7 @@ public struct ClashMacRootView: View {
                 return true
             }
         }()
-        let unit = ClashThroughputUnit.stored(in: .standard)
+        let unit = throughputUnit
 
         return CantoDashboardView(
             model: CantoDashboardModel(
@@ -209,12 +210,8 @@ public struct ClashMacRootView: View {
                         actionTitle: ClashCopy.string("View Details", locale: locale),
                         isDestructive: issue.kind.lineTapResetsVPNProfile,
                         action: {
-                            Task { @MainActor in
-                                try? await actions.perform(
-                                    .home(.showConnectionIssue),
-                                    allowedBy: snapshot
-                                )
-                            }
+                            // macOS 侧没有连接问题 sheet；给出可操作入口而不是空点击。
+                            navigationState.navigate(to: .utilities(.logs))
                         }
                     )
                 },
@@ -320,10 +317,16 @@ public struct ClashMacRootView: View {
     private var cantoConfig: some View {
         CantoConfigView(
             model: CantoConfigModel(
-                nodeCount: snapshot.home.proxyCount,
-                ruleCount: snapshot.home.ruleCount,
+                nodeCount: snapshot.home.proxyCount > 0
+                    ? snapshot.home.proxyCount
+                    : nil,
+                ruleCount: snapshot.home.ruleCount > 0
+                    ? snapshot.home.ruleCount
+                    : nil,
                 profileName: snapshot.selectedProfile?.label ?? "",
-                profileCount: snapshot.profiles.profiles.count
+                profileCount: snapshot.profiles.profiles.isEmpty
+                    ? nil
+                    : snapshot.profiles.profiles.count
             ),
             onSelect: handleCantoConfig
         )

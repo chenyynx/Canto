@@ -6606,6 +6606,48 @@ private final class ClashMacSceneModel: ObservableObject {
         )
     }
 
+    /// Mac 的 Canto Policy 页和旧 Proxies 页共用这份快照。
+    /// `NodesModel` 是运行中的权威 catalog；这里只做展示映射，不复制选择逻辑。
+    private func macProxiesSnapshot() -> ClashProxiesSnapshot {
+        func snapshot(_ group: ProxyGroup) -> ClashProxyGroupSnapshot {
+            ClashProxyGroupSnapshot(
+                name: group.name,
+                type: group.type,
+                members: group.members.map { member in
+                    ClashProxyMemberSnapshot(
+                        name: member,
+                        type: group.memberTypes[member] ?? "",
+                        isGroup: group.memberGroupNames.contains(member),
+                        placeholderType: group.memberPlaceholderTypes[member],
+                        latencyKey: group.memberResolvedNames[member] ?? member
+                    )
+                },
+                configuredSelection: group.fixed,
+                runtimeSelection: group.now.isEmpty ? nil : group.now,
+                resolvedRuntimeRoute: group.resolvedNow.isEmpty
+                    ? nil
+                    : group.resolvedNow,
+                icon: group.iconURL,
+                emptyFallback: group.emptyFallback,
+                memberTotal: group.memberTotal
+            )
+        }
+
+        let visible = nodes.groups.filter { !$0.hidden }.map(snapshot)
+        let hidden = nodes.groups.filter { $0.hidden }.map(snapshot)
+        let latency = nodes.delays.mapValues { milliseconds in
+            milliseconds > 0
+                ? ClashProxyLatencyState.measured(milliseconds: milliseconds)
+                : ClashProxyLatencyState.untested
+        }
+        return ClashProxiesSnapshot(
+            groups: visible,
+            hiddenGroups: hidden,
+            latencyByName: latency,
+            isConnected: command.isConnected
+        )
+    }
+
     private func refreshSnapshot() {
         revision &+= 1
         let profile = currentProfile
@@ -6636,6 +6678,7 @@ private final class ClashMacSceneModel: ObservableObject {
                         message: vpn.reportableLastError
                     )
             ),
+            proxies: macProxiesSnapshot(),
             home: AppleClientHomeSnapshot(
                 routing: AppleClientRoutingSnapshot(
                     mode:
