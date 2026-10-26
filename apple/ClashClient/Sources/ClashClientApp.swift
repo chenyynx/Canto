@@ -1150,11 +1150,22 @@ struct AppShellView: View {
             ) { _ in
                 refreshConfigCounts(forceRuleRefresh: true)
             }
+            // 模块变更会先触发异步 restage；activeRevision 要等它结束才更新。
+            // 只在结束时补刷一次，避免 restage 过程中拿到旧 YAML。
+            .onChange(of: profiles.isActivating) { activating in
+                guard !activating else { return }
+                refreshConfigCounts(forceRuleRefresh: true)
+            }
         }
     }
 
     private var configCountsKey: String {
-        "\(activeProfile?.id ?? "-")|\(profiles.savedConfigurationGeneration)|\(command.isConnected)"
+        [
+            activeProfile?.id ?? "-",
+            activeProfile?.activeRevision ?? "-",
+            String(profiles.savedConfigurationGeneration),
+            command.isConnected ? "connected" : "offline",
+        ].joined(separator: "|")
     }
 
     private var activeProfile: Profile? {
