@@ -1174,7 +1174,8 @@ struct AppShellView: View {
                 names.insert(name)
             }
             for name in group.hiddenMembers
-            where !groupNames.contains(name) {
+            where !groupNames.contains(name)
+                && !group.memberGroupNames.contains(name) {
                 names.insert(name)
             }
         }
