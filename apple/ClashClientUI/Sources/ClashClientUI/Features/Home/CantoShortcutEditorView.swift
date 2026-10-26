@@ -5,6 +5,7 @@ import SwiftUI
 /// 自包含原生 List，不依赖 CantoTheme 或产品级容器，方便仪表页先接线。
 public struct CantoShortcutEditorView: View {
     @ObservedObject private var store: CantoShortcutStore
+    @Environment(\.locale) private var locale
     private let onDone: () -> Void
 
     public init(store: CantoShortcutStore, onDone: @escaping () -> Void = {}) {
@@ -149,10 +150,10 @@ public struct CantoShortcutEditorView: View {
                 .frame(width: 24, height: 24)
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
-                Text(shortcut.titleKey)
+                Text(verbatim: ClashCopy.string(shortcut.titleKey, locale: locale))
                     .foregroundStyle(.primary)
                 if let subtitleKey = shortcut.subtitleKey {
-                    Text(subtitleKey)
+                    Text(verbatim: ClashCopy.string(subtitleKey, locale: locale))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -173,8 +174,8 @@ public struct CantoShortcutEditorView: View {
         }
         .opacity(locked ? 0.6 : 1)
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(Text(shortcut.titleKey))
-        .accessibilityValue(Text(selected ? "Shown" : "Not shown"))
+        .accessibilityLabel(Text(verbatim: ClashCopy.string(shortcut.titleKey, locale: locale)))
+        .accessibilityValue(Text(verbatim: ClashCopy.string(selected ? "Shown" : "Not shown", locale: locale)))
         .accessibilityAddTraits(.isButton)
         .accessibilityAction {
             guard !locked else { return }

@@ -11,6 +11,7 @@ public struct CantoDashboardView: View {
     /// 本地状态先承接用户操作，`onChange` 再回调宿主；宿主刷新
     /// `isConnected` 时以外部值为准回写本地状态。
     @State private var connected: Bool
+    @Environment(\.locale) private var locale
 
     public init(model: CantoDashboardModel) {
         self.model = model
@@ -131,7 +132,7 @@ public struct CantoDashboardView: View {
                 // 卡片的合并朗读（标题作 label）由 CantoShortcutCard 自己负责。
                 ForEach(model.shortcuts) { shortcut in
                     CantoShortcutCard(
-                        title: shortcut.titleKey,
+                        title: ClashCopy.string(shortcut.titleKey, locale: locale),
                         subtitle: nil,
                         systemImage: shortcut.systemImage,
                         tint: shortcut.tint,
